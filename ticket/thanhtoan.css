@@ -1,8 +1,8 @@
 /* --- Cài đặt chung --- */
 :root {
-  --primary-color: #00bfff;
+  --primary-color: #00e0ff;
   --secondary-color: #ff007f;
-  --dark-bg: #121212;
+  --dark-bg: linear-gradient(135deg, #0f2027, #060259, #290352);
   --light-bg: #1e1e1e;
   --text-color: #ffffff;
 }
@@ -14,8 +14,8 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--dark-bg);
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--dark-bg);
   color: var(--text-color);
   display: flex;
   justify-content: center;
