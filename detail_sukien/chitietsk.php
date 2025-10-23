@@ -3,14 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sự kiện</title>
+        <title>Chi tiết sự kiện</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
         <link rel="stylesheet" href="../index/footer-header.css">
-        <link rel="stylesheet" href="sukien.css">
+        <link rel="stylesheet" href="chitietsk.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+        <!--Link tham khảo: https://codepen.io/z-/pen/MJKNJZ, https://codepen.io/verpixelt/pen/AXBdKy-->
     </head>
-    
-    <body class="event" class="page-wrapper">
+
+    <body>
         <!-- Header -->
         <header class="main-header">
             <div class="header-container">
@@ -43,47 +44,54 @@
             </div>
         </header>
 
+        <?php
+            include '../sukien/connect.php';
+            $result = $conn->query("SELECT * FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD JOIN loaisk l on s.MaLSK = l.MaloaiSK");
+
+            while($row = $result->fetch_assoc()){
+        ?>
         <main>
-            <!-- Bộ lọc -->
-            <form id="event-filter" class="filter-box">
-                <button type="button" class="filter-toggle" onclick="toggleFilter()">
-                    <i class="fa-solid fa-filter"></i>Bộ lọc
-                </button>
+            <!-- Hình vé -->
+            <div class="widget --flex-column" data-type="ticket">
+                <div class="top --flex-column">
+                    <div class="bandname -bold"><?=htmlspecialchars($row['TenSK'])?></div>
+                    <div class="tourname"><?=htmlspecialchars($row['TenLoaiSK'])?></div>
+                    <img src=<?=htmlspecialchars($row['img_sukien'])?> alt=<?=htmlspecialchars($row['TenSK'])?> /> 
+                    <!-- Hàm htmlspecialchars()chuyển đổi các ký tự đặc biệt thành dạng an toàn trong HTML, giúp ngăn chặn lỗi 
+                     hiển thị và chống lại  XSS (Cross-site Scripting) -->
 
-                <div id="filter-details" style="display: none;">
-                    <!-- Địa điểm -->
-                    <label>Địa điểm:
-                        <select class= 'filter-group' name="diadiem">
-                            <option value="">-- Chọn địa điểm --</option>
-                            <option value="HCM">Hồ Chí Minh</option>
-                            <option value="HN">Hà Nội</option>
-                            <option value="DL">Đà Lạt</option>
-                            <option value="HY">Hưng Yên</option>
-                        </select>
-                    </label>
-                    
-                    <!-- Thể loại -->
-                    <label>Thể loại:
-                        <select class= 'filter-group' name="loai_sukien">
-                            <option value="">-- Chọn thể loại --</option>
-                            <option value="LSK03">Concert</option>
-                            <option value="LSK02">Festival</option>
-                            <option value="LSK01">Liveshow</option>
-                        </select>
-                    </label>
+                    <div class="deetz --flex-row-j!sb">
+                        <div class="event --flex-column">
+                            <div class="date"><?=date("d/m/Y", strtotime($row['Tgian']))?></div>
+                            <!-- Hàm strtotime() chuyển chuỗi ngày từ CSDL thành timestamp 
+                             để hàm date() có thể xử lý-->
+                            <div class="location -bold"><?=htmlspecialchars($row['TenTinh'])?></div>
+                        </div>
 
-                    <!-- Nút -->
-                    <div class="filter-buttons">
-                        <button type="reset">Thiết lập lại</button>
-                        <button type="submit">Áp dụng</button>
+                        <div class="price --flex-column">
+                            <div class="label">Tầm giá</div>
+                            <div class="cost -bold"><?=number_format($row['Gia'], 0, ',', '.')?>đ++</div>
+                        </div>
                     </div>
                 </div>
-            </form>
-            
-            <!-- Danh sách sự kiện-->
-            <div id="event-list" class="grid-container"></div>
-        </main>
 
+                <div class="rip"></div>
+
+                <div class="bottom --flex-row-j!sb">
+                    <a class="buy" href="#">BUY TICKET</a>
+                </div>
+            </div>
+
+            <!-- Mô tả thông tin sự kiện -->
+            <div class="description-box">
+                <h2>MÔ TẢ SỰ KIỆN</h2>
+                <p><?=htmlspecialchars($row['mota'])?></p>
+            </div>
+        </main>
+        <?php
+            }
+        ?>
+        
         <footer>
             <div class="footer-container">
                 
@@ -138,7 +146,5 @@
                 <p>@2025 - All Rights Reserved by Vibe4 Platform • Phát triển bởi Nhóm 1-CT299-Phát Triển Hệ Thống Web</p>
             </div>
         </footer>
-
-        <script src="sukien.js"></script>
     </body>
 </html>

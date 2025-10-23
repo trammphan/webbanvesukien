@@ -1,0 +1,166 @@
+html, body { 
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+    min-height: calc(100vh - 40px);
+    margin: 0; 
+    padding: 0; 
+    font-family: "Lato", sans-serif; 
+    background: linear-gradient(135deg, #0f2027, #060259, #290352); 
+}
+
+.main-header, footer { 
+    width: 100%; 
+    background: linear-gradient(135deg, #0f2027, #060259, #290352); 
+    color: #fff; 
+}
+
+.main-header { 
+    position: fixed; 
+    top: 0; 
+    z-index: 1000; 
+    padding: 15px 0; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
+}
+
+footer { 
+    padding: 60px 20px 20px; 
+    border-top: 1px solid #1a2035; 
+}
+
+main { 
+    flex: 1; 
+    padding: 100px 20px 50px; /* cách khoảng với header và footer */ 
+    display: flex; 
+    gap: 40px; 
+    align-items: flex-start; 
+}
+
+body .widget {
+    width: 255px; 
+    flex-shrink: 0;
+    filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+    align-self: flex-start;
+    margin-left: 200px;
+}
+
+body .widget[data-type="ticket"] {
+  width: 255px;
+}
+
+body .widget[data-type="ticket"] .top > div,
+body .widget[data-type="ticket"] .bottom > div {
+  padding: 0 18px;
+}
+
+body .widget[data-type="ticket"] .top > div:first-child,
+body .widget[data-type="ticket"] .bottom > div:first-child {
+  padding-top: 18px;
+}
+
+body .widget[data-type="ticket"] .top > div:last-child,
+body .widget[data-type="ticket"] .bottom > div:last-child {
+  padding-bottom: 18px;
+}
+
+body .widget[data-type="ticket"] .top img,
+body .widget[data-type="ticket"] .bottom img {
+  padding: 18px 0;
+}
+
+.widget[data-type="ticket"] .top img {
+    width: 100%; /*co giãn ảnh theo khung*/
+    height: auto;
+    display: block; /*loại bỏ khoảng trắng dưới ảnh*/
+    object-fit: cover; /*ảnh không bị méo khi khung thay đổi*/
+}
+
+body .widget[data-type="ticket"] .top,
+body .widget[data-type="ticket"] .bottom,
+body .widget[data-type="ticket"] .rip {
+  background-color: #fff;
+}
+
+body .widget[data-type="ticket"] .top {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+body .widget[data-type="ticket"] .top .deetz {
+  padding-bottom: 10px !important;
+}
+
+body .widget[data-type="ticket"] .bottom {
+    display: flex;
+    justify-content: center;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 12px 18px;
+    padding-top: 10px;
+}
+
+body .widget[data-type="ticket"] .bottom .buy {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #00e0ff;
+  padding: 0 18px;
+  line-height: 30px;
+  border-radius: 15px;
+  color: #fff;
+  text-decoration: none;
+}
+
+body .widget[data-type="ticket"] .rip {
+  height: 20px;
+  margin: 0 10px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAACCAYAAAB7Xa1eAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAaSURBVBhXY5g7f97/2XPn/AcCBmSMQ+I/AwB2eyNBlrqzUQAAAABJRU5ErkJggg==); /* giữ nguyên base64 */
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+  background-position: center;
+  position: relative;
+  box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #fff;
+}
+
+body .widget[data-type="ticket"] .rip::before,
+body .widget[data-type="ticket"] .rip::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 5px solid transparent;
+  border-top-color: #fff;
+  border-right-color: #fff;
+  border-radius: 100%;
+  pointer-events: none;
+}
+
+body .widget[data-type="ticket"] .rip::before {
+  left: -10px;
+}
+
+body .widget[data-type="ticket"] .rip::after {
+  transform: translate(-50%, -50%) rotate(225deg);
+  right: -40px;
+}
+
+body .widget .-bold {
+  font-weight: bold;
+}
+
+.description-box { 
+    flex: 1; 
+    padding: 20px; 
+    border-radius: 8px; 
+    color: #fff; 
+    font-size: 16px; 
+    line-height: 1.6;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

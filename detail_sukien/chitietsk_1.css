@@ -1,0 +1,223 @@
+body{
+  margin: 0;
+  box-sizing: border-box;
+}
+
+main {
+    background: linear-gradient(135deg, #0f2027, #060259, #290352);
+    padding: 60px 20px;
+    color: #fff;
+    min-height: 100vh;
+    height: auto;
+    box-sizing: border-box;
+
+}
+
+.cardWrap {
+    max-width: 1200px;
+    width: 100%;
+    margin: 100px auto 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    color: #060259;
+    font-family: sans-serif;
+    flex-wrap: wrap;
+    padding: 0 40px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-height: 180px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.cardLeft {
+    flex: 1;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    color: #060259;
+}
+
+.cardRight {
+    flex: 2;
+    position: relative;
+    border-left: 0.2em dashed #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 1em;
+    gap: 20px;
+    background-color: #ecedef;
+}
+
+
+.blurOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(0.2px);
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+.cardRight:before, 
+.cardRight:after {
+    content: "";
+    position: absolute;
+    width: 0.9em;
+    height: 0.9em;
+    background: linear-gradient(135deg, #0f2027, #060259, #290352);
+    border-radius: 50%;
+    left: -0.45em;
+}
+
+.cardRight:before {
+    top: -0.45em;
+}
+
+.cardRight:after {
+    bottom: -0.45em;
+}
+
+.cardLeft h1 {
+    font-size: 1em;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.title,
+.name,
+.seat,
+.time {
+    text-transform: uppercase;
+    font-weight: normal;
+    margin-top: 1em;
+}
+
+.cardLeft .title h2,
+.cardLeft .name h2,
+.cardLeft .seat h2,
+.cardLeft .time h2 {
+    font-size: 1em;
+    margin: 6px 0;
+}
+
+.title span,
+.name span,
+.seat span,
+.time span {
+    font-size: 0.8em;
+    color: #a2aeae;
+}
+.title {
+    margin: 2em 0 0 0;
+}
+
+.name,
+.seat {
+    margin: 0.7em 0 0 0;
+}
+
+.time {
+    margin: 0.7em 0 0 0em;
+}
+
+.seat,
+.time {
+    display: inline-block;
+    width: 40%;
+}
+
+.number {
+    text-align: center;
+    text-transform: uppercase;
+}
+.number h3 {
+    color: #e84c3d;
+    margin: 0;
+    font-size: 2.5em;
+}
+.number span {
+    color: #a2aeae;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.button {
+    position: relative;
+    margin-top: 10px;
+    z-index: 2;
+}
+
+.button .buy {
+    background: #00e0ff;
+    color: #0d1222;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 0 12px rgba(0, 224, 255, 0.4);
+    transition: all 0.3s;
+}
+
+.button .buy:hover {
+    background-color: #00b3cc;
+    box-shadow: 0 0 15px rgba(0, 224, 255, 0.6);
+}
+
+/*Mô tả sự kiện*/
+.tieude {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/*Responsive*/
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    min-height: auto;
+    width: 100%;
+  }
+
+  .cardRight {
+    border-left: none;
+    border-top: 0.18em dashed #e84c3d;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    gap: 10px;
+  }
+
+  .cardLeft, .cardRight {
+    width: 100%;
+  }
+
+  .cardRight:before,
+  .cardRight:after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

@@ -3,14 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sự kiện</title>
+        <title>Chi tiết sự kiện</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
         <link rel="stylesheet" href="../index/footer-header.css">
-        <link rel="stylesheet" href="sukien.css">
+        <link rel="stylesheet" href="chitietsk_1.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+        <!--Link tham khảo: https://codepen.io/verpixelt/pen/AXBdKy-->
     </head>
-    
-    <body class="event" class="page-wrapper">
+
+    <body>
         <!-- Header -->
         <header class="main-header">
             <div class="header-container">
@@ -43,47 +44,73 @@
             </div>
         </header>
 
+        <?php
+            include '../sukien/connect.php';
+            if (isset($_GET['MaSK'])) {
+            $maSK = $_GET['MaSK'];
+
+            $result = $conn->query("SELECT * FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
+                                                            JOIN loaisk l on s.MaLSK = l.MaloaiSK
+                                    WHERE s.MaSK = '$maSK'");
+            $row = $result->fetch_assoc();
+            
+            $ve = $conn->query("SELECT v.TenLV, GROUP_CONCAT(v.TenLV ORDER BY sl.GiaVe DESC SEPARATOR ', ') AS Danhsachve -- Gộp loại vé --
+                                  FROM sukien_loaive sl JOIN loaive v ON sl.MaLoaiVe = v.MLV
+                                  WHERE sl.MaSK = '$maSK'");
+                
+            $loaive = $ve->fetch_assoc();
+            } 
+            else {
+                echo "<p>Không tìm thấy sự kiện.</p>";
+                exit;
+            }
+        ?>
         <main>
-            <!-- Bộ lọc -->
-            <form id="event-filter" class="filter-box">
-                <button type="button" class="filter-toggle" onclick="toggleFilter()">
-                    <i class="fa-solid fa-filter"></i>Bộ lọc
-                </button>
+            <!-- Hình vé -->
+            <div class="cardWrap">
+                <div class= "card">
+                    <div class="cardLeft">
+                        <h1><?=htmlspecialchars($row['TenLoaiSK'])?></h1>
+                        <div class="title">
+                            <h2><?=htmlspecialchars($row['TenSK'])?></h2>
+                        </div>
 
-                <div id="filter-details" style="display: none;">
-                    <!-- Địa điểm -->
-                    <label>Địa điểm:
-                        <select class= 'filter-group' name="diadiem">
-                            <option value="">-- Chọn địa điểm --</option>
-                            <option value="HCM">Hồ Chí Minh</option>
-                            <option value="HN">Hà Nội</option>
-                            <option value="DL">Đà Lạt</option>
-                            <option value="HY">Hưng Yên</option>
-                        </select>
-                    </label>
-                    
-                    <!-- Thể loại -->
-                    <label>Thể loại:
-                        <select class= 'filter-group' name="loai_sukien">
-                            <option value="">-- Chọn thể loại --</option>
-                            <option value="LSK03">Concert</option>
-                            <option value="LSK02">Festival</option>
-                            <option value="LSK01">Liveshow</option>
-                        </select>
-                    </label>
+                        <div class="name">
+                            <span>Địa Điểm</span>
+                            <h2><?=htmlspecialchars($row['TenTinh'])?></h2>
+                        </div>
 
-                    <!-- Nút -->
-                    <div class="filter-buttons">
-                        <button type="reset">Thiết lập lại</button>
-                        <button type="submit">Áp dụng</button>
+                        <div class="seat">
+                            <span>Giá vé</span>
+                            <h2><?=number_format($row['Gia'], 0, ',', '.')?>VND++</h2>
+                        </div>
+
+                        <div class="time">
+                            <span>Thời gian</span>
+                            <h2><?=date("d/m/Y", strtotime($row['Tgian']))?></h2>
+                        </div>
+                    </div>
+
+                    <div class="cardRight" style="background-image: url('<?=htmlspecialchars($row['img_sukien'])?>'); background-size: cover; background-position: center;">
+                        <div class= "blurOverlay"></div>
+                        
+                        <div class="button">
+                            <a class="buy" href="#">MUA VÉ</a>
+                        </div>
                     </div>
                 </div>
-            </form>
-            
-            <!-- Danh sách sự kiện-->
-            <div id="event-list" class="grid-container"></div>
-        </main>
+            </div>
 
+            <!-- Mô tả sự kiện -->
+            <div class="mota" >
+                <h2 class= "tieude">Giới thiệu sự kiện</h2>
+                <p class= "noidung"><?=htmlspecialchars($row['mota'])?></p>
+
+                <span class= "loaive">Các loại vé: <b><?=htmlspecialchars($loaive['Danhsachve'])?></b>
+                </span>
+            </div>
+        </main>
+        
         <footer>
             <div class="footer-container">
                 
@@ -138,7 +165,5 @@
                 <p>@2025 - All Rights Reserved by Vibe4 Platform • Phát triển bởi Nhóm 1-CT299-Phát Triển Hệ Thống Web</p>
             </div>
         </footer>
-
-        <script src="sukien.js"></script>
     </body>
 </html>
