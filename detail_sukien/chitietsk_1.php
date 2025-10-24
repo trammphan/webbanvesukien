@@ -54,11 +54,11 @@
                                     WHERE s.MaSK = '$maSK'");
             $row = $result->fetch_assoc();
             
-            $ve = $conn->query("SELECT v.TenLV, GROUP_CONCAT(v.TenLV ORDER BY sl.GiaVe DESC SEPARATOR ', ') AS Danhsachve -- Gộp loại vé --
-                                  FROM sukien_loaive sl JOIN loaive v ON sl.MaLoaiVe = v.MLV
-                                  WHERE sl.MaSK = '$maSK'");
-                
-            $loaive = $ve->fetch_assoc();
+            $ve_result = $conn->query("SELECT v.TenLV, v.MoTa
+                                    FROM sukien_loaive sl 
+                                    JOIN loaive v ON sl.MaLoaiVe = v.MLV
+                                    WHERE sl.MaSK = '$maSK'
+                                    ORDER BY sl.GiaVe DESC");
             } 
             else {
                 echo "<p>Không tìm thấy sự kiện.</p>";
@@ -95,7 +95,7 @@
                         <div class= "blurOverlay"></div>
                         
                         <div class="button">
-                            <a class="buy" href="#">MUA VÉ</a>
+                            <a class="buy" href="ticket_page.php?MaSK=<?=htmlspecialchars($maSK)?>">MUA VÉ</a>
                         </div>
                     </div>
                 </div>
@@ -106,9 +106,28 @@
                 <h2 class= "tieude">Giới thiệu sự kiện</h2>
                 <p class= "noidung"><?=htmlspecialchars($row['mota'])?></p>
 
-                <span class= "loaive">Các loại vé: <b><?=htmlspecialchars($loaive['Danhsachve'])?></b>
-                </span>
+                <!-- <span class= "loaive">Các loại vé: <b><?=htmlspecialchars($loaive['Danhsachve'])?></b>
+                </span> -->
             </div>
+        <?php
+                // Bắt đầu vòng lặp để hiển thị TẤT CẢ các loại vé
+                if ($ve_result && $ve_result->num_rows > 0) {
+                    while ($loaive_row = $ve_result->fetch_assoc()) {
+                ?>
+
+                    <div class="chi-tiet-loai-ve" style="margin-bottom: 15px;">
+                        <h3><?= htmlspecialchars($loaive_row['TenLV']) ?></h3>
+                        <p><?= htmlspecialchars($loaive_row['MoTa']) ?></p>
+                    </div>
+
+                <?php
+                    } // Kết thúc vòng lặp while
+                } else {
+                    // Hiển thị nếu sự kiện không có vé
+                    echo "<p>Chưa có thông tin vé cho sự kiện này.</p>";
+                }
+                ?>
+                </div>
         </main>
         
         <footer>

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (diadiem) params.append('diadiem', diadiem);
         if (loai) params.append('loai_sukien', loai);
 
-        fetch(`http://localhost/php/Doan/sukien/sukien.php?${params.toString()}`)
+        fetch(`http://localhost/php/webbanvesukien/sukien/sukien.php?${params.toString()}`)
             .then(res => res.json())
             .then(data => {
                 container.innerHTML = '';
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="gia">Từ ${Number(event.Gia).toLocaleString('vi-VN')}đ</div>
                         <h3>${event.TenSK}</h3>
                         <p>Thời gian: ${event.Tgian}</p>
-                        <a href="${window.location.origin}/php/Doan/detail_sukien/chitietsk_1.php?MaSK=${encodeURIComponent(event.MaSK)}"><button>Xem chi tiết</button></a>
+                        <a href="${window.location.origin}/php/webbanvesukien/detail_sukien/chitietsk_1.php?MaSK=${encodeURIComponent(event.MaSK)}"><button>Xem chi tiết</button></a>
                     `;
                     container.appendChild(card);
                 });
