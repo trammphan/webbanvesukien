@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 // thong tin ve chuoi ket noi gom server name, username va mat khau de dang nhap vao mysql, mac dinh cua xampp la root, password rong
 $servername = "localhost";
@@ -15,3 +16,4 @@ if ($conn->connect_error) {
 //neu ket noi thanh cong
 echo "Connected successfully";
 ?>
+
