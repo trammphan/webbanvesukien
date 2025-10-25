@@ -1,0 +1,313 @@
+/* --- BẮT ĐẦU FILE seatmap.css --- */
+
+/* --- CÀI ĐẶT CHUNG --- */
+body {
+  /* THAY ĐỔI: Nền đen tuyền giống ảnh SEATING MAP */
+  background: linear-gradient(135deg, #0f2027, #060259, #290352);
+  min-height: 100vh;
+  background-attachment: fixed;
+  margin: 0;
+  font-family: "Poppins", "Roboto", "Inter", sans-serif;
+  color: #ffffff;
+}
+
+.seat-map-section {
+  padding: 50px 20px;
+}
+
+.seat-map-section h2.section-title {
+  text-align: center;
+  font-size: 2.5em;
+  color: #fff;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+/* --- BỐ CỤC CHÍNH (TRÁI/PHẢI) --- */
+.page-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- CỘT BÊN TRÁI (CHỌN VÉ) --- */
+.seat-map-container {
+  flex: 2;
+  min-width: 0;
+  text-align: left;
+}
+
+.seat-map-container h3 {
+  font-size: 1.5em;
+  color: #f0f0f0;
+  margin-top: 0;
+}
+
+.seat-map-container p {
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+/* --- KHU VỰC CHỌN VÉ (HÀNG NGANG) --- */
+.seat-map {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+/* --- CSS CHO CÁC NÚT (ZONE) --- */
+.zone {
+  padding: 18px 25px;
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-weight: 600;
+  text-align: center;
+  flex-grow: 1;
+  flex-basis: 150px;
+  /* THAY ĐỔI: Chuyển màu mặc định sang tối hơn */
+  background-color: #222;
+  border: 2px solid #444;
+  color: #999;
+}
+
+/* Nút STAGE và FOH (nút thông tin) */
+#stage,
+#foh {
+  flex-basis: 200px;
+}
+
+/* Các nút vé có thể nhấp */
+.seat-zone {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #ffffff; /* Chữ trắng cho nút vé */
+}
+
+.seat-zone:hover {
+  transform: translateY(-2px);
+  /* THAY ĐỔI: Làm viền sáng hơn khi hover */
+  border-color: #ffffff;
+}
+
+/* === PHẦN CSS MÀU SẮC MỚI === */
+/* Gán màu cho từng loại vé dựa trên ID (MLV) */
+/* Màu giống SEATING MAP */
+
+/* LV01 (Vé Standing) -> GA (Cyan) */
+#LV01 {
+  background-color: #00b8d4;
+  border-color: #00b8d4;
+}
+
+/* LV02 (Vé VIP) -> VIP (Pink) */
+#LV02 {
+  background-color: #e6007a;
+  border-color: #e6007a;
+}
+
+/* LV03 (Vé thường) -> CAT (Yellow) */
+#LV03 {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000; /* Chữ đen cho dễ đọc trên nền vàng */
+}
+
+/* LV04 (Vé Early Bird) -> CAT 3A/3B (Orange/Gold) */
+#LV04 {
+  background-color: #f57c00;
+  border-color: #f57c00;
+}
+
+/* LV05 (Vé Combo) -> PREMIUM (Purple) */
+#LV05 {
+  background-color: #7b1fa2;
+  border-color: #7b1fa2;
+}
+
+/* --- TRẠNG THÁI ĐÃ CHỌN --- */
+/* THAY ĐỔI: Dùng viền trắng sáng và glow để biểu thị "selected"
+   Vì nền đã có màu, không thể dùng màu nền cyan nữa.
+*/
+.seat-zone.selected {
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* --- CỘT BÊN PHẢI (SIDEBAR) --- */
+.sidebar {
+  flex: 1;
+  min-width: 320px;
+  /* THAY ĐỔI: Nền tối hơn */
+  background-color: #071024e6;
+  padding: 25px;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.event-info h3 {
+  margin-top: 0;
+  color: #eee;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+.event-info p {
+  font-size: 0.95em;
+  color: #ccc;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.price-list h4 {
+  font-size: 1.3em;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.price-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.price-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 10px;
+  border-bottom: 1px solid #333;
+  font-size: 0.95em;
+  transition: background-color 0.2s;
+  border-radius: 5px;
+}
+/* THAY ĐỔI: Màu highlight tối hơn */
+.price-item.selected-row {
+  background-color: #333;
+}
+
+.ticket-name {
+  flex-grow: 1;
+  color: #ddd;
+  font-weight: 500;
+}
+.ticket-price {
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+/* --- KHUNG TÍNH TOÁN (SỐ LƯỢNG/TỔNG) --- */
+.ticket-calculator {
+  display: block;
+  /* THAY ĐỔI: Nền tối */
+  background-color: #071024e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 30px 0 0 0;
+  max-width: 100%;
+}
+
+.quantity-control,
+.tier-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1em;
+  color: #eee;
+  margin-bottom: 15px;
+}
+.tier-total {
+  margin-bottom: 5px;
+  font-size: 1.25em;
+  font-weight: 600;
+}
+.quantity-control label,
+.tier-total span:first-child {
+  font-weight: 500;
+  color: #ccc;
+}
+#total-price-display {
+  font-weight: 700;
+  font-size: 1.25em;
+  color: #fff;
+}
+.quantity-buttons {
+  display: flex;
+  align-items: center;
+}
+.quantity-btn {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 30px;
+}
+.quantity-btn:hover {
+  background-color: #555;
+}
+#quantity-display {
+  padding: 0 15px;
+  font-size: 1.2em;
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* --- NÚT THANH TOÁN (NEXT) --- */
+.next-button {
+  background-color: #333;
+  color: #777;
+  border: none;
+  padding: 18px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: not-allowed;
+  margin: 20px 0 0 0;
+  max-width: 100%;
+  transition: all 0.2s ease;
+}
+
+/* Giữ nguyên màu cyan cho nút "active" vì nó nổi bật */
+.next-button.active {
+  background-color: #00e0ff;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+}
+.next-button.active:hover {
+  background-color: #00c4e0;
+}
+/* --- CSS CHO KHUNG MÔ TẢ --- */
+#ticket-description-container {
+  display: none; /* Ẩn theo mặc định */
+  background-color: #071024e6; /* Nền tối giống khung tính toán */
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin: 20px 0 0 0; /* Căn lề trái, cách 20px ở trên */
+  max-width: 100%;
+  border: 1px solid #333; /* Thêm viền nhẹ */
+}
+#ticket-description-container h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #00e0ff; /* Màu cyan cho tiêu đề vé */
+  font-size: 1.1em;
+}
+#ticket-description-container p {
+  margin-bottom: 0;
+  color: #ccc;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+/* --- KẾT THÚC FILE seatmap.css --- */

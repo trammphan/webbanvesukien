@@ -1,0 +1,301 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+main {
+  background: linear-gradient(135deg, #0f2027, #060259, #290352);
+  padding: 60px 20px;
+  color: #fff;
+  min-height: 100vh;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.cardWrap {
+  max-width: 1200px;
+  width: 100%;
+  margin: 100px auto 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  color: #060259;
+  font-family: sans-serif;
+  flex-wrap: wrap;
+  padding: 0 40px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-height: 180px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.cardLeft {
+  flex: 1;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #fff;
+  color: #060259;
+}
+
+.cardRight {
+  flex: 2;
+  position: relative;
+  border-left: 0.2em dashed #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1em;
+  gap: 20px;
+  background-color: #ecedef;
+}
+
+.blurOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0.2px);
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+.cardRight:before,
+.cardRight:after {
+  content: "";
+  position: absolute;
+  width: 0.9em;
+  height: 0.9em;
+  background: linear-gradient(135deg, #0f2027, #060259, #290352);
+  border-radius: 50%;
+  left: -0.45em;
+}
+
+.cardRight:before {
+  top: -0.45em;
+}
+
+.cardRight:after {
+  bottom: -0.45em;
+}
+
+.cardLeft h1 {
+  font-size: 1em;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.title,
+.name,
+.seat,
+.time {
+  text-transform: uppercase;
+  font-weight: normal;
+  margin-top: 1em;
+}
+
+.cardLeft .title h2,
+.cardLeft .name h2,
+.cardLeft .seat h2,
+.cardLeft .time h2 {
+  font-size: 1em;
+  margin: 6px 0;
+}
+
+.title span,
+.name span,
+.seat span,
+.time span {
+  font-size: 0.8em;
+  color: #a2aeae;
+}
+.title {
+  margin: 2em 0 0 0;
+}
+
+.name,
+.seat {
+  margin: 0.7em 0 0 0;
+}
+
+.time {
+  margin: 0.7em 0 0 0em;
+}
+
+.seat,
+.time {
+  display: inline-block;
+  width: 40%;
+}
+
+.number {
+  text-align: center;
+  text-transform: uppercase;
+}
+.number h3 {
+  color: #e84c3d;
+  margin: 0;
+  font-size: 2.5em;
+}
+.number span {
+  color: #a2aeae;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.button {
+  position: relative;
+  margin-top: 10px;
+  z-index: 2;
+}
+
+.button .buy {
+  background: #00e0ff;
+  color: #0d1222;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 0 12px rgba(0, 224, 255, 0.4);
+  transition: all 0.3s;
+}
+
+.button .buy:hover {
+  background-color: #00b3cc;
+  box-shadow: 0 0 15px rgba(0, 224, 255, 0.6);
+}
+
+/*Mô tả sự kiện*/
+.tieude {
+  text-transform: uppercase;
+  text-align: center;
+}
+/* Container chính chứa tất cả vé */
+.chitietve {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  background-color: #071024e6;
+  color: #f6f8fb; /* Màu chữ xám nhạt (chung) */
+  padding: 20px 25px; /* Tăng padding một chút */
+  border-radius: 8px;
+  max-width: 90%;
+  margin: 20px auto;
+}
+
+/* Tiêu đề "Các loại vé" */
+.chitietve .tieude {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.5rem; /* 24px */
+  margin-top: 5px;
+  margin-bottom: 25px; /* Khoảng cách với vé đầu tiên */
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* --- Đây là các class mới của bạn --- */
+
+/* Mỗi khối vé (thay cho .chi-tiet-loai-ve) */
+.loaiVeItem {
+  /* Đường kẻ ngăn cách mờ */
+  border-bottom: 1px solid #cfd4dd;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+/* Bỏ đường kẻ cho vé cuối cùng */
+.loaiVeItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Tên loại vé (VVIP, ...) */
+.tenLoaiVe {
+  /* Đây là thẻ <h3> */
+  font-size: 1.2rem; /* Cỡ 19px */
+  font-weight: bold;
+  color: #ffffff; /* Màu trắng */
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Mô tả chi tiết của vé */
+.moTaVe {
+  /* Đây là thẻ <p> */
+  font-size: 0.95rem; /* Cỡ 15px */
+  line-height: 1.7;
+  color: #ffffff; /* Màu xám nhạt hơn */
+  margin-top: 0;
+  margin-bottom: 12px;
+  /* Giữ lại thụt lề nếu mô tả của bạn là dạng 1. 2. 3. */
+  /* padding-left: 28px; */
+}
+
+/* Dòng hiển thị giá vé */
+.giaVe {
+  /* Đây là thẻ <p> */
+  font-size: 1rem; /* Cỡ 16px */
+  color: #dcddde; /* Màu chữ xám nhạt */
+  margin: 0;
+  text-align: right; /* Đẩy giá vé sang phải cho đẹp */
+  font-weight: 500;
+}
+
+/* Phần giá tiền (bên trong <strong>) */
+.giaVe strong {
+  color: #2dc492; /* Màu xanh lá cây nổi bật */
+  font-size: 1.1rem; /* To hơn một chút */
+  font-weight: 700; /* In đậm */
+  margin-left: 5px; /* Khoảng cách với chữ "Giá vé:" */
+}
+
+/*Responsive*/
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    min-height: auto;
+    width: 100%;
+  }
+
+  .cardRight {
+    border-left: none;
+    border-top: 0.18em dashed #e84c3d;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    gap: 10px;
+  }
+
+  .cardLeft,
+  .cardRight {
+    width: 100%;
+  }
+
+  .cardRight:before,
+  .cardRight:after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
