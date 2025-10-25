@@ -1,5 +1,7 @@
 <?php
-include 'db_connect.php'; 
+include 'db_connect.php';
+
+$additional_css = ['index.css']; 
 
 function getMinPrice($conn, $MaSK) {
     $sql = "SELECT MIN(GiaVe) AS MinPrice FROM sukien_loaive WHERE MaSK = '$MaSK' ";
