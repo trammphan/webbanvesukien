@@ -7,12 +7,11 @@
     <!-- <link rel="icon" href="img/icon.jpg" title="logo" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-   <link rel="stylesheet" href="webstyle.css"/> 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJqLz0P2Kj2q69/7f/3gD+6dI/YkG8XzY5I/p1gE4g4j2o724T0p+L+6lD8X6oEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="webstyle.css"/>   
     <script defer src="/scripts/web-layout.js"></script>
     <script defer src="/scripts/homepage.js"></script>
     <!--<link rel="stylesheet" href="index.css">-->
@@ -58,8 +57,8 @@
         
         <article class="dangky">
           <h2>Đăng Nhập</h2>
-          <form action="log.php" method="post">
-          
+          <form action="log.php" method="post" >
+                                            <!-- autocomplete="off" -->
               <div class="thongtin">
               <label for="email">
                 <i class="fa-solid fa-envelope"></i>

@@ -1,66 +1,65 @@
 <?php
-// Bắt đầu phiên (cần thiết nếu trang khác vẫn dùng session)
-session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// 🔹 Kiểm tra cookie "email" thay vì session
-if (!isset($_COOKIE["email"])) {
-    header("Location: dangnhap.php");
-    exit();
-}
-
+// Cấu hình CSDL
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "qlkhachhang";
 
-// Kết nối CSDL
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
+// Biến trạng thái
+$is_logged_in = false;
+$user_info = null;
 
-$msg = ""; // Biến chứa thông báo
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $old_pass = md5($_POST["old_pass"]);
-    $new_pass = $_POST["new_pass"];
-    $confirm_pass = $_POST["confirm_pass"];
-    $email = $_COOKIE["email"]; // 🔹 Lấy email từ cookie
-
-    // Lấy mật khẩu cũ từ CSDL
-    $sql = "SELECT password FROM khachhang WHERE email = '$email'";
-    $result = $conn->query($sql);
-
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $current_pass = $row["password"];
-
-        // Kiểm tra mật khẩu cũ có khớp không
-        if ($old_pass != $current_pass) {
-            $msg = "❌ Mật khẩu cũ không đúng!";
-        } elseif ($new_pass != $confirm_pass) {
-            $msg = "❌ Mật khẩu mới và nhập lại không trùng khớp!";
-        } elseif ($old_pass == md5($new_pass)) {
-            $msg = "⚠️ Mật khẩu mới không được giống mật khẩu cũ!";
-        } else {
-            // Cập nhật mật khẩu mới (đã băm md5)
-            $new_pass_md5 = md5($new_pass);
-            $update_sql = "UPDATE khachhang SET password = '$new_pass_md5' WHERE email = '$email'";
-
-            if ($conn->query($update_sql) === TRUE) {
-                $msg = "✅ Đổi mật khẩu thành công!";
-                header("Location: dangnhap.php");
-            } else {
-                $msg = "Lỗi khi cập nhật mật khẩu: " . $conn->error;
-            }
-        }
-    } else {
-        $msg = "❌ Không tìm thấy người dùng!";
+// Hàm định dạng giới tính
+function format_gender($gender_code) {
+    switch ($gender_code) {
+        case 'male': return 'Nam';
+        case 'female': return 'Nữ';
+        case 'other': return 'Khác';
+        default: return 'Chưa xác định';
     }
 }
 
-$conn->close();
+// --- Bắt đầu kiểm tra cookie ---
+$user_email = $_COOKIE['email'] ?? null;
+
+if ($user_email) {
+    // Kết nối CSDL
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("❌ Kết nối CSDL thất bại: " . $conn->connect_error);
+    }
+
+    // Kiểm tra xem email có tồn tại không
+    $sql = "SELECT email, user_name, gender FROM nhanviensoatve WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("❌ Lỗi prepare: " . $conn->error);
+    }
+
+    $stmt->bind_param("s", $user_email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows > 0) {
+        $user_info = $result->fetch_assoc();
+        $is_logged_in = true;
+    } else {
+        echo "<div style='color:red; text-align:center;'>❌ Không tìm thấy tài khoản nhân viên soát vé có email: <b>$user_email</b></div>";
+        // Xóa cookie cũ
+        setcookie("email", "", time() - 3600, "/");
+        setcookie("user_name", "", time() - 3600, "/");
+    }
+
+    $stmt->close();
+    $conn->close();
+} else {
+    echo "<div style='color:red; text-align:center;'>⚠️ Bạn chưa đăng nhập. <a href='dangnhap.php'>Đăng nhập ngay</a></div>";
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -74,8 +73,6 @@ $conn->close();
    <link rel="stylesheet" href="webstyle.css"/> 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJqLz0P2Kj2q69/7f/3gD+6dI/YkG8XzY5I/p1gE4g4j2o724T0p+L+6lD8X6oEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <script defer src="/scripts/web-layout.js"></script>
     <script defer src="/scripts/homepage.js"></script>
@@ -84,7 +81,7 @@ $conn->close();
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   </head>
-<body  class="w3-container" >
+<body   >
      <header class="main-header">
         <div class="header-container">
             <div class="header-logo">
@@ -118,45 +115,74 @@ $conn->close();
         </div>
     </header>
 
-   <article class="sua_thongtin">
-        <h2 class="w3-text-blue">🔒 Đổi mật khẩu</h2>
-
-        <form class="w3-container w3-card-4 w3-light-grey" method="POST" style="max-width:500px;">
-         <div class="thongtin">
-            <label for="password">
-                <i class="fa-solid fa-keyboard"></i></label>
-            <input type="password" name="old_pass" id="old_pass"
-                     placeholder="Vui lòng nhập mật khẩu cũ" required>
-          </div>
-          <div class="thongtin">
-            <label for="password">
-                <i class="fa-solid fa-key"></i></label>
-            <input type="password" name="new_pass" id="new_pass"
-                placeholder="Vui lòng nhập mật khẩu mới" required>
-          </div>
-          <div class="thongtin">
-            <label for="password">
-                <i class="fa-solid fa-clone"></i></label>
-            <input type="password" name="confirm_pass" id="confirm_pass" 
-                placeholder="Vui lòng nhập lại mật khẩu mới" required>
-          </div>
-          <div class="container_2" >
-              <div class="box_2" class="update_info" >
-              <a href="nguoidung.php" id="back">
-                    <i class="fa-solid fa-backward-step" ></i>
-              </a>
-            </div> 
-              <div class="box_2" class="update_info" >
-                    <button  type="submit" id="change">
-                      <i class="fa-solid fa-user-check" ></i>
-                    </button>
+    <main>
+    <article class="nhanvien">
+            
+            <fieldset class="thongtinnhanvien">
+             <h2>Thông tin tài khoản</h2>   
+            <?php if ($is_logged_in && $user_info): ?>
+            
+                <div class="thongtin">
+                <label>
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Email: <b><?php echo htmlspecialchars($user_info['email']); ?></b></span>
+                </label>
               </div>
-        
-          </form>
+              <div class="thongtin">
+                <label>
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <span>Họ và tên: <b><?php echo htmlspecialchars($user_info['user_name']); ?></b></span>
+                </label>
+              </div>
 
-        <?php if ($msg != "") echo "<p class='w3-text-red w3-margin-top'><b>$msg</b></p>"; ?>
+              <div class="thongtin">
+                <label>
+                    <i class="fa-solid fa-venus-mars"></i>
+                    <span>Giới tính: <b><?php echo format_gender($user_info['gender']); ?></b></span>
+                </label>
+              </div>
+ 
+                <div class="container_1">
+                    <div class="logout" class="box_1">
+                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> 
+                        </a>
+                    </div>
+                    <div class="update_info" class="box_1">
+                        <a href="sua_thongtin.php"  id="update">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </div>
+                </div>
+            
+            </fieldset>
+            <?php endif; ?>
+
+        <h2 class="nhanvien-title">Chào mừng Nhân Viên Soát Vé!</h2>
+        <p class="chaomung">Chào mừng bạn đến với trang quản lý nhân viên soát vé của Vibe4. Tại đây, bạn có thể dễ dàng quản lý và xác nhận vé sự kiện một cách nhanh chóng và hiệu quả.</p>
+
+        <section id="duyet-section" class="nhanvien-section">
+            <h3>Duyệt Vé Sự Kiện</h3>
+            <p class="chaomung">Tại đây bạn có thể quét và xác nhận vé của khách hàng một cách nhanh chóng.</p>
+            <button id="btn_duyet" class="nhanvien-btn active">Duyệt Vé</button>
+        </section>
+
+        <section id="baocao-section" class="nhanvien-section ">
+            <h3>Báo Cáo Công Việc</h3>
+            <p class="chaomung">Xem và tải về các báo cáo công việc hàng ngày của bạn.</p>
+            <button id="btn_baocao" class="nhanvien-btn">Báo Cáo</button>
+        </section>
+
+        <section id="dieukhoan-section" class="nhanvien-section ">
+            <h3>Điều Khoản và Chính Sách</h3>
+            <p class="chaomung">Đọc kỹ các điều khoản và chính sách liên quan đến công việc của bạn.</p>
+            <button id="btn_dieukhoan" class="nhanvien-btn">Điều Khoản</button>
+        </section>
     </article>
-    <footer>
+       
+    </main>
+ 
+   <footer>
         <div class="footer-container">
             
             <div class="footer-col footer-branding">
@@ -212,6 +238,10 @@ $conn->close();
 
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
     </footer>             
-</body>
+    
 
+</body>
 </html>
+
+
+<!-- Footer Section-->
