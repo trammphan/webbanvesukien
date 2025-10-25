@@ -32,7 +32,7 @@ function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_fun
                     $tag = $tag_logic_func($event);
                     ?>
                     <div class="event-card">
-                        <a href="../sukien/chitiet.php?mask=<?php echo $event['MaSK']; ?>">
+                        <a href="chitietsk.php?mask=<?php echo $event['MaSK']; ?>">
                             <div class="card-image-wrapper">
                                 <img src="<?php echo $event['img_sukien']; ?>" alt="<?php echo htmlspecialchars($event['TenSK']); ?>" class="card-image"> 
                                 <span class="event-tag special-tag"><?php echo $tag; ?></span>
