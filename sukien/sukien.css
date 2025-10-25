@@ -7,7 +7,7 @@ html, body {
 main {
     padding-top: 80px;
     background: linear-gradient(135deg, #0f2027, #060259, #290352);
-    min-height: calc(100vh - 60px); 
+    min-height: calc(100vh - 60px);
 }
 
 .grid-container {
