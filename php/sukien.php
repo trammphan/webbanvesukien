@@ -1,5 +1,5 @@
 <?php
-    include 'connect.php';
+    include 'connect_1.php';
 
     $conditions = [];
     if (!empty($_GET['diadiem'])) {
@@ -74,10 +74,10 @@
                     <label>Địa điểm:
                         <select class= 'filter-group' name="diadiem">
                             <option value="">-- Chọn địa điểm --</option>
-                            <option value="HCM">Hồ Chí Minh</option>
-                            <option value="HN">Hà Nội</option>
-                            <option value="DL">Đà Lạt</option>
-                            <option value="HY">Hưng Yên</option>
+                            <option value="HCM" <?= ($_GET['diadiem'] ?? '') == 'HCM' ? 'selected' : '' ?>>Hồ Chí Minh</option>
+                            <option value="HN" <?= ($_GET['diadiem'] ?? '') == 'HN' ? 'selected' : '' ?>>Hà Nội</option>
+                            <option value="DL" <?= ($_GET['diadiem'] ?? '') == 'DL' ? 'selected' : '' ?>>Đà Lạt</option>
+                            <option value="HY" <?= ($_GET['diadiem'] ?? '') == 'HY' ? 'selected' : '' ?>>Hưng Yên</option>
                         </select>
                     </label>
                     
@@ -85,9 +85,9 @@
                     <label>Thể loại:
                         <select class= 'filter-group' name="loai_sukien">
                             <option value="">-- Chọn thể loại --</option>
-                            <option value="LSK03">Concert</option>
-                            <option value="LSK02">Festival</option>
-                            <option value="LSK01">Liveshow</option>
+                            <option value="LSK03" <?= ($_GET['loai_sukien'] ?? '') == 'LSK03' ? 'selected' : '' ?>>Concert</option>
+                            <option value="LSK02" <?= ($_GET['loai_sukien'] ?? '') == 'LSK02' ? 'selected' : '' ?>>Festival</option>
+                            <option value="LSK01" <?= ($_GET['loai_sukien'] ?? '') == 'LSK01' ? 'selected' : '' ?>>Liveshow</option>
                         </select>
                     </label>
 

@@ -45,7 +45,7 @@
         </header>
 
         <?php
-            include '../php/connect.php';
+            include 'connect_1.php';
             if (isset($_GET['MaSK'])) {
             $maSK = $_GET['MaSK'];
 
