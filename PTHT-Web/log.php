@@ -18,21 +18,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = mysqli_real_escape_string($conn, trim($_POST['password']));
 
   // Lấy thông tin người dùng theo email
-  $sql = "SELECT * FROM khachhang WHERE email = '$email'";
-  $result = $conn->query($sql);
+  // $sql = "SELECT * FROM khachhang WHERE email = '$email'";
+  // $sql = "SELECT * FROM quantrivien WHERE email = '$email'";
+  // $sql = "SELECT * FROM nhatochuc WHERE email = '$email'";
+  // $sql = "SELECT * FROM nhanviensoatve WHERE email = '$email'";
+  $email = $conn->real_escape_string($email);
+  $tables = ['khachhang', 'quantrivien', 'nhatochuc', 'nhanviensoatve'];
+
+  foreach ($tables as $table) {
+    $sql = "SELECT * FROM $table WHERE email = '$email' LIMIT 1";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        $user['table'] = $table; // biết được người dùng thuộc bảng nào
+        break; // dừng lại khi đã tìm thấy
+    }
+}
+
 
   // Kiểm tra có tài khoản không
-  if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+    if (!empty($user)) {
+    //$user= $result->fetch_assoc();
 
-     if (md5($password) === $row['password'])  {
+     if ($password === $user['password'] || md5($password) === $user['password'] ) 
+      {
       
-      setcookie("email", $row['email'], time() + 3600, "/");
-      setcookie("user_name", $row['"user_name"'], time() + 3600, "/");
-     // setcookie("id", $row['id'], time() + 3600, "/");
+      setcookie("email", $user['email'], time() + 3600, "/");
+      setcookie("user_name", $user['user_name'], time() + 3600, "/");
+     // setcookie("id", $user['id'], time() + 3600, "/");
 
-      header("Location: nguoidung.php");
-     exit();
+     switch ($user['table']) {
+            case 'khachhang':
+                header("Location: nguoidung.php");
+                break;
+            case 'quantrivien':
+                header("Location: admin.php");
+                break;
+            case 'nhatochuc':
+                header("Location: nhatochuc.php");
+                break;
+            case 'nhanviensoatve':
+                header("Location: nhanvien.php");
+                break;
+        }
+        exit();
     }
      else {
       echo "<script>alert('Sai mật khẩu!'); window.location='dangnhap.php';</script>";
