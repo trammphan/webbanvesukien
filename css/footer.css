@@ -1,0 +1,143 @@
+/* FOOTER STYLES */
+footer {
+    background: linear-gradient(135deg, #0f2027, #060259, #290352);
+    padding: 60px 0 20px;
+    color: #fff;
+    border-top: 1px solid #1a2035;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-logo {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.footer-branding p {
+    color: #a0a6b5;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.footer-col h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #00e0ff;
+}
+
+.footer-links, .footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li, .footer-contact li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #a0a6b5;
+    font-size: 15px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #00e0ff;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    color: #a0a6b5;
+}
+
+.footer-contact i {
+    color: #00e0ff;
+    margin-right: 10px;
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.social-links a {
+    color: #a0a6b5;
+    font-size: 20px;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #00e0ff;
+}
+
+.btn-download {
+    background: #00e0ff;
+    color: #0d1222;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.btn-download:hover {
+    background-color: #00b3cc;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 20px 0;
+    border-top: 1px solid #1a2035;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-bottom p {
+    color: #a0a6b5;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* RESPONSIVE STYLES (FOOTER) */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+    .footer-col {
+        min-width: 100%;
+        text-align: center;
+    }
+    .footer-col h4 {
+        text-align: center;
+    }
+    .footer-branding p {
+        padding: 0 10px;
+    }
+    .footer-contact li {
+        justify-content: center;
+    }
+    .social-links {
+        text-align: center;
+    }
+}
