@@ -86,6 +86,15 @@ if (isset($_GET['q']) && !empty(trim($_GET['q']))) {
 
 require_once 'header.php'; 
 ?>
+    <nav class="category-bar">
+        <div class="category-container">
+            <ul class="category-list">
+                <li><a href="../sukien/sukien.html?loai_sukien=LSK03" class="category-item active">Concert🔥</a></li>
+                <li><a href="../sukien/sukien.html?loai_sukien=LSK02" class="category-item">Festival</a></li>
+                <li><a href="../sukien/sukien.html?loai_sukien=LSK01" class="category-item">Liveshow</a></li>
+            </ul>
+        </div>
+    </nav>
     <section class="hero-banner">
         
         <div class="banner-logo">
