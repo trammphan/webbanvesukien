@@ -1,7 +1,5 @@
 </main>
-    
-    <div style="height: 50px;"></div> 
-
+    <link rel="stylesheet" href="../index/css/footer.css">
     <footer>
         <div class="footer-container">
             
@@ -56,5 +54,6 @@
             <p>@2025 - All Rights Reserved by Vibe4 Platform • Phát triển bởi Nhóm 1-CT299-Phát Triển Hệ Thống Web</p>
         </div>
     </footer>
+    
 </body>
 </html>
