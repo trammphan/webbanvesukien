@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./images/fav-icon.png" rel="icon" type="image/vnd.microsoft.icon">
     <title>Trang chủ</title>
-    <link rel="stylesheet" href="../index/css/index.css">
-    <link rel="stylesheet" href="../index/css/header.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <?php if (isset($additional_css)): ?>
+        <?php foreach ($additional_css as $css_file): ?>
+            <link rel="stylesheet" href="../css/<?php echo $css_file; ?>">
+        <?php endforeach; ?>
+    <?php endif; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
@@ -16,7 +20,7 @@
     <header class="main-header">
         <div class="header-container">
             <div class="header-logo">
-                <a href="../index/index.php" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
+                <a href="index.php" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
             </div>
 
             <div class="header-search">
@@ -37,8 +41,8 @@
                 </nav>
 
             <div class="header-actions">
-                <a href="../PTHT-Web/dangnhap.php" class="btn-signin">Đăng nhập</a> 
-                <a href="../PTHT-Web/dangky.php" class="btn-signup">Đăng ký</a> 
+                <a href="dangnhap.php" class="btn-signin">Đăng nhập</a> 
+                <a href="dangky.php" class="btn-signup">Đăng ký</a> 
             </div>
                 </div>
             </div>
