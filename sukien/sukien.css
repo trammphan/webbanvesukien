@@ -1,6 +1,13 @@
-main{
+html, body {
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+}
+
+main {
     padding-top: 80px;
     background: linear-gradient(135deg, #0f2027, #060259, #290352);
+    min-height: calc(100vh - 60px); 
 }
 
 .grid-container {
