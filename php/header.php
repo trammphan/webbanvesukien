@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./images/fav-icon.png" rel="icon" type="image/vnd.microsoft.icon">
+    <link href="../img/fav-icon.png" rel="icon" type="image/vnd.microsoft.icon">
     <title>Trang chủ</title>
     <link rel="stylesheet" href="../css/header.css">
     <?php if (isset($additional_css)): ?>
@@ -50,3 +50,4 @@
     </header>
     
     <main>
+
