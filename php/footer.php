@@ -1,5 +1,5 @@
 </main>
-    <link rel="stylesheet" href="../index/css/footer.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <footer>
         <div class="footer-container">
             
