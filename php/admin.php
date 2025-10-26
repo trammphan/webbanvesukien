@@ -70,7 +70,7 @@ if (isset($_COOKIE['email'])) {
      <header class="main-header">
         <div class="header-container">
             <div class="header-logo">
-                <a href="#" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
+                <a href="trangchu.html" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
             </div>
 
             <div class="header-search">
@@ -102,7 +102,7 @@ if (isset($_COOKIE['email'])) {
 
     <main>
     <article class= "thanh_doc">
-        <p class="quantrivien"> Quản trị viên</p>
+        <p class="quantrivien"> QUẢN TRỊ VIÊN</p>
         <button class="thanh_doc_1" id="btn-duyet">
             <i class="fa-solid fa-user-shield"></i>
             <span>Duyệt sự kiện</span>      </button>
@@ -129,16 +129,16 @@ if (isset($_COOKIE['email'])) {
     </article>
 
     <article class=" noidung duyetsukien" id="duyet-section">
-        <h3>Duyệt sự kiện</h3>
+        <h2>Duyệt sự kiện</h2>
         <p>Danh sách sự kiện chờ duyệt sẽ hiển thị ở đây.</p>
     </article>
     <article class="noidung hidden baocao" id="baocao-section">
-        <h3>Quản lý báo cáo</h3>
+        <h2>Quản lý báo cáo</h2>
         <p>Danh sách các báo cáo người dùng gửi về hệ thống...</p>
     </article>
 
     <article class="noidung hidden dieukhoan" id="dieukhoan-section">
-        <h3>Điều khoản sử dụng</h3>
+        <h2>Điều khoản sử dụng</h2>
         <p>Các điều khoản và quy định dành cho quản trị viên.</p>
     </article>
 

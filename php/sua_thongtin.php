@@ -88,7 +88,7 @@ $conn->close();
      <header class="main-header">
         <div class="header-container">
             <div class="header-logo">
-                <a href="#" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
+                <a href="trangchu.html" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
             </div>
 
             <div class="header-search">
@@ -140,18 +140,19 @@ $conn->close();
             <input type="password" name="confirm_pass" id="confirm_pass" 
                 placeholder="Vui lòng nhập lại mật khẩu mới" required>
           </div>
-          <div class="container_2" >
-              <div class="box_2" class="update_info" >
-              <a href="nguoidung.php" id="back">
-                    <i class="fa-solid fa-backward-step" ></i>
-              </a>
-            </div> 
-              <div class="box_2" class="update_info" >
+
+        <div class="container_1">
+                    <div class="logout" class="box_1">
+                        <a href="nguoidung.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> 
+                        </a>
+                    </div>
+                    <div class="box_2" class="update_info" >
                     <button  type="submit" id="change">
                       <i class="fa-solid fa-user-check" ></i>
                     </button>
               </div>
-        
+        </div>
           </form>
 
         <?php if ($msg != "") echo "<p class='w3-text-red w3-margin-top'><b>$msg</b></p>"; ?>

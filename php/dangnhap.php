@@ -23,7 +23,7 @@
      <header class="main-header">
         <div class="header-container">
             <div class="header-logo">
-                <a href="#" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
+                <a href="trangchu.html" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
             </div>
 
             <div class="header-search">
