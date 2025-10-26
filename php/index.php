@@ -34,7 +34,7 @@ function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_fun
                     $tag = $tag_logic_func($event);
                     ?>
                     <div class="event-card">
-                        <a href="chitietsk.php?mask=<?php echo $event['MaSK']; ?>">
+                        <a href="chitietsk.php?mask=<?php echo $event['MaSK']; ?>" data-mask="<?php echo $event['MaSK']; ?>" onclick="trackEvent(this)">
                             <div class="card-image-wrapper">
                                 <img src="<?php echo $event['img_sukien']; ?>" alt="<?php echo htmlspecialchars($event['TenSK']); ?>" class="card-image"> 
                                 <span class="event-tag special-tag"><?php echo $tag; ?></span>
@@ -124,16 +124,26 @@ require_once 'header.php';
             $tag_search = function($event) { return 'Tìm kiếm'; };
             renderEventCards($conn, $sql_search, "Kết quả tìm kiếm cho: \"$search_query\"", 'fas fa-search', $tag_search);
 
-        } else {
+            // Tạo mảng ID để truyền sang JS
+            $result_tracking = $conn->query($sql_search);
+            $ids = [];
+            if ($result_tracking && $result_tracking->num_rows > 0) {
+                while($row = $result_tracking->fetch_assoc()) {
+                    $ids[] = $row['MaSK'];
+                }
+            }
+            $search_ids_json = json_encode($ids);
+        } 
+        else {
             
             $sql_special = "SELECT MaSK, TenSK, Tgian, img_sukien, MaLSK FROM sukien WHERE Tgian >= CURDATE() ORDER BY Tgian ASC LIMIT 8";
             renderEventCards($conn, $sql_special, 'Sự kiện Gần đây', 'fas fa-star', $tag_default, 'sukien-gan-day'); 
 
-            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, MAX(sl.GiaVe) AS MaxPrice
+            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, MIN(sl.GiaVe) AS MinPrice, (s.luot_timkiem + s.luot_truycap) AS total
                             FROM sukien s
                             JOIN sukien_loaive sl ON s.MaSK = sl.MaSK
                             GROUP BY s.MaSK
-                            ORDER BY MaxPrice DESC
+                            ORDER BY total DESC
                             LIMIT 8";
 
             $tag_trending = function($event) { return 'HOT 👑'; };
@@ -152,3 +162,5 @@ require_once 'header.php';
 <?php
 require_once 'footer.php'; 
 ?>
+
+<script src="../js/index.js"></script>

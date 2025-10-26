@@ -1,30 +1,29 @@
-function trackEvent(eventId, action) {
-    fetch('/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        event_id: eventId,
-        action: action
-      })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data));
+// tracking.js
+
+function trackEvent(el) {
+    const eventId = el.getAttribute("data-mask");
+    console.log("Tracking click for:", eventId);
+    if (!eventId) return;
+
+    navigator.sendBeacon("http://127.0.0.1:5000/track",
+        new Blob([JSON.stringify({ 
+          MaSK: eventId, 
+          action: "click" })], 
+          { 
+            type: "application/json" 
+          })
+    );
 }
 
-document.getElementById("search-form").addEventListener("submit", function(e) {
-    const keyword = document.getElementById("search-input").value.trim();
-
-    if (keyword.length > 0) {
-      fetch("http://127.0.0.1:5000/track", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          MaSK: keyword,     
-          action: "search"
-        })
-      }).then(res => res.json())
-        .then(data => console.log("Search tracked:", data));
-    }
-
-    // Cho phép form tiếp tục submit như bình thường
-});
+function trackSearchEvent(eventIds) {
+    eventIds.forEach(id => {
+        fetch("http://127.0.0.1:5000/track", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+              MaSK: id, 
+              action: "search" 
+            })
+        });
+    });
+}

@@ -4,8 +4,7 @@ from flask_cors import CORS
 import mysql.connector
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 db_config = {
     'host': 'localhost',
     'user': 'root',
@@ -33,7 +32,7 @@ def update_event_count(event_id, action):
 @app.route("/track", methods=["POST"])
 def track_event():
     data = request.json
-    print("Received:", data)
+    print("Received:", data)  # Kiểm tra log
     event_id = data.get("MaSK")
     action = data.get("action")  # Các hoạt động: "click", "search"
 

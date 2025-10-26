@@ -9,19 +9,16 @@ function toggleFilter() {
     details.style.display = details.style.display === "none" || details.style.display === "" ? "block" : "none";
 }
 
-function trackEvent(button) {
-const eventId = button.getAttribute("data-mask");
-console.log("Click event:", eventId);
-const action = "click"; 
+function trackEvent(el) {
+    const eventId = el.getAttribute("data-mask");
+    if (!eventId) return;
 
-if (eventId) {
-    fetch("http://localhost:5000/track", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-        MaSK: eventId,
-        action: action
-    })
-    }).then(res => res.json())
-    .then(data => console.log("Tracked:", data));
-}}
+    navigator.sendBeacon("http://127.0.0.1:5000/track", 
+        new Blob([JSON.stringify({ 
+            MaSK: eventId, action: "click" 
+        })], 
+        { 
+            type: "application/json" 
+        })
+    );
+}
