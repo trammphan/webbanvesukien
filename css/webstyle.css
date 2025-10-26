@@ -26,6 +26,8 @@ h2{
     font-weight: bold;
     text-shadow: 5px 5px 6px gray;
     margin-bottom: 20px;
+    margin-top: 10px;
+    padding: 10px 20px;
 }
 .header{
   padding: 10px 20px;
@@ -335,7 +337,7 @@ h3{
 .container_1 {
   display: flex;           
   justify-content: center; 
-  gap: 10px;              
+  gap: 10px;   
 }
 .box_1 {
   flex: 1;             
@@ -1110,6 +1112,8 @@ main{
 }
 
 
+
+/*quản trị viên page css*/
 .duyetsukien {
   width: 75%;
   background-color: #0b0c10;
@@ -1146,9 +1150,6 @@ main{
   min-height: 80vh;
   margin: 30px;
 }
-
-
-
 .quantrivien{
     margin:auto;
     padding: 20px;
@@ -1259,47 +1260,110 @@ main{
     padding-left: 10px;
     color: rgb(217, 223, 228) ;
 }
+
+
+
+
+
+
+
+/* Nha to chuc css */
 .nhatochuc{
-    margin:80px auto;
+    margin:100px auto;
     border: #060259 solid 2.5px;
-    background-color: #040c2a;
-    width: 95%;
+    background-color: white;
+    width: 60%;   
+    border-radius: 40px ;
 }
 .chaomung{
-    color: #fffcfc;
+    color: #060259;
     font-size: 105%;
-    padding: 5px;
+    padding: 10px 20px;
+}
+.chaomung_1{
+    color: white;
+    font-size: 105%;
+    padding: 10px 20px;
 }
 .cv_nhatochuc{
-    color: #66fcf1;
+    color: #dafdfb;
     font-size: 100%;
     padding: 8px;
     border:solid 1px #060259;
     text-decoration: none;
-    width: 300px;
-    margin:50px auto;
+    max-width: 90%;
+    margin:30px auto;
     display: block;
     text-align: center;
+    
 }
 .cv_nhatochuc:hover{
     background-color: #290352;
     border-radius: 8px;
     color: white;
 }
+.thanh_doc_ntc {
+    margin-top:100px ;
+    margin-bottom: 100px;
+    margin-right: 0px;
+    flex: 0 0 29%;
+    min-height: 80vh;
+    background-color: #293f97;
+    position: relative;
+    padding: 50px 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color:#66fcf1;
+    flex-direction: column;
+    justify-content: space-between; 
+    border-radius: 40px ;
+}
+.container_nhatochuc{
+    display: flex;           
+    justify-content: center; 
+    gap: 15px;
+    align-items: stretch;
+}
+.box {
+  box-sizing: border-box;
+}
+.congcu_ntc{
+    text-align: center;
+    color: rgb(207, 255, 249);
+    font-size:250%;
+    font-weight: bold;
+    text-shadow: 5px 5px 6px gray;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    padding: 0px 10px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Nhan vien css */
 .nhanvien{
     margin:80px auto;
     border: #060259 solid 2.5px;
-    background-color: #040c2a;
+    background-color: white;
     width: 95%;
+    border-radius: 60px;
 }
 .thongtinnhanvien{
     padding: 20px;
+    padding-bottom: 90px;
     margin-bottom: 90px;
-    background-color: #0f2027;
+    background-color: rgb(201, 252, 255);
     height: 350px;
+    border-radius: 60px;
 }
 #btn_duyet{
-    color: #66fcf1;
+    color: #e8fffd;
     font-size: 100%;
     padding: 8px;
     border:solid 1px #060259;
@@ -1311,12 +1375,12 @@ main{
     background-color: #040c2a;
 }
 #btn_duyet:hover{
-    background-color: black;
+    background-color: rgb(8, 42, 165);
     border-radius: 8px;
     color: white;
 }
 #btn_baocao{
-    color: #66fcf1;
+    color: #e8fffd;
     font-size: 100%;
     padding: 8px;
     border:solid 1px #060259;
@@ -1328,12 +1392,12 @@ main{
     background-color: #040c2a;
 }
 #btn_baocao:hover{
-    background-color: black;
+    background-color:rgb(8, 42, 165);
     border-radius: 8px;
     color: white;
 }
 #btn_dieukhoan{
-    color: #66fcf1;
+    color: #e8fffd;
     font-size: 100%;
     padding: 8px;
     border:solid 1px #060259;
@@ -1345,11 +1409,10 @@ main{
     background-color: #040c2a;
 }
 #btn_dieukhoan:hover{
-    background-color: black;
+    background-color: rgb(8, 42, 165);
     border-radius: 8px;
     color: white;
 }
-
 
 
 

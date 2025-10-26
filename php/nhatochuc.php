@@ -55,7 +55,7 @@ if (isset($_COOKIE['email'])) {
     <!-- <link rel="icon" href="img/icon.jpg" title="logo" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-   <link rel="stylesheet" href="webstyle.css"/> 
+   <link rel="stylesheet" href="../css/webstyle.css"/> 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -101,21 +101,32 @@ if (isset($_COOKIE['email'])) {
     </header>
 
     <main>
-    <article class="nhatochuc">
-        <h3>Chào mừng Nhà tổ chức đến với Vibe4</h3>
-        <p class="chaomung">
-            Vibe4 là nền tảng giúp bạn tạo, quản lý và bán vé sự kiện một cách dễ dàng.
-            Từ hội thảo, hòa nhạc đến các buổi gặp gỡ, chúng tôi mang đến công cụ mạnh mẽ
-            để bạn kết nối khán giả, tăng doanh thu và lan tỏa thương hiệu của mình.
-        </p>
-        <ul>
-            <li><a href="#taosukien" class="cv_nhatochuc">Tạo Sự Kiện Mới</a></li>
-            <li><a href="#quanlysukien" class="cv_nhatochuc">Quản Lý Sự Kiện</a></li>
-            <li><a href="#thongke" class="cv_nhatochuc">Xem Thống Kê Bán Vé</a></li>
-            <li><a href="#thongtin" class="cv_nhatochuc">Cập Nhật Thông Tin Nhà Tổ Chức</a></li>
-        </ul>
-        <p class="chaomung">Sử dụng các công cụ trên để quản lý và theo dõi các sự kiện của bạn một cách hiệu quả.</p>
-
+    <section class="container_nhatochuc">
+        <article class="thanh_doc_ntc box">       
+            <h2 class="congcu_ntc">Công cụ dành cho Nhà Tổ Chức</h2>
+        
+                <a href="#taosukien" class="cv_nhatochuc">Tạo Sự Kiện Mới</a>
+                <a href="#quanlysukien" class="cv_nhatochuc">Quản Lý Sự Kiện</a>
+                <a href="#thongke" class="cv_nhatochuc">Xem Thống Kê Bán Vé</a>
+                <a href="#thongtin" class="cv_nhatochuc">Cập Nhật Thông Tin Nhà Tổ Chức</a></li>
+                <div >
+                    <div class="logout box_1">
+                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> 
+                        </a>
+                    </div>           
+                </div>
+            <p class="chaomung_1">Sử dụng các công cụ trên để quản lý và theo dõi các sự kiện của bạn một cách hiệu quả.</p>
+        </article>
+        <article class="nhatochuc box">
+            <h2>Chào mừng Nhà tổ chức đến với Vibe4</h2>
+            <p class="chaomung">
+                Vibe4 là nền tảng giúp bạn tạo, quản lý và bán vé sự kiện một cách dễ dàng.
+                Từ hội thảo, hòa nhạc đến các buổi gặp gỡ, chúng tôi mang đến công cụ mạnh mẽ
+                để bạn kết nối khán giả, tăng doanh thu và lan tỏa thương hiệu của mình.
+            </p>
+        </article>
+    </section>
 
        
     </main>
