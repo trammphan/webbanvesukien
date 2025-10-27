@@ -11,7 +11,7 @@ if (!isset($_COOKIE["email"])) {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "qlkhachhang";
+$dbname = "qlysukien";
 
 // Kết nối CSDL
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -67,7 +67,8 @@ $conn->close();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng ký</title>
+    <link href="../img/fav-icon.png" rel="icon" type="image/vnd.microsoft.icon">
+    <title>Sửa thông tin</title>
     <!-- <link rel="icon" href="img/icon.jpg" title="logo" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -142,17 +143,18 @@ $conn->close();
           </div>
 
         <div class="container_1">
-                    <div class="logout" class="box_1">
+                    <div class="logout box_1">
                         <a href="nguoidung.php" class="w3-bar-item w3-button w3-padding" id="logout">
                             <i class="fa-solid fa-right-from-bracket"></i> 
                         </a>
                     </div>
-                    <div class="box_2" class="update_info" >
-                    <button  type="submit" id="change">
-                      <i class="fa-solid fa-user-check" ></i>
-                    </button>
-              </div>
+                    <div class="box_1 update_info" >
+                        <button  type="submit" id="change">
+                            <i class="fa-solid fa-user-check" ></i>
+                        </button>
+                    </div>
         </div>
+        
           </form>
 
         <?php if ($msg != "") echo "<p class='w3-text-red w3-margin-top'><b>$msg</b></p>"; ?>

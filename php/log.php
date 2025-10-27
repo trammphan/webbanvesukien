@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "qlkhachhang";
+$dbname = "qlysukien";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
      switch ($user['table']) {
             case 'khachhang':
-                header("Location: trangchu.html");
+                header("Location: index.php");
                 break;
             case 'quantrivien':
                 header("Location: admin.php");
