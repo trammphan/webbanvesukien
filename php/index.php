@@ -1,6 +1,7 @@
 <?php
 include 'db_connect.php';
 
+// Định nghĩa CSS riêng cho trang index
 $additional_css = ['index.css']; 
 
 function getMinPrice($conn, $MaSK) {
@@ -30,22 +31,21 @@ function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_fun
                     $min_price = getMinPrice($conn, $event['MaSK']);
                     
                     $date_obj = isset($event['Tgian']) ? new DateTime($event['Tgian']) : null;
-                    $formatted_date = $date_obj ? $date_obj->format('d/m/Y') : 'Không rõ'; 
-                    $tag = $tag_logic_func($event);
+                    $formatted_date_time = $date_obj ? $date_obj->format('H:i d/m/Y') : 'Không rõ';                    $tag = $tag_logic_func($event);
                     ?>
                     <div class="event-card">
-                        <a href="chitietsk.php?mask=<?php echo $event['MaSK']; ?>" data-mask="<?php echo $event['MaSK']; ?>" onclick="trackEvent(this)">
+                        <a href="chitietsk.php?mask=<?php echo $event['MaSK']; ?>">
                             <div class="card-image-wrapper">
                                 <img src="<?php echo $event['img_sukien']; ?>" alt="<?php echo htmlspecialchars($event['TenSK']); ?>" class="card-image"> 
                                 <span class="event-tag special-tag"><?php echo $tag; ?></span>
                             </div>
                             <div class="card-info">
                                 <h3 class="event-name"><?php echo htmlspecialchars($event['TenSK']); ?></h3>
-                                <p class="event-date"><?php echo $formatted_date; ?></p>
+                                <p class="event-date">Từ <?php echo $formatted_date_time; ?></p>
                                 <p class="event-price">
                                     <?php echo !empty($min_price) ? 'Từ' : ''; ?> 
                                     <span class="price-value"><?php echo $min_price; ?></span> 
-                                    <?php echo !empty($min_price) ? 'đ' : ''; ?>
+                                    <?php echo !empty($min_price) ? 'VND' : ''; ?>
                                 </p>
                             </div>
                         </a>
@@ -80,18 +80,20 @@ if (isset($_GET['q']) && !empty(trim($_GET['q']))) {
             OR dd.TenTinh LIKE '%$safe_search_query%'
         ORDER BY 
             s.Tgian ASC
-        LIMIT 20;
+        LIMIT 22;
     ";
     
     $search_query = $raw_query;
 }
 
 require_once 'header.php'; 
+
+if (empty($search_query)) {
 ?>
     <nav class="category-bar">
         <div class="category-container">
             <ul class="category-list">
-                <li><a href="sukien.php?loai_sukien=LSK03" class="category-item active">Concert🔥</a></li>
+                <li><a href="sukien.php?loai_sukien=LSK03" class="category-item">Concert🔥</a></li>
                 <li><a href="sukien.php?loai_sukien=LSK02" class="category-item">Festival</a></li>
                 <li><a href="sukien.php?loai_sukien=LSK01" class="category-item">Liveshow</a></li>
             </ul>
@@ -102,13 +104,16 @@ require_once 'header.php';
         <div class="banner-logo">
             <span class="banner-logo-text">Vibe4</span>
         </div>
-
+    
         <h1 class="banner-title">Khám Phá Thế Giới Sự Kiện Tuyệt Vời</h1>
         <p class="banner-subtitle">Mua vé hòa nhạc, concert và các lễ hội âm nhạc một cách dễ dàng và nhanh chóng.</p>
         <div class="banner-actions">    
             <a href="#sukien-gan-day" class="btn-banner">Khám phá ngay</a>
         </div>
     </section>
+<?php
+}
+?>
         
         <?php
         $tag_default = function($event) {
@@ -121,35 +126,40 @@ require_once 'header.php';
         };
 
         if (!empty($search_query)) {
-            $tag_search = function($event) { return 'Tìm kiếm'; };
-            renderEventCards($conn, $sql_search, "Kết quả tìm kiếm cho: \"$search_query\"", 'fas fa-search', $tag_search);
-
-            // Tạo mảng ID để truyền sang JS
-            $result_tracking = $conn->query($sql_search);
-            $ids = [];
-            if ($result_tracking && $result_tracking->num_rows > 0) {
-                while($row = $result_tracking->fetch_assoc()) {
-                    $ids[] = $row['MaSK'];
+            $tag_search = function($event) { 
+                if ($event['MaLSK'] == 'LSK03') {
+                    return 'Concert🔥';
+                } elseif ($event['MaLSK'] == 'LSK02') {
+                    return 'Festival';
                 }
-            }
-            $search_ids_json = json_encode($ids);
-        } 
-        else {
+                return 'Liveshow';
+            };
+            renderEventCards($conn, $sql_search, "Kết quả tìm kiếm cho: \"$search_query\"", 'fas fa-search', $tag_search, 'search-results-top');
+
+        } else {
             
-            $sql_special = "SELECT MaSK, TenSK, Tgian, img_sukien, MaLSK FROM sukien WHERE Tgian >= CURDATE() ORDER BY Tgian ASC LIMIT 8";
+            $sql_special = "SELECT MaSK, TenSK, Tgian, img_sukien, MaLSK 
+                            FROM sukien 
+                            WHERE Tgian >= CURDATE() 
+                            ORDER BY Tgian 
+                            ASC LIMIT 8";
             renderEventCards($conn, $sql_special, 'Sự kiện Gần đây', 'fas fa-star', $tag_default, 'sukien-gan-day'); 
 
-            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, MIN(sl.GiaVe) AS MinPrice, (s.luot_timkiem + s.luot_truycap) AS total
+            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, MAX(sl.GiaVe) AS MaxPrice
                             FROM sukien s
                             JOIN sukien_loaive sl ON s.MaSK = sl.MaSK
                             GROUP BY s.MaSK
-                            ORDER BY total DESC
+                            ORDER BY MaxPrice DESC
                             LIMIT 8";
 
             $tag_trending = function($event) { return 'HOT 👑'; };
             renderEventCards($conn, $sql_trending, 'Sự kiện Xu hướng', 'fas fa-fire', $tag_trending);
 
-            $sql_foryou = "SELECT MaSK, TenSK, Tgian, img_sukien, MaLSK FROM sukien WHERE Tgian >= CURDATE() ORDER BY RAND() LIMIT 8";
+            $sql_foryou = "SELECT MaSK, TenSK, Tgian, img_sukien, MaLSK 
+                            FROM sukien 
+                            WHERE Tgian >= CURDATE() 
+                            ORDER BY RAND() 
+                            LIMIT 8";
 
             $tag_foryou = function($event) { return 'Gợi ý'; };
 
@@ -160,7 +170,5 @@ require_once 'header.php';
         ?>
 
 <?php
-require_once 'footer.php'; 
+    require_once 'footer.php'; 
 ?>
-
-<script src="../js/index.js"></script>

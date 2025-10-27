@@ -18,6 +18,10 @@ button{
     text-decoration: none;
 }
 
+#search-results-top {
+    padding-top: 100px;
+}
+
 /* CATEGORY BAR STYLES */
 .category-bar {
     width: 100%;
@@ -68,12 +72,6 @@ button{
 .category-item:hover {
     color: #fff;
     border-bottom: 3px solid #00e0ff;
-}
-
-.category-item.active {
-    color: #00e0ff;
-    border-bottom: 3px solid #00e0ff;
-    font-weight: 600;
 }
 
 /* BANNER SECTION STYLES */
