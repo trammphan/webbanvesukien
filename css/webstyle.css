@@ -1,6 +1,6 @@
 .color {
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
-  color:(#071024e6, #060259)
+  color:(#071024e6, #060259);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -300,6 +300,7 @@ h3{
 .update_info{
   text-align: center;
   margin-top: 20px;
+  
 }
 #update{
   background-color: #290352;
@@ -346,6 +347,14 @@ h3{
   text-align: center;
   border-radius: 8px;
 }
+.box_2 {
+  color: white;
+  padding: 5px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+
 
 .sua_thongtin{
     padding: 20px;
@@ -354,7 +363,8 @@ h3{
     margin: 90px auto;
     border: solid 2.5px;
     background-color: white;
-    color: #66fcf1;
+    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
+
 }
 
 #confirm_pass
@@ -363,7 +373,7 @@ h3{
   background-color: transparent;
   border: none;
   max-width: 400px;
-  color: #66fcf1;
+  color: #060259;
 }
 #old_pass
 {
@@ -371,7 +381,7 @@ h3{
   background-color: transparent;
   border: none;
   max-width: 400px;
-  color: #66fcf1;
+  color: #060259;
 }
 #new_pass
 {
@@ -379,7 +389,7 @@ h3{
   background-color: transparent;
   border: none;
   max-width: 400px;
-  color: #66fcf1;
+  color: #060259;
 }
 
 .dang_nhap{
@@ -433,7 +443,11 @@ h3{
   transition-timing-function: ease;
   cursor: pointer;
 
+  height: fit-content;
+  flex-wrap: nowrap;
 
+    transition-duration: 0.31s;
+    transition-timing-function: ease;
 
 }
 #change:hover{
@@ -443,20 +457,7 @@ h3{
  
 }
 
-.box_2 {
-  flex: 1;         
-  padding: 5px 0px;
-  text-align: center;
-  margin: 3px;
-  padding: 5px;
-}
 
-
-.container_2 {
-  display: flex;           
-  justify-content: center; 
-  gap: 10px;              
-}
 
 
 
@@ -769,7 +770,6 @@ body, html {
         gap: 20px;
         overflow-x: auto;
         padding-bottom: 20px;
-        -ms-overflow-style: none;
         scrollbar-width: none;
     }
 

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng ký</title>
+    <link href="../img/fav-icon.png" rel="icon" type="image/vnd.microsoft.icon">
+    <title>Đăng nhập</title>
     <!-- <link rel="icon" href="img/icon.jpg" title="logo" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -23,7 +24,7 @@
      <header class="main-header">
         <div class="header-container">
             <div class="header-logo">
-                <a href="trangchu.html" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
+                <a href="index.php" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
             </div>
 
             <div class="header-search">
