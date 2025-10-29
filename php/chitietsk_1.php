@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Chi tiết sự kiện</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="../css/header.css">
         <link rel="stylesheet" href="../css/footer.css">
         <link rel="stylesheet" href="../css/chitietsk_1.css">
@@ -81,7 +81,7 @@
                             <h2><?=htmlspecialchars($row['TenTinh'])?></h2>
                         </div>
 
-                        <div class="seat">
+                        <div class="price">
                             <span>Giá vé</span>
                             <h2><?=number_format($row_1['Gia'], 0, ',', '.')?>VND++</h2>
                         </div>
