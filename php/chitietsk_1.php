@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Chi tiết sự kiện</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-        <link rel="stylesheet" href="../css/index.css">
+        <link rel="stylesheet" href="../css/header.css">
+        <link rel="stylesheet" href="../css/footer.css">
         <link rel="stylesheet" href="../css/chitietsk_1.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
         <!--Link tham khảo: https://codepen.io/verpixelt/pen/AXBdKy-->
@@ -16,12 +17,12 @@
         <header class="main-header">
             <div class="header-container">
                 <div class="header-logo">
-                    <a href="#" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
+                    <a href="index.php" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
                 </div>
 
                 <div class="header-search">
-                    <form action="/search" method="get">
-                        <input type="text" placeholder="Tìm kiếm sự kiện, địa điểm..." name="q" class="search-input">
+                    <form action="index.php" method="get"> 
+                        <input type="text" placeholder="Tìm kiếm sự kiện, địa điểm..." name="q" class="search-input" value="<?php echo htmlspecialchars($search_query ?? ''); ?>">
                         <button type="submit" class="search-button">
                             <i class="fas fa-search"></i>
                         </button>
@@ -36,9 +37,9 @@
                         </ul>
                     </nav>
 
-                    <div class="header-actions">
-                        <a href="#signin" class="btn-signin">Đăng nhập</a>
-                        <button class="btn-signup">Đăng ký</button>
+                <?php 
+                    include __DIR__ . '/../php/header_actions.php'; 
+                ?>
                     </div>
                 </div>
             </div>
@@ -54,11 +55,11 @@
                                     WHERE s.MaSK = '$maSK'");
             $row = $result->fetch_assoc();
             
-            $ve_result = $conn->query("SELECT v.TenLV, v.MoTa, sl.GiaVe
-                                    FROM sukien_loaive sl 
-                                    JOIN loaive v ON sl.MaLoaiVe = v.MLV
-                                    WHERE sl.MaSK = '$maSK'
-                                    ORDER BY sl.GiaVe DESC");
+            $ve_result = $conn->query("SELECT TenLoai, Gia
+                                    FROM loaive
+                                    WHERE MaSK = '$maSK'
+                                    ORDER BY Gia DESC");
+            $row_1 = $ve_result->fetch_assoc();
             } 
             else {
                 echo "<p>Không tìm thấy sự kiện.</p>";
@@ -82,12 +83,12 @@
 
                         <div class="seat">
                             <span>Giá vé</span>
-                            <h2><?=number_format($row['Gia'], 0, ',', '.')?>VND++</h2>
+                            <h2><?=number_format($row_1['Gia'], 0, ',', '.')?>VND++</h2>
                         </div>
 
                         <div class="time">
                             <span>Thời gian</span>
-                            <h2><?=date("d/m/Y", strtotime($row['Tgian']))?></h2>
+                            <h2><?= "Từ: " . (new DateTime($row['Tgian']))->format('H:i, d/m/Y') ?></h2>
                         </div>
                     </div>
 
@@ -114,9 +115,8 @@
                 <?php
                     while ($ve_row = $ve_result->fetch_assoc()) {
                         echo '<div class="loaiVeItem">
-                                <h3 class="tenLoaiVe">'.htmlspecialchars($ve_row['TenLV']).'</h3>
-                                <p class="moTaVe">'.htmlspecialchars($ve_row['MoTa']).'</p>
-                                <p class="giaVe">Giá vé: <strong>'.number_format($ve_row['GiaVe'], 0, ',', '.').' VND</strong></p>
+                                <h3 class="tenLoaiVe">'.htmlspecialchars($ve_row['TenLoai']).'</h3>
+                                <p class="giaVe">Giá vé: <strong>'.number_format($ve_row['Gia'], 0, ',', '.').' VND</strong></p>
                             </div>';    
                     }
                 ?>
@@ -128,7 +128,7 @@
                 
                 <div class="footer-col footer-branding">
                     <h3 class="footer-logo">Vibe4</h3>
-                    <p>Nền tảng mua vé sự kiện đa dạng: hòa nhạc, hội thảo, thể thao, phim, kịch và voucher uy tín tại Việt Nam.</p>
+                    <p>Vibe4 – Nền tảng mua vé sự kiện đa dạng: liveshow, festival, concert và các hoạt động giải trí uy tín tại Việt Nam, lựa chọn hàng đầu cho những ai yêu thích văn hóa và giải trí.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-dribbble"></i></a>

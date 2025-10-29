@@ -11,8 +11,8 @@
         $conditions[] = "MaLSK = '" . $conn->real_escape_string($_GET['loai_sukien']) . "'";
     }
 
-    $sql = "SELECT s.MaSK, s.TenSK, s.img_sukien, s.Tgian, MIN(sl.GiaVe) AS GiaThapNhat
-            FROM sukien s JOIN sukien_loaive sl ON s.MaSK = sl.MaSK";
+    $sql = "SELECT s.MaSK, s.TenSK, s.img_sukien, s.Tgian, MIN(lv.Gia) AS GiaThapNhat
+            FROM sukien s JOIN loaive lv ON s.MaSK = lv.MaSK";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -80,16 +80,18 @@
             <div id="event-list" class="grid-container">
                 <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="event-card">
-                    <div class="card-image-wrapper">
-                        <img src="<?= $row['img_sukien'] ?>" alt="<?= $row['TenSK'] ?>" class="card-image" />
-                        <span class="event-tag">Mua vé ngay</span>
-                    </div>
-                    <div class="card-info">
-                        <h3 class="event-name"><?= $row['TenSK'] ?></h3>
-                        <p class="event-date"><strong>Thời gian</strong> <?= $row['Tgian'] ?></p>
-                        <p class="event-price"><strong>Từ</strong> <span class="price-value"><?= number_format($row['GiaThapNhat']) ?></span> VND</p>
-                        <a href="../php/chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= $row['MaSK'] ?>" onclick="trackEvent(this)">Xem chi tiết</a>
-                    </div>
+                    <a href="chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= htmlspecialchars($row['MaSK']) ?>" onclick="trackEvent(this)">
+                        <div class="card-image-wrapper">
+                            <img src="<?= htmlspecialchars($row['img_sukien']) ?>" alt="<?= htmlspecialchars($row['TenSK']) ?>" class="card-image" />
+                            <span class="event-tag">Mua vé ngay</span>
+                        </div>
+
+                        <div class="card-info">
+                            <h3 class="event-name"><?= htmlspecialchars($row['TenSK']) ?></h3>
+                            <p class="event-date"><?= "Từ: " . (new DateTime($row['Tgian']))->format('H:i, d/m/Y') ?></p>
+                            <p class="event-price"><span class="price-value"><?= number_format($row['GiaThapNhat']) ?></span> VND++</p>
+                        </div>
+                    </a>
                 </div>
                 <?php endwhile; ?>
             </div>
