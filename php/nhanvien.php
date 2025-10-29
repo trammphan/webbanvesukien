@@ -106,12 +106,7 @@ if ($user_email) {
                     </ul>
                 </nav>
 
-                <div class="header-actions">
-                    <a href="dangnhap.php" class="btn-signin">Đăng nhập</a>
-                    <a href="dangky.php" class="btn-signin">Đăng ký</a>
-                    <a href="nguoidung.php" class="btn-signin">
-                        <i class="fas fa-user-circle"></i></a>
-                </div>
+                <?php include __DIR__ . '/header_actions.php'; ?>
             </div>
         </div>
     </header>

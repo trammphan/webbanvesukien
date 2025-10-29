@@ -1,5 +1,7 @@
 <?php
     include 'connect_1.php';
+    // Dùng lại style của trang chủ cho thẻ sự kiện
+    $additional_css = ['index.css', 'sukien.css'];
 
     $conditions = [];
     if (!empty($_GET['diadiem'])) {
@@ -34,38 +36,9 @@
     
     <body class="event" class="page-wrapper">
         <!-- Header -->
-        <header class="main-header">
-            <div class="header-container">
-                <div class="header-logo">
-                    <a href="index.php" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
-                </div>
-
-                <div class="header-search">
-                    <form action="index.php" method="get"> 
-                        <input type="text" placeholder="Tìm kiếm sự kiện, địa điểm..." name="q" class="search-input" value="<?php echo htmlspecialchars($search_query ?? ''); ?>">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-                
-                <div class="header-right">
-                    <nav class="header-nav">
-                        <ul>
-                            <li><a href="#taosukien">Tạo sự kiện</a></li>
-                            <li><a href="#vecuatoi">Vé của tôi</a></li>
-                        </ul>
-                    </nav>
-
-                <div class="header-actions">
-                    <a href="dangnhap.php" class="btn-signin">Đăng nhập</a> 
-                    <a href="dangky.php" class="btn-signup">Đăng ký</a> 
-                </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
+            <?php
+                require_once 'header.php'; 
+            ?>
         <main>
             <!-- Bộ lọc -->
             <form id="event-filter" class="filter-box">
@@ -107,70 +80,25 @@
             <div id="event-list" class="grid-container">
                 <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="event-card">
-                    <img src="<?= $row['img_sukien'] ?>" alt="<?= $row['TenSK'] ?>" />
-                    <h3><?= $row['TenSK'] ?></h3>
-                    <p><strong>Từ:</strong> <?= number_format($row['GiaThapNhat']) ?> VND</p>
-                    <p><strong>Thời gian:</strong> <?= $row['Tgian'] ?></p>
-                    <a href="../php/chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= $row['MaSK'] ?>" onclick="trackEvent(this)">Xem chi tiết</a>
+                    <div class="card-image-wrapper">
+                        <img src="<?= $row['img_sukien'] ?>" alt="<?= $row['TenSK'] ?>" class="card-image" />
+                        <span class="event-tag">Mua vé ngay</span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="event-name"><?= $row['TenSK'] ?></h3>
+                        <p class="event-date"><strong>Thời gian</strong> <?= $row['Tgian'] ?></p>
+                        <p class="event-price"><strong>Từ</strong> <span class="price-value"><?= number_format($row['GiaThapNhat']) ?></span> VND</p>
+                        <a href="../php/chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= $row['MaSK'] ?>" onclick="trackEvent(this)">Xem chi tiết</a>
+                    </div>
                 </div>
                 <?php endwhile; ?>
             </div>
         </main>
 
         <footer>
-            <div class="footer-container">
-                
-                <div class="footer-col footer-branding">
-                    <h3 class="footer-logo">Vibe4</h3>
-                    <p>Vibe4 – Nền tảng mua vé sự kiện đa dạng: liveshow, festival, concert và các hoạt động giải trí uy tín tại Việt Nam, lựa chọn hàng đầu cho những ai yêu thích văn hóa và giải trí.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-dribbble"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Liên kết Hữu ích</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home">Trang chủ</a></li>
-                        <li><a href="#taosukien">Tạo sự kiện</a></li>
-                        <li><a href="#vecuatoi">Vé của tôi</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                        <li><a href="#contact">Liên hệ</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Liên hệ</h4>
-                    <ul class="footer-contact">
-                        <li>
-                            <i class="fas fa-phone-alt"></i>
-                            <span>+123 456 789</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>support@vibe4.com</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Khu II Đại học Cần Thơ, Đường 3/2, P Ninh Kiều, TP Cần Thơ</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="footer-col footer-action">
-                    <h4 class="action-title">Tham gia cùng chúng tôi</h4>
-                    <button class="btn-download">Tải ứng dụng ngay</button>
-                </div>
-
-            </div>
-            
-            <div class="footer-bottom">
-                <p>@2025 - All Rights Reserved by Vibe4 Platform • Phát triển bởi Nhóm 1-CT299-Phát Triển Hệ Thống Web</p>
-            </div>
-        
+            <?php
+                require_once 'footer.php'; 
+            ?>
         </footer>
 
         <script src="../js/sukien.js"></script>

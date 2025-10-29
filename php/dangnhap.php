@@ -45,10 +45,12 @@
                 </nav>
 
                 <div class="header-actions">
-                    <a href="dangnhap.php" class="btn-signin">Đăng nhập</a>
-                    <a href="dangky.php" class="btn-signin">Đăng ký</a>
-                    <a href="nguoidung.php" class="btn-signin">
-                        <i class="fas fa-user-circle"></i></a>
+                    <?php if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])): ?>
+                        <a href="nguoidung.php" class="btn-signin"><i class="fas fa-user-circle"></i></a>
+                    <?php else: ?>
+                        <a href="dangnhap.php" class="btn-signin">Đăng nhập</a>
+                        <a href="dangky.php" class="btn-signin">Đăng ký</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

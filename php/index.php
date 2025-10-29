@@ -31,7 +31,8 @@ function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_fun
                     $min_price = getMinPrice($conn, $event['MaSK']);
                     
                     $date_obj = isset($event['Tgian']) ? new DateTime($event['Tgian']) : null;
-                    $formatted_date_time = $date_obj ? $date_obj->format('H:i d/m/Y') : 'Không rõ';                    $tag = $tag_logic_func($event);
+                    $formatted_date_time = $date_obj ? $date_obj->format('H:i d/m/Y') : 'Không rõ';                    
+                    $tag = $tag_logic_func($event);
                     ?>
                     <div class="event-card">
                         <a href="chitietsk.php?mask=<?php echo $event['MaSK']; ?>">

@@ -40,14 +40,12 @@
                     </ul>
                 </nav>
 
-            <div class="header-actions">
-                <a href="dangnhap.php" class="btn-signin">Đăng nhập</a> 
-                <a href="dangky.php" class="btn-signup">Đăng ký</a> 
-            </div>
+            <?php 
+                include __DIR__ . '/../php/header_actions.php'; 
+            ?>
                 </div>
             </div>
         </div>
     </header>
     
     <main>
-
