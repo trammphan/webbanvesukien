@@ -2,7 +2,6 @@
 
 /* --- CÀI ĐẶT CHUNG --- */
 body {
-  /* THAY ĐỔI: Nền đen tuyền giống ảnh SEATING MAP */
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
   min-height: 100vh;
   background-attachment: fixed;
@@ -39,12 +38,6 @@ body {
   text-align: left;
 }
 
-.seat-map-container h3 {
-  font-size: 1.5em;
-  color: #f0f0f0;
-  margin-top: 0;
-}
-
 .seat-map-container p {
   color: #ccc;
   margin-bottom: 25px;
@@ -67,16 +60,9 @@ body {
   text-align: center;
   flex-grow: 1;
   flex-basis: 150px;
-  /* THAY ĐỔI: Chuyển màu mặc định sang tối hơn */
   background-color: #222;
   border: 2px solid #444;
   color: #999;
-}
-
-/* Nút STAGE và FOH (nút thông tin) */
-#stage,
-#foh {
-  flex-basis: 200px;
 }
 
 /* Các nút vé có thể nhấp */
@@ -92,45 +78,6 @@ body {
   border-color: #ffffff;
 }
 
-/* === PHẦN CSS MÀU SẮC MỚI === */
-/* Gán màu cho từng loại vé dựa trên ID (MLV) */
-/* Màu giống SEATING MAP */
-
-/* LV01 (Vé Standing) -> GA (Cyan) */
-#LV01 {
-  background-color: #00b8d4;
-  border-color: #00b8d4;
-}
-
-/* LV02 (Vé VIP) -> VIP (Pink) */
-#LV02 {
-  background-color: #e6007a;
-  border-color: #e6007a;
-}
-
-/* LV03 (Vé thường) -> CAT (Yellow) */
-#LV03 {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #000; /* Chữ đen cho dễ đọc trên nền vàng */
-}
-
-/* LV04 (Vé Early Bird) -> CAT 3A/3B (Orange/Gold) */
-#LV04 {
-  background-color: #f57c00;
-  border-color: #f57c00;
-}
-
-/* LV05 (Vé Combo) -> PREMIUM (Purple) */
-#LV05 {
-  background-color: #7b1fa2;
-  border-color: #7b1fa2;
-}
-
-/* --- TRẠNG THÁI ĐÃ CHỌN --- */
-/* THAY ĐỔI: Dùng viền trắng sáng và glow để biểu thị "selected"
-   Vì nền đã có màu, không thể dùng màu nền cyan nữa.
-*/
 .seat-zone.selected {
   border: 3px solid #ffffff;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
@@ -289,6 +236,7 @@ body {
   background-color: #00c4e0;
 }
 /* --- CSS CHO KHUNG MÔ TẢ --- */
+/*dùng cho js*/
 #ticket-description-container {
   display: none; /* Ẩn theo mặc định */
   background-color: #071024e6; /* Nền tối giống khung tính toán */
@@ -310,4 +258,127 @@ body {
   font-size: 0.9em;
   line-height: 1.6;
 }
+
+#LV01,
+#LV06,
+#LV11,
+#LV16,
+#LV21,
+#LV26,
+#LV31,
+#LV36,
+#LV41,
+#LV46,
+#LV51,
+#LV56,
+#LV61,
+#LV66,
+#LV71,
+#LV76,
+#LV81,
+#LV86,
+#LV91,
+#LV96 {
+  background-color: #00b8d4; /* Cyan */
+  border-color: #00b8d4;
+}
+
+/* Nhóm 2 (Lặp lại màu Pink của LV02) */
+#LV02,
+#LV07,
+#LV12,
+#LV17,
+#LV22,
+#LV27,
+#LV32,
+#LV37,
+#LV42,
+#LV47,
+#LV52,
+#LV57,
+#LV62,
+#LV67,
+#LV72,
+#LV77,
+#LV82,
+#LV87,
+#LV92,
+#LV97 {
+  background-color: #e6007a; /* Pink */
+  border-color: #e6007a;
+}
+
+/* Nhóm 3 (Lặp lại màu Yellow của LV03) */
+#LV03,
+#LV08,
+#LV13,
+#LV18,
+#LV23,
+#LV28,
+#LV33,
+#LV38,
+#LV43,
+#LV48,
+#LV53,
+#LV58,
+#LV63,
+#LV68,
+#LV73,
+#LV78,
+#LV83,
+#LV88,
+#LV93 {
+  background-color: #ffc107; /* Yellow */
+  border-color: #ffc107;
+  color: #000;
+}
+
+/* Nhóm 4 (Lặp lại màu Orange của LV04) */
+#LV04,
+#LV09,
+#LV14,
+#LV19,
+#LV24,
+#LV29,
+#LV34,
+#LV39,
+#LV44,
+#LV49,
+#LV54,
+#LV59,
+#LV64,
+#LV69,
+#LV74,
+#LV79,
+#LV84,
+#LV89,
+#LV94 {
+  background-color: #f57c00; /* Orange */
+  border-color: #f57c00;
+}
+
+/* Nhóm 5 (Lặp lại màu Purple của LV05) */
+#LV05,
+#LV10,
+#LV15,
+#LV20,
+#LV25,
+#LV30,
+#LV35,
+#LV40,
+#LV45,
+#LV50,
+#LV55,
+#LV60,
+#LV65,
+#LV70,
+#LV75,
+#LV80,
+#LV85,
+#LV90,
+#LV95 {
+  background-color: #7b1fa2; /* Purple */
+  border-color: #7b1fa2;
+}
+
 /* --- KẾT THÚC FILE seatmap.css --- */

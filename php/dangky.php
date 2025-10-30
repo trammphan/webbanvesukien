@@ -1,4 +1,17 @@
+<?php
+// *** BẮT ĐẦU THAY ĐỔI ***
+// Lấy URL redirect từ tham số GET, nếu có (giống hệt file dangnhap.php)
+$redirect_url_hidden = ''; // Dùng cho input hidden
+$redirect_url_href = '';   // Dùng cho href links
 
+if (isset($_GET['redirect'])) {
+    // htmlspecialchars cho giá trị của input
+    $redirect_url_hidden = htmlspecialchars($_GET['redirect']);
+    // urlencode cho tham số trên URL
+    $redirect_url_href = '?redirect=' . urlencode($_GET['redirect']);
+}
+// *** KẾT THÚC THAY ĐỔI ***
+?>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -48,8 +61,11 @@
                 </nav>
 
                 <div class="header-actions">
-                    <a href="dangnhap.php" class="btn-signin">Đăng nhập</a>
+                    <!-- *** BẮT ĐẦU THAY ĐỔI HEADER *** -->
+                    <a href="dangnhap.php<?php echo $redirect_url_href; ?>" class="btn-signin">Đăng nhập</a>
                     <a href="dangky.php" class="btn-signin">Đăng ký</a>
+                    <!-- *** KẾT THÚC THAY ĐỔI HEADER *** -->
+                    
                     <a href="nguoidung.php" class="btn-signin">
                         <i class="fas fa-user-circle"></i></a>
                 </div>
@@ -60,6 +76,10 @@
         <article class="dangky">
         <h2>Đăng Ký</h2>
         <form action="luuthongtin.php" method="post" id="form_dk" autocomplete="off">
+<!-- *** BẮT ĐẦU THAY ĐỔI FORM *** -->
+            <!-- Thêm trường ẩn để chứa URL redirect -->
+            <input type="hidden" name="redirect" value="<?php echo $redirect_url_hidden; ?>">
+            <!-- *** KẾT THÚC THAY ĐỔI FORM *** -->
 
               <div class="thongtin">
               <label for="user_name">
@@ -145,6 +165,12 @@
             <input type="submit" name="submit" value="Đăng Ký" id="submit"/>
         </div>
         </form>
+        <!-- *** BẮT ĐẦU THAY ĐỔI MỚI *** -->
+         <!-- Thêm link chuyển sang trang đăng nhập bên dưới form -->
+         <div class="chuyen_trang" style="text-align: center; margin-top: 15px; color: #333;">
+            <p>Đã có tài khoản? <a href="dangnhap.php<?php echo $redirect_url_href; ?>" style="color: #007bff; text-decoration: none; font-weight: 600;">Đăng nhập ngay</a></p>
+         </div>
+         <!-- *** KẾT THÚC THAY ĐỔI MỚI *** -->
        </article>     
     </main>
 

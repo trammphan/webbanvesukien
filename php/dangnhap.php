@@ -1,3 +1,17 @@
+<?php
+// *** BẮT ĐẦU THAY ĐỔI ***
+// Lấy URL redirect từ tham số GET, nếu có
+$redirect_url_hidden = ''; // Dùng cho input hidden
+$redirect_url_href = '';   // Dùng cho href links
+
+if (isset($_GET['redirect'])) {
+    // htmlspecialchars cho giá trị của input
+    $redirect_url_hidden = htmlspecialchars($_GET['redirect']);
+    // urlencode cho tham số trên URL
+    $redirect_url_href = '?redirect=' . urlencode($_GET['redirect']);
+    // *** KẾT THÚC THAY ĐỔI ***
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -49,8 +63,11 @@
                         <a href="nguoidung.php" class="btn-signin"><i class="fas fa-user-circle"></i></a>
                     <?php else: ?>
                         <a href="dangnhap.php" class="btn-signin">Đăng nhập</a>
-                        <a href="dangky.php" class="btn-signin">Đăng ký</a>
-                    <?php endif; ?>
+                        
+                        <!-- *** THAY ĐỔI LINK ĐĂNG KÝ TRÊN HEADER *** -->
+                        <a href="dangky.php<?php echo $redirect_url_href; ?>" class="btn-signin">Đăng ký</a>
+                        
+                    <?php endif; // <-- LỖI THIẾU Ở ĐÂY, ĐÃ THÊM LẠI ?>
                 </div>
             </div>
         </div>
@@ -61,6 +78,10 @@
         <article class="dangky">
           <h2>ĐĂNG NHẬP</h2>
           <form action="log.php" method="post" autocomplete="off" >
+            <!-- *** BẮT ĐẦU THAY ĐỔI *** -->
+            <!-- Thêm trường ẩn để chứa URL redirect -->
+             <input type="hidden" name="redirect" value="<?php echo $redirect_url_hidden; ?>">
+            <!-- *** KẾT THÚC THAY ĐỔI *** -->
                                              
               <div class="thongtin">
               <label for="email">
@@ -90,6 +111,12 @@
             <input type="submit" name="submit" value="Đăng nhập" id="login"/>
         </div>
           </form>
+ <!-- *** BẮT ĐẦU THAY ĐỔI MỚI *** -->
+         <!-- Thêm link chuyển sang trang đăng ký bên dưới form -->
+         <div class="chuyen_trang" style="text-align: center; margin-top: 15px; color: #333;">
+            <p>Chưa có tài khoản? <a href="dangky.php<?php echo $redirect_url_href; ?>" style="color: #007bff; text-decoration: none; font-weight: 600;">Đăng ký ngay</a></p>
+         </div>
+         <!-- *** KẾT THÚC THAY ĐỔI MỚI *** -->
 
         </article>
     </main>
@@ -154,4 +181,3 @@
 
 </body>
 </html>
-

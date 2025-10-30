@@ -1,10 +1,17 @@
 /* --- Cài đặt chung --- */
 :root {
-  --primary-color: #00e0ff;
-  --secondary-color: #3c00ff;
-  --dark-bg: linear-gradient(135deg, #0f2027, #060259, #290352);
-  --light-bg: #071024e6;
-  --text-color: #ffffff;
+  /* THAY ĐỔI: Đổi màu chủ đạo sang Tím/Tím than */
+  --primary-color: #4f46e5; /* Màu tím đậm cho nút */
+  --light-purple-bg: #eef2ff; /* Nền tím rất nhạt */
+  --dark-column-bg: #071024e6; /* Nền cột trái (tối) */
+  --light-column-bg: #ffffff; /* Nền cột phải (trắng) */
+
+  --dark-bg: linear-gradient(135deg, #0f2027, #060259, #290352); /* Nền trang */
+
+  --text-dark: #1f2937; /* Chữ trên nền sáng */
+  --text-light: #ffffff; /* Chữ trên nền tối */
+  --text-muted-dark: #6b7280; /* Chữ phụ (Họ và tên) */
+  --text-muted-light: #a5b4fc; /* Chữ phụ (Tổng cộng) */
 }
 
 * {
@@ -14,9 +21,9 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   background: var(--dark-bg);
-  color: var(--text-color);
+  color: var(--text-dark); /* THAY ĐỔI: Màu chữ mặc định là tối */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,17 +37,20 @@ body {
 }
 
 .checkout-panel {
-  background-color: var(--light-bg);
+  /* THAY ĐỔI: Xóa nền, để 2 cột tự định nghĩa nền */
+  background-color: transparent;
   border-radius: 15px;
   display: flex;
   overflow: hidden;
   flex-wrap: wrap;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
-/* --- Cột tóm tắt đơn hàng --- */
+/* --- Cột tóm tắt đơn hàng (Bên Trái) --- */
 .order-summary {
-  background-color:#071024e6;
+  /* THAY ĐỔI: Nền tối, chữ sáng */
+  background-color: var(--dark-column-bg);
+  color: var(--text-light);
   padding: 40px;
   width: 40%;
   min-width: 300px;
@@ -48,53 +58,48 @@ body {
 }
 
 .order-summary h2 {
-  color: var(--primary-color);
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  /* THAY ĐỔI: Chữ trắng, viết hoa */
+  color: var(--text-light);
+  font-size: 1.5rem; /* Điều chỉnh kích thước */
+  margin-bottom: 30px;
+  text-transform: uppercase;
 }
 
-.ticket-info,
-.quantity-selector {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #444;
-  padding-bottom: 20px;
+.ticket-info {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #312e74; /* Viền mờ */
+  padding-bottom: 30px;
+  line-height: 1.6;
+  color: var(--text-muted-light); /* Chữ phụ màu sáng */
 }
-
-.quantity-selector {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.quantity-selector input {
-  width: 60px;
-  padding: 5px;
-  text-align: center;
-  background-color: #333;
-  border: 1px solid #555;
-  color: white;
-  border-radius: 5px;
+.ticket-info strong {
+  color: var(--text-light); /* Chữ chính màu trắng */
 }
 
 .total-price {
   margin-top: 30px;
-  text-align: right;
+  text-align: left;
 }
 
 .total-price h3 {
-  font-size: 1rem;
-  color: #aaa;
-  font-weight: normal;
+  font-size: 1rem; /* Chữ "TỔNG CỘNG" nhỏ */
+  color: var(--text-muted-light); /* Chữ phụ màu sáng */
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: uppercase;
 }
 
 .total-price p {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--text-light); /* Số tiền màu trắng */
 }
 
-/* --- Cột form thanh toán --- */
+/* --- Cột form thanh toán (Bên Phải) --- */
 .payment-form {
+  /* THAY ĐỔI: Nền trắng, chữ tối */
+  background-color: var(--light-column-bg);
+  color: var(--text-dark);
   padding: 40px;
   width: 60%;
   min-width: 300px;
@@ -102,8 +107,10 @@ body {
 }
 
 .payment-form h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: var(--primary-color); /* Tiêu đề màu tím */
+  text-transform: uppercase;
 }
 
 .form-group {
@@ -112,53 +119,69 @@ body {
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 400;
-  color: #ccc;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-muted-dark); /* Chữ phụ màu xám */
+  font-size: 0.9rem;
 }
 
+/* THAY ĐỔI: Input nền trắng, viền xám */
 .form-group input {
   width: 100%;
   padding: 12px;
-  background-color: #333;
-  border: 1px solid #555;
-  border-radius: 5px;
-  color: white;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db; /* Viền xám nhạt */
+  border-radius: 8px; /* Bo tròn hơn */
+  color: var(--text-dark);
   font-size: 1rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: "Poppins", Arial, sans-serif;
+}
+.form-group input::placeholder {
+  color: #9ca3af;
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--light-purple-bg); /* Hiệu ứng focus */
 }
 
-.payment-methods {
-  margin: 20px 0;
-}
-
-.payment-methods h3 {
+/* --- Phương thức thanh toán --- */
+.payment-form h3 {
   font-size: 1.2rem;
+  margin-top: 30px;
   margin-bottom: 15px;
+  color: var(--text-dark);
+  border-top: 1px solid #e5e7eb; /* Viền xám */
+  padding-top: 30px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* THAY ĐỔI: Chuyển sang flexbox để các nút tự động co dãn */
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .payment-methods label {
-  display: block;
-  background-color: #333;
+  display: flex; /* Dùng flex để căn icon (nếu có) */
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db; /* Viền xám */
   padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  /* margin-bottom: 10px; */ /* Đã xóa, dùng gap thay thế */
   cursor: pointer;
-  border: 2px solid transparent;
   transition: all 0.2s ease;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  color: var(--text-dark);
+  font-weight: 500;
 }
 
 .payment-methods label:hover {
-  border-color: #777;
+  border-color: var(--primary-color);
 }
 
 /* Ẩn radio button mặc định */
@@ -166,27 +189,97 @@ body {
   display: none;
 }
 
+/* Khi chọn, viền và nền thay đổi */
 .payment-methods input[type="radio"]:checked + label {
   border-color: var(--primary-color);
-  background-color: #2a2a2a;
+  background-color: var(--primary-color); /* THAY ĐỔI: Nền tím đậm */
+  color: var(--text-light); /* THAY ĐỔI: Chữ trắng (sẽ đổi cả màu SVG) */
 }
 
 .submit-button {
   width: 100%;
   padding: 15px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-color); /* Nền tím */
   border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 1.2rem;
+  border-radius: 8px;
+  color: var(--text-light); /* Chữ trắng */
+  font-size: 1.1rem;
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: 20px;
 }
 
 .submit-button:hover {
-  background-color: var(--secondary-color);
+  background-color: #071024e6; /* Tím đậm hơn */
+}
+
+/* --- KHUNG TÍNH TOÁN (SỐ LƯỢNG) --- */
+.ticket-calculator {
+  display: block;
+  background-color: transparent;
+  padding: 0;
+  margin: 30px 0 0 0;
+  width: 100%;
+}
+
+.quantity-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #eee;
+  margin-bottom: 15px;
+}
+.quantity-control label {
+  font-weight: 500;
+  color: var(--text-muted-light);
+  font-size: 1rem;
+}
+
+/* THAY ĐỔI: Ẩn hàng TỔNG nhỏ */
+.tier-total {
+  display: none;
+}
+
+.quantity-buttons {
+  display: flex;
+  align-items: center;
+  /* THAY ĐỔI: Xóa nền tím nhạt, dùng nền cột tối */
+  background-color: transparent;
+  border-radius: 8px;
+  padding: 5px;
+  gap: 10px; /* THAY ĐỔI: Thêm khoảng cách giữa các phần tử */
+}
+
+.quantity-btn {
+  /* THAY ĐỔI: Nút tím, chữ trắng */
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 28px;
+  transition: background-color 0.2s;
+}
+.quantity-btn:hover {
+  background-color: #071024e6;
+}
+
+#quantity-display {
+  /* THAY ĐỔI: Thêm nền trắng và bo góc */
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 5px 20px; /* THAY ĐỔI: Thêm padding dọc */
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  /* THAY ĐỔI: Chữ màu tím trên nền nhạt */
+  color: var(--primary-color);
 }
 
 /* Responsive */
@@ -198,85 +291,7 @@ body {
   .payment-form {
     width: 100%;
   }
-}
-
-/* --- Cột tóm tắt đơn hàng --- */
-.order-summary {
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 40px;
-  width: 40%;
-  min-width: 300px;
-  flex-grow: 1;
-}
-
-.order-summary h2 {
-  color: var(--primary-color);
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-}
-
-.ticket-info,
-.quantity-selector {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #444;
-  padding-bottom: 20px;
-}
-
-.quantity-selector {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px; /* Khoảng cách giữa label và nút */
-}
-
-/* Các lớp mới cho nút tăng/giảm trên trang thanh toán */
-.quantity-buttons-checkout {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.quantity-btn-checkout {
-  background-color: #333;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 8px;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.quantity-btn-checkout:hover {
-  background-color: #555;
-  border-color: #777;
-}
-
-.quantity-btn-checkout.plus-btn-checkout {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-.quantity-btn-checkout.plus-btn-checkout:hover {
-  background-color: var(--secondary-color);
-  border-color: var(--secondary-color);
-}
-
-.quantity-display-checkout {
-  background-color: #222;
-  color: var(--text-color);
-  border-radius: 8px;
-  padding: 5px 10px;
-  min-width: 40px;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 700;
+  .order-summary {
+    border-bottom: 2px solid #071024e6;
+  }
 }

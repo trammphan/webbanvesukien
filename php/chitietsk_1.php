@@ -60,7 +60,12 @@
                                     WHERE MaSK = '$maSK'
                                     ORDER BY Gia DESC");
             $row_1 = $ve_result->fetch_assoc();
-            } 
+
+             if ($ve_result->num_rows > 0) {
+                $ve_result->data_seek(0); 
+            }
+            }
+
             else {
                 echo "<p>Không tìm thấy sự kiện.</p>";
                 exit;
@@ -95,9 +100,24 @@
                     <div class="cardRight" style="background-image: url('<?=htmlspecialchars($row['img_sukien'])?>'); background-size: cover; background-position: center;">
                         <div class= "blurOverlay"></div>
                         
+                                                <!-- *** THAY ĐỔI NÚT MUA VÉ *** -->
                         <div class="button">
-                            <a class="buy" href="ticket_page.php?MaSK=<?=htmlspecialchars($maSK)?>">MUA VÉ</a>
+                            <?php
+                            // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
+                            if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
+                                // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
+                                echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';
+                            } else {
+                                // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
+                                // Lấy URL hiện tại
+                                $current_page_url = $_SERVER['REQUEST_URI'];
+                                // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
+                                $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
+                                echo '<a class="buy" href="' . $login_url . '">MUA VÉ</a>';
+                            }
+                            ?>
                         </div>
+                        <!-- *** KẾT THÚC THAY ĐỔI *** -->
                     </div>
                 </div>
             </div>
