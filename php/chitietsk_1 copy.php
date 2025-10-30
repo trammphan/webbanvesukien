@@ -1,3 +1,37 @@
+<?php
+    include 'connect_1.php';
+    if (isset($_GET['MaSK'])) {
+        $maSK = $_GET['MaSK'];
+
+        $result = $conn->query("SELECT * FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
+                                                        JOIN loaisk l on s.MaLSK = l.MaloaiSK
+                                    WHERE s.MaSK = '$maSK'");
+        
+        // Kiểm tra xem truy vấn có trả về kết quả không
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+        } else {
+            // Trường hợp không tìm thấy sự kiện, hiển thị thông báo và thoát
+            echo "<p>Không tìm thấy sự kiện với Mã sự kiện $maSK.</p>";
+            exit; 
+        }
+
+        $ve_result = $conn->query("SELECT TenLoai, Gia
+                                    FROM loaive
+                                    WHERE MaSK = '$maSK'
+                                    ORDER BY Gia DESC");
+        $row_1 = $ve_result->fetch_assoc();
+
+         if ($ve_result->num_rows > 0) {
+            $ve_result->data_seek(0); 
+        }
+    }
+
+    else {
+        echo "<p>Không tìm thấy sự kiện.</p>";
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -9,7 +43,7 @@
         <link rel="stylesheet" href="../css/footer.css">
         <link rel="stylesheet" href="../css/chitietsk_1.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-        </head>
+    </head>
 
     <body>
         <header class="main-header">
@@ -43,38 +77,6 @@
             </div>
         </header>
 
-        <?php
-            include 'connect_1.php';
-            if (isset($_GET['MaSK'])) {
-                $maSK = $_GET['MaSK'];
-                
-                $result = $conn->query("SELECT * FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
-                                                                JOIN loaisk l on s.MaLSK = l.MaloaiSK
-                                        WHERE s.MaSK = '$maSK'");
-                
-                $row = $result->fetch_assoc();
-                
-                $ve_result = $conn->query("SELECT TenLoai, Gia
-                                        FROM loaive
-                                        WHERE MaSK = '$maSK'
-                                        ORDER BY Gia DESC");
-                
-                // Kiểm tra và xử lý nếu truy vấn loại vé thất bại
-                if ($ve_result === FALSE) {
-                    // Cảnh báo người dùng nhưng vẫn tiếp tục hiển thị thông tin sự kiện cơ bản
-                    $row_1 = ['Gia' => 'Liên hệ']; 
-                } else {
-                    $row_1 = $ve_result->fetch_assoc();
-                    if ($ve_result->num_rows > 0) {
-                        $ve_result->data_seek(0); 
-                    }
-                }
-            }
-            else {
-                echo "<p>Không tìm thấy sự kiện.</p>";
-                exit;
-            }
-        ?>
         <main>
             <div class="cardWrap">
                 <div class= "card">
@@ -91,7 +93,7 @@
 
                         <div class="price">
                             <span>Giá vé</span>
-                            <h2><?=is_numeric($row_1['Gia']) ? number_format($row_1['Gia'], 0, ',', '.') : $row_1['Gia']?>VND++</h2>
+                            <h2><?=number_format($row_1['Gia'], 0, ',', '.')?>VND++</h2>
                         </div>
 
                         <div class="time">
@@ -103,42 +105,34 @@
                     <div class="cardRight" style="background-image: url('<?=htmlspecialchars($row['img_sukien'])?>'); background-size: cover; background-position: center;">
                         <div class= "blurOverlay"></div>
                         
-                                                <div class="button">
+                        <div class="button">
                             <?php
-                            // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
                             if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
-                                // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
+                                $current_page_url = $_SERVER['REQUEST_URI'];
                                 echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';
                             } else {
-                                // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
-                                // Lấy URL hiện tại
                                 $current_page_url = $_SERVER['REQUEST_URI'];
-                                // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
                                 $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
                                 echo '<a class="buy" href="' . $login_url . '">MUA VÉ</a>';
                             }
                             ?>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="mota" >
                 <h2 class= "tieude">Giới thiệu sự kiện</h2>
                 <p class= "noidung"><?=htmlspecialchars($row['mota'])?></p>
-                </div>
+
+            </div>
             <div class="chitietve"> <h2 class="tieude">Các loại vé</h2>
                 <?php
-                    // Đảm bảo $ve_result là đối tượng hợp lệ trước khi lặp
-                    if ($ve_result !== FALSE && $ve_result->num_rows > 0) {
-                        while ($ve_row = $ve_result->fetch_assoc()) {
-                            echo '<div class="loaiVeItem">
-                                    <h3 class="tenLoaiVe">'.htmlspecialchars($ve_row['TenLoai']).'</h3>
-                                    <p class="giaVe">Giá vé: <strong>'.number_format($ve_row['Gia'], 0, ',', '.').' VND</strong></p>
-                                </div>';    
-                        }
-                    } else {
-                        echo "<p>Thông tin loại vé đang được cập nhật.</p>";
+                    while ($ve_row = $ve_result->fetch_assoc()) {
+                        echo '<div class="loaiVeItem">
+                                <h3 class="tenLoaiVe">'.htmlspecialchars($ve_row['TenLoai']).'</h3>
+                                <p class="giaVe">Giá vé: <strong>'.number_format($ve_row['Gia'], 0, ',', '.').' VND</strong></p>
+                            </div>';    
                     }
                 ?>
             </div>

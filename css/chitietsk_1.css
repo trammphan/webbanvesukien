@@ -278,42 +278,60 @@ main {
   .cardWrap {
     border-radius: 8px;
     overflow: hidden;
+    padding: 0 10px; 
+    margin: 50px auto 30px; 
   }
 
   .card {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column; 
+    flex-wrap: nowrap;
     min-height: auto;
     width: 100%;
-    min-width: 320px;
-    padding: 10px;
+    max-width: none;
+    padding: 0;
     border-radius: 8px;
     overflow: hidden;
   }
-
+  
   .cardRight {
+    flex: none;
+    width: 100%; 
+    order: -1; 
+    min-height: 250px; 
     border-left: none;
     border-top: 0.18em dashed #e84c3d;
+    
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end; 
     align-items: center;
-    padding: 1em;
+    padding-bottom: 30px;
     gap: 10px;
   }
 
   .cardLeft {
-    flex: 1;
-    min-width: 150px;
+    flex: none; 
+    width: 100%;
+    min-width: 100%;
+    padding: 20px;
   }
 
-  .cardRight {
-    flex: 2;
-    min-width: 200px;
-  }
-
-  .cardRight:before,
-  .cardRight:after {
+  .cardRight:before {
+    top: -0.45em;
+    bottom: auto; 
     left: 50%;
     transform: translateX(-50%);
   }
+
+  .cardRight:after {
+    bottom: -0.45em;
+    top: auto; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
+    
+  .noidung {
+    padding: 0 20px;
+    text-align: left; 
+  }
+
 }

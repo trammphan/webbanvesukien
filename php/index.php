@@ -1,11 +1,10 @@
 <?php
 include 'db_connect.php';
 
-// Định nghĩa CSS riêng cho trang index
 $additional_css = ['index.css']; 
 
 function getMinPrice($conn, $MaSK) {
-    $sql = "SELECT MIN(Gia) AS MinPrice FROM loaive WHERE MaSK = '$MaSK' ";
+    $sql = "SELECT MIN(GiaVe) AS MinPrice FROM sukien_loaive WHERE MaSK = '$MaSK' ";
     $result = $conn->query($sql);
     
     if ($result && $result->num_rows > 0) {
@@ -31,18 +30,18 @@ function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_fun
                     $min_price = getMinPrice($conn, $event['MaSK']);
                     
                     $date_obj = isset($event['Tgian']) ? new DateTime($event['Tgian']) : null;
-                    $formatted_date_time = $date_obj ? "Từ: " . $date_obj->format('H:i, d/m/Y') : 'Không rõ';                    
+                    $formatted_date_time = $date_obj ? $date_obj->format('H:i d/m/Y') : 'Không rõ';                    
                     $tag = $tag_logic_func($event);
                     ?>
                     <div class="event-card">
-                        <a href="chitietsk_1.php?MaSK=<?php echo urlencode($event['MaSK']) ?>" data-mask="<?= $event['MaSK'] ?>" onclick="trackEvent(this)">
+                        <a href="chitietsk_1.php?MaSK=<?php echo $event['MaSK']; ?>">
                             <div class="card-image-wrapper">
                                 <img src="<?php echo $event['img_sukien']; ?>" alt="<?php echo htmlspecialchars($event['TenSK']); ?>" class="card-image"> 
                                 <span class="event-tag special-tag"><?php echo $tag; ?></span>
                             </div>
                             <div class="card-info">
                                 <h3 class="event-name"><?php echo htmlspecialchars($event['TenSK']); ?></h3>
-                                <p class="event-date"><?php echo $formatted_date_time; ?></p>
+                                <p class="event-date">Từ <?php echo $formatted_date_time; ?></p>
                                 <p class="event-price">
                                     <span class="price-value"><?php echo $min_price; ?></span> 
                                     <?php echo !empty($min_price) ? 'VND++' : ''; ?>
@@ -145,9 +144,11 @@ if (empty($search_query)) {
                             ASC LIMIT 8";
             renderEventCards($conn, $sql_special, 'Sự kiện Gần đây', 'fas fa-star', $tag_default, 'sukien-gan-day'); 
 
-            $sql_trending = "SELECT MaSK, TenSK, Tgian, img_sukien, MaLSK, (luot_timkiem + luot_truycap) AS truycap
-                            FROM sukien
-                            ORDER BY truycap DESC
+            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, MAX(sl.GiaVe) AS MaxPrice
+                            FROM sukien s
+                            JOIN sukien_loaive sl ON s.MaSK = sl.MaSK
+                            GROUP BY s.MaSK
+                            ORDER BY MaxPrice DESC
                             LIMIT 8";
 
             $tag_trending = function($event) { return 'HOT 👑'; };
@@ -170,5 +171,4 @@ if (empty($search_query)) {
 <?php
     require_once 'footer.php'; 
 ?>
-
 <script src="../js/sukien.js"></script>
