@@ -13,7 +13,7 @@ main {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 10px;
     padding: 20px;
     justify-content: space-around;
     color: white;
@@ -28,13 +28,19 @@ main {
     transition: transform 0.3s;
 }
 
+.event-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .event-card:hover {
     transform: translateY(-5px);
 }
 
 .card-image-wrapper {
     position: relative;
-    height: 180px;
+    height: 160px;
     overflow: hidden;
 }
 
@@ -87,19 +93,11 @@ main {
     color: #00e0ff;
     font-size: 16px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .price-value {
     font-size: 18px;
-}
-
-.gia {
-    background: #00e0ff;
-    color: black;
-    padding: 4px 8px;
-    display: inline-block;
-    margin-top: 8px;
 }
 
 /* Khung bộ lọc */

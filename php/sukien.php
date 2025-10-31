@@ -87,14 +87,14 @@
                             // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
                             if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
                                 // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
-                                echo '<span class="event-tag"><a href="ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']) . '">Mua vé ngay</a></span>';
+                                echo '<a class="event-tag" href="ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']) . '">Mua vé ngay</a>';
                             } else {
                                 // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
                                 // Lấy URL hiện tại
                                 $current_page_url = $_SERVER['REQUEST_URI'];
                                 // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
                                 $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
-                                echo '<span class="event-tag"><a href="' . $login_url . '">Mua vé ngay</a></span>';
+                                echo '<a class="event-tag" href="' . $login_url . '">Mua vé ngay</a>';
                             }
                             ?>
                         </div>
