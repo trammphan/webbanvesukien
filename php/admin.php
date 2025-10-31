@@ -44,6 +44,7 @@ if (isset($_COOKIE['email'])) {
         $conn->close();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -127,15 +128,18 @@ if (isset($_COOKIE['email'])) {
     <article class=" noidung duyetsukien" id="duyet-section">
         <h2>Duyệt sự kiện</h2>
         <p>Danh sách sự kiện chờ duyệt sẽ hiển thị ở đây.</p>
+         
     </article>
     <article class="noidung hidden baocao" id="baocao-section">
         <h2>Quản lý báo cáo</h2>
         <p>Danh sách các báo cáo người dùng gửi về hệ thống...</p>
+         <i class="fa-solid fa-spinner"></i> Đang cập nhật...
     </article>
 
     <article class="noidung hidden dieukhoan" id="dieukhoan-section">
         <h2>Điều khoản sử dụng</h2>
         <p>Các điều khoản và quy định dành cho quản trị viên.</p>
+         <i class="fa-solid fa-spinner"></i> Đang cập nhật...
     </article>
 
 

@@ -91,56 +91,14 @@ input::placeholder {
     background-color: white;
 }
 
-#user_name{
+#user_name, #gender, #birthday, #tel, #email, #address, #password, 
+#confirm_pass, #old_pass, #new_pass {
   background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color:#060259;
-}
-#gender{
-  background: none;
-  background-color: transparent;
   border: none;
   max-width: 400px;
   color: #060259;
 }
-#birthday{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
-#tel{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
-#email
-{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
-#address{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
-#password{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
+
 #submit{
   background-color: #290352;
   color:white;
@@ -367,37 +325,8 @@ h3{
 
 }
 
-#confirm_pass
-{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
-#old_pass
-{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
-#new_pass
-{
-  background: none;
-  background-color: transparent;
-  border: none;
-  max-width: 400px;
-  color: #060259;
-}
 
-.dang_nhap{
-  text-align: center;
-  margin-top: 20px;
-}
-
-.update_info{
+.dang_nhap, .update_info {
   text-align: center;
   margin-top: 20px;
 }
@@ -1100,6 +1029,13 @@ body, html {
 
 
 
+
+
+
+
+
+
+
 main{
     display: flex;
     align-items: stretch;
@@ -1114,7 +1050,7 @@ main{
 
 
 /*quản trị viên page css*/
-.duyetsukien {
+.duyetsukien, .baocao, .dieukhoan {
   width: 75%;
   background-color: #0b0c10;
   color: white;
@@ -1126,30 +1062,7 @@ main{
   min-height: 80vh;
   margin: 30px;
 }
-.baocao {
-  width: 75%;
-  background-color: #0b0c10;
-  color: white;
-  padding: 20px;
-  flex: 1;           
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  min-height: 80vh;
-  margin: 30px;
-}
-.dieukhoan {
-  width: 75%;
-  background-color: #0b0c10;
-  color: white;
-  padding: 20px;
-  flex: 1;           
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  min-height: 80vh;
-  margin: 30px;
-}
+
 .quantrivien{
     margin:auto;
     padding: 20px;
@@ -1175,7 +1088,7 @@ main{
     justify-content: space-between; 
     border-radius: 40px ;
 }
-.thanh_doc_1{
+.thanh_doc_1, .thanh_doc_2, .thanh_doc_3, .thanh_doc_4{
     padding: 10px;
     background-color: #040c2a;
     color:#66FCF1;
@@ -1184,39 +1097,10 @@ main{
     padding-left: 10px;
 
 }
-.thanh_doc_1:hover{
+.thanh_doc_1:hover, .thanh_doc_2:hover, .thanh_doc_3:hover, .thanh_doc_4:hover{
     background-color: #290352;
     border-radius: 8px;
     color: white;
-}
-.thanh_doc_2{
-    padding: 10px;
-    background-color: #040c2a;
-    color:#66FCF1;
-    width: 100%;
-    text-align: left;          
-    padding-left: 10px;
-
-}
-.thanh_doc_2:hover{
-    background-color: #290352;
-    border-radius: 8px;
-     color: white;
-}
-.thanh_doc_3{
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #040c2a;
-    color:#66FCF1;
-    width: 100%;
-    text-align: left;          
-    padding-left: 10px;
-
-}
-.thanh_doc_3:hover{
-    background-color: #290352;
-    border-radius: 8px;
-     color: white;
 }
 .noidung {
   flex: 1;
@@ -1256,10 +1140,19 @@ main{
   border-radius: 6px;
   transition: background 0.3s;
 }
-.email_qtv{
+.email_qtv, .email_ntc{
     padding-left: 10px;
-    color: rgb(217, 223, 228) ;
+    margin-top: 20px;
+    color: rgb(136, 202, 255) ;
+    
 }
+
+
+
+
+
+
+
 
 
 
@@ -1336,6 +1229,113 @@ main{
     margin-top: 5px;
     padding: 0px 10px;
 }
+.form_taosk{
+    border: #040c2a solid 3px;
+    border-radius: 15px;
+    padding: 50px;
+    max-width: 500px;
+    margin: 30px auto;
+    
+    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
+    background-color:transparent;
+}
+
+.form-group {
+  color: #060259;
+  border-radius: 20px;
+  border: solid 2.5px #290352;
+  height: 53px;
+  width: 400px;
+  margin: 28px auto;
+  padding: 10px auto;
+  box-sizing: border-box;
+
+  flex-direction: row;
+  outline: none;        /* Loại bỏ viền khi click */
+  background: none;     /* Loại bỏ nền */
+  display: flex;
+}
+
+.form-group:hover {
+  border-color: #473fd4; 
+}
+.form-group input{
+  background-color: transparent;
+  border:none;
+  outline:none;
+
+  width: 300px;      
+  padding: 5px 10px; 
+  box-sizing: border-box;
+}
+
+
+/*O lable*/
+#tensk, #loaisk, #thoigiansk, #diadiemsk, #motask, #ve_loaive, 
+#image_anh{
+
+    font-size: 18px;
+    padding: 5px 0px 5px 10px;
+}
+/*O input*/
+#chonsk, #tsk, #tgsk, #ddsk {
+  background: none;
+  border: none;
+  max-width: 400px;
+  color: #060259;   
+}
+.mota{
+    color: #060259;
+  border-radius: 20px;
+  border: solid 2.5px #290352;
+  height: 200px;
+  width: 400px;
+  margin: 15px auto;
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 8px;
+}
+#khungloaive .ve-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#khungloaive input {
+  flex: 1;
+  border: 2px solid #3b0066;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 18px;
+  color: #3b0066;
+  outline: none;
+  background-color: transparent;
+}
+
+#khungloaive input::placeholder {
+  color: #7a62a6;
+  font-style: italic;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
