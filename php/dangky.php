@@ -25,7 +25,6 @@ if (isset($_GET['redirect'])) {
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJqLz0P2Kj2q69/7f/3gD+6dI/YkG8XzY5I/p1gE4g4j2o724T0p+L+6lD8X6oEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <script defer src="/scripts/web-layout.js"></script>
     <script defer src="/scripts/homepage.js"></script>
@@ -73,7 +72,7 @@ if (isset($_GET['redirect'])) {
         </div>
     </header>
     <main>
-        <article class="dangky">
+        <article class="khungdungchung">
         <h2>Đăng Ký</h2>
         <form action="luuthongtin.php" method="post" id="form_dk" autocomplete="off">
 <!-- *** BẮT ĐẦU THAY ĐỔI FORM *** -->
@@ -106,13 +105,6 @@ if (isset($_GET['redirect'])) {
             </div>
 
             <div class="thongtin">
-              <label for="birthday">
-                <i class="fa-solid fa-cake-candles"></i>
-                <input type="date" name="birthday" id="birthday" />
-              </label>
-            </div>
-
-            <div class="thongtin">
               <label for="tel">
                 <i class="fa-solid fa-square-phone"></i>
                 <input
@@ -131,7 +123,7 @@ if (isset($_GET['redirect'])) {
                   type="text"
                   name="address"
                   id="address"
-                  placeholder="Vui lòng nhập địa chỉ liên lạc" 
+                  placeholder="Vui lòng nhập thông tin liên lạc" 
                 />
               </label>
             </div>
@@ -165,12 +157,10 @@ if (isset($_GET['redirect'])) {
             <input type="submit" name="submit" value="Đăng Ký" id="submit"/>
         </div>
         </form>
-        <!-- *** BẮT ĐẦU THAY ĐỔI MỚI *** -->
          <!-- Thêm link chuyển sang trang đăng nhập bên dưới form -->
          <div class="chuyen_trang" style="text-align: center; margin-top: 15px; color: #333;">
             <p>Đã có tài khoản? <a href="dangnhap.php<?php echo $redirect_url_href; ?>" style="color: #007bff; text-decoration: none; font-weight: 600;">Đăng nhập ngay</a></p>
          </div>
-         <!-- *** KẾT THÚC THAY ĐỔI MỚI *** -->
        </article>     
     </main>
 

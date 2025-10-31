@@ -99,14 +99,14 @@ if (isset($_COOKIE['email'])) {
 
     <main>
     <article class= "thanh_doc">
-        <p class="quantrivien"> QUẢN TRỊ VIÊN</p>
-        <button class="thanh_doc_1" id="btn-duyet">
+        <p class="tieude"> QUẢN TRỊ VIÊN</p>
+        <button class="congviec" id="btn-duyet">
             <i class="fa-solid fa-user-shield"></i>
             <span>Duyệt sự kiện</span>      </button>
-        <button class="thanh_doc_2" id="btn-baocao">
+        <button class="congviec" id="btn-baocao">
             <i class="fa-solid fa-user-shield"></i>
             <span>Quản lý báo cáo</span>    </button>
-        <button class="thanh_doc_3" id="btn-dieukhoan">
+        <button class="congviec" id="btn-dieukhoan">
             <i class="fa-solid fa-user-shield"></i>
             <span>Điều khoản </span>        </button>
         <?php if ($is_logged_in && $user_info): ?>
