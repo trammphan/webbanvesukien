@@ -13,17 +13,19 @@ main {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 20px;
+    gap: 20px;
+    padding: 20px 60px;
     justify-content: space-around;
     color: white;
 }
 
 /* Card style đồng bộ với index */
 .event-card {
+    width: 100%;
     background: #040c2a;
     border-radius: 12px;
     overflow: hidden;
+    cursor: pointer;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s;
 }
@@ -55,16 +57,47 @@ main {
     transform: scale(1.05);
 }
 
+.card-badge-row {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between; /* căn hai phần tử về hai đầu */
+  align-items: center;
+  padding: 0 10px;
+  width: 100%;
+  z-index: 2;
+}
+
+/* Trạng thái sự kiện theo thời gian*/
+.event-status {
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.status-past { /* Sự kiện đã diễn ra*/
+  background-color: #999;
+  color: #fff;
+}
+
+.status-upcoming { /* Sự kiện sắp diễn ra*/
+  background-color: #fff3b0; /* vàng nhạt */
+  color: #5c4400;            /* nâu đậm */
+}
+
 .event-tag {
-    position: absolute;
-    top: 10px;
-    left: 10px;
     background: #00e0ff;
     color: #0d1222;
+    margin-top: -10px;
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 12px;
     font-weight: bold;
+    text-decoration: none;
 }
 
 .card-info {
