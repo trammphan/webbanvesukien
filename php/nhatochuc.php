@@ -68,6 +68,7 @@ if (isset($_COOKIE['email'])) {
           </button>
         </form>
       </div>
+<<<<<<< Updated upstream
 
       <div class="header-right">
         <nav class="header-nav">
@@ -205,6 +206,170 @@ if (isset($_COOKIE['email'])) {
         
       </div>
 
+=======
+
+      <div class="header-right">
+        <nav class="header-nav">
+          <ul>
+            <li><a href="#taosukien">Tạo sự kiện</a></li>
+            <li><a href="#vecuatoi">Vé của tôi</a></li>
+          </ul>
+        </nav>
+        <?php include __DIR__ . '/header_actions.php'; ?>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="thanh_doc">
+        <p class="quantrivien">NHÀ TỔ CHỨC</p>
+        <button class="thanh_doc_1" id="btn-taosk">
+            <i class="fa-solid fa-calendar-plus"></i>
+            <span>Tạo Sự Kiện Mới</span>
+        </button>
+        <button class="thanh_doc_2" id="btn-qly">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Quản Lý Sự Kiện</span>
+        </button>
+        <button class="thanh_doc_3" id="btn-xembc">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Xem Báo Cáo</span>
+        </button>
+        <button class="thanh_doc_4" id="btn-capnhat">
+            <i class="fa-solid fa-user-pen"></i>
+            <span>Cập Nhật Thông Tin</span>
+        </button>
+
+      <?php if ($is_logged_in && $user_info): ?>
+        <label class="email_ntc">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Email: <b><?= htmlspecialchars($user_info['email']) ?></b></span>
+        </label>
+        <div class="logout box_1">
+          <a href="dangxuat.php" id="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+      <?php endif; ?>
+    </article>
+
+    <!-- Các phần nội dung -->
+     <article class=" noidung hidden nhatochuc">
+            <h2>Chào mừng Nhà tổ chức đến với Vibe4</h2>
+            <p class="chaomung">
+                Vibe4 là nền tảng giúp bạn tạo, quản lý và bán vé sự kiện một cách dễ dàng.
+                Từ hội thảo, hòa nhạc đến các buổi gặp gỡ, chúng tôi mang đến công cụ mạnh mẽ
+                để bạn kết nối khán giả, tăng doanh thu và lan tỏa thương hiệu của mình.
+            </p>
+            
+        </article>
+    <article class="noidung hidden taosukien" id="taosk-section">
+        <h2>Tạo Sự Kiện Mới</h2>
+        <div class="form_taosk">
+            
+            <form action="luuthongtin.php" method="post" id="form_dk" autocomplete="off">
+
+                <div class="form-group">
+                    <label for="tensk" id="tensk">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        <input type="text"  id="tsk"
+                        placeholder="Vui lòng nhập tên sự kiện" name="tensk"/>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="loaisk" id="loaisk">
+                        <i class="fa-solid fa-venus-mars"></i>
+                        <select name="chonsk" id="chonsk">
+                        <option value="sample">Loại sự kiện</option>
+                        <option value="Liveshow">Liveshow</option>
+                        <option value="Festival">Festival</option>
+                        <option value="Concert">Concert</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                  <label for="thoigian" id="thoigiansk">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <input type="date" class="date-input" placeholder="Chọn ngày">
+                  </label>
+                </div>
+
+              <div class="form-group">
+                  <label for="thoigian" id="thoigiansk">
+                    <i class="fa-solid fa-clock"></i>
+                    <input type="time" class="time-input" placeholder="Chọn giờ">
+                    
+                  </label>
+              </div>
+                
+
+                <div class="form-group">
+                  <label for="diadiem" id="diadiemsk">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <input type="text" placeholder="Địa điểm tổ chức" id="ddsk">
+                  </label>
+                </div>
+
+                
+
+                <div class="form-group">
+                  <label for="image_anh" id="image_anh">
+                    <i class="fa-solid fa-image"></i>
+                    <input type="file" accept="image/*">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                  <label for="ve_loaive" id="ve_loaive">
+                    <i class="fa-solid fa-list-ol"></i>
+                    <input type="number" id="soloaive" min="1" placeholder="Nhập số lượng loại vé">
+                  </div>
+
+                  <div id="khungloaive"></div>
+
+                <div > 
+                    <textarea class="mota" row="95%" placeholder="Mô tả sự kiện..." id="mtsk"></textarea>
+                </div>
+
+                <div id="dang_ky">
+                    <input type="submit" name="submit" value="Đăng Ký" id="submit"/>
+                </div>
+                </form>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </article>
+
+    <article class="noidung hidden quanly" id="qly-section">
+      <h2>Quản Lý Sự Kiện</h2>
+      <p>Danh sách các sự kiện bạn đã tạo.</p>
+      <i class="fa-solid fa-spinner"></i> Đang cập nhật...
+    </article>
+
+    <article class="noidung hidden xembaocao" id="xembc-section">
+      <h2>Xem Báo Cáo</h2>
+      <p>Báo cáo thống kê doanh thu, lượt bán vé,...</p>
+      <i class="fa-solid fa-spinner"></i> Đang cập nhật...
+    </article>
+
+    <article class="noidung hidden capnhat" id="capnhat-section">
+      <h2>Cập Nhật Thông Tin Nhà Tổ Chức</h2>
+      <p>Trang cập nhật hồ sơ và thông tin liên hệ.</p>
+      <i class="fa-solid fa-spinner"></i> Đang cập nhật...
+    </article>
+>>>>>>> Stashed changes
   </main>
 
   <footer>

@@ -77,6 +77,7 @@ if (isset($_GET['redirect'])) {
         
         <article class="khungdungchung">
           <h2>ĐĂNG NHẬP</h2>
+<<<<<<< Updated upstream
 
           <form action="log.php" method="post"  >
                         <!--autocomplete="off"-->
@@ -86,6 +87,10 @@ if (isset($_GET['redirect'])) {
             <!-- *** KẾT THÚC THAY ĐỔI *** -->
                                                     
 
+=======
+          <form action="log.php" method="post"  >
+                                                    <!--autocomplete="off"-->
+>>>>>>> Stashed changes
               <div class="thongtin">
               <label for="email">
                 <i class="fa-solid fa-envelope"></i>
