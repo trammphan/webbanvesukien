@@ -48,9 +48,12 @@
             if (isset($_GET['MaSK'])) {
                 $maSK = $_GET['MaSK'];
                 
-                $result = $conn->query("SELECT * FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
-                                                                JOIN loaisk l on s.MaLSK = l.MaloaiSK
-                                        WHERE s.MaSK = '$maSK'");
+                $result = $conn->query("SELECT l.TenLoaiSK, s.TenSK, s.img_sukien, s.Tgian, s.mota, d.TenTinh, MIN(lv.Gia) AS MinPrice
+                                        FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
+                                                    JOIN loaisk l on s.MaLSK = l.MaloaiSK
+                                                    JOIN loaive lv on lv.MaSK = s.MaSK
+                                        WHERE s.MaSK = '$maSK'
+                                        GROUP BY s.MaSK");
                 
                 $row = $result->fetch_assoc();
                 
@@ -58,17 +61,6 @@
                                         FROM loaive
                                         WHERE MaSK = '$maSK'
                                         ORDER BY Gia DESC");
-                
-                // Kiểm tra và xử lý nếu truy vấn loại vé thất bại
-                if ($ve_result === FALSE) {
-                    // Cảnh báo người dùng nhưng vẫn tiếp tục hiển thị thông tin sự kiện cơ bản
-                    $row_1 = ['Gia' => 'Liên hệ']; 
-                } else {
-                    $row_1 = $ve_result->fetch_assoc();
-                    if ($ve_result->num_rows > 0) {
-                        $ve_result->data_seek(0); 
-                    }
-                }
             }
             else {
                 echo "<p>Không tìm thấy sự kiện.</p>";
@@ -91,7 +83,7 @@
 
                         <div class="price">
                             <span>Giá vé</span>
-                            <h2><?=is_numeric($row_1['Gia']) ? number_format($row_1['Gia'], 0, ',', '.') : $row_1['Gia']?>VND++</h2>
+                            <h2><?=is_numeric($row['MinPrice']) ? number_format($row['MinPrice'], 0, ',', '.') : $row['MinPrice']?>VND++</h2>
                         </div>
 
                         <div class="time">
@@ -103,7 +95,7 @@
                     <div class="cardRight" style="background-image: url('<?=htmlspecialchars($row['img_sukien'])?>'); background-size: cover; background-position: center;">
                         <div class= "blurOverlay"></div>
                         
-                                                <div class="button">
+                        <div class="button">
                             <?php
                             // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
                             if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
@@ -119,7 +111,7 @@
                             }
                             ?>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
 

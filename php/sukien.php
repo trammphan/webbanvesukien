@@ -83,7 +83,20 @@
                     <a href="chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= htmlspecialchars($row['MaSK']) ?>" onclick="trackEvent(this)">
                         <div class="card-image-wrapper">
                             <img src="<?= htmlspecialchars($row['img_sukien']) ?>" alt="<?= htmlspecialchars($row['TenSK']) ?>" class="card-image" />
-                            <span class="event-tag">Mua vé ngay</span>
+                            <?php
+                            // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
+                            if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
+                                // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
+                                echo '<span class="event-tag"><a href="ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']) . '">Mua vé ngay</a></span>';
+                            } else {
+                                // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
+                                // Lấy URL hiện tại
+                                $current_page_url = $_SERVER['REQUEST_URI'];
+                                // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
+                                $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
+                                echo '<span class="event-tag"><a href="' . $login_url . '">Mua vé ngay</a></span>';
+                            }
+                            ?>
                         </div>
 
                         <div class="card-info">

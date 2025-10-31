@@ -4,7 +4,7 @@ include 'db_connect.php';
 $additional_css = ['index.css']; 
 
 function getMinPrice($conn, $MaSK) {
-    $sql = "SELECT MIN(GiaVe) AS MinPrice FROM sukien_loaive WHERE MaSK = '$MaSK' ";
+    $sql = "SELECT MIN(Gia) AS MinPrice FROM loaive WHERE MaSK = '$MaSK' ";
     $result = $conn->query($sql);
     
     if ($result && $result->num_rows > 0) {
@@ -144,11 +144,11 @@ if (empty($search_query)) {
                             ASC LIMIT 8";
             renderEventCards($conn, $sql_special, 'Sự kiện Gần đây', 'fas fa-star', $tag_default, 'sukien-gan-day'); 
 
-            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, MAX(sl.GiaVe) AS MaxPrice
+            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, (s.luot_timkiem + s.luot_truycap) AS truycap
                             FROM sukien s
-                            JOIN sukien_loaive sl ON s.MaSK = sl.MaSK
+                            JOIN loaive lv ON s.MaSK = lv.MaSK
                             GROUP BY s.MaSK
-                            ORDER BY MaxPrice DESC
+                            ORDER BY truycap DESC
                             LIMIT 8";
 
             $tag_trending = function($event) { return 'HOT 👑'; };
