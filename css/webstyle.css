@@ -83,33 +83,33 @@ h3{
     color: #e6e7e9;
 }
 /*đăng ký - đăng nhập - người dùng - nhân viên - */
-.thongtin {
-  color: #060259;
-  border-radius: 20px;
-  border: solid 2.5px #290352;
-  height: 60px;
-  width: 500px;
-  margin: 28px 10%;
-  padding: 10px;
-  box-sizing: border-box;
-  flex-direction: row;
-  outline: none;        /* Loại bỏ viền khi click */
-  background: none;     /* Loại bỏ nền */
-  display: flex;
-  align-items: center;
- 
-}
-.thongtin:hover {
-  border-color: #0c068c; 
-}
-.thongtin input{
-  background-color: transparent;
-  border:none;
-  outline:none;
-  width: 450px;      
-  padding: 5px 10px; 
-  box-sizing: border-box;
-}
+    .thongtin {
+    color: #060259;
+    border-radius: 20px;
+    border: solid 2.5px #290352;
+    height: 60px;
+    width: 500px;
+    margin: 28px 10%;
+    padding: 10px;
+    box-sizing: border-box;
+    flex-direction: row;
+    outline: none;        /* Loại bỏ viền khi click */
+    background: none;     /* Loại bỏ nền */
+    display: flex;
+    align-items: center;
+    
+    }
+    .thongtin:hover {
+    border-color: #0c068c; 
+    }
+    .thongtin input{
+    background-color: transparent;
+    border:none;
+    outline:none;
+    width: 400px;      
+    padding: 5px 10px; 
+    box-sizing: border-box;
+    }
 /*THIET KE DAP UNG*/
 @media screen and (max-width: 768px) {
     .khungdungchung{
@@ -136,17 +136,11 @@ h3{
     align-items: stretch;
     flex-direction: row;
 }
-.nhatochuc, .nhatochuc_2{
-    width: 48%;
-    padding: 15px;
-    box-sizing: border-box; 
-    border: 1px solid #ccc;
-}   
+ 
 
     
 }
 
-<<<<<<< Updated upstream
 @media screen and (max-width: 576px) {
     .khungdungchung{
         max-width: 330px;
@@ -195,7 +189,6 @@ h3{
     margin-bottom: 100px;
     margin-left: 50px;
     margin-right: 0px;
-    flex: 0 0 250px;
     width: px;
     min-height: 80vh;
     background-color: #293f97;
@@ -251,8 +244,6 @@ h3{
 /*TRANG ĐĂNG KÝ*/
 
 
-=======
->>>>>>> Stashed changes
 #user_name, #gender, #birthday, #tel, #email, #address, #password, 
 #confirm_pass, #old_pass, #new_pass {
   background: none;
@@ -664,31 +655,12 @@ h3{
   border-radius: 8px;
 }
 
-<<<<<<< Updated upstream
-=======
 
-
-.sua_thongtin{
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    margin: 90px auto;
-    border: solid 2.5px;
-    background-color: white;
-    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
-
-}
-
-
->>>>>>> Stashed changes
 .dang_nhap, .update_info {
   text-align: center;
   margin-top: 20px;
 }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 #back{
   background-color: #290352;
   color:white;
@@ -1312,387 +1284,6 @@ main{
     width: 100%;
     box-sizing: border-box;
 }
-
-
-
-<<<<<<< Updated upstream
-=======
-/*quản trị viên page css*/
-.duyetsukien, .baocao, .dieukhoan {
-  width: 75%;
-  background-color: #0b0c10;
-  color: white;
-  padding: 20px;
-  flex: 1;           
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  min-height: 80vh;
-  margin: 30px;
-}
-
-.quantrivien{
-    margin:auto;
-    padding: 20px;
-    font-size: 23px;
-    text-align: center;
-    font-weight: bold;
-    color: #e6e7e9;
-}
-.thanh_doc {
-    margin-top:100px ;
-    margin-bottom: 100px;
-    margin-left: 50px;
-    margin-right: 0px;
-    flex: 0 0 250px;
-    width: 250px;
-    min-height: 80vh;
-    background-color: #293f97;
-    position: relative;
-    padding-top: 80px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    color:#66fcf1;
-    flex-direction: column;
-    justify-content: space-between; 
-    border-radius: 40px ;
-}
-.thanh_doc_1, .thanh_doc_2, .thanh_doc_3, .thanh_doc_4{
-    padding: 10px;
-    background-color: #040c2a;
-    color:#66FCF1;
-    width: 100%;
-    text-align: left;          
-    padding-left: 10px;
-
-}
-.thanh_doc_1:hover, .thanh_doc_2:hover, .thanh_doc_3:hover, .thanh_doc_4:hover{
-    background-color: #290352;
-    border-radius: 8px;
-    color: white;
-}
-.noidung {
-  flex: 1;
-  background-color: white;
-  color: #060259;
-  padding: 30px;
-  margin: 100px 35px;
-  border-radius: 30px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  min-height: 80vh;
-  overflow-y: auto;
-  height: 100%;
- 
-}
-
-.hidden {
-  display: none;
-}
-
-.thanh_doc button:hover,
-.thanh_doc button.active {
-  background-color: #290352;
-  color: white;
-  border-radius: 8px;
-}
-
-.thanh_doc button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: none;
-  color: white;
-  border: none;
-  padding: 10px;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-.email_qtv, .email_ntc{
-    padding-left: 10px;
-    margin-top: 20px;
-    color: rgb(136, 202, 255) ;
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Nha to chuc css */
-.nhatochuc{
-    margin:100px auto;
-    border: #060259 solid 2.5px;
-    background-color: white;
-    width: 60%;   
-    border-radius: 40px ;
-}
-.chaomung{
-    color: #060259;
-    font-size: 105%;
-    padding: 10px 20px;
-}
-.chaomung_1{
-    color: white;
-    font-size: 105%;
-    padding: 10px 20px;
-}
-.cv_nhatochuc{
-    color: #dafdfb;
-    font-size: 100%;
-    padding: 8px;
-    border:solid 1px #060259;
-    text-decoration: none;
-    max-width: 90%;
-    margin:30px auto;
-    display: block;
-    text-align: center;
-    
-}
-.cv_nhatochuc:hover{
-    background-color: #290352;
-    border-radius: 8px;
-    color: white;
-}
-.thanh_doc_ntc {
-    margin-top:100px ;
-    margin-bottom: 100px;
-    margin-right: 0px;
-    flex: 0 0 29%;
-    min-height: 80vh;
-    background-color: #293f97;
-    position: relative;
-    padding: 50px 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    color:#66fcf1;
-    flex-direction: column;
-    justify-content: space-between; 
-    border-radius: 40px ;
-}
-.container_nhatochuc{
-    display: flex;           
-    justify-content: center; 
-    gap: 15px;
-    align-items: stretch;
-}
-.box {
-  box-sizing: border-box;
-}
-.congcu_ntc{
-    text-align: center;
-    color: rgb(207, 255, 249);
-    font-size:250%;
-    font-weight: bold;
-    text-shadow: 5px 5px 6px gray;
-    margin-bottom: 20px;
-    margin-top: 5px;
-    padding: 0px 10px;
-}
-.form_taosk{
-    border: #040c2a solid 3px;
-    border-radius: 15px;
-    padding: 50px;
-    max-width: 500px;
-    margin: 30px auto;
-    
-    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
-    background-color:transparent;
-}
-
-.form-group {
-  color: #060259;
-  border-radius: 20px;
-  border: solid 2.5px #290352;
-  height: 53px;
-  width: 400px;
-  margin: 28px auto;
-  padding: 10px auto;
-  box-sizing: border-box;
-
-  flex-direction: row;
-  outline: none;        /* Loại bỏ viền khi click */
-  background: none;     /* Loại bỏ nền */
-  display: flex;
-}
-
-.form-group:hover {
-  border-color: #473fd4; 
-}
-.form-group input{
-  background-color: transparent;
-  border:none;
-  outline:none;
-
-  width: 300px;      
-  padding: 5px 10px; 
-  box-sizing: border-box;
-}
-
-
-/*O lable*/
-#tensk, #loaisk, #thoigiansk, #diadiemsk, #motask, #ve_loaive, 
-#image_anh{
-
-    font-size: 18px;
-    padding: 5px 0px 5px 10px;
-}
-/*O input*/
-#chonsk, #tsk, #tgsk, #ddsk {
-  background: none;
-  border: none;
-  max-width: 400px;
-  color: #060259;   
-}
-.mota{
-    color: #060259;
-  border-radius: 20px;
-  border: solid 2.5px #290352;
-  height: 200px;
-  width: 400px;
-  margin: 15px auto;
-  box-sizing: border-box;
-  font-size: 18px;
-  padding: 8px;
-}
-#khungloaive .ve-item {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-#khungloaive input {
-  flex: 1;
-  border: 2px solid #3b0066;
-  border-radius: 10px;
-  padding: 8px 10px;
-  font-size: 18px;
-  color: #3b0066;
-  outline: none;
-  background-color: transparent;
-}
-
-#khungloaive input::placeholder {
-  color: #7a62a6;
-  font-style: italic;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Nhan vien css */
-.nhanvien{
-    margin:80px auto;
-    border: #060259 solid 2.5px;
-    background-color: white;
-    width: 95%;
-    border-radius: 60px;
-}
-.thongtinnhanvien{
-    padding: 20px;
-    padding-bottom: 90px;
-    margin-bottom: 90px;
-    background-color: rgb(201, 252, 255);
-    height: 350px;
-    border-radius: 60px;
-}
-#btn_duyet{
-    color: #e8fffd;
-    font-size: 100%;
-    padding: 8px;
-    border:solid 1px #060259;
-    text-decoration: none;
-    width: 300px;
-    margin:50px auto;
-    display: block;
-    text-align: center;
-    background-color: #040c2a;
-}
-#btn_duyet:hover{
-    background-color: rgb(8, 42, 165);
-    border-radius: 8px;
-    color: white;
-}
-#btn_baocao{
-    color: #e8fffd;
-    font-size: 100%;
-    padding: 8px;
-    border:solid 1px #060259;
-    text-decoration: none;
-    width: 300px;
-    margin:50px auto;
-    display: block;
-    text-align: center;
-    background-color: #040c2a;
-}
-#btn_baocao:hover{
-    background-color:rgb(8, 42, 165);
-    border-radius: 8px;
-    color: white;
-}
-#btn_dieukhoan{
-    color: #e8fffd;
-    font-size: 100%;
-    padding: 8px;
-    border:solid 1px #060259;
-    text-decoration: none;
-    width: 300px;
-    margin:50px auto;
-    display: block;
-    text-align: center;
-    background-color: #040c2a;
-}
-#btn_dieukhoan:hover{
-    background-color: rgb(8, 42, 165);
-    border-radius: 8px;
-    color: white;
-}
-
-
-
-
-
-
-
-
-
-
->>>>>>> Stashed changes
-
 
 
 

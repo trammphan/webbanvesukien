@@ -64,9 +64,7 @@ if (isset($_GET['redirect'])) {
                     <a href="dangnhap.php<?php echo $redirect_url_href; ?>" class="btn-signin">Đăng nhập</a>
                     <a href="dangky.php" class="btn-signin">Đăng ký</a>
                     <!-- *** KẾT THÚC THAY ĐỔI HEADER *** -->
-                    
-                    <a href="nguoidung.php" class="btn-signin">
-                        <i class="fas fa-user-circle"></i></a>
+        
                 </div>
             </div>
         </div>
