@@ -181,17 +181,24 @@ main {
 }
 
 /*Mô tả sự kiện*/
+.mota {
+  font-family: 'Leto', 'Open Sans', sans-serif;
+}
+
 .tieude {
   text-transform: uppercase;
   text-align: center;
-  color: #F4F754;
+  color: #facf23;
+}
+
+.mota .tieude {
+    font-size: 1.875em;
 }
 
 .noidung {
   padding: 0 80px;
   font-size: 1.2em;
   text-align: center;
-  font-family: 'Leto', 'Open Sans', sans-serif;
 }
 
 /* Container chính chứa tất cả vé */

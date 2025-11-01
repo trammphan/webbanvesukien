@@ -5,7 +5,6 @@ html, body {
 }
 
 main {
-    padding-top: 80px;
     background: linear-gradient(135deg, #0f2027, #060259, #290352);
     min-height: calc(100vh - 60px);
 }
@@ -133,13 +132,65 @@ main {
     font-size: 18px;
 }
 
-/* Khung bộ lọc */
+/* Thanh điều hướng chứa cả 2 bộ lọc*/
+.category-bar {
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+  z-index: 900;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 70px;
+}
+
+.category-item {
+  color: #ffffff;
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+/* Đổi màu khi rê vào mục chưa được chọn */
+.category-item:hover {
+  color: #fff3b0;
+  border-bottom: 2px solid #fff3b0;
+}
+
+/* Mục đang được chọn */
+.category-item.active {
+  color: #00e0ff;
+  border-bottom: 2px solid #00e0ff;
+  font-weight: 600;
+}
+
+.category-list {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+    padding: 0 0 5px 0;
+    margin: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.category-list::-webkit-scrollbar {
+    display: none;
+}
+
+.category-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    font-family: 'Montserrat', 'Michroma', sans-serif;
+}
+
+/* Khung bộ lọc địa điểm*/
 .filter-box {
     border-radius: 8px;
     margin: 0 auto;
 }
 
-/* Khung nội dung bộ lọc */
+/* Khung nội dung bộ lọc địa điểm*/
 #filter-details{
     background-color: #f9f9f9;
     border: 1px solid white;

@@ -43,7 +43,23 @@
             ?>
         <main>
             <!-- Bộ lọc -->
+                <!-- Thể loại -->
+            <?php $diadiem = $_GET['diadiem'] ?? ''; 
+                  $loai = $_GET['loai_sukien'] ?? '';
+            ?>
+            <nav class="category-bar">
+                <div class="category-container">
+                    <ul class="category-list">
+                        <li><a href="sukien.php?loai_sukien=LSK03&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK03' ? 'active' : '' ?>">Concert🔥</a></li>
+                        <li><a href="sukien.php?loai_sukien=LSK02&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK02' ? 'active' : '' ?>">Festival</a></li>
+                        <li><a href="sukien.php?loai_sukien=LSK01&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK01' ? 'active' : '' ?>">Liveshow</a></li>
+
+                    </ul>
+                </div>
+            </nav>
+
             <form id="event-filter" class="filter-box">
+                <input type="hidden" name="loai_sukien" value="<?= htmlspecialchars($loai) ?>">
                 <button type="button" class="filter-toggle" onclick="toggleFilter()">
                     <i class="fa-solid fa-filter"></i>Bộ lọc
                 </button>
@@ -52,21 +68,11 @@
                     <!-- Địa điểm -->
                     <label>Địa điểm:
                         <select class= 'filter-group' name="diadiem">
-                            <option value="">-- Chọn địa điểm --</option>
+                            <option value="">-- Tất cả --</option>
                             <option value="HCM" <?= ($_GET['diadiem'] ?? '') == 'HCM' ? 'selected' : '' ?>>Hồ Chí Minh</option> <!-- Giữ lại lựa chọn của người dùng-->
                             <option value="HN" <?= ($_GET['diadiem'] ?? '') == 'HN' ? 'selected' : '' ?>>Hà Nội</option>
                             <option value="DL" <?= ($_GET['diadiem'] ?? '') == 'DL' ? 'selected' : '' ?>>Đà Lạt</option>
                             <option value="HY" <?= ($_GET['diadiem'] ?? '') == 'HY' ? 'selected' : '' ?>>Hưng Yên</option>
-                        </select>
-                    </label>
-                    
-                    <!-- Thể loại -->
-                    <label>Thể loại:
-                        <select class= 'filter-group' name="loai_sukien">
-                            <option value="">-- Chọn thể loại --</option>
-                            <option value="LSK03" <?= ($_GET['loai_sukien'] ?? '') == 'LSK03' ? 'selected' : '' ?>>Concert</option>
-                            <option value="LSK02" <?= ($_GET['loai_sukien'] ?? '') == 'LSK02' ? 'selected' : '' ?>>Festival</option>
-                            <option value="LSK01" <?= ($_GET['loai_sukien'] ?? '') == 'LSK01' ? 'selected' : '' ?>>Liveshow</option>
                         </select>
                     </label>
 
@@ -83,7 +89,7 @@
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <?php
                         $now = new DateTime();
-                        $eventTime = new DateTime($row['Tgian']); // ✅ Khởi tạo đúng
+                        $eventTime = new DateTime($row['Tgian']);
 
                         $status = '';
                         $statusClass = '';
