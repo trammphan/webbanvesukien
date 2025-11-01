@@ -84,32 +84,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Lỗi: Không đủ vé. Số vé còn lại đã thay đổi. Vui lòng thử lại.");
         }
 
-        // --- BƯỚC 2: INSERT VÀO BẢNG THANHTOAN (VỚI CÁC CỘT ĐÚNG) ---
-        // Dựa trên ảnh CSDL của bạn: (PhuongThucThanhToan, SoTien, TenNguoiThanhToan, SDT, Email, TrangThai)
-        $maTT = uniqid('TT_'); 
+       // --- BƯỚC 2: INSERT VÀO BẢNG THANHTOAN (ĐÃ SỬA ĐỂ LƯU Email_KH) ---
+        
+        // Lấy Email của người dùng đã đăng nhập từ SESSION
+        $email_khach_hang_login = $_SESSION['email'] ?? null;
 
-        $sql_thanhtoan = "INSERT INTO ThanhToan (MaTT,PhuongThucThanhToan, SoTien, TenNguoiThanhToan, SDT, Email, TrangThai) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $maTT = uniqid('TT_'); // Mã này đã đúng với CSDL (varchar 20)
+
+        // SỬA SQL: Thêm cột "Email_KH" vào câu lệnh INSERT
+        $sql_thanhtoan = "INSERT INTO ThanhToan (
+                            MaTT, PhuongThucThanhToan, SoTien, 
+                            TenNguoiThanhToan, SDT, Email, TrangThai, 
+                            Email_KH  /* <-- CỘT MỚI */
+                        ) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; /* <-- Thêm 1 dấu ? */
         
         $stmt_thanhtoan = $conn->prepare($sql_thanhtoan);
         if ($stmt_thanhtoan === false) {
             throw new Exception("Lỗi sql thanh toán: " . $conn->error);
         }
-        $stmt_thanhtoan->bind_param("ssissss", 
+
+        // SỬA BIND_PARAM: Thêm 's' (cho Email_KH) vào cuối chuỗi
+        $stmt_thanhtoan->bind_param("ssisssss",  /* <-- Sửa "ssissss" thành "ssisssss" */
             $maTT,
             $phuongThucTT, 
             $server_total, // Dùng tổng tiền đã xác thực
-            $tenKH, 
-            $sdtKH, 
-            $emailKH, 
-            $trangThai_payment
+            $tenKH,        // Tên người nhận vé (từ form)
+            $sdtKH,        // SĐT người nhận vé (từ form)
+            $emailKH,      // Email người nhận vé (từ form)
+            $trangThai_payment,
+            $email_khach_hang_login // <-- Biến mới: Email từ SESSION
         );
 
         if (!$stmt_thanhtoan->execute()) {
             throw new Exception("Lỗi khi tạo thanh toán: " . $stmt_thanhtoan->error);
         }
         $stmt_thanhtoan->close();
-
         // --- BƯỚC 3: UPDATE BẢNG 'VE' ĐỂ GÁN MaTT ---
         // Gán MaTT mới và Trạng Thái mới cho các vé đã tìm thấy ở BƯỚC 1
         $sql_update_ve = "UPDATE ve SET MaTT = ?, TrangThai = ? WHERE MaVe = ?";
