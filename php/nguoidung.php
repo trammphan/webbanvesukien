@@ -9,19 +9,6 @@ $dbname = "qlysukien";
 $is_logged_in = false;
 $user_info = null;
 
-// HÀM CHUYỂN ĐỔI GIỚI TÍNH (Giữ nguyên)
-function format_gender($gender_code) {
-    switch ($gender_code) {
-        case 'male':
-            return 'Nam';
-        case 'female':
-            return 'Nữ';
-        case 'other':
-            return 'Khác';
-        default:
-            return 'Chưa xác định';
-    }
-}
 
 // 1. KIỂM TRA VÀ TRUY VẤN THÔNG TIN NẾU ĐÃ ĐĂNG NHẬP
 if (isset($_COOKIE['email'])) {
@@ -39,7 +26,7 @@ if (isset($_COOKIE['email'])) {
 
     if ($is_logged_in) {
         // Lấy thông tin người dùng an toàn hơn (Prepared Statement)
-        $sql = "SELECT user_name, gender, tel, address, email FROM khachhang WHERE email = ?";
+        $sql = "SELECT user_name,  tel, email FROM khachhang WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $user_email);
         $stmt->execute();
@@ -72,8 +59,6 @@ if (isset($_COOKIE['email'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
    <link rel="stylesheet" href="../css/webstyle.css"/> 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJqLz0P2Kj2q69/7f/3gD+6dI/YkG8XzY5I/p1gE4g4j2o724T0p+L+6lD8X6oEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
     <script defer src="/scripts/web-layout.js"></script>
     <script defer src="/scripts/homepage.js"></script>
     <!--<link rel="stylesheet" href="index.css">-->
@@ -125,22 +110,8 @@ if (isset($_COOKIE['email'])) {
 
               <div class="thongtin">
                 <label>
-                    <i class="fa-solid fa-venus-mars"></i>
-                    <span>Giới tính: <b><?php echo format_gender($user_info['gender']); ?></b></span>
-                </label>
-              </div>
-
-              <div class="thongtin">
-                <label>
                     <i class="fa-solid fa-square-phone"></i>
                     <span>Điện thoại: <b><?php echo htmlspecialchars($user_info['tel']); ?></b></span>
-                </label>
-              </div>
-
-              <div class="thongtin">
-                <label>
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span>Địa chỉ: <b><?php echo htmlspecialchars($user_info['address']); ?></b></span>
                 </label>
               </div>
 
@@ -233,6 +204,7 @@ if (isset($_COOKIE['email'])) {
         </div>
 
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
+       <script scr="vi.js">
     </footer>             
 
 </body>
