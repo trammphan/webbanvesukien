@@ -72,7 +72,8 @@ if (isset($_GET['redirect'])) {
     <main>
         <article class="khungdungchung">
         <h2>Đăng Ký</h2>
-        <form action="luuthongtin.php" method="post" id="form_dk" autocomplete="off">
+        <form action="luuthongtin.php" method="post" id="form_dk" >
+                                              <!-- autocomplete="off" -->
 <!-- *** BẮT ĐẦU THAY ĐỔI FORM *** -->
             <!-- Thêm trường ẩn để chứa URL redirect -->
             <input type="hidden" name="redirect" value="<?php echo $redirect_url_hidden; ?>">
@@ -91,18 +92,6 @@ if (isset($_GET['redirect'])) {
             </div>
 
             <div class="thongtin">
-              <label for="gender">
-                <i class="fa-solid fa-venus-mars"></i>
-                <select name="gender" id="gender">
-                  <option value="sample">Giới tính</option>
-                  <option value="male">Nam</option>
-                  <option value="female">Nữ</option>
-                  <option value="other">Khác</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="thongtin">
               <label for="tel">
                 <i class="fa-solid fa-square-phone"></i>
                 <input
@@ -110,18 +99,6 @@ if (isset($_GET['redirect'])) {
                   name="tel"
                   id="tel"
                   placeholder="Vui lòng nhập số điện thoại"
-                />
-              </label>
-            </div>
-
-            <div class="thongtin">
-              <label for="address">
-                <i class="fa-solid fa-location-dot"></i>
-                <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  placeholder="Vui lòng nhập thông tin liên lạc" 
                 />
               </label>
             </div>
@@ -152,7 +129,7 @@ if (isset($_GET['redirect'])) {
 
             </div>
         <div id="dang_ky">
-            <input type="submit" name="submit" value="Đăng Ký" id="submit"/>
+            <input type="submit" name="submit" value="Đăng Ký" id="dk_submit"/>
         </div>
         </form>
          <!-- Thêm link chuyển sang trang đăng nhập bên dưới form -->
@@ -218,6 +195,8 @@ if (isset($_GET['redirect'])) {
 
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
     </footer>                     
-    
+    <script src="../js/vi.js">
+          
+      </script>
 </body>
 </html> 

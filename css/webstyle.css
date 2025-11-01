@@ -252,7 +252,7 @@ h3{
   color: #060259;
 }
 
-#submit{
+#dk_submit{
   background-color: #290352;
   color:white;
   border: none;
@@ -264,11 +264,11 @@ h3{
   font-size: 20px;
   margin-left: 35%;
 }
-#submit:hover{
-  background-color: #060259;
+#dk_submit:hover{
+  background-color: #090463;
   color: white;
   text-align: center;
- 
+ box-shadow:10px 10px 8px rgb(187, 238, 255);
 }
 
 .dang_ky{
