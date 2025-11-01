@@ -39,7 +39,7 @@ if (isset($_COOKIE['email'])) {
 
     if ($is_logged_in) {
         // Lấy thông tin người dùng an toàn hơn (Prepared Statement)
-        $sql = "SELECT user_name, gender, birthday, tel, address, email FROM khachhang WHERE email = ?";
+        $sql = "SELECT user_name, gender, tel, address, email FROM khachhang WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $user_email);
         $stmt->execute();
@@ -71,8 +71,6 @@ if (isset($_COOKIE['email'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
    <link rel="stylesheet" href="../css/webstyle.css"/> 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJqLz0P2Kj2q69/7f/3gD+6dI/YkG8XzY5I/p1gE4g4j2o724T0p+L+6lD8X6oEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
@@ -113,7 +111,7 @@ if (isset($_COOKIE['email'])) {
     </header>
     
     <main>
-        <article class="chua_dang_nhap">
+        <article class="khungdungchung">
             <h2>Thông tin tài khoản</h2>
             <fieldset>
                 
@@ -129,13 +127,6 @@ if (isset($_COOKIE['email'])) {
                 <label>
                     <i class="fa-solid fa-venus-mars"></i>
                     <span>Giới tính: <b><?php echo format_gender($user_info['gender']); ?></b></span>
-                </label>
-              </div>
-
-              <div class="thongtin">
-                <label>
-                    <i class="fa-solid fa-cake-candles"></i>
-                    <span>Ngày sinh: <b><?php echo date('d/m/Y', strtotime($user_info['birthday'])); ?></b></span>
                 </label>
               </div>
 
@@ -174,7 +165,7 @@ if (isset($_COOKIE['email'])) {
               
               
             <?php else: ?>
-              <div class="thongbao">
+              <div >
                 <h3>⚠️ Bạn chưa đăng nhập.</h3>
                 <p id="thongbao">Vui lòng đăng nhập để xem thông tin tài khoản.</p>
                 <a href="dangnhap.php" class="go_login">

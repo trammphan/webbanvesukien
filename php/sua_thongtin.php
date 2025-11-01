@@ -119,7 +119,7 @@ $conn->close();
         </div>
     </header>
 
-   <article class="sua_thongtin">
+   <article class="khungdungchung">
         <h2 class="w3-text-blue">🔒 Đổi mật khẩu</h2>
 
         <form class="w3-container w3-card-4 w3-light-grey" method="POST" style="max-width:500px;">

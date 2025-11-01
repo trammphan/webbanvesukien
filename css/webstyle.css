@@ -1,14 +1,13 @@
+/*STYLE DÙNG CHUNG */
 .color {
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
   color:(#071024e6, #060259);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-
 html{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 60%;
+    font-size: 90%;
 }
 body {
   overflow-x: hidden;
@@ -33,26 +32,69 @@ h2{
   padding: 10px 20px;
   margin-bottom: 20px;
 }
+input::placeholder {
+  color: #060259;
+  opacity: 0.7;
+  border: none;
+  width: 200%;
+  height: 53px;
+  font-size: large;
+}
+h3{
+  text-align: center;
+  color: #060259;
+  font-size:150%;
+  margin: 10px;
+}
+.hidden {
+  display: none;
+}
+.khungdungchung{
+    padding: 50px;
+    border-radius: 30px;
+    width: 700px;
+    margin: 120px auto;
+    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
+    background-color: white;
+}
 
+/*nhatochuc - quantrivien - nhanvien*/
+.congviec{
+    padding: 10px;
+    background-color: #040c2a;
+    color:#66FCF1;
+    width: 100%;
+    text-align: left;          
+    padding-left: 10px;
+    font-size: 80%;
 
-
-
-/* dang ky */
-
+}
+.congviec:hover{
+    background-color: #290352;
+    border-radius: 8px;
+    color: white;
+}
+.tieude{
+    margin:auto;
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #e6e7e9;
+}
+/*đăng ký - đăng nhập - người dùng - nhân viên - */
 .thongtin {
   color: #060259;
   border-radius: 20px;
   border: solid 2.5px #290352;
-  height: 53px;
-  width: 350px;
-  margin: 28px auto;
+  height: 60px;
+  width: 500px;
+  margin: 28px 10%;
   padding: 10px;
   box-sizing: border-box;
-
   flex-direction: row;
   outline: none;        /* Loại bỏ viền khi click */
   background: none;     /* Loại bỏ nền */
-
   display: flex;
   align-items: center;
  
@@ -64,33 +106,153 @@ h2{
   background-color: transparent;
   border:none;
   outline:none;
-
-  width: 300px;      
+  width: 450px;      
   padding: 5px 10px; 
   box-sizing: border-box;
-  
-
 }
-input::placeholder {
-  color: #060259;
-  opacity: 0.7;
-  border: none;
-  width: 200%;
-  height: 53px;
-  font-size: large;
+/*THIET KE DAP UNG*/
+@media screen and (max-width: 768px) {
+    .khungdungchung{
+        max-width: 500px;
+    }
+    .thongtin {
+        height: 53px;
+        width: 400px;
+        margin: 18px auto;
+    }
+    .thongtin input{
+        width: 350px;      
+    }
+    html{
+        font-size: 70%;
+    }
+    .khungdungchung{
+        padding: 30px;
+    }
+    .container_nhatochuc{
+    display: flex;           
+    justify-content: center; 
+    gap: 0px;
+    align-items: stretch;
+    flex-direction: row;
 }
+.nhatochuc, .nhatochuc_2{
+    width: 48%;
+    padding: 15px;
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+}   
 
-
-.dangky{
-    padding: 50px;
-    border-radius: 30px;
-    max-width: 500px;
-    margin: 120px auto;
     
-    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
-    background-color: white;
 }
 
+<<<<<<< Updated upstream
+@media screen and (max-width: 576px) {
+    .khungdungchung{
+        max-width: 330px;
+    }
+    .thongtin {
+        height: 53px;
+        width:238px;
+        margin: 10px auto;
+
+    }
+    .thongtin input{
+        width: 90%;     
+    }
+    html{
+        font-size: 60%;
+    }
+    input::placeholder {
+        font-size: smaller;
+    }
+    h2{
+        margin: 8px auto;
+    }
+    .khungdungchung{
+        padding: 15px;
+    }
+    
+
+}
+/*TRANG ADMIN QUẢN TRỊ VIÊN*/
+.duyetsukien, .baocao, .dieukhoan {
+  width: 75%;
+  background-color: #0b0c10;
+  color: white;
+  padding: 20px;
+  flex: 1;           
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  min-height: 80vh;
+  margin: 30px;
+}
+
+
+.thanh_doc {
+    margin-top:100px ;
+    margin-bottom: 100px;
+    margin-left: 50px;
+    margin-right: 0px;
+    flex: 0 0 250px;
+    width: px;
+    min-height: 80vh;
+    background-color: #293f97;
+    position: relative;
+    padding-top: 80px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color:#66fcf1;
+    flex-direction: column;
+    justify-content: space-between; 
+    border-radius: 40px ;
+}
+
+.noidung {
+  flex: 1;
+  background-color: white;
+  color: #060259;
+  padding: 30px;
+  margin: 100px 35px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  min-height: 80vh;
+  overflow-y: auto;
+  height: 100%;
+ 
+}
+.thanh_doc button:hover,
+.thanh_doc button.active {
+  background-color: #290352;
+  color: white;
+  border-radius: 8px;
+}
+
+.thanh_doc button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.email_qtv, .email_ntc{
+    padding-left: 10px;
+    margin-top: 20px;
+    color: rgb(136, 202, 255) ;
+    font-size: 80%;
+    
+}
+/*TRANG ĐĂNG KÝ*/
+
+
+=======
+>>>>>>> Stashed changes
 #user_name, #gender, #birthday, #tel, #email, #address, #password, 
 #confirm_pass, #old_pass, #new_pass {
   background: none;
@@ -122,9 +284,7 @@ input::placeholder {
   text-align: center;
   margin-top: 20px;
 }
-
-/* dang nhap */
-
+/*TRANG ĐĂNG NHẬP*/
 .dang_nhap{
   text-align: center;
   margin-top: 20px;
@@ -145,9 +305,8 @@ input::placeholder {
   color: white;
   text-align: center;
 }
-
-/* nguoi dung  logout*/
-
+/*TRANG NGƯỜI DÙNG*/
+    /*đăng xuất*/
 .logout{
   text-align: center;
   margin-top: 20px;
@@ -170,56 +329,23 @@ input::placeholder {
   text-align: center;
   text-decoration: none;
   flex-wrap: nowrap;
-
     transition-duration: 0.31s;
     transition-timing-function: ease;
     cursor: pointer;
-
-
-
 }
 #logout:hover{
   background-color: #5d5f62;
   color: white;
   text-align: center;
- 
 }
-
-/* thong bao nguoi dung chua dang nhap */
-
-.chua_dang_nhap{
-    padding: 50px;
-    border-radius: 30px;
-    max-width: 500px;
-    margin: 120px auto;
-    
-    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
-    background-color: white;
-}
-
-h3{
-  text-align: center;
-  color: #060259;
-  font-size:150%;
-  margin: 10px;
-}
-.thongbao{
-  color: #060259;
-  height: fit-content;
-  margin: 20px;
-  padding: 10px;
-  box-sizing: border-box;
-
-   
-}
-
+    /*thông báo chưa đăng nhập*/
+/*  */
 #thongbao{
   color:#060259;
   text-align: center;
   margin-bottom: 20px;
-  font: 1.2em sans-serif;
+  font: 1.0em sans-serif;
 }
-
 .go_login{
   text-align: center;
   margin-top: 20px;
@@ -240,25 +366,256 @@ h3{
   cursor: pointer;
   padding: 10px 20px;
   margin-left: 35%;
-
-
-
 }
 #go_login:hover{
   background-color: #0d05af;
   color: white;
   text-align: center;
+}
+/*TRANG NHÂN VIÊN*/
+.nhanvien{
+    margin:80px auto;
+    border: #060259 solid 2.5px;
+    background-color: white;
+    width: 95%;
+    border-radius: 60px;
+}
+.thongtinnhanvien{
+    padding: 20px;
+    padding-bottom: 90px;
+    margin-bottom: 90px;
+    background-color: rgb(201, 252, 255);
+    height: 350px;
+    border-radius: 60px;
+}
+#btn_duyet{
+    color: #e8fffd;
+    font-size: 100%;
+    padding: 8px;
+    border:solid 1px #060259;
+    text-decoration: none;
+    width: 300px;
+    margin:50px auto;
+    display: block;
+    text-align: center;
+    background-color: #040c2a;
+}
+#btn_duyet:hover{
+    background-color: rgb(8, 42, 165);
+    border-radius: 8px;
+    color: white;
+}
+#btn_baocao{
+    color: #e8fffd;
+    font-size: 100%;
+    padding: 8px;
+    border:solid 1px #060259;
+    text-decoration: none;
+    width: 300px;
+    margin:50px auto;
+    display: block;
+    text-align: center;
+    background-color: #040c2a;
+}
+#btn_baocao:hover{
+    background-color:rgb(8, 42, 165);
+    border-radius: 8px;
+    color: white;
+}
+#btn_dieukhoan{
+    color: #e8fffd;
+    font-size: 100%;
+    padding: 8px;
+    border:solid 1px #060259;
+    text-decoration: none;
+    width: 300px;
+    margin:50px auto;
+    display: block;
+    text-align: center;
+    background-color: #040c2a;
+}
+#btn_dieukhoan:hover{
+    background-color: rgb(8, 42, 165);
+    border-radius: 8px;
+    color: white;
+}
+/*TRANG NHÀ TỔ CHỨC*/
+.noidung_nhatochuc {
+  flex: 1;
+  background-color: white;
+  color: #060259;
+  padding: 30px;
+  margin: 100px 35px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  min-height: 80vh;
+  overflow-y: auto;
+  height: 100%;
  
+}
+.container_nhatochuc{
+    display: flex;           
+    justify-content: center; 
+    gap: 0px;
+    align-items: stretch;
+    flex-direction: row;
+}
+.nhatochuc, .nhatochuc_2{
+    width: 48%;
+    padding: 15px;
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+}   
+
+
+.chaomung{
+    color: #060259;
+    font-size: 90%;
+    padding: 10px 20px;
+}
+.chaomung_1{
+    color: white;
+    font-size: 90%;
+    padding: 10px 20px;
+}
+.cv_nhatochuc{
+    color: #dafdfb;
+    font-size: 100%;
+    padding: 8px;
+    border:solid 1px #060259;
+    text-decoration: none;
+    max-width: 90%;
+    margin:30px auto;
+    display: block;
+    text-align: center;
+    
+}
+.cv_nhatochuc:hover{
+    background-color: #290352;
+    border-radius: 8px;
+    color: white;
+}
+.thanh_doc_ntc {
+    margin-top:100px ;
+    margin-bottom: 100px;
+    margin-right: 0px;
+    flex: 0 0 29%;
+    min-height: 80vh;
+    background-color: #293f97;
+    position: relative;
+    padding: 50px 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color:#66fcf1;
+    flex-direction: column;
+    justify-content: space-between; 
+    border-radius: 40px ;
+}
+
+.box {
+  box-sizing: border-box;
+}
+.congcu_ntc{
+    text-align: center;
+    color: rgb(207, 255, 249);
+    font-size:250%;
+    font-weight: bold;
+    text-shadow: 5px 5px 6px gray;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    padding: 0px 10px;
+}
+.form_taosk{
+    border: #040c2a solid 3px;
+    border-radius: 15px;
+    padding: 50px;
+    max-width: 500px;
+    margin: 30px auto;
+    
+    box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
+    background-color:transparent;
+}
+
+.form-group {
+  color: #060259;
+  border-radius: 20px;
+  border: solid 2.5px #290352;
+  height: 53px;
+  width: 400px;
+  margin: 28px auto;
+  padding: 10px auto;
+  box-sizing: border-box;
+
+  flex-direction: row;
+  outline: none;        /* Loại bỏ viền khi click */
+  background: none;     /* Loại bỏ nền */
+  display: flex;
+}
+
+.form-group:hover {
+  border-color: #473fd4; 
+}
+.form-group input{
+  background-color: transparent;
+  border:none;
+  outline:none;
+
+  width: 300px;      
+  padding: 5px 10px; 
+  box-sizing: border-box;
 }
 
 
-/* sua thong tin nguoi dung */
+/*O lable*/
+#tensk, #loaisk, #thoigiansk, #diadiemsk, #motask, #ve_loaive, 
+#image_anh{
 
+    font-size: 18px;
+    padding: 5px 0px 5px 10px;
+}
+/*O input*/
+#chonsk, #tsk, #tgsk, #ddsk {
+  background: none;
+  border: none;
+  max-width: 400px;
+  color: #060259;   
+}
+.mota{
+    color: #060259;
+  border-radius: 20px;
+  border: solid 2.5px #290352;
+  height: 200px;
+  width: 400px;
+  margin: 15px auto;
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 8px;
+}
+#khungloaive .ve-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
 
+#khungloaive input {
+  flex: 1;
+  border: 2px solid #3b0066;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 18px;
+  color: #3b0066;
+  outline: none;
+  background-color: transparent;
+}
+
+#khungloaive input::placeholder {
+  color: #7a62a6;
+  font-style: italic;
+}
+
+/*SỬA THÔNG TIN*/
 .update_info{
   text-align: center;
   margin-top: 20px;
-  
 }
 #update{
   background-color: #290352;
@@ -278,13 +635,9 @@ h3{
   text-align: center;
   text-decoration: none;
   flex-wrap: nowrap;
-
     transition-duration: 0.31s;
     transition-timing-function: ease;
     cursor: pointer;
-
-
-
 }
 #update:hover{
   background-color: #100b6c;
@@ -292,7 +645,6 @@ h3{
   text-align: center;
  
 }
-
 .container_1 {
   display: flex;           
   justify-content: center; 
@@ -312,6 +664,8 @@ h3{
   border-radius: 8px;
 }
 
+<<<<<<< Updated upstream
+=======
 
 
 .sua_thongtin{
@@ -326,11 +680,15 @@ h3{
 }
 
 
+>>>>>>> Stashed changes
 .dang_nhap, .update_info {
   text-align: center;
   margin-top: 20px;
 }
+<<<<<<< Updated upstream
+=======
 
+>>>>>>> Stashed changes
 #back{
   background-color: #290352;
   color:white;
@@ -346,14 +704,11 @@ h3{
   transition-duration: 0.31s;
   transition-timing-function: ease;
   cursor: pointer;
-
 }
-
 #back:hover{
   background-color: #66FCF1;
   color: white;
   text-align: center;
- 
 }
 #change{
   background-color: #290352;
@@ -371,34 +726,25 @@ h3{
   transition-duration: 0.31s;
   transition-timing-function: ease;
   cursor: pointer;
-
   height: fit-content;
   flex-wrap: nowrap;
-
     transition-duration: 0.31s;
     transition-timing-function: ease;
-
 }
 #change:hover{
   background-color: #0a047f;
   color: white;
   text-align: center;
- 
 }
 
 
-
-
-
-/*Ngân css*/
-
+/* STYLE CỦA HUỲNH NGÂN*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Nunito', 'Open Sans', sans-serif;
 }
-
 body, html {
         margin: 0;
         padding: 0;
@@ -406,7 +752,6 @@ body, html {
         overflow-x: hidden; 
         background: linear-gradient(135deg, #0f2027, #060259, #290352);
     }
-
     /* HEADER & NAV STYLES */
     .main-header {
         width: 100%;
@@ -417,7 +762,6 @@ body, html {
         background: linear-gradient(135deg, #0f2027, #060259, #290352);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
-    
     .header-container {
         display: flex;
         justify-content: space-between;
@@ -426,7 +770,6 @@ body, html {
         margin: 0 auto;
         padding: 0 20px;
     }
-    
     .header-logo a {
         color: #fff;
         text-decoration: none;
@@ -434,7 +777,6 @@ body, html {
         font-weight: 800;
         font-family: 'Montserrat', 'Michroma', sans-serif;
     }
-    
     .header-search form {
         display: flex;
         align-items: center;
@@ -443,7 +785,6 @@ body, html {
         padding: 0 10px;
         height: 40px;
     }
-    
     .header-search .search-input {
         border: none;
         background: transparent;
@@ -452,12 +793,10 @@ body, html {
         outline: none;
         width: 250px;
         font-size: 14px;
-    }
-    
+    }  
     .header-search .search-input::placeholder {
         color: #a0a6b5;
-    }
-    
+    } 
     .header-search .search-button {
         background: transparent;
         border: none;
@@ -465,14 +804,12 @@ body, html {
         cursor: pointer;
         font-size: 16px;
         height: 100%;
-    }
-    
+    } 
     .header-right {
         display: flex;
         align-items: center;
         gap: 30px;
-    }
-    
+    } 
     .header-nav ul {
         list-style: none;
         padding: 0;
@@ -480,7 +817,6 @@ body, html {
         display: flex;
         gap: 20px;
     }
-    
     .header-nav a {
         text-decoration: none;
         color: #fff;
@@ -488,22 +824,19 @@ body, html {
         font-size: 15px;
         transition: color 0.3s;
     }
-    
     .header-nav a:hover {
         color: #66FCF1;
     }
-    
     .header-actions {
         display: flex;
         align-items: center;
         gap: 15px;
     }
-    
     .btn-signin {
         text-decoration: none;
     }
     .btn-signin, .btn-signup {
-    background: #66FCF1;
+    background: #66f4fc;
     color: #0d1222;
     border: none;
     border-radius: 20px; 
@@ -529,13 +862,11 @@ body, html {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     margin-top: 70px;
 }
-
 .category-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
-
 .category-list {
     list-style: none;
     display: flex;
@@ -546,7 +877,6 @@ body, html {
     overflow-x: auto;
     white-space: nowrap;
 }
-
 /* Ẩn thanh cuộn ngang */
 .category-list::-webkit-scrollbar {
     display: none;
@@ -556,7 +886,6 @@ body, html {
     scrollbar-width: none;
     font-family: 'Montserrat', 'Michroma', sans-serif;
 }
-
 .category-item {
     text-decoration: none;
     color: #a0a6b5;
@@ -567,19 +896,15 @@ body, html {
     border-bottom: 3px solid transparent;
     display: inline-block;
 }
-
 .category-item:hover {
     color: #fff;
     border-bottom: 3px solid #66FCF1;
 }
-
 .category-item.active {
     color: #66FCF1;
     border-bottom: 3px solid #66FCF1;
     font-weight: 600;
 }
-
-
 @media (max-width: 768px) {
     .category-list {
         justify-content: initial;
@@ -599,7 +924,6 @@ body, html {
         min-height: 400px;
         margin-top: 70px;
     }
-
     .banner-logo {
         max-width: 200px;
         margin-bottom: 25px;
@@ -612,8 +936,6 @@ body, html {
         text-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
         font-family: 'Montserrat', 'Michroma', sans-serif;
     }
-
-
     .banner-title {
         font-size: 48px;
         font-weight: 800;
@@ -621,7 +943,6 @@ body, html {
         line-height: 1.2;
         font-family: 'Nunito', 'Open Sans', sans-serif;
     }
-
     .banner-subtitle {
         font-size: 20px;
         font-weight: 400;
@@ -629,14 +950,12 @@ body, html {
         margin-bottom: 40px;
         max-width: 800px;
     }
-
     .banner-actions {
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
         justify-content: center;
     }
-
     .btn-book-now, .btn-banner-login {
         padding: 15px 30px;
         border: none;
@@ -648,52 +967,43 @@ body, html {
         text-decoration: none;
         display: inline-block;
     }
-
     .btn-book-now {
         background-color: #66FCF1;
         color: #0d1222;
     }
-
     .btn-book-now:hover {
         background-color: #00b3cc;
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0, 224, 255, 0.4);
     }
-
     .btn-banner-login {
         background-color: transparent;
         color: #66FCF1;
         border: 2px solid #66FCF1;
     }
-
     .btn-banner-login:hover {
         background-color: #66FCF1;
         color: #0d1222;
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0, 224, 255, 0.2);
     }
-
     /* EVENT CAROUSEL STYLES */
-
     .event-section {
         max-width: 1200px;
         margin: 40px auto;
         padding: 0 20px;
     }
-
 .section-title {
     color: #fff;
     font-size: 28px;
     font-weight: 800;
     margin-bottom: 25px;
     font-family: 'Nunito', 'Open Sans', sans-serif;
-}
-    
+}   
     .section-title i {
         color: #66FCF1;
         margin-right: 10px;
     }
-
     .event-carousel {
         display: flex;
         gap: 20px;
@@ -701,11 +1011,9 @@ body, html {
         padding-bottom: 20px;
         scrollbar-width: none;
     }
-
     .event-carousel::-webkit-scrollbar {
         display: none;
     }
-
     .event-card {
         flex: 0 0 280px;
         width: 280px;
@@ -715,34 +1023,28 @@ body, html {
         box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s;
     }
-
     .event-card:hover {
         transform: translateY(-5px);
     }
-
     .event-card a {
         text-decoration: none;
         color: inherit;
         display: block;
     }
-
     .card-image-wrapper {
         position: relative;
         height: 180px;
         overflow: hidden;
     }
-
     .card-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.3s;
     }
-
     .event-card:hover .card-image {
         transform: scale(1.05);
     }
-
     .event-tag {
         position: absolute;
         top: 10px;
@@ -754,11 +1056,9 @@ body, html {
         font-size: 12px;
         font-weight: bold;
     }
-
     .card-info {
         padding: 15px;
     }
-
     .event-name {
         color: #fff;
         font-size: 18px;
@@ -771,57 +1071,47 @@ body, html {
         -webkit-box-orient: vertical;
         height: 48px;
     }
-
     .event-date {
         color: #a0a6b5;
         font-size: 14px;
         margin-bottom: 5px;
     }
-
     .event-price {
         color: #66FCF1;
         font-size: 16px;
         font-weight: bold;
         margin-top: 10px;
     }
-
     .price-value {
         font-size: 18px;
     }
-
     /* FEATURES SECTION STYLES */
     .features-section {
         padding: 100px 20px 80px;
         color: #fffcfc;
         text-align: center;
-    }
-    
+    } 
     .section-description {
         font-size: 18px;
         margin-bottom: 40px;
-    }
-    
+    }  
     .features-grid {
         display: flex;
         justify-content: center;
         gap: 40px;
         flex-wrap: wrap;
-    }
-    
+    }   
     .feature-box {
         max-width: 300px;
         text-align: center;
-    }
-    
+    }  
     .feature-icon {
         width: 80px;
         margin-bottom: 20px;
-    }
-    
+    }  
     .bounce {
         animation: bounce 2s infinite;
-    }
-    
+    }  
     @keyframes bounce {
         0%, 100% {
             transform: translateY(0);
@@ -830,8 +1120,7 @@ body, html {
             transform: translateY(-15px);
         }
     }
-
-    /* FOOTER STYLES */
+   /* FOOTER STYLES */
     footer {
         background: linear-gradient(135deg, #0f2027, #060259, #290352);
         padding: 60px 0 20px;
@@ -841,7 +1130,6 @@ body, html {
         position: relative;
         z-index: 1;
     }
-
     .footer-container {
         display: flex;
         justify-content: space-between;
@@ -852,39 +1140,33 @@ body, html {
         gap: 30px;
         margin-bottom: 40px;
     }
-
     .footer-col {
         flex: 1;
         min-width: 250px;
     }
-
     .footer-logo {
         font-size: 28px;
         font-weight: 800;
         margin-bottom: 15px;
         color: #fff;
     }
-
     .footer-branding p {
         color: #a0a6b5;
         font-size: 14px;
         line-height: 1.6;
         margin-bottom: 20px;
     }
-
     .footer-col h4 {
         font-size: 18px;
         font-weight: 600;
         margin-bottom: 25px;
         color: #66FCF1;
     }
-
     .footer-links, .footer-contact {
         list-style: none;
         padding: 0;
         margin: 0;
     }
-
     .footer-links li, .footer-contact li {
         margin-bottom: 12px;
     }
@@ -895,35 +1177,29 @@ body, html {
         font-size: 15px;
         transition: color 0.3s;
     }
-
     .footer-links a:hover {
         color: #66FCF1;
     }
-
     .footer-contact li {
         display: flex;
         align-items: flex-start;
         color: #a0a6b5;
     }
-
     .footer-contact i {
         color: #66FCF1;
         margin-right: 10px;
         font-size: 16px;
         margin-top: 4px;
     }
-
     .social-links a {
         color: #a0a6b5;
         font-size: 20px;
         margin-right: 15px;
         transition: color 0.3s;
     }
-
     .social-links a:hover {
         color: #66FCF1;
     }
-
     .btn-download {
         background: #66FCF1;
         color: #0d1222;
@@ -935,11 +1211,9 @@ body, html {
         transition: background-color 0.3s;
         margin-top: 10px;
     }
-
     .btn-download:hover {
         background-color: #00b3cc;
     }
-
 .footer-bottom {
     text-align: center;
     padding: 20px 20px 0;
@@ -947,7 +1221,6 @@ body, html {
     max-width: 1200px;
     margin: 0 auto;
 }
-
 .footer-bottom p {
     color: #a0a6b5;
     font-size: 13px;
@@ -1020,14 +1293,7 @@ body, html {
             flex-direction: column;
             gap: 15px;
         }
-    }
-
-
-
-
-
-
-
+ }
 
 
 
@@ -1049,6 +1315,8 @@ main{
 
 
 
+<<<<<<< Updated upstream
+=======
 /*quản trị viên page css*/
 .duyetsukien, .baocao, .dieukhoan {
   width: 75%;
@@ -1423,6 +1691,7 @@ main{
 
 
 
+>>>>>>> Stashed changes
 
 
 
