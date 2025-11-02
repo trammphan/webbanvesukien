@@ -1,10 +1,11 @@
 <?php
 // --- PHẦN 1: LOGIC PHP (XỬ LÝ PHÍA SERVER) ---
 session_start();
+var_dump($_SESSION);
 // 1. Kết nối CSDL
 include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
 // LẤY THÔNG TIN USER ĐĂNG NHẬP (NẾU CÓ)
-$loggedInName = $_SESSION['user_name'] ?? ''; // Giả sử bạn lưu tên là 'user_name'
+$loggedInName = $_SESSION['user_name'] ?? '';// Giả sử bạn lưu tên là 'user_name'
 $loggedInEmail = $_SESSION['email'] ?? '';
 // 2. Lấy thông tin từ URL (từ seatmap.js)
 $maSK = $_GET['MaSK'] ?? null;

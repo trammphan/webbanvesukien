@@ -1,6 +1,6 @@
-
-
 <?php
+session_start(); // Bắt buộc ở đầu file
+
 // Kết nối CSDL
 $servername = "localhost";
 $username = "root";
@@ -35,44 +35,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-
   // Kiểm tra có tài khoản không
-    if (!empty($user)) {
-    //$user= $result->fetch_assoc();
-
-      if ($password === $user['password'] || md5($password) === $user['password'] ) 
-      {
+  if (!empty($user)) {
+    
+    // Kiểm tra mật khẩu
+    if ($password === $user['password'] || md5($password) === $user['password'] ) 
+    {
       
-      setcookie("email", $user['email'], time() + 3600, "/");
-      setcookie("user_name", $user['user_name'], time() + 3600, "/");
-     // setcookie("id", $user['id'], time() + 3600, "/");
+      // Gán phiên đăng nhập (SESSION)
+      $_SESSION['email'] = $user['email'];
+      $_SESSION['user_name'] = $user['user_name']; // Đảm bảo cột 'user_name' tồn tại trong CSDL
 
+      // Điều hướng theo loại tài khoản
       switch ($user['table']) {
-            case 'khachhang':
-                // --- BẮT ĐẦU PHẦN GỘP CODE ---
-                // Kiểm tra xem có trường 'redirect' được gửi từ form không
-                if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
-                    // Nếu có, chuyển hướng người dùng TRỞ LẠI trang họ đang xem
-                    header('Location: ' . urldecode($_POST['redirect']));
-                } else {
-                    // Nếu không, chuyển hướng về trang chủ (mặc định)
-                    header("Location: index.php");
-                }
-                // --- KẾT THÚC PHẦN GỘP CODE ---
-                break;
-            case 'quantrivien':
-                header("Location: admin.php");
-                break;
-            case 'nhatochuc':
-                header("Location: nhatochuc.php");
-                break;
-            case 'nhanviensoatve':
-                header("Location: nhanvien.php");
-                break;
-        }
-        exit(); // Rất quan trọng, phải gọi exit() sau khi header()
+          case 'khachhang':
+              if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
+                  header('Location: ' . urldecode($_POST['redirect']));
+              } else {
+                  header("Location: index.php");
+              }
+              break;
+          case 'quantrivien':
+              header("Location: admin.php");
+              break;
+          case 'nhatochuc':
+              header("Location: nhatochuc.php");
+              break;
+          case 'nhanviensoatve':
+              header("Location: nhanvien.php");
+              break;
+      }
+      exit(); // Rất quan trọng, phải gọi exit() sau khi header()
     }
-      else {
+    else {
       echo "<script>alert('Sai mật khẩu!'); window.location='dangnhap.php';</script>";
     }
   } 

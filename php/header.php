@@ -1,3 +1,6 @@
+<?php
+    require_once __DIR__ . '/../php/auth.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,10 +36,13 @@
             </div>
             
             <div class="header-right">
+                <!-- thêm lịch sử mua vé -->
                 <nav class="header-nav">
                     <ul>
-                        <li><a href="#taosukien">Tạo sự kiện</a></li>
-                        <li><a href="#vecuatoi">Vé của tôi</a></li>
+                        <?php if (is_logged_in()): ?>
+                            <li><a href="tao_su_kien.php">Tạo sự kiện</a></li>
+                            <li><a href="lich_su_mua_ve.php">Vé của tôi</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
