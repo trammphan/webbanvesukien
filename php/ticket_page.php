@@ -1,4 +1,5 @@
 <?php
+session_start();
 // 1. Kết nối CSDL và lấy MaSK từ URL
 include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
 
@@ -159,9 +160,14 @@ function format_currency($amount) {
       </div>
     </section>
 
+
     <script>
         // Dữ liệu này bây giờ đã bao gồm 'description'
         const ticketData = <?php echo json_encode($ticket_types); ?>;
+
+        // THÊM DÒNG NÀY:
+        // (Giả sử bạn lưu mã khách hàng trong $_SESSION['email'] khi họ đăng nhập)
+        const isUserLoggedIn = <?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>;
     </script>
     <script src="../js/ticket_page.js"></script>
   </body>

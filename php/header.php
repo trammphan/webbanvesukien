@@ -1,14 +1,3 @@
-<?php
-    // File auth.php của bạn có thể đã khởi động session
-    // nhưng để chắc chắn, chúng ta gọi session_start()
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-    require_once __DIR__ . '/../php/auth.php';
-    
-    // Lấy loại user từ session (được gán lúc đăng nhập)
-    $user_table = $_SESSION['user_table'] ?? '';
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,34 +33,10 @@
             </div>
             
             <div class="header-right">
-                <!-- thêm lịch sử mua vé -->
                 <nav class="header-nav">
                     <ul>
-                        <?php if (is_logged_in()): ?>
-                            
-                            <!-- *** BẮT ĐẦU CHỈNH SỬA *** -->
-                            
-                            <?php // Chỉ 'nhatochuc' mới thấy "Tạo sự kiện" ?>
-                            <?php if ($user_table === 'nhatochuc'): ?>
-                                <li><a href="tao_su_kien.php">Tạo sự kiện</a></li>
-                            <?php endif; ?>
-
-                            <?php // Chỉ 'khachhang' mới thấy "Vé của tôi" ?>
-                            <?php if ($user_table === 'khachhang'): ?>
-                                <li><a href="lich_su_mua_ve.php">Vé của tôi</a></li>
-                            <?php endif; ?>
-                            
-                            <?php // Thêm liên kết cho Admin và NV Soát Vé (nếu cần) ?>
-                             <?php if ($user_table === 'quantrivien'): ?>
-                                <li><a href="admin.php">Trang Admin</a></li>
-                            <?php endif; ?>
-                             <?php if ($user_table === 'nhanviensoatve'): ?>
-                                <li><a href="nhanvien.php">Trang Soát Vé</a></li>
-                            <?php endif; ?>
-
-                            <!-- *** KẾT THÚC CHỈNH SỬA *** -->
-                            
-                        <?php endif; ?>
+                        <li><a href="#taosukien">Tạo sự kiện</a></li>
+                        <li><a href="#vecuatoi">Vé của tôi</a></li>
                     </ul>
                 </nav>
 

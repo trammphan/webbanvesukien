@@ -145,13 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
       quantityDisplay.textContent = currentQuantity;
       updateTotal();
     }
-  }); // === SỰ KIỆN NÚT "THANH TOÁN" === (Giữ nguyên logic của bạn)
-
+  });
+  // === SỰ KIỆN NÚT "THANH TOÁN" === (ĐÃ CẬP NHẬT LOGIC ĐĂNG NHẬP)
   if (nextButton) {
     nextButton.addEventListener("click", (event) => {
       const urlParams = new URLSearchParams(window.location.search);
       const maSK = urlParams.get("MaSK");
 
+      // 1. Kiểm tra đã chọn vé chưa
       if (!selectedZoneId) {
         nextButton.textContent = "Vui lòng chọn loại vé!";
         setTimeout(() => {
@@ -164,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const qty = currentQuantity;
       const ticketsRemaining = ticketData[zone].remaining;
 
+      // 2. Kiểm tra số lượng vé còn lại
       if (qty > ticketsRemaining) {
         nextButton.style.backgroundColor = "#e74c3c";
         nextButton.textContent = `Chỉ còn ${ticketsRemaining} vé!`;
@@ -174,8 +176,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      console.log("Còn vé! Chuyển sang trang thanh toán...");
-      window.location.href = `thanhtoan.php?MaSK=${maSK}&zone=${zone}&qty=${qty}`;
+      // 3. (PHẦN ĐƯỢC THÊM VÀO) KIỂM TRA ĐĂNG NHẬP
+      // Biến 'isUserLoggedIn' này đã được tạo trong ticket_page.php
+      if (isUserLoggedIn) {
+        // 3.1. ĐÃ ĐĂNG NHẬP: Tốt, chuyển đến trang thanh toán
+        console.log("Đã đăng nhập. Chuyển sang trang thanh toán...");
+        window.location.href = `thanhtoan.php?MaSK=${maSK}&zone=${zone}&qty=${qty}`;
+      } else {
+        // 3.2. CHƯA ĐĂNG NHẬP: Báo lỗi và chuyển đến trang đăng nhập
+        alert("Vui lòng đăng nhập để tiếp tục thanh toán!");
+        // (Hãy chắc chắn 'login.php' là đúng đường dẫn trang đăng nhập của bạn)
+        window.location.href = "login.php";
+      }
     });
   }
 });
