@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $soLuong = (int)$_POST['quantity'];
     $tongTien_form = (int)$_POST['total_price']; // Giá từ form
     $tenKH = $_POST['customer_name'];
-     $emailKH = $email_khach_hang_login; // Tự động lấy email đã đăng nhập
+    // KHÔNG CẦN LẤY EMAIL TỪ FORM NỮA
     $sdtKH = $_POST['customer_phone'];
     $phuongThucTT = $_POST['payment_method'];
     
@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $trangThai_payment = 'Chờ thanh toán'; // Trạng thái cho bảng ThanhToan
     $trangThai_ve = 'Đã giữ chỗ';       // Trạng thái mới cho bảng Ve
 
-    // 4. Validation cơ bản
-    if (empty($maSK) || empty($maLV) || $soLuong <= 0 || empty($tenKH) || empty($emailKH)) {
+    // 4. Validation cơ bản (đã loại bỏ emailKH vì đã kiểm tra session ở trên)
+    if (empty($maSK) || empty($maLV) || $soLuong <= 0 || empty($tenKH)) {
         die("Lỗi: Vui lòng điền đầy đủ thông tin bắt buộc.");
     }
 
@@ -42,6 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt_price_check->bind_param("ss", $maSK, $maLV);
     $stmt_price_check->execute();
+    
+    // *** SỬA LỖI ĐÁNH MÁY TẠI ĐÂY ***
+    // Sửa từ: $result_price_check
+    // Thành: $stmt_price_check
     $result_price = $stmt_price_check->get_result();
 
     if ($result_price->num_rows == 0) {
@@ -89,36 +93,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $maTT = uniqid('TT_'); 
 
+        // Câu lệnh SQL giờ CHỈ CÓ Email_KH (7 cột)
         $sql_thanhtoan = "INSERT INTO ThanhToan (
-                            MaTT, PhuongThucThanhToan, SoTien, 
-                            TenNguoiThanhToan, SDT, Email, TrangThai, 
-                            Email_KH
-                          ) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                MaTT, PhuongThucThanhToan, SoTien, 
+                                TenNguoiThanhToan, SDT, TrangThai, 
+                                Email_KH
+                            ) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?)"; // 7 dấu ?
         
         $stmt_thanhtoan = $conn->prepare($sql_thanhtoan);
         if ($stmt_thanhtoan === false) {
             throw new Exception("Lỗi sql thanh toán: " . $conn->error);
         }
 
-        // *** ĐÂY LÀ PHẦN SỬA QUAN TRỌNG (LỖI KIỂU DỮ LIỆU) ***
-        // Sửa 'ssisssss' thành 'ssdsssss' vì SoTien là FLOAT (kiểu 'd')
-        $stmt_thanhtoan->bind_param("ssdsssss",  
-            $maTT,
-            $phuongThucTT, 
-            $server_total, // Kiểu 'd' (float/double) cho SoTien
-            $tenKH,        
-            $sdtKH,        
-            $emailKH, // *** ĐÃ THAY ĐỔI: Dùng email session
-            $trangThai_payment,
-            $email_khach_hang_login // Lấy từ SESSION
+        // *** SỬA LỖI QUAN TRỌNG ***
+        // bind_param giờ phải có 7 kiểu ("ssdssss") và 7 biến
+        $stmt_thanhtoan->bind_param("ssdssss",  
+            $maTT,                      // 1. MaTT (s)
+            $phuongThucTT,              // 2. PhuongThucThanhToan (s)
+            $server_total,              // 3. SoTien (d)
+            $tenKH,                       // 4. TenNguoiThanhToan (s)
+            $sdtKH,                       // 5. SDT (s)
+            $trangThai_payment,         // 6. TrangThai (s)
+            $email_khach_hang_login     // 7. Email_KH (s) - Lấy từ session
         );
 
         if (!$stmt_thanhtoan->execute()) {
             throw new Exception("Lỗi khi tạo thanh toán: " . $stmt_thanhtoan->error);
         }
         $stmt_thanhtoan->close();
-
 
         // --- BƯỚC 3: UPDATE BẢNG 'VE' ĐỂ GÁN MaTT ---
         $sql_update_ve = "UPDATE ve SET MaTT = ?, TrangThai = ? WHERE MaVe = ?";
@@ -153,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $_SESSION['customer_info'] = [
             'name' => $tenKH,
-            'email' => $emailKH,
+            'email' => $email_khach_hang_login, // Sửa: Dùng email session
             'phone' => $sdtKH
         ];
         
@@ -176,3 +179,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Lỗi: Phương thức truy cập không hợp lệ.";
 }
 ?>
+
+

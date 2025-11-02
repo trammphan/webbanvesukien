@@ -1,3 +1,13 @@
+<?php
+    // FIX 1: KHỞI ĐỘNG SESSION ĐỂ ĐỌC THÔNG TIN ĐĂNG NHẬP
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    // Lấy thông tin auth (giống hệt header.php)
+    require_once __DIR__ . '/../php/auth.php';
+    $user_table = $_SESSION['user_table'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -30,30 +40,45 @@
                 <div class="header-right">
                     <nav class="header-nav">
                         <ul>
-                            <li><a href="#taosukien">Tạo sự kiện</a></li>
-                            <li><a href="#vecuatoi">Vé của tôi</a></li>
+                           <!-- FIX 2: ĐỒNG BỘ HEADER VỚI header.php -->
+                           <?php if (is_logged_in()): ?>
+                                
+                                <?php // Chỉ 'nhatochuc' mới thấy "Tạo sự kiện" ?>
+                                <?php if ($user_table === 'nhatochuc'): ?>
+                                    <li><a href="tao_su_kien.php">Tạo sự kiện</a></li>
+                                <?php endif; ?>
+
+                                <?php // Chỉ 'khachhang' mới thấy "Vé của tôi" ?>
+                                <?php if ($user_table === 'khachhang'): ?>
+                                    <li><a href="lich_su_mua_ve.php">Vé của tôi</a></li>
+                                <?php endif; ?>
+                                
+                                <?php // Thêm liên kết cho Admin và NV Soát Vé (nếu cần) ?>
+                                 <?php if ($user_table === 'quantrivien'): ?>
+                                    <li><a href="admin.php">Trang Admin</a></li>
+                                <?php endif; ?>
+                                 <?php if ($user_table === 'nhanviensoatve'): ?>
+                                    <li><a href="nhanvien.php">Trang Soát Vé</a></li>
+                                <?php endif; ?>
+                                
+                            <?php endif; ?>
                         </ul>
                     </nav>
 
-                 <?php 
-                    // include __DIR__ . '/../php/header_actions.php'; 
-                ?> 
-                <?php 
-                    // Giả định rằng file này tồn tại ở đường dẫn ../php/header_actions.php
-                    // include __DIR__ . '/../php/header_actions.php'; 
-                    
-                    // Để đơn giản cho ví dụ, hiển thị một trình giữ chỗ nếu file không tồn tại
-                    if (file_exists(__DIR__ . '/../php/header_actions.php')) {
-                        include __DIR__ . '/../php/header_actions.php';
-                    } else {
-                        // Hiển thị nút đăng nhập/đăng ký giữ chỗ
-                        echo '<div class="header-actions">
-                                <a href="dangnhap.php" class="btn-login">Đăng nhập</a>
-                                <a href="dangky.php" class="btn-signup">Đăng ký</a>
-                              </div>';
-                    }
-                ?>
-                    </div>
+                    <?php 
+                      // FIX 3: SỬ DỤNG file header_actions.php CHUẨN
+                      // Nó sẽ tự động hiển thị "Đăng nhập" hoặc "Tên User/Đăng xuất"
+                      if (file_exists(__DIR__ . '/../php/header_actions.php')) {
+                          include __DIR__ . '/../php/header_actions.php';
+                      } else {
+                          // Fallback nếu không tìm thấy file
+                          echo '<div class="header-actions">
+                                    <a href="dangnhap.php" class="btn-login">Đăng nhập</a>
+                                    <a href="dangky.php" class="btn-signup">Đăng ký</a>
+                                </div>';
+                      }
+                    ?>
+                
                 </div>
             </div>
         </header>
@@ -112,14 +137,14 @@
                         
                         <div class="button">
                             <?php
-                            // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
-                            if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
+                            // ******** FIX 4: ĐÂY LÀ THAY ĐỔI QUAN TRỌNG ********
+                            // Kiểm tra xem SESSION 'email' (dấu hiệu đã đăng nhập) có tồn tại không
+                            if (isset($_SESSION['email']) && !empty($_SESSION['email'])) {
                                 // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
                                 echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';
                             } else {
                                 // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
 
-                                // ******** ĐÂY LÀ THAY ĐỔI QUAN TRỌNG ********
                                 // 1. Xác định URL mục tiêu (trang mua vé)
                                 $target_url = 'ticket_page.php?MaSK=' . htmlspecialchars($maSK);
                                 
