@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       
       setcookie("email", $user['email'], time() + 3600, "/");
       setcookie("user_name", $user['user_name'], time() + 3600, "/");
-     // setcookie("id", $user['id'], time() + 3600, "/");
+      setcookie("user_role", $user['table'], time() + 3600, "/");
 
       switch ($user['table']) {
             case 'khachhang':
