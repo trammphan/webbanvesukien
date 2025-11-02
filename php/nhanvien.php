@@ -112,47 +112,48 @@ if ($user_email) {
     </header>
 
     <main>
-    <article class="nhanvien">
-            
-            <fieldset class="thongtinnhanvien">
-             <h2>Thông tin tài khoản</h2>   
-            <?php if ($is_logged_in && $user_info): ?>
-            
-                <div class="thongtin">
-                <label>
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>Email: <b><?php echo htmlspecialchars($user_info['email']); ?></b></span>
-                </label>
-              </div>
-              <div class="thongtin">
-                <label>
-                    <i class="fa-solid fa-book-open-reader"></i>
-                    <span>Họ và tên: <b><?php echo htmlspecialchars($user_info['user_name']); ?></b></span>
-                </label>
-              </div>
-
-              <div class="thongtin">
-                <label>
-                    <i class="fa-solid fa-venus-mars"></i>
-                    <span>Giới tính: <b><?php echo format_gender($user_info['gender']); ?></b></span>
-                </label>
-              </div>
- 
-                <div class="container_1">
-                    <div class="logout" class="box_1">
-                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
-                            <i class="fa-solid fa-right-from-bracket"></i> 
-                        </a>
-                    </div>
-                    <div class="update_info" class="box_1">
-                        <a href="sua_thongtin.php"  id="update">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </div>
+    <article class="khungdungchung">
+        <div class="thongtinnhanvien">
+            <fieldset class="">
+                <h2>Thông tin tài khoản</h2>   
+                <?php if ($is_logged_in && $user_info): ?>
+                
+                    <div class="thongtin">
+                    <label>
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Email: <b><?php echo htmlspecialchars($user_info['email']); ?></b></span>
+                    </label>
                 </div>
-            
+                <div class="thongtin">
+                    <label>
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        <span>Họ và tên: <b><?php echo htmlspecialchars($user_info['user_name']); ?></b></span>
+                    </label>
+                </div>
+
+                <div class="thongtin">
+                    <label>
+                        <i class="fa-solid fa-venus-mars"></i>
+                        <span>Giới tính: <b><?php echo format_gender($user_info['gender']); ?></b></span>
+                    </label>
+                </div>
+    
+                    <div class="container_1">
+                        <div class="logout" class="box_1">
+                            <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> 
+                            </a>
+                        </div>
+                        <div class="update_info" class="box_1">
+                            <a href="sua_thongtin.php"  id="update">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </fieldset>
-            <?php endif; ?>
+        </div>
+            
 
         <h2 class="nhanvien-title">Chào mừng Nhân Viên Soát Vé!</h2>
         <p class="chaomung">Chào mừng bạn đến với trang quản lý nhân viên soát vé của Vibe4. Tại đây, bạn có thể dễ dàng quản lý và xác nhận vé sự kiện một cách nhanh chóng và hiệu quả.</p>

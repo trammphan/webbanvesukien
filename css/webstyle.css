@@ -66,7 +66,7 @@ h3{
     width: 100%;
     text-align: left;          
     padding-left: 10px;
-    font-size: 80%;
+    font-size: 19px;
 
 }
 .congviec:hover{
@@ -129,15 +129,18 @@ h3{
     .khungdungchung{
         padding: 30px;
     }
-    .container_nhatochuc{
-    display: flex;           
-    justify-content: center; 
-    gap: 0px;
-    align-items: stretch;
-    flex-direction: row;
-}
- 
+    .nhatochuc_2{
+        width: 200px;
+    }
+    .congviec{
+        font-size: 15px;
 
+    }
+    .nhatochuc, .taosukien, .quanly, .xembaocao, .capnhat {
+        width: 700px;
+    }
+
+    
     
 }
 
@@ -212,7 +215,9 @@ h3{
   min-height: 80vh;
   overflow-y: auto;
   height: 100%;
- 
+
+  /* chiều cao bằng nhau */
+    align-self: stretch;
 }
 .thanh_doc button:hover,
 .thanh_doc button.active {
@@ -364,20 +369,12 @@ h3{
   text-align: center;
 }
 /*TRANG NHÂN VIÊN*/
-.nhanvien{
-    margin:80px auto;
-    border: #060259 solid 2.5px;
-    background-color: white;
-    width: 95%;
-    border-radius: 60px;
-}
 .thongtinnhanvien{
     padding: 20px;
-    padding-bottom: 90px;
-    margin-bottom: 90px;
+    margin-bottom: 20px;
     background-color: rgb(201, 252, 255);
-    height: 350px;
     border-radius: 60px;
+    box-shadow: 8px 8px 20px rgb(11, 11, 179);
 }
 #btn_duyet{
     color: #e8fffd;
@@ -431,7 +428,36 @@ h3{
     color: white;
 }
 /*TRANG NHÀ TỔ CHỨC*/
-.noidung_nhatochuc {
+.container_nhatochuc{
+    display: flex;           
+    justify-content: center; 
+    gap: 0px;
+    flex-direction: row;
+    
+}
+.nhatochuc{
+    padding: 15px;
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+
+    align-self: stretch;
+}   
+.nhatochuc_2{
+    margin-top:100px ;
+    width: 280px;
+    background-color: #293f97;
+    position: relative;
+    padding-top: 80px;
+    box-shadow: 10px 10px 20px rgb(56, 83, 255);
+    color:#66fcf1;
+    border-radius: 40px ;
+    box-sizing: border-box; 
+    height: 600px;
+
+    /* chiều cao bằng nhau */
+    align-self: stretch; 
+}
+.nhatochuc, .taosukien, .quanly, .xembaocao, .capnhat {
   flex: 1;
   background-color: white;
   color: #060259;
@@ -439,26 +465,35 @@ h3{
   margin: 100px 35px;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  min-height: 80vh;
+  height: 80vh;
   overflow-y: auto;
-  height: 100%;
- 
-}
-.container_nhatochuc{
-    display: flex;           
-    justify-content: center; 
-    gap: 0px;
-    align-items: stretch;
-    flex-direction: row;
-}
-.nhatochuc, .nhatochuc_2{
-    width: 48%;
-    padding: 15px;
-    box-sizing: border-box; 
-    border: 1px solid #ccc;
-}   
+  height: 600px;
+  width: 1100px;
 
+  /* chiều cao bằng nhau */
+    align-self: stretch;
+}
 
+.nhatochuc_2 button:hover,
+.nhatochuc_2 button.active {
+  background-color: #290352;
+  color: white;
+  border-radius: 8px;
+}
+
+.nhatochuc_2 button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
 .chaomung{
     color: #060259;
     font-size: 90%;
@@ -486,21 +521,7 @@ h3{
     border-radius: 8px;
     color: white;
 }
-.thanh_doc_ntc {
-    margin-top:100px ;
-    margin-bottom: 100px;
-    margin-right: 0px;
-    flex: 0 0 29%;
-    min-height: 80vh;
-    background-color: #293f97;
-    position: relative;
-    padding: 50px 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    color:#66fcf1;
-    flex-direction: column;
-    justify-content: space-between; 
-    border-radius: 40px ;
-}
+
 
 .box {
   box-sizing: border-box;
@@ -541,7 +562,6 @@ h3{
   background: none;     /* Loại bỏ nền */
   display: flex;
 }
-
 .form-group:hover {
   border-color: #473fd4; 
 }
@@ -556,14 +576,14 @@ h3{
 }
 
 
-/*O lable*/
+/*O lable
 #tensk, #loaisk, #thoigiansk, #diadiemsk, #motask, #ve_loaive, 
 #image_anh{
 
     font-size: 18px;
     padding: 5px 0px 5px 10px;
-}
-/*O input*/
+}*/
+/*O input
 #chonsk, #tsk, #tgsk, #ddsk {
   background: none;
   border: none;
@@ -601,7 +621,8 @@ h3{
 #khungloaive input::placeholder {
   color: #7a62a6;
   font-style: italic;
-}
+} 
+*/
 
 /*SỬA THÔNG TIN*/
 .update_info{

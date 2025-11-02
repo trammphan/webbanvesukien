@@ -42,9 +42,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password === $user['password'] || md5($password) === $user['password'] ) 
     {
       
+<<<<<<< HEAD
       // Gán phiên đăng nhập (SESSION)
       $_SESSION['email'] = $user['email'];
       $_SESSION['user_name'] = $user['user_name']; // Đảm bảo cột 'user_name' tồn tại trong CSDL
+=======
+      setcookie("email", $user['email'], time() + 3600, "/");
+      setcookie("user_name", $user['user_name'], time() + 3600, "/");
+      setcookie("user_role", $user['table'], time() + 3600, "/");
+>>>>>>> a04a4ed7072f9b283b38395639a199319f06e092
 
       // Điều hướng theo loại tài khoản
       switch ($user['table']) {
