@@ -3,6 +3,15 @@ session_start();
 
 // 1. Kết nối CSDL
 include 'connect_1.php'; 
+// --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP TRÊN SERVER ---
+// Đây là chốt chặn bảo mật cuối cùng
+$email_khach_hang_login = $_SESSION['email'] ?? null;
+
+if ($email_khach_hang_login === null) {
+    // Nếu vì lý do nào đó mà session không có (VD: hết hạn, bị tấn công)
+    die("Lỗi: Phiên đăng nhập không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại và thử thanh toán.");
+}
+// --- KẾT THÚC BỔ SUNG ---
 
 // 2. Kiểm tra phương thức POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $soLuong = (int)$_POST['quantity'];
     $tongTien_form = (int)$_POST['total_price']; // Giá từ form
     $tenKH = $_POST['customer_name'];
-    $emailKH = $_POST['customer_email'];
+     $emailKH = $email_khach_hang_login; // Tự động lấy email đã đăng nhập
     $sdtKH = $_POST['customer_phone'];
     $phuongThucTT = $_POST['payment_method'];
     
@@ -76,18 +85,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // --- BƯỚC 2: INSERT VÀO BẢNG THANHTOAN (ĐÃ SỬA) ---
         
-        // Lấy Email của người dùng đã đăng nhập từ SESSION
-        // (File đăng nhập của bạn đã gán 'email' nên code này sẽ chạy đúng)
-        $email_khach_hang_login = $_SESSION['email'] ?? null;
-
+        // BIẾN $email_khach_hang_login ĐÃ ĐƯỢC LẤY Ở ĐẦU FILE
+        
         $maTT = uniqid('TT_'); 
 
         $sql_thanhtoan = "INSERT INTO ThanhToan (
                             MaTT, PhuongThucThanhToan, SoTien, 
                             TenNguoiThanhToan, SDT, Email, TrangThai, 
                             Email_KH
-                        ) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                          ) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt_thanhtoan = $conn->prepare($sql_thanhtoan);
         if ($stmt_thanhtoan === false) {
@@ -102,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $server_total, // Kiểu 'd' (float/double) cho SoTien
             $tenKH,        
             $sdtKH,        
-            $emailKH,      
+            $emailKH, // *** ĐÃ THAY ĐỔI: Dùng email session
             $trangThai_payment,
             $email_khach_hang_login // Lấy từ SESSION
         );
@@ -111,6 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Lỗi khi tạo thanh toán: " . $stmt_thanhtoan->error);
         }
         $stmt_thanhtoan->close();
+
 
         // --- BƯỚC 3: UPDATE BẢNG 'VE' ĐỂ GÁN MaTT ---
         $sql_update_ve = "UPDATE ve SET MaTT = ?, TrangThai = ? WHERE MaVe = ?";

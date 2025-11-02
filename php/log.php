@@ -16,6 +16,27 @@ if ($conn->connect_error) {
 
 // Khi người dùng nhấn nút Đăng nhập
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // --- SỬA LỖI: Lấy URL redirect ngay từ đầu ---
+  // Trang đăng nhập của bạn (dangnhap.php) phải đảm bảo gửi tham số này 
+  // trong action của form, ví dụ: <form action="log.php?redirect=..."
+  
+  $redirect_url = null;
+  $redirect_param = ''; // Chuỗi tham số để đính kèm khi có lỗi
+
+  // Kiểm tra cả GET (từ action URL) và POST (từ hidden input)
+  if (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
+      $redirect_url = $_GET['redirect'];
+  } else if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
+      // Dành cho trường hợp bạn dùng <input type="hidden" name="redirect" ...>
+      $redirect_url = $_POST['redirect'];
+  }
+
+  // Nếu có URL redirect, chuẩn bị sẵn tham số cho các link lỗi
+  if ($redirect_url) {
+      // Mã hóa lại nó để gắn vào URL một cách an toàn
+      $redirect_param = '&redirect=' . urlencode($redirect_url);
+  }
+  // --- KẾT THÚC SỬA LỖI ---
   $email = mysqli_real_escape_string($conn, trim(strtolower($_POST['email'])));
   $password = mysqli_real_escape_string($conn, trim($_POST['password']));
 
@@ -42,15 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password === $user['password'] || md5($password) === $user['password'] ) 
     {
       
-<<<<<<< HEAD
       // Gán phiên đăng nhập (SESSION)
       $_SESSION['email'] = $user['email'];
       $_SESSION['user_name'] = $user['user_name']; // Đảm bảo cột 'user_name' tồn tại trong CSDL
-=======
-      setcookie("email", $user['email'], time() + 3600, "/");
-      setcookie("user_name", $user['user_name'], time() + 3600, "/");
-      setcookie("user_role", $user['table'], time() + 3600, "/");
->>>>>>> a04a4ed7072f9b283b38395639a199319f06e092
 
       // Điều hướng theo loại tài khoản
       switch ($user['table']) {
@@ -73,12 +88,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
       exit(); // Rất quan trọng, phải gọi exit() sau khi header()
     }
-    else {
-      echo "<script>alert('Sai mật khẩu!'); window.location='dangnhap.php';</script>";
+else {
+      // --- SỬA LỖI: Bỏ alert() và giữ lại tham số redirect ---
+      // Chuyển hướng về trang đăng nhập VÀ mang theo tham số redirect
+      header('Location: dangnhap.php?error=password' . $redirect_param);
+      exit();
     }
   } 
   else {
-    echo "<script>alert('Email không tồn tại!'); window.location='dangnhap.php';</script>";
+    // --- SỬA LỖI: Bỏ alert() và giữ lại tham số redirect ---
+    header('Location: dangnhap.php?error=email' . $redirect_param);
+    exit();
   }
 }
 

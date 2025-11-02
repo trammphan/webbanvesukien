@@ -35,8 +35,23 @@
                         </ul>
                     </nav>
 
+                 <?php 
+                    // include __DIR__ . '/../php/header_actions.php'; 
+                ?> 
                 <?php 
-                    include __DIR__ . '/../php/header_actions.php'; 
+                    // Giả định rằng file này tồn tại ở đường dẫn ../php/header_actions.php
+                    // include __DIR__ . '/../php/header_actions.php'; 
+                    
+                    // Để đơn giản cho ví dụ, hiển thị một trình giữ chỗ nếu file không tồn tại
+                    if (file_exists(__DIR__ . '/../php/header_actions.php')) {
+                        include __DIR__ . '/../php/header_actions.php';
+                    } else {
+                        // Hiển thị nút đăng nhập/đăng ký giữ chỗ
+                        echo '<div class="header-actions">
+                                <a href="dangnhap.php" class="btn-login">Đăng nhập</a>
+                                <a href="dangky.php" class="btn-signup">Đăng ký</a>
+                              </div>';
+                    }
                 ?>
                     </div>
                 </div>
@@ -103,10 +118,15 @@
                                 echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';
                             } else {
                                 // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
-                                // Lấy URL hiện tại
-                                $current_page_url = $_SERVER['REQUEST_URI'];
-                                // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
-                                $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
+
+                                // ******** ĐÂY LÀ THAY ĐỔI QUAN TRỌNG ********
+                                // 1. Xác định URL mục tiêu (trang mua vé)
+                                $target_url = 'ticket_page.php?MaSK=' . htmlspecialchars($maSK);
+                                
+                                // 2. Tạo URL đăng nhập, đính kèm URL mục tiêu vào tham số 'redirect'
+                                $login_url = 'dangnhap.php?redirect=' . urlencode($target_url);
+                                
+                                // 3. In nút "MUA VÉ" trỏ đến trang đăng nhập
                                 echo '<a class="buy" href="' . $login_url . '">MUA VÉ</a>';
                             }
                             ?>
