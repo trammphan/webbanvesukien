@@ -3,7 +3,7 @@
 session_start();
 
 // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
-if (!isset($_SESSION['email'])) { // Giả sử bạn lưu email đăng nhập vào 'email'
+if (!isset($_COOKIE['email'])) { // Giả sử bạn lưu email đăng nhập vào 'email'
     // Cập nhật tên file đăng nhập chính xác của bạn
     // Giả sử file đăng nhập là dangnhap.php
     $login_page = 'dangnhap.php'; 
@@ -18,7 +18,7 @@ if (!isset($_SESSION['email'])) { // Giả sử bạn lưu email đăng nhập v
 
 // 2. Kết nối CSDL
 include 'connect_1.php'; // Đảm bảo file này tồn tại
-$email_dang_nhap = $_SESSION['email'];
+$email_dang_nhap = $_COOKIE['email'] ?? '';
 
 // 3. Hàm định dạng tiền
 if (!function_exists('format_currency_simple')) {
@@ -27,8 +27,7 @@ if (!function_exists('format_currency_simple')) {
     }
 }
 
-// 4. TRUY VẤN LỊCH SỬ ĐƠN HÀNG
-// JOIN 4 bảng: ThanhToan (đơn hàng) -> ve (vé) -> loaive (tên vé) -> sukien (tên sự kiện)
+// 4. XỬ LÝ LỌC VÀ TRUY VẤN
 $sql = "SELECT 
             tt.MaTT, 
             tt.SoTien, 
@@ -45,17 +44,49 @@ $sql = "SELECT
         JOIN 
             loaive lv ON v.MaLoai = lv.MaLoai
         JOIN 
-            sukien sk ON lv.MaSK = sk.MaSK
-        WHERE 
-            tt.Email_KH = ?
-        ORDER BY
-            tt.NgayTao DESC, tt.MaTT"; // Sắp xếp theo đơn hàng mới nhất
+            sukien sk ON lv.MaSK = sk.MaSK";
 
+// Xây dựng điều kiện WHERE động
+$conditions = [];
+$params = [];
+$param_types = "";
+
+// Điều kiện bắt buộc: Email khách hàng
+$conditions[] = "tt.Email_KH = ?";
+$params[] = $email_dang_nhap;
+$param_types .= "s";
+
+// Lấy giá trị filter từ GET - Thay đổi thành lọc theo tháng/năm
+$filter_thangnam = $_GET['thangnam'] ?? '';
+
+// Thêm điều kiện lọc Tháng/Năm
+if (!empty($filter_thangnam)) {
+    // $filter_thangnam sẽ có dạng 'YYYY-MM'
+    // Sử dụng DATE_FORMAT để so sánh
+    $conditions[] = "DATE_FORMAT(tt.NgayTao, '%Y-%m') = ?";
+    $params[] = $filter_thangnam;
+    $param_types .= "s"; 
+}
+
+// Nối các điều kiện vào câu SQL
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
+}
+
+// Thêm sắp xếp
+$sql .= " ORDER BY tt.NgayTao DESC, tt.MaTT";
+
+// Chuẩn bị và thực thi truy vấn
 $stmt = $conn->prepare($sql);
 if ($stmt === false) {
     die("Lỗi chuẩn bị truy vấn: " . $conn->error);
 }
-$stmt->bind_param("s", $email_dang_nhap);
+
+// Bind parameters động
+if (!empty($params)) {
+    $stmt->bind_param($param_types, ...$params);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -93,12 +124,11 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch sử mua vé</title>
-    <!-- Bạn có thể thêm link Google Fonts nếu muốn -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
-            background-color: #f4f7f6; 
+            background: linear-gradient(135deg, #0f2027, #060259, #290352);
             margin: 0; 
             padding: 20px; 
             color: #333;
@@ -109,7 +139,7 @@ $conn->close();
             background: #ffffff; 
             border-radius: 12px; 
             box-shadow: 0 6px 15px rgba(0,0,0,0.07);
-            overflow: hidden; /* Đảm bảo bo góc hoạt động */
+            overflow: hidden;
         }
         header { 
             padding: 25px 30px; 
@@ -121,6 +151,52 @@ $conn->close();
             color: #2c3e50; 
             font-weight: 700;
         }
+
+        /* ----- MỚI: Form Lọc (ĐÃ SỬA CSS) ----- */
+        .filter-form {
+            padding: 15px 20px; /* Gọn hơn */
+            background: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-wrap: wrap; /* Cho responsive */
+            gap: 10px; /* Gọn hơn */
+            align-items: flex-end; /* Căn nút bấm */
+        }
+        .filter-form div {
+            /* Đã xóa flex: 1 và min-width để form gọn hơn */
+        }
+        .filter-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .filter-form input[type="text"],
+        .filter-form input[type="month"] { 
+            width: auto; /* Gọn hơn: Xóa width: 100% để input tự co giãn */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif;
+        }
+        .filter-form button {
+            padding: 10px 20px;
+            background: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.3s ease;
+        }
+        .filter-form button:hover {
+            background: #3498db;
+        }
+        /* ------------------------- */
+
         .order-list { 
             padding: 20px; 
         }
@@ -128,7 +204,7 @@ $conn->close();
             border: 1px solid #ddd; 
             border-radius: 10px; 
             margin-bottom: 25px; 
-            overflow: hidden; /* Đảm bảo bo góc */
+            overflow: hidden;
             transition: box-shadow 0.3s ease;
         }
         .order-item:hover {
@@ -141,18 +217,18 @@ $conn->close();
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            flex-wrap: wrap; /* Cho responsive */
+            flex-wrap: wrap;
         }
         .order-header h2 { 
             margin: 0; 
             font-size: 1.2em; 
-            color: #2980b9; /* Màu xanh dương */
+            color: #2980b9; 
             font-weight: 600;
         }
         .order-header .status { 
             font-weight: 600; 
             padding: 6px 12px; 
-            border-radius: 20px; /* Bo tròn */
+            border-radius: 20px; 
             color: #fff; 
             font-size: 0.9em;
             text-transform: uppercase;
@@ -179,7 +255,7 @@ $conn->close();
         }
         .order-body p strong { 
             color: #333; 
-            min-width: 120px; /* Căn chỉnh cột */
+            min-width: 120px;
             display: inline-block; 
             font-weight: 600;
         }
@@ -227,10 +303,26 @@ $conn->close();
             <h1>Lịch sử mua vé của bạn</h1>
         </header>
 
+        <!-- MỚI: Form Lọc -->
+        <form class="filter-form" method="GET" action="">
+            <!-- Đã xóa ô lọc Mã đơn hàng -->
+            <div>
+                <!-- Sửa label, id, name, type và value -->
+                <label for="thangnam">Lọc theo tháng/năm:</label>
+                <input type="month" id="thangnam" name="thangnam" value="<?php echo htmlspecialchars($filter_thangnam); ?>">
+            </div>
+            <button type="submit">Lọc</button>
+        </form>
+
         <div class="order-list">
             <?php if (empty($don_hang)): ?>
                 <div class="no-orders">
-                    <p>Bạn chưa có lịch sử mua vé nào.</p>
+                    <!-- Cập nhật điều kiện kiểm tra lọc -->
+                    <?php if (!empty($filter_thangnam)): ?>
+                        <p>Không tìm thấy đơn hàng nào phù hợp với điều kiện lọc.</p>
+                    <?php else: ?>
+                        <p>Bạn chưa có lịch sử mua vé nào.</p>
+                    <?php endif; ?>
                 </div>
             <?php else: ?>
                 <?php foreach ($don_hang as $maTT => $don): ?>
@@ -253,7 +345,7 @@ $conn->close();
                         <div class="order-body">
                             <p><strong>Sự kiện:</strong> <?php echo htmlspecialchars($don['TenSuKien']); ?></p>
                             
-                            <!-- DÒNG ĐÃ SỬA LỖI -->
+                            <!-- Dòng này đã đúng, giữ nguyên -->
                             <p><strong>Tổng tiền:</strong> <?php echo format_currency_simple($don['SoTien']); ?> VNĐ</p>
                             
                             <p><strong>Ngày đặt:</strong> <?php echo date("d/m/Y H:i", strtotime($don['NgayTao'])); ?></p>
@@ -277,3 +369,4 @@ $conn->close();
 
 </body>
 </html>
+

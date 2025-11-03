@@ -1,10 +1,10 @@
 <?php
-    // FIX 1: KHỞI ĐỘNG SESSION ĐỂ ĐỌC THÔNG TIN ĐĂNG NHẬP
+    // FIX 1: VẪN CẦN SESSION cho header.php và auth.php
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
     
-    // Lấy thông tin auth (giống hệt header.php)
+    // Lấy thông tin auth (cần cho header.php)
     require_once __DIR__ . '/../php/auth.php';
     $user_table = $_SESSION['user_table'] ?? '';
 ?>
@@ -23,91 +23,49 @@
         </head>
 
     <body>
-        <header class="main-header">
-            <div class="header-container">
-                <div class="header-logo">
-                    <a href="index.php" style="color: #ffffff; text-decoration: none; font-size: 24px; font-weight: bold;">Vibe4</a>
-                </div>
-
-                <div class="header-search">
-                    <form action="index.php" method="get"> 
-                        <input type="text" placeholder="Tìm kiếm sự kiện, địa điểm..." name="q" class="search-input" value="<?php echo htmlspecialchars($search_query ?? ''); ?>">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-                
-                <div class="header-right">
-                    <nav class="header-nav">
-                        <ul>
-                           <!-- FIX 2: ĐỒNG BỘ HEADER VỚI header.php -->
-                           <?php if (is_logged_in()): ?>
-                                
-                                <?php // Chỉ 'nhatochuc' mới thấy "Tạo sự kiện" ?>
-                                <?php if ($user_table === 'nhatochuc'): ?>
-                                    <li><a href="tao_su_kien.php">Tạo sự kiện</a></li>
-                                <?php endif; ?>
-
-                                <?php // Chỉ 'khachhang' mới thấy "Vé của tôi" ?>
-                                <?php if ($user_table === 'khachhang'): ?>
-                                    <li><a href="lich_su_mua_ve.php">Vé của tôi</a></li>
-                                <?php endif; ?>
-                                
-                                <?php // Thêm liên kết cho Admin và NV Soát Vé (nếu cần) ?>
-                                 <?php if ($user_table === 'quantrivien'): ?>
-                                    <li><a href="admin.php">Trang Admin</a></li>
-                                <?php endif; ?>
-                                 <?php if ($user_table === 'nhanviensoatve'): ?>
-                                    <li><a href="nhanvien.php">Trang Soát Vé</a></li>
-                                <?php endif; ?>
-                                
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
-
-                    <?php 
-                      // FIX 3: SỬ DỤNG file header_actions.php CHUẨN
-                      // Nó sẽ tự động hiển thị "Đăng nhập" hoặc "Tên User/Đăng xuất"
-                      if (file_exists(__DIR__ . '/../php/header_actions.php')) {
-                          include __DIR__ . '/../php/header_actions.php';
-                      } else {
-                          // Fallback nếu không tìm thấy file
-                          echo '<div class="header-actions">
-                                    <a href="dangnhap.php" class="btn-login">Đăng nhập</a>
-                                    <a href="dangky.php" class="btn-signup">Đăng ký</a>
-                                </div>';
-                      }
-                    ?>
-                
-                </div>
-            </div>
-        </header>
-
-        <?php
+        <?php require_once 'header.php'; ?>
+                <?php
             include 'connect_1.php';
             if (isset($_GET['MaSK'])) {
                 $maSK = $_GET['MaSK'];
                 
-                $result = $conn->query("SELECT l.TenLoaiSK, s.TenSK, s.img_sukien, s.Tgian, s.mota, d.TenTinh, MIN(lv.Gia) AS MinPrice
+                // ******** FIX 2: SỬA LỖI BẢO MẬT SQL INJECTION (BẮT BUỘC PHẢI CÓ) ********
+                $stmt = $conn->prepare("SELECT l.TenLoaiSK, s.TenSK, s.img_sukien, s.Tgian, s.mota, d.TenTinh, MIN(lv.Gia) AS MinPrice
                                         FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
-                                                    JOIN loaisk l on s.MaLSK = l.MaloaiSK
-                                                    JOIN loaive lv on lv.MaSK = s.MaSK
-                                        WHERE s.MaSK = '$maSK'
+                                        JOIN loaisk l on s.MaLSK = l.MaloaiSK
+                                        JOIN loaive lv on lv.MaSK = s.MaSK
+                                        WHERE s.MaSK = ?
                                         GROUP BY s.MaSK");
-                
+                $stmt->bind_param("s", $maSK);
+                $stmt->execute();
+                $result = $stmt->get_result();
                 $row = $result->fetch_assoc();
                 
-                $ve_result = $conn->query("SELECT TenLoai, Gia
-                                        FROM loaive
-                                        WHERE MaSK = '$maSK'
-                                        ORDER BY Gia DESC");
+                // ******** FIX 3: KIỂM TRA NẾU SỰ KIỆN KHÔNG TỒN TẠI (NÊN CÓ) ********
+                if (!$row) {
+                    echo "<main><p style='text-align: center; margin: 20px; font-size: 1.2rem;'>Không tìm thấy sự kiện này.</p></main>";
+                    include 'footer.php'; // Thêm footer cho nhất quán
+                    exit; 
+                }
+
+                // ******** FIX 2 (Tiếp theo): SỬA SQL INJECTION CHO TRUY VẤN LOẠI VÉ ********
+                $stmt_ve = $conn->prepare("SELECT TenLoai, Gia
+                                           FROM loaive
+                                           WHERE MaSK = ?
+                                           ORDER BY Gia DESC");
+                $stmt_ve->bind_param("s", $maSK);
+                $stmt_ve->execute();
+                $ve_result = $stmt_ve->get_result();
+
             }
             else {
-                echo "<p>Không tìm thấy sự kiện.</p>";
+                echo "<main><p style='text-align: center; margin: 20px; font-size: 1.2rem;'>Không tìm thấy sự kiện.</p></main>";
+                include 'footer.php';
                 exit;
             }
         ?>
+
+
         <main>
             <div class="cardWrap">
                 <div class= "card">
@@ -138,10 +96,12 @@
                         
                         <div class="button">
                             <?php
-                            // ******** FIX 4: ĐÂY LÀ THAY ĐỔI QUAN TRỌNG ********
-                            // Kiểm tra xem SESSION 'email' (dấu hiệu đã đăng nhập) có tồn tại không
-                            if (isset($_SESSION['email']) && !empty($_SESSION['email'])) {
-                                // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
+                            // ******** FIX 5: THAY ĐỔI LOGIC ĐỂ KIỂM TRA COOKIE (THEO YÊU CẦU CỦA BẠN) ********
+                            // Logic này kiểm tra COOKIE thay vì SESSION.
+                            
+                            // Giả định cookie lưu email tên là 'email'.
+                            if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
+                                // Nếu ĐÃ ĐĂNG NHẬP (dựa trên cookie): Trỏ đến trang mua vé
                                 echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';
                             } else {
                                 // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập

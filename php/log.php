@@ -1,5 +1,6 @@
+
+
 <?php
-// session_start();
 // Kết nối CSDL
 $servername = "localhost";
 $username = "root";
@@ -46,10 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       setcookie("user_name", $user['user_name'], time() + 3600, "/");
       setcookie("user_role", $user['table'], time() + 3600, "/");
 
-    //   // 3. THAY BẰNG SESSION
-    // $_SESSION['email'] = $user['email'];
-    // $_SESSION['user_name'] = $user['user_name'];
-    // $_SESSION['user_role'] = $user['table'];
       switch ($user['table']) {
             case 'khachhang':
                 // --- BẮT ĐẦU PHẦN GỘP CODE ---

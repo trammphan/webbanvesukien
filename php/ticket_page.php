@@ -167,7 +167,7 @@ function format_currency($amount) {
 
         // THÊM DÒNG NÀY:
         // (Giả sử bạn lưu mã khách hàng trong $_SESSION['email'] khi họ đăng nhập)
-        const isUserLoggedIn = <?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>;
+        const isUserLoggedIn = <?php echo isset($_COOKIE['email']) ? 'true' : 'false'; ?>;
     </script>
     <script src="../js/ticket_page.js"></script>
   </body>

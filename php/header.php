@@ -36,7 +36,7 @@
                 <nav class="header-nav">
                     <ul>
                         <li><a href="#taosukien">Tạo sự kiện</a></li>
-                        <li><a href="#vecuatoi">Vé của tôi</a></li>
+                        <li><a href="lich_su_mua_ve.php">Vé của tôi</a></li>
                     </ul>
                 </nav>
 

@@ -3,7 +3,7 @@
 session_start();
 
 // --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP ĐỂ VÀO TRANG ---
-if (!isset($_SESSION['email'])) {
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     
     // Nếu chưa đăng nhập, lưu lại trang đang định vào
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
@@ -17,9 +17,10 @@ if (!isset($_SESSION['email'])) {
 // 1. Kết nối CSDL
 include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
 // LẤY THÔNG TIN USER ĐĂNG NHẬP (NẾU CÓ)
-$loggedInName = $_SESSION['user_name'] ?? '';// Giả sử bạn lưu tên là 'user_name'
-$loggedInEmail = $_SESSION['email'] ?? '';
-// 2. Lấy thông tin từ URL (từ seatmap.js)
+
+$loggedInName = $_COOKIE['user_name'] ?? '';// Giả sử bạn lưu tên là 'user_name'
+$loggedInEmail = $_COOKIE['email'] ?? '';
+
 $maSK = $_GET['MaSK'] ?? null;
 $maLV = $_GET['zone'] ?? null; // 'zone' chính là Mã Loại Vé (MLV)
 $selected_quantity = (int)($_GET['qty'] ?? 1);

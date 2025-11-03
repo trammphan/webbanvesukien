@@ -5,9 +5,9 @@ session_start();
 include 'connect_1.php'; 
 // --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP TRÊN SERVER ---
 // Đây là chốt chặn bảo mật cuối cùng
-$email_khach_hang_login = $_SESSION['email'] ?? null;
+$email_khach_hang_cookie = $_COOKIE['email'] ?? null;
 
-if ($email_khach_hang_login === null) {
+if ($email_khach_hang_cookie === null) {
     // Nếu vì lý do nào đó mà session không có (VD: hết hạn, bị tấn công)
     die("Lỗi: Phiên đăng nhập không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại và thử thanh toán.");
 }
@@ -27,8 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phuongThucTT = $_POST['payment_method'];
     
     // --- Trạng thái ---
-    $trangThai_payment = 'Chờ thanh toán'; // Trạng thái cho bảng ThanhToan
-    $trangThai_ve = 'Đã giữ chỗ';       // Trạng thái mới cho bảng Ve
+    $trangThai_payment = 'Đã thanh toán'; // Trạng thái cho bảng ThanhToan
+    $trangThai_ve = 'Đã bán';       // Trạng thái mới cho bảng Ve
 
     // 4. Validation cơ bản (đã loại bỏ emailKH vì đã kiểm tra session ở trên)
     if (empty($maSK) || empty($maLV) || $soLuong <= 0 || empty($tenKH)) {
@@ -108,14 +108,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // *** SỬA LỖI QUAN TRỌNG ***
         // bind_param giờ phải có 7 kiểu ("ssdssss") và 7 biến
-        $stmt_thanhtoan->bind_param("ssdssss",  
+        $stmt_thanhtoan->bind_param("ssissss",  
             $maTT,                      // 1. MaTT (s)
             $phuongThucTT,              // 2. PhuongThucThanhToan (s)
             $server_total,              // 3. SoTien (d)
             $tenKH,                       // 4. TenNguoiThanhToan (s)
             $sdtKH,                       // 5. SDT (s)
             $trangThai_payment,         // 6. TrangThai (s)
-            $email_khach_hang_login     // 7. Email_KH (s) - Lấy từ session
+            $email_khach_hang_cookie    // 7. Email_KH (s) - Lấy từ cookie
         );
 
         if (!$stmt_thanhtoan->execute()) {
@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $_SESSION['customer_info'] = [
             'name' => $tenKH,
-            'email' => $email_khach_hang_login, // Sửa: Dùng email session
+            'email' => $email_khach_hang_cookie, // Sửa: Dùng email cookie
             'phone' => $sdtKH
         ];
         
