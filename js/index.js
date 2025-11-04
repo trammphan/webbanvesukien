@@ -1,5 +1,3 @@
-// tracking.js
-
 function trackEvent(el) {
     const eventId = el.getAttribute("data-mask");
     console.log("Tracking click for:", eventId);
