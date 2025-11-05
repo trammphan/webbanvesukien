@@ -110,9 +110,43 @@ if (empty($search_query)) {
             <a href="#sukien-gan-day" class="btn-banner">Khám phá ngay</a>
         </div>
     </section>
+
+    <!-- Nguồn tham khảo: https://codepen.io/studiojvla/pen/qVbQqW -->
+    <div class="slider">
+        <?php include 'connect_1.php';
+        $result = $conn->query("SELECT MaSK, TenSK, img_sukien 
+                FROM sukien
+                WHERE Tgian >= DATE_ADD(CURDATE(), INTERVAL 1 DAY) -- Lấy sự kiện có thời gian bắt đầu trong phạm vi từ mai - 14 ngày tiếp theo đổ lại --
+                    AND Tgian <= DATE_ADD(CURDATE(), INTERVAL 14 DAY)
+                ORDER BY Tgian ASC");
+        ?>
+        <div class="slide-track">
+            <?php
+                $events= [];
+                if ($result !== FALSE && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) { 
+                        $events[] = $row;
+                    }
+
+                // Lặp 2 lần để tạo hiệu ứng quay vòng
+                for ($i = 0; $i < 2; $i++) {
+                    foreach ($events as $up_comming) {
+            ?>
+            <div class="slide">
+                <a href="chitietsk_1.php?MaSK=<?=urlencode($up_comming['MaSK']) ?>" data-mask="<?= htmlspecialchars($up_comming['MaSK']) ?>" onclick="trackEvent(this)">
+                    <img src="<?= htmlspecialchars($up_comming['img_sukien']) ?>" alt="<?= htmlspecialchars($up_comming['TenSK']) ?>"/>
+                </a>
+            </div>
+            <?php 
+                    }
+                }
+            }
+            ?>
+        </div>
+    </div>
 <?php
 }
-?>
+?> 
         
         <?php
         $tag_default = function($event) {
