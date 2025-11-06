@@ -259,6 +259,7 @@ body {
   line-height: 1.6;
 }
 
+/* Nhóm 1 (Cyan) - ID kết thúc bằng 1 hoặc 6 */
 #LV01,
 #LV06,
 #LV11,
@@ -278,12 +279,19 @@ body {
 #LV81,
 #LV86,
 #LV91,
-#LV96 {
+#LV96,
+#LV101,
+#LV106,
+#LV111,
+#LV116,
+#LV121,
+#LV126 {
   background-color: #00b8d4; /* Cyan */
   border-color: #00b8d4;
+  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
 }
 
-/* Nhóm 2 (Lặp lại màu Pink của LV02) */
+/* Nhóm 2 (Pink) - ID kết thúc bằng 2 hoặc 7 */
 #LV02,
 #LV07,
 #LV12,
@@ -303,12 +311,18 @@ body {
 #LV82,
 #LV87,
 #LV92,
-#LV97 {
+#LV97,
+#LV102,
+#LV107,
+#LV112,
+#LV117,
+#LV122 {
   background-color: #e6007a; /* Pink */
   border-color: #e6007a;
+  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
 }
 
-/* Nhóm 3 (Lặp lại màu Yellow của LV03) */
+/* Nhóm 3 (Yellow) - ID kết thúc bằng 3 hoặc 8 */
 #LV03,
 #LV08,
 #LV13,
@@ -327,13 +341,19 @@ body {
 #LV78,
 #LV83,
 #LV88,
-#LV93 {
+#LV93,
+#LV98,
+#LV103,
+#LV108,
+#LV113,
+#LV118,
+#LV123 {
   background-color: #ffc107; /* Yellow */
   border-color: #ffc107;
-  color: #000;
+  color: #000; /* Giữ nguyên màu chữ đen */
 }
 
-/* Nhóm 4 (Lặp lại màu Orange của LV04) */
+/* Nhóm 4 (Orange) - ID kết thúc bằng 4 hoặc 9 */
 #LV04,
 #LV09,
 #LV14,
@@ -352,12 +372,19 @@ body {
 #LV79,
 #LV84,
 #LV89,
-#LV94 {
+#LV94,
+#LV99,
+#LV104,
+#LV109,
+#LV114,
+#LV119,
+#LV124 {
   background-color: #f57c00; /* Orange */
   border-color: #f57c00;
+  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
 }
 
-/* Nhóm 5 (Lặp lại màu Purple của LV05) */
+/* Nhóm 5 (Purple) - ID kết thúc bằng 0 hoặc 5 */
 #LV05,
 #LV10,
 #LV15,
@@ -376,9 +403,14 @@ body {
 #LV80,
 #LV85,
 #LV90,
-#LV95 {
+#LV95,
+#LV100,
+#LV105,
+#LV110,
+#LV115,
+#LV120,
+#LV125 {
   background-color: #7b1fa2; /* Purple */
   border-color: #7b1fa2;
+  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
 }
-
-/* --- KẾT THÚC FILE seatmap.css --- */

@@ -1,12 +1,26 @@
 <?php
 // --- PHẦN 1: LOGIC PHP (XỬ LÝ PHÍA SERVER) ---
 session_start();
+
+// --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP ĐỂ VÀO TRANG ---
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    
+    // Nếu chưa đăng nhập, lưu lại trang đang định vào
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    
+    // Chuyển hướng họ đến trang đăng nhập
+    // File xuly_dangnhap.php của bạn đã hỗ trợ 'redirect' nên sẽ hoạt động
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
+// --- KẾT THÚC BỔ SUNG ---
 // 1. Kết nối CSDL
 include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
 // LẤY THÔNG TIN USER ĐĂNG NHẬP (NẾU CÓ)
-$loggedInName = $_SESSION['user_name'] ?? ''; // Giả sử bạn lưu tên là 'user_name'
-$loggedInEmail = $_SESSION['email'] ?? '';
-// 2. Lấy thông tin từ URL (từ seatmap.js)
+
+$loggedInName = $_COOKIE['user_name'] ?? '';// Giả sử bạn lưu tên là 'user_name'
+$loggedInEmail = $_COOKIE['email'] ?? '';
+
 $maSK = $_GET['MaSK'] ?? null;
 $maLV = $_GET['zone'] ?? null; // 'zone' chính là Mã Loại Vé (MLV)
 $selected_quantity = (int)($_GET['qty'] ?? 1);
@@ -174,32 +188,38 @@ const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
             <input type="hidden" name="total_price" id="hidden-total" value="<?php echo $total_price; ?>">
 
 
-         <div class="form-group" autocomplete="off">
-  <label for="name">Họ và tên</label>
-  <input
-    type="text"
-    id="name"
-    name="customer_name"
-    required placeholder="Nguyễn Văn A"
-    value="<?php echo htmlspecialchars($loggedInName); ?>" />
-</div>
-            <div id="name-error" style="color: #D9534F; margin-bottom: 15px; font-size: 0.9em; text-align: left;"></div>
- <div class="form-group" autocomplete="off">
-  <label for="email">Email</label>
-  <input
-    type="email"
-    id="email"
-    name="customer_email"
-    required
-    placeholder="email@example.com"
-    value="<?php echo htmlspecialchars($loggedInEmail); ?>" />
-</div>
-            <div id="email-error" style="color: #D9534F; margin-bottom: 15px; font-size: 0.9em; text-align: left;"></div>
-            <div class="form-group" autocomplete="off">
-              <label for="phone">Số điện thoại</label>
-              <input type="tel" id="phone" name="customer_phone" required placeholder="0123456789" />
-            </div>
-            <div id="phone-error" style="color: #D9534F; margin-bottom: 15px; font-size: 0.9em; text-align: left;"></div>
+          <div class="form-group" autocomplete="off">
+             <label for="name">Họ và tên</label>
+             <input
+               type="text"
+               id="name"
+               name="customer_name"
+               required placeholder="Nguyễn Văn A"
+               value="<?php echo htmlspecialchars($loggedInName); ?>" />
+             <!-- SỬA LẠI VỊ TRÍ: Đặt div lỗi bên trong form-group -->
+             <div id="name-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
+           </div>
+           
+           <div class="form-group" autocomplete="off">
+             <label for="email">Email</label>
+             <input
+               type="email"
+               id="email"
+               name="customer_email"
+               required
+               placeholder="email@example.com"
+               value="<?php echo htmlspecialchars($loggedInEmail); ?>" 
+               readonly /> <!-- THÊM MỚI: readonly để không cho sửa email đã đăng nhập -->
+              <!-- SỬA LẠI VỊ TRÍ: Đặt div lỗi bên trong form-group -->
+             <div id="email-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
+           </div>
+           
+           <div class="form-group" autocomplete="off">
+             <label for="phone">Số điện thoại</label>
+             <input type="tel" id="phone" name="customer_phone" required placeholder="0123456789" />
+             <!-- SỬA LẠI VỊ TRÍ: Đặt div lỗi bên trong form-group -->
+             <div id="phone-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
+           </div>
 <h3>Phương thức thanh toán</h3>
 <div class="payment-methods">
 
