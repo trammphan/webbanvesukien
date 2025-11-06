@@ -89,6 +89,7 @@ require_once 'header.php';
 
 if (empty($search_query)) {
 ?>
+<main>
     <nav class="category-bar">
         <div class="category-container">
             <ul class="category-list">
@@ -144,6 +145,7 @@ if (empty($search_query)) {
             ?>
         </div>
     </div>
+</main>
 <?php
 }
 ?> 
@@ -206,3 +208,5 @@ if (empty($search_query)) {
     require_once 'footer.php'; 
 ?>
 <script src="../js/sukien.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/search-autocomplete.js"></script>

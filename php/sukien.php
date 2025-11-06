@@ -22,26 +22,11 @@
 
     $result = $conn->query($sql);
 ?>
-
-<!DOCTYPE html>
-<html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sự kiện</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-        <link rel="stylesheet" href="../css/header.css">
-        <link rel="stylesheet" href="../css/footer.css">
-        <link rel="stylesheet" href="../css/sukien.css">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    </head>
-    
-    <body class="event" class="page-wrapper">
-        <!-- Header -->
-            <?php
-                require_once 'header.php'; 
-            ?>
-        <main>
+<?php
+    // Set page title and render shared header
+    $page_title = 'Sự kiện';
+    require_once 'header.php'; 
+?>
             <!-- Bộ lọc -->
                 <!-- Thể loại -->
             <?php $diadiem = $_GET['diadiem'] ?? ''; 
@@ -139,13 +124,9 @@
                 </div>
                 <?php endwhile; ?>
             </div>
-        </main>
-
-        <!-- Footer -->
-            <?php
-                require_once 'footer.php'; 
-            ?>
-
+<?php 
+    $additional_footer_scripts = <<<HTML
         <script src="../js/sukien.js"></script>
-    </body>
-</html>
+    HTML;
+    require_once 'footer.php'; 
+?>

@@ -50,24 +50,12 @@ if (isset($_COOKIE['email'])) {
 <?php
 // Load CSS của trang người dùng nếu cần
 $additional_css = ['webstyle.css'];
-// Giữ tiêu đề và assets head gốc
-$page_title = 'Người dùng';
-$additional_head = <<<HTML
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-HTML;
 require_once 'header.php';
 ?>
-<main>
         <article class="khungdungchung">
-            <div class="back_nguoidung">
-                 <!-- <i class="fa-solid fa-x"></i>  -->
-                <a href="#" onclick="history.back(); return false;">
-                         <i class="fa-solid fa-x" id="x"></i> 
-                </a>
-                </div>
             <h2>Thông tin tài khoản</h2>
             <fieldset>
+                
             <?php if ($is_logged_in && $user_info): ?>
               <div class="thongtin">
                 <label>
@@ -90,13 +78,13 @@ require_once 'header.php';
                 </label>
               </div>
                 <div class="container_1">
-                    <div class="logout box_1">
-                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout"  data-bs-toggle="tooltip" title="Đăng xuất">
+                    <div class="logout" class="box_1">
+                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
                             <i class="fa-solid fa-right-from-bracket"></i> 
                         </a>
                     </div>
-                    <div class="update_info box_1">
-                        <a href="sua_thongtin.php"  id="update" data-bs-toggle="tooltip" title="Sửa thông tin">
+                    <div class="update_info" class="box_1">
+                        <a href="sua_thongtin.php"  id="update">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </div>
@@ -107,7 +95,7 @@ require_once 'header.php';
               <div >
                 <h3>⚠️ Bạn chưa đăng nhập.</h3>
                 <p id="thongbao">Vui lòng đăng nhập để xem thông tin tài khoản.</p>
-                <a href="dangnhap.php" class="go_login" data-bs-toggle="tooltip" title="Quay lại trang đăng nhập">
+                <a href="dangnhap.php" class="go_login">
                   <i class="fa-solid fa-door-open" id="go_login"></i>
                 </a>
               </div>
@@ -115,11 +103,4 @@ require_once 'header.php';
             
             </fieldset>
         </article>
-</main>
-<?php 
-    $additional_footer_scripts = <<<HTML
-        <script defer src="/scripts/web-layout.js"></script>
-        <script defer src="/scripts/homepage.js"></script>
-    HTML;
-    require_once 'footer.php'; 
-?>
+<?php require_once 'footer.php'; ?>

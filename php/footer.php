@@ -55,5 +55,6 @@
         </div>
     </footer>
     
-</body>
-</html>
+    <?php if (isset($additional_footer_scripts)) { echo $additional_footer_scripts; } ?>
+    </body>
+    </html>

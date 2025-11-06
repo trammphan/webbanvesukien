@@ -210,6 +210,7 @@ button{
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
+    /* overflow: hidden; */
 }
 
 .section-title {
@@ -232,11 +233,48 @@ button{
     padding-bottom: 20px;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    /* scroll-behavior: smooth;
+    position: relative; */
 }
 
 .event-carousel::-webkit-scrollbar {
     display: none;
 }
+
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.slider-btn {
+    pointer-events: auto;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    line-height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(244, 244, 244, 0.65);
+    color: #0d1222;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 20;
+}
+
+.slider-btn:hover { background: rgba(0, 224, 255, 0.35); transform: scale(1.05); }
+.slider-btn:active { transform: scale(0.97); }
+.slider-btn.prev { left: 4px; }
+.slider-btn.next { right: 4px; }
 
 .event-card {
     flex: 0 0 280px;

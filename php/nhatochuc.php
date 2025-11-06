@@ -39,48 +39,14 @@ if (isset($_COOKIE['email'])) {
         $is_logged_in = false;
     }
 }
+
+$page_title = 'Nhà tổ chức';
+$additional_css = ['webstyle.css'];
+$additional_head = <<<HTML
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+HTML;
+require_once 'header.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nhà tổ chức</title>
-  <link rel="icon" href="../img/fav-icon.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/webstyle.css">
-</head>
-
-<body>
-  <header class="main-header">
-    <div class="header-container">
-      <div class="header-logo">
-        <a href="index.php" style="color:white; text-decoration:none; font-size:24px; font-weight:bold;">Vibe4</a>
-      </div>
-
-      <div class="header-search">
-        <form action="/search" method="get">
-          <input type="text" placeholder="Tìm kiếm sự kiện, địa điểm..." name="q" class="search-input">
-          <button type="submit" class="search-button">
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
-      </div>
-
-      <div class="header-right">
-        <nav class="header-nav">
-          <ul>
-            <li><a href="#taosukien">Tạo sự kiện</a></li>
-            <li><a href="#vecuatoi">Vé của tôi</a></li>
-          </ul>
-        </nav>
-        <?php include __DIR__ . '/header_actions.php'; ?>
-      </div>
-    </div>
-  </header>
-  <main>
     <div class="container_nhatochuc">
       
         <article class="nhatochuc_2">
@@ -154,35 +120,12 @@ if (isset($_COOKIE['email'])) {
         </article>
 
       </div>
-
-
-  </main>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-col footer-branding">
-        <h3 class="footer-logo">Vibe4</h3>
-        <p>Nền tảng tổ chức và bán vé sự kiện hàng đầu Việt Nam.</p>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Liên hệ</h4>
-        <ul class="footer-contact">
-          <li><i class="fas fa-phone-alt"></i><span>+123 456 789</span></li>
-          <li><i class="fas fa-envelope"></i><span>support@vibe4.com</span></li>
-          <li><i class="fas fa-map-marker-alt"></i><span>ĐH Cần Thơ</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>@2025 - Vibe4 • Nhóm 1 CT299 - Phát Triển Hệ Thống Web</p>
-    </div>
-  </footer>
-
+<?php 
+  $additional_footer_scripts = <<<HTML
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  HTML;
+  require_once 'footer.php';
+?>
   <script>
 document.addEventListener("DOMContentLoaded", () => {
   const btns = {
