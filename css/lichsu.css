@@ -1,0 +1,223 @@
+/* === BẮT ĐẦU TỆP vibe4/css/lichsu.css (Theme Hộp Trắng) === */
+
+/* * 1. Lớp vỏ (wrapper) để cách header 100px 
+ * (Đây là phần CSS sửa lỗi layout của bạn)
+ */
+.main-content-area {
+  max-width: 900px; /* Giới hạn chiều rộng */
+  margin: 100px auto 40px auto; /* Cách header 100px, căn giữa */
+}
+
+/* * 2. .container (Hộp nội dung màu trắng)
+ * (Đây là phần CSS theme trắng bạn muốn)
+ */
+.container {
+  background: #ffffff; /* NỀN TRẮNG */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  color: #333; /* Chữ đen */
+  font-family: "Poppins", sans-serif;
+  margin: 0; /* Xóa margin cũ */
+}
+
+/* ----- CSS cho nút Back ----- */
+.back_nguoidung {
+  padding: 10px 15px;
+  text-align: left;
+  background: #fff;
+}
+.back_nguoidung a {
+  color: #aaa;
+  font-size: 1.2em;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.back_nguoidung a:hover {
+  color: #333;
+}
+/* ------------------------- */
+
+header {
+  padding: 25px 30px;
+  border-bottom: 2px solid #eee;
+  background: #fff;
+}
+header h1 {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.filter-form {
+  padding: 15px 20px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+.filter-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 0.9em;
+  color: #555;
+}
+.filter-form input[type="text"],
+.filter-form input[type="month"] {
+  width: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  color-scheme: light; /* Đảm bảo picker màu sáng */
+}
+.filter-form button {
+  padding: 10px 20px;
+  background: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  transition: background 0.3s ease;
+}
+.filter-form button:hover {
+  background: #3498db;
+}
+
+.order-list {
+  padding: 20px;
+  background: #fff; /* Nền trắng */
+  border-radius: 0 0 12px 12px;
+}
+.order-item {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+.order-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ----- CSS Thu Gọn (Accordion) ----- */
+.order-header {
+  background: #fdfdfd;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Icon cộng/trừ */
+.order-header::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6em;
+  font-weight: 300;
+  color: #2980b9;
+  transition: transform 0.3s ease;
+}
+.order-item.active .order-header::after {
+  content: "−"; /* Dấu trừ */
+}
+/* ------------------------------------- */
+
+.order-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #2980b9;
+  font-weight: 600;
+}
+.order-header .status {
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.status-cho {
+  background-color: #f0ad4e;
+}
+.status-thanh-cong {
+  background-color: #27ae60;
+}
+.status-da-huy {
+  background-color: #e74c3c;
+}
+
+/* ----- Ẩn body mặc định ----- */
+.order-body {
+  background: #fff; /* Nền trắng */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+.order-item.active .order-body {
+  max-height: 1000px;
+  padding: 20px;
+  border-top: 1px solid #eee;
+}
+/* ------------------------------- */
+
+.order-body p {
+  margin: 0 0 12px 0;
+  color: #555; /* Chữ đen/xám */
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+.order-body p strong {
+  color: #333; /* Chữ đen (đậm) */
+  min-width: 120px;
+  display: inline-block;
+  font-weight: 600;
+}
+.ticket-list-title {
+  font-weight: 600;
+  color: #333; /* Chữ đen */
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 0.95em;
+}
+.ticket-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+  border-top: 1px dashed #ccc;
+  padding-top: 15px;
+}
+.ticket-list li {
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  display: flex;
+  justify-content: space-between;
+}
+.ticket-list li .ticket-type {
+  color: #555; /* Chữ xám */
+}
+.no-orders {
+  text-align: center;
+  padding: 60px 20px;
+  color: #777; /* Chữ xám */
+}
+.no-orders p {
+  font-size: 1.1em;
+  margin: 0;
+}
