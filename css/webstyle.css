@@ -57,7 +57,38 @@ h3{
     box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
     background-color: white;
 }
-
+.back_nguoidung, .back_nhanvien{
+    text-align: center;
+    margin-right: 3%;
+    margin-left: 91%;
+    border-radius: 20%;
+    color:#040c2a;
+    border:none;
+    padding: 5px 10px;
+}
+.back_nguoidung:hover, .back_nhanvien:hover, .back_nhatochuc:hover{
+    color: #060259;
+    box-shadow: 2px 2px 10px #090463;
+    border: none; 
+}
+#x{
+    color:#040c2a
+}
+.back_nhatochuc{
+    text-align: center;
+    border-radius: 20%;
+    color:#040c2a;
+    border:none;
+    padding: 3px 7px;
+    margin-left: 70%;
+    margin-right: 10%;
+}
+.back_nhatochuc:hover{
+    color: #060259;
+    box-shadow: 5px 5px 10px #0c0683b7;
+    border: none; 
+    background-color: white;
+}
 /*nhatochuc - quantrivien - nhanvien*/
 .congviec{
     padding: 10px;
@@ -304,31 +335,29 @@ h3{
 /*TRANG NGƯỜI DÙNG*/
     /*đăng xuất*/
 .logout{
-  text-align: center;
   margin-top: 20px;
 }
-#logout{
+#logout, #update{
   background-color: #290352;
   color:white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 10px 35px;
   cursor: pointer;
-  text-align: center;
   font-weight: bold;
   font-size: 20px;
-  margin-left: 10%;
   white-space: nowrap;
-  width: 10%;
+  width: 20%;
   height: fit-content;
   border-radius: 2rem;
   text-align: center;
   text-decoration: none;
   flex-wrap: nowrap;
-    transition-duration: 0.31s;
-    transition-timing-function: ease;
-    cursor: pointer;
+  transition-duration: 0.31s;
+  transition-timing-function: ease;
+  cursor: pointer;
+  font-size: 100%;
 }
+
 #logout:hover{
   background-color: #5d5f62;
   color: white;
@@ -435,7 +464,23 @@ h3{
     flex-direction: row;
     
 }
+.nd {
+  flex: 1;
+  background-color: white;
+  color: #060259;
+  padding: 30px;
+  margin: 100px 35px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  min-height: 80vh;
+  overflow-y: auto;
+  height: 100%;
+
+  /* chiều cao bằng nhau */
+    align-self: stretch;
+}
 .nhatochuc{
+    display: flex;
     padding: 15px;
     box-sizing: border-box; 
     border: 1px solid #ccc;
@@ -574,83 +619,19 @@ h3{
   padding: 5px 10px; 
   box-sizing: border-box;
 }
-
-
-/*O lable
-#tensk, #loaisk, #thoigiansk, #diadiemsk, #motask, #ve_loaive, 
-#image_anh{
-
-    font-size: 18px;
-    padding: 5px 0px 5px 10px;
-}*/
-/*O input
-#chonsk, #tsk, #tgsk, #ddsk {
-  background: none;
-  border: none;
-  max-width: 400px;
-  color: #060259;   
-}
-.mota{
-    color: #060259;
-  border-radius: 20px;
-  border: solid 2.5px #290352;
-  height: 200px;
-  width: 400px;
-  margin: 15px auto;
-  box-sizing: border-box;
-  font-size: 18px;
-  padding: 8px;
-}
-#khungloaive .ve-item {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-#khungloaive input {
-  flex: 1;
-  border: 2px solid #3b0066;
-  border-radius: 10px;
-  padding: 8px 10px;
-  font-size: 18px;
-  color: #3b0066;
-  outline: none;
-  background-color: transparent;
-}
-
-#khungloaive input::placeholder {
-  color: #7a62a6;
-  font-style: italic;
-} 
-*/
-
-/*SỬA THÔNG TIN*/
-.update_info{
+.box_3 {
+  flex: 1;             
+  color: white;
+  padding: 5px;
   text-align: center;
+  border-radius: 8px;
   margin-top: 20px;
 }
-#update{
-  background-color: #290352;
-  color:white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  text-align: center;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 10%;
-  white-space: nowrap;
-  width: 10%;
-  height: fit-content;
-  border-radius: 2rem;
-  text-align: center;
-  text-decoration: none;
-  flex-wrap: nowrap;
-    transition-duration: 0.31s;
-    transition-timing-function: ease;
-    cursor: pointer;
-}
+
+
+
+/*SỬA THÔNG TIN*/
+
 #update:hover{
   background-color: #100b6c;
   color: white;
@@ -659,28 +640,21 @@ h3{
 }
 .container_1 {
   display: flex;           
-  justify-content: center; 
-  gap: 10px;   
+  justify-content: center;   
+  gap: 80px
 }
-.box_1 {
+.box_1, .box_2 {
   flex: 1;             
   color: white;
   padding: 5px;
-  text-align: center;
+  text-align: right;
   border-radius: 8px;
 }
-.box_2 {
-  color: white;
-  padding: 5px;
-  text-align: center;
-  border-radius: 8px;
-}
-
-
-.dang_nhap, .update_info {
-  text-align: center;
+ .update_info {
+  text-align: left;
   margin-top: 20px;
 }
+
 
 #back{
   background-color: #290352;

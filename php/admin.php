@@ -99,6 +99,11 @@ if (isset($_COOKIE['email'])) {
 
     <main>
     <article class= "thanh_doc">
+        <div class="back_nhatochuc">
+            <a href="#" onclick="history.back(); return false;">
+              <i class="fa-solid fa-x" id="x"></i> 
+            </a>
+        </div>
         <p class="tieude"> QUẢN TRỊ VIÊN</p>
         <button class="congviec" id="btn-duyet">
             <i class="fa-solid fa-user-shield"></i>
@@ -116,7 +121,7 @@ if (isset($_COOKIE['email'])) {
             </label>
     
             <div >
-                <div class="logout box_1">
+                <div class="box_3">
                     <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
                         <i class="fa-solid fa-right-from-bracket"></i> 
                     </a>

@@ -97,9 +97,14 @@ if (isset($_COOKIE['email'])) {
     
     <main>
         <article class="khungdungchung">
+            <div class="back_nguoidung">
+                 <!-- <i class="fa-solid fa-x"></i>  -->
+                <a href="#" onclick="history.back(); return false;">
+                         <i class="fa-solid fa-x" id="x"></i> 
+                </a>
+                </div>
             <h2>Thông tin tài khoản</h2>
             <fieldset>
-                
             <?php if ($is_logged_in && $user_info): ?>
               <div class="thongtin">
                 <label>
@@ -122,13 +127,13 @@ if (isset($_COOKIE['email'])) {
                 </label>
               </div>
                 <div class="container_1">
-                    <div class="logout" class="box_1">
-                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                    <div class="logout box_1">
+                        <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout"  data-bs-toggle="tooltip" title="Đăng xuất">
                             <i class="fa-solid fa-right-from-bracket"></i> 
                         </a>
                     </div>
-                    <div class="update_info" class="box_1">
-                        <a href="sua_thongtin.php"  id="update">
+                    <div class="update_info box_1">
+                        <a href="sua_thongtin.php"  id="update" data-bs-toggle="tooltip" title="Sửa thông tin">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </div>
@@ -139,7 +144,7 @@ if (isset($_COOKIE['email'])) {
               <div >
                 <h3>⚠️ Bạn chưa đăng nhập.</h3>
                 <p id="thongbao">Vui lòng đăng nhập để xem thông tin tài khoản.</p>
-                <a href="dangnhap.php" class="go_login">
+                <a href="dangnhap.php" class="go_login" data-bs-toggle="tooltip" title="Quay lại trang đăng nhập">
                   <i class="fa-solid fa-door-open" id="go_login"></i>
                 </a>
               </div>

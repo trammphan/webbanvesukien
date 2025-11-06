@@ -115,6 +115,11 @@ if ($user_email) {
     <article class="khungdungchung">
         <div class="thongtinnhanvien">
             <fieldset class="">
+                <div class="back_nhanvien">
+                    <a href="#" onclick="history.back(); return false;">
+                        <i class="fa-solid fa-x" id="x"></i> 
+                    </a>
+                </div>
                 <h2>Thông tin tài khoản</h2>   
                 <?php if ($is_logged_in && $user_info): ?>
                 

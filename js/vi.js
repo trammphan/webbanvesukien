@@ -79,3 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
           // Lưu ý: Việc kiểm tra email đã tồn tại PHẢI được thực hiện trên máy chủ (luuthongtin.php)
           // vì dữ liệu LocalStorage không còn được sử dụng.
 }  
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el))

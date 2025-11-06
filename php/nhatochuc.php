@@ -82,7 +82,13 @@ if (isset($_COOKIE['email'])) {
   </header>
   <main>
     <div class="container_nhatochuc">
+      
         <article class="nhatochuc_2">
+          <div class="back_nhatochuc">
+            <a href="#" onclick="history.back(); return false;">
+              <i class="fa-solid fa-x" id="x"></i> 
+            </a>
+        </div>
             <p class="tieude">NHÀ TỔ CHỨC</p>
             <button class="congviec" id="btn-taosk">
                 <i class="fa-solid fa-calendar-plus"></i>
@@ -100,44 +106,48 @@ if (isset($_COOKIE['email'])) {
                 <i class="fa-solid fa-user-pen"></i>
                 <span>Cập Nhật Thông Tin</span>
             </button>
-
+          
           <?php if ($is_logged_in && $user_info): ?>
             <label class="email_ntc">
               <i class="fa-solid fa-envelope"></i>
               <span>Email: <b><?= htmlspecialchars($user_info['email']) ?></b></span>
             </label>
-            <div class="logout box_1">
-              <a href="dangxuat.php" id="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+            <div class=" box_3 ">
+              <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout"  data-bs-toggle="tooltip" title="Đăng xuất">
+                            <i class="fa-solid fa-right-from-bracket"></i> 
+                        </a>
             </div>
+            
           <?php endif; ?>
+          
         </article>
 
-        <article class="nhatochuc">
+        <article class=" nd nhatochuc">
           <h2>Chào mừng Nhà tổ chức đến với Vibe4</h2>
           <p class="chaomung">
             Vibe4 là nền tảng giúp bạn tạo, quản lý và bán vé sự kiện một cách dễ dàng.
             Từ hội thảo, hòa nhạc đến các buổi gặp gỡ, chúng tôi mang đến công cụ mạnh mẽ
             để bạn kết nối khán giả, tăng doanh thu và lan tỏa thương hiệu của mình.</p>
         </article>
-        <article class=" hidden taosukien" id="taosk-section">
+        <article class=" nd hidden taosukien" id="taosk-section">
             <h2>Tạo Sự Kiện Mới</h2>
             
 
         </article>
 
-        <article class=" hidden quanly" id="qly-section">
+        <article class="nd hidden quanly" id="qly-section">
           <h2>Quản Lý Sự Kiện</h2>
           <p>Danh sách các sự kiện bạn đã tạo.</p>
           <i class="fa-solid fa-spinner"></i> Đang cập nhật...
         </article>
 
-        <article class=" hidden xembaocao" id="xembc-section">
+        <article class="nd hidden xembaocao" id="xembc-section">
           <h2>Xem Báo Cáo</h2>
           <p>Báo cáo thống kê doanh thu, lượt bán vé,...</p>
           <i class="fa-solid fa-spinner"></i> Đang cập nhật...
         </article>
 
-        <article class="hidden capnhat" id="capnhat-section">
+        <article class="nd hidden capnhat" id="capnhat-section">
           <h2>Cập Nhật Thông Tin Nhà Tổ Chức</h2>
           <p>Trang cập nhật hồ sơ và thông tin liên hệ.</p>
           <i class="fa-solid fa-spinner"></i> Đang cập nhật...
@@ -231,7 +241,7 @@ document.getElementById("soloaive").addEventListener("change", function() {
   }
 });
 </script>
-
+<script scr="vi.js">
 
 </body>
 </html>
