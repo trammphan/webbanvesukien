@@ -1,11 +1,11 @@
 <?php
-// === BẮT ĐẦU TỆP CHAT.PHP SẠCH 100% ===
-
-// Giai đoạn 2.1: Tự định nghĩa câu trả lời "Không tìm thấy"
 
 // ---- BẢO MẬT (QUAN TRỌNG) ----
-require_once 'config.php'; // Chứa API Key và thông tin DB
-$API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $API_KEY;
+require_once 'config.php'; // Tệp này chứa $GEMINI_API_KEY và $db_host...
+
+// === SỬA LỖI Ở ĐÂY ===
+// Dùng $GEMINI_API_KEY (từ config.php) thay vì $API_KEY
+$API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $GEMINI_API_KEY;
 
 // Báo cho script.js biết rằng chúng ta sẽ trả về JSON (với UTF-8)
 header('Content-Type: application/json; charset=utf-8');
@@ -21,6 +21,7 @@ if (is_null($data) || !isset($data['contents'])) {
 
 $live_data_string = "";
 try {
+    // Sử dụng các biến $db_... từ config.php
     $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -53,7 +54,6 @@ try {
     } else {
         // 2b. KHÔNG TÌM THẤY: PHP tự trả lời, không cần gọi Google
         
-        // ----- HÃY SỬA CÂU TRẢ LỜI CỦA BẠN TẠI ĐÂY -----
         $notFoundResponse = "Rất tiếc, tôi không tìm thấy sự kiện nào liên quan đến '" . htmlspecialchars($userMessage) . "'. Bạn vui lòng thử tìm kiếm với tên sự kiện khác nhé!";
         
         // Gửi câu trả lời này về và KẾT THÚC script
