@@ -242,15 +242,44 @@ const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
         </svg>
         Thẻ Tín dụng/Ghi nợ
     </label>
+</div>
+<div id="momo-payment-info" class="payment-details-box">
+    <h4>Quét mã MoMo</h4>
+    <p>Sau khi xác nhận, một mã QR sẽ được tạo (hoặc bạn sẽ được chuyển hướng) để hoàn tất thanh toán qua ví MoMo.</p>
+</div>
 
-    <!-- Lựa chọn 3: Chuyển khoản -->
-    <input type="radio" name="payment_method" value="bank" id="pay-bank" />
-    <label for="pay-bank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="width: 20px; height: 20px; fill: currentColor; margin-right: 10px;">
-            <path d="M2 20h20v2H2v-2zm2-8h2v7H4v-7zm5 0h2v7H9v-7zm4 0h2v7h-2v-7zm5 0h2v7h-2v-7zM2 7l10-5 10 5v2H2V7z"/>
-        </svg>
-        Chuyển khoản Ngân hàng
-    </label>
+<!-- Thông tin cho Thẻ Tín dụng (mặc định ẩn) -->
+<div id="card-payment-info" class="payment-details-box" style="display: none;">
+    <h4>Chi tiết Thẻ Tín dụng/Ghi nợ</h4>
+    <p style="color: #D9534F; font-size: 0.8em; font-weight: bold; margin-bottom: 10px;">
+      <!-- Bạn có thể thêm icon FontAwesome nếu đã link thư viện -->
+      <!-- <i class="fas fa-lock"></i> -->
+      VIBE4 KHÔNG LƯU trữ số thẻ đầy đủ hoặc CVV của bạn. Chúng tôi chỉ lưu 4 số cuối để đối chiếu.
+    </p>
+
+    <div class="form-group">
+      <label for="customer_card_name">Tên trên thẻ</label>
+      <input type="text" id="customer_card_name" name="customer_card_name" placeholder="NGUYEN VAN A" class="card-input" />
+      <div id="card-name-error" class="form-error-text"></div>
+    </div>
+    <div class="form-group">
+      <label for="customer_card_number">Số thẻ</label>
+      <input type="tel" id="customer_card_number" name="customer_card_number" placeholder="4123 4567 8901 2345" class="card-input" />
+      <div id="card-number-error" class="form-error-text"></div>
+    </div>
+    
+    <div class="card-expiry-group">
+        <div class="form-group">
+            <label for="customer_card_expiry">Ngày hết hạn (MM/YY)</label>
+            <input type="text" id="customer_card_expiry" name="customer_card_expiry" placeholder="MM/YY" class="card-input" />
+            <div id="card-expiry-error" class="form-error-text"></div>
+        </div>
+        <div class="form-group">
+            <label for="customer_card_cvv">CVV</label>
+            <input type="tel" id="customer_card_cvv" name="customer_card_cvv" placeholder="123" class="card-input" />
+            <div id="card-cvv-error" class="form-error-text"></div>
+        </div>
+    </div>
 </div>
 
             <button type="submit" class="submit-button">

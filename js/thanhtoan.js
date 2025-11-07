@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // *** BỔ SUNG: Lấy các trường input để validate TRỰC TIẾP (live) ***
   const nameInput = document.getElementById("name");
-  const emailInput = document.getElementById("email");
+  const emailInput = document.getElementById("email"); // Giữ lại để kiểm tra submit
   const phoneInput = document.getElementById("phone");
   const errorColor = "#D9534F"; // Màu đỏ báo lỗi
 
@@ -101,25 +101,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Validate Email (trên 'blur')
+  // *** SỬA ĐỔI: Không cần validate 'blur' hoặc 'focus' cho trường readonly nữa ***
+  /*
   emailInput.addEventListener("blur", () => {
-    const email = emailInput.value.trim();
-    if (email === "") {
-      emailInput.style.borderColor = errorColor;
-      if (emailErrorDisplay)
-        emailErrorDisplay.textContent = "Vui lòng nhập Email.";
-    } else if (!isValidEmail(email)) {
-      emailInput.style.borderColor = errorColor;
-      if (emailErrorDisplay)
-        emailErrorDisplay.textContent = "Định dạng Email không hợp lệ.";
-    } else {
-      if (emailErrorDisplay) emailErrorDisplay.textContent = "";
-    }
+     ... (Đã xóa) ...
   });
-  // Xóa viền đỏ khi click lại
   emailInput.addEventListener("focus", () => {
-    emailInput.style.borderColor = "";
-    if (emailErrorDisplay) emailErrorDisplay.textContent = "";
+     ... (Đã xóa) ...
   });
+  */
 
   // Validate Phone (trên 'blur')
   phoneInput.addEventListener("blur", () => {
@@ -151,12 +141,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- XÓA LỖI CŨ (NẾU CÓ) ---
     if (nameErrorDisplay) nameErrorDisplay.textContent = "";
-    if (emailErrorDisplay) emailErrorDisplay.textContent = "";
+    // if (emailErrorDisplay) emailErrorDisplay.textContent = ""; // Không cần xóa lỗi cho trường readonly
     if (phoneErrorDisplay) phoneErrorDisplay.textContent = "";
+    // Xóa lỗi thẻ
+    document
+      .querySelectorAll(".form-error-text")
+      .forEach((el) => (el.textContent = ""));
 
     // 2. Lấy giá trị
     const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
+    // const email = emailInput.value.trim(); // Không cần lấy giá trị email để validate nữa
     const phone = phoneInput.value.trim();
 
     let isValid = true; // Biến cờ
@@ -168,17 +162,16 @@ document.addEventListener("DOMContentLoaded", () => {
       nameInput.style.borderColor = errorColor;
       isValid = false;
     }
+
+    // *** SỬA ĐỔI: Loại bỏ kiểm tra email khi submit vì nó là readonly ***
+    /*
     if (email === "") {
-      if (emailErrorDisplay)
-        emailErrorDisplay.textContent = "Vui lòng nhập Email.";
-      emailInput.style.borderColor = errorColor;
-      isValid = false;
+        ... (Đã xóa) ...
     } else if (!isValidEmail(email)) {
-      if (emailErrorDisplay)
-        emailErrorDisplay.textContent = "Định dạng Email không hợp lệ.";
-      emailInput.style.borderColor = errorColor;
-      isValid = false;
+        ... (Đã xóa) ...
     }
+    */
+
     if (phone === "") {
       if (phoneErrorDisplay)
         phoneErrorDisplay.textContent = "Vui lòng nhập Số điện thoại.";
@@ -192,6 +185,62 @@ document.addEventListener("DOMContentLoaded", () => {
       isValid = false;
     }
 
+    // *** BỔ SUNG: Validation cho các trường thanh toán (nếu hiển thị) ***
+    const selectedMethod = document.querySelector(
+      'input[name="payment_method"]:checked'
+    ).value;
+
+    if (selectedMethod === "card") {
+      const cardName = document
+        .getElementById("customer_card_name")
+        .value.trim();
+      const cardNum = document
+        .getElementById("customer_card_number")
+        .value.trim();
+      const cardExpiry = document
+        .getElementById("customer_card_expiry")
+        .value.trim();
+      const cardCvv = document.getElementById("customer_card_cvv").value.trim();
+
+      // Đơn giản: chỉ kiểm tra rỗng (bạn có thể thêm regex phức tạp hơn)
+      if (cardName === "") {
+        document.getElementById("card-name-error").textContent =
+          "Vui lòng nhập tên trên thẻ.";
+        isValid = false;
+      }
+      if (cardNum === "") {
+        // Thêm kiểm tra regex 16 số...
+        document.getElementById("card-number-error").textContent =
+          "Vui lòng nhập số thẻ.";
+        isValid = false;
+      }
+      if (cardExpiry === "") {
+        // Thêm kiểm tra regex MM/YY...
+        document.getElementById("card-expiry-error").textContent =
+          "Vui lòng nhập ngày hết hạn.";
+        isValid = false;
+      }
+      if (cardCvv === "") {
+        // Thêm kiểm tra regex 3-4 số...
+        document.getElementById("card-cvv-error").textContent =
+          "Vui lòng nhập CVV.";
+        isValid = false;
+      }
+    }
+
+    if (selectedMethod === "bank") {
+      const bankRef = document.getElementById("customer_bank_ref").value.trim();
+      // Giả sử mã tham chiếu ngân hàng là tùy chọn, không bắt buộc
+      // Nếu muốn bắt buộc, hãy bỏ chú thích khối if bên dưới
+      /*
+        if (bankRef === "") {
+          document.getElementById('bank-ref-error').textContent = "Vui lòng nhập mã giao dịch (nếu có).";
+          isValid = false;
+        }
+        */
+    }
+    // *** HẾT PHẦN BỔ SUNG VALIDATION ***
+
     // 4. Xử lý kết quả
     if (isValid) {
       // Nếu không có lỗi, gửi form đi
@@ -202,4 +251,52 @@ document.addEventListener("DOMContentLoaded", () => {
       // Lỗi đã được hiển thị ở từng trường cụ thể
     }
   });
+
+  // ========= BỔ SUNG LOGIC ẨN/HIỆN FORM THANH TOÁN =========
+
+  // Lấy các element
+  const paymentRadios = document.querySelectorAll(
+    'input[name="payment_method"]'
+  );
+  const momoInfo = document.getElementById("momo-payment-info");
+  const cardInfo = document.getElementById("card-payment-info");
+  const bankInfo = document.getElementById("bank-payment-info");
+  const allInfoBoxes = [momoInfo, cardInfo, bankInfo];
+
+  // Hàm cập nhật hiển thị
+  function updatePaymentDetails() {
+    // Lấy giá trị của radio đang được chọn
+    const selectedMethod = document.querySelector(
+      'input[name="payment_method"]:checked'
+    ).value;
+
+    // 1. Ẩn tất cả các hộp thông tin
+    allInfoBoxes.forEach((box) => {
+      if (box) box.style.display = "none";
+    });
+
+    // 2. Xóa lỗi cũ trong các trường (nếu có)
+    document
+      .querySelectorAll(".form-error-text")
+      .forEach((el) => (el.textContent = ""));
+
+    // 3. Hiển thị hộp thông tin tương ứng
+    if (selectedMethod === "momo" && momoInfo) {
+      momoInfo.style.display = "block";
+    } else if (selectedMethod === "card" && cardInfo) {
+      cardInfo.style.display = "block";
+    } else if (selectedMethod === "bank" && bankInfo) {
+      bankInfo.style.display = "block";
+    }
+  }
+
+  // Gắn sự kiện 'change' cho mỗi radio button
+  paymentRadios.forEach((radio) => {
+    radio.addEventListener("change", updatePaymentDetails);
+  });
+
+  // Chạy hàm 1 lần khi tải trang để hiển thị đúng (Momo)
+  updatePaymentDetails();
+
+  // ========= HẾT PHẦN BỔ SUNG =========
 });

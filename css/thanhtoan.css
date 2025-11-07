@@ -281,7 +281,57 @@ body {
   /* THAY ĐỔI: Chữ màu tím trên nền nhạt */
   color: var(--primary-color);
 }
+/* CSS nhỏ để các trường thông tin thanh toán trông đẹp hơn */
+.payment-details-box {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+.payment-details-box h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+.payment-details-box p {
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+.payment-details-box .bank-info {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.payment-details-box .bank-info strong {
+  display: inline-block;
+  min-width: 100px;
+}
+/* Bổ sung class cho các trường input trong form-group */
+.form-group input.card-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Quan trọng */
+}
+.card-expiry-group {
+  display: flex;
+  gap: 10px;
+}
+.card-expiry-group .form-group {
+  flex: 1; /* Chia đều không gian */
+}
 
+/* Bổ sung: CSS cho các thông báo lỗi (để JS điều khiển) */
+.form-error-text {
+  color: #d9534f;
+  margin-top: 5px;
+  font-size: 0.9em;
+  text-align: left;
+  /* Mặc định ẩn, JS sẽ thêm text vào để hiển thị */
+}
 /* Responsive */
 @media (max-width: 768px) {
   .checkout-panel {
