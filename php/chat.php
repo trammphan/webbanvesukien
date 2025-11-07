@@ -4,16 +4,7 @@
 // Giai đoạn 2.1: Tự định nghĩa câu trả lời "Không tìm thấy"
 
 // ---- BẢO MẬT (QUAN TRỌNG) ----
-// 1. DÁN API KEY BÍ MẬT CỦA BẠN VÀO ĐÂY
-$API_KEY = "AIzaSyCif-I2NtmkKKCBwg3L6RZrrR0EoHGdKe0";
-
-// 2. THIẾT LẬP KẾT NỐI DATABASE CỦA BẠN
-$db_host = '127.0.0.1';
-$db_name = 'qlysukien';
-$db_user = 'root';
-$db_pass = ''; // Mật khẩu MySQL của bạn (nếu có)
-// ------------------------------------
-
+require_once 'config.php'; // Chứa API Key và thông tin DB
 $API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $API_KEY;
 
 // Báo cho script.js biết rằng chúng ta sẽ trả về JSON (với UTF-8)
