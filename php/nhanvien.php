@@ -60,7 +60,17 @@ if ($user_email) {
 }
 ?>
 
-
+<?php
+// Load CSS của trang người dùng nếu cần
+$additional_css = ['webstyle.css'];
+// Giữ tiêu đề và assets head gốc
+$page_title = 'Người dùng';
+$additional_head = <<<HTML
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+HTML;
+require_once 'header.php';
+?>
     <main>
     <article class="khungdungchung">
         <div class="thongtinnhanvien">
@@ -95,13 +105,8 @@ if ($user_email) {
     
                     <div class="container_1">
                         <div class="logout" class="box_1">
-                            <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                            <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout" data-bs-toggle="tooltip" title="Đăng xuất">
                                 <i class="fa-solid fa-right-from-bracket"></i> 
-                            </a>
-                        </div>
-                        <div class="update_info" class="box_1">
-                            <a href="sua_thongtin.php"  id="update">
-                                <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                         </div>
                     </div>

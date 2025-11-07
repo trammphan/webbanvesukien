@@ -11,6 +11,13 @@ html{
 }
 body{
     background: linear-gradient(135deg, #0f2027, #060259, #290352);
+    overflow-x: hidden;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #0b0c10;
+
 }
 h2{
     text-align: center;
@@ -51,6 +58,53 @@ h3{
     box-shadow: 30px 30px 40px rgba(92, 162, 227, 0.5);
     background-color: white;
 }
+.back_nguoidung, .back_nhanvien{
+    text-align: center;
+    margin-right: 3%;
+    margin-left: 91%;
+    border-radius: 20%;
+    color:#040c2a;
+    border:none;
+    padding: 5px 10px;
+}
+.back_nguoidung:hover, .back_nhanvien:hover, .back_nhatochuc:hover{
+    color: #060259;
+    box-shadow: 2px 2px 10px #090463;
+    border: none; 
+}
+#x{
+    color:#040c2a
+}
+.back_nhatochuc{
+    text-align: center;
+    border-radius: 20%;
+    color:#040c2a;
+    border:none;
+    padding: 3px 7px;
+    margin-left: 70%;
+    margin-right: 10%;
+}
+.back_nhatochuc:hover{
+    color: #060259;
+    box-shadow: 5px 5px 10px #0c0683b7;
+    border: none; 
+    background-color: white;
+}
+ 
+.tooltip-inner {
+    background-color: #03088a; 
+    color: white; 
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem; 
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.tooltip .tooltip-arrow::before {
+    border-top-color: #1329b9;
+}
+
 
 /*nhatochuc - quantrivien - nhanvien*/
 .congviec{
@@ -104,6 +158,14 @@ h3{
     padding: 5px 10px; 
     box-sizing: border-box;
     }
+    .box_3 {
+    flex: 1;             
+    color: white;
+    padding: 5px;
+    text-align: center;
+    border-radius: 8px;
+  margin-top: 20px;
+}
 /*THIET KE DAP UNG*/
 @media screen and (max-width: 768px) {
     .khungdungchung{
@@ -184,9 +246,9 @@ h3{
 .thanh_doc {
     margin-top:100px ;
     margin-bottom: 100px;
-    margin-left: 50px;
+    margin-left: 15px;
     margin-right: 0px;
-    width: px;
+    width: 280px;
     min-height: 80vh;
     background-color: #293f97;
     position: relative;
@@ -196,6 +258,7 @@ h3{
     flex-direction: column;
     justify-content: space-between; 
     border-radius: 40px ;
+    box-shadow: 10px 10px 10px rgb(56, 83, 255);
 }
 
 .noidung {
@@ -205,7 +268,8 @@ h3{
   padding: 30px;
   margin: 100px 35px;
   border-radius: 30px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  /* box-shadow: 0 0 10px rgba(0,0,0,0.4); */
+  box-shadow:  2px 2px 5px 15px  rgba(10, 29, 103, 0.47);
   min-height: 80vh;
   overflow-y: auto;
   height: 100%;
@@ -237,7 +301,7 @@ h3{
     padding-left: 10px;
     margin-top: 20px;
     color: rgb(136, 202, 255) ;
-    font-size: 80%;
+    font-size: 100%;
     
 }
 /*TRANG ĐĂNG KÝ*/
@@ -301,32 +365,31 @@ h3{
   text-align: center;
   margin-top: 20px;
 }
-#logout{
+#logout, #update{
   background-color: #290352;
   color:white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 10px 35px;
   cursor: pointer;
-  text-align: center;
   font-weight: bold;
   font-size: 20px;
-  margin-left: 10%;
   white-space: nowrap;
-  width: 10%;
+  width: 20%;
   height: fit-content;
   border-radius: 2rem;
   text-align: center;
   text-decoration: none;
   flex-wrap: nowrap;
-    transition-duration: 0.31s;
-    transition-timing-function: ease;
-    cursor: pointer;
+  transition-duration: 0.31s;
+  transition-timing-function: ease;
+  cursor: pointer;
+  font-size: 100%;
 }
 #logout:hover{
   background-color: #5d5f62;
   color: white;
   text-align: center;
+  box-shadow:  2px 2px 5px 2px rgb(23, 35, 148);
 }
     /*thông báo chưa đăng nhập*/
 /*  */
@@ -362,6 +425,11 @@ h3{
   color: white;
   text-align: center;
 }
+.container_1 {
+  display: flex;           
+  justify-content: center;   
+  gap: 80px
+}
 /*TRANG NHÂN VIÊN*/
 .thongtinnhanvien{
     padding: 20px;
@@ -370,57 +438,25 @@ h3{
     border-radius: 60px;
     box-shadow: 8px 8px 20px rgb(11, 11, 179);
 }
-#btn_duyet{
+#btn_duyet, #btn_baocao, #btn_dieukhoan{
     color: #e8fffd;
     font-size: 100%;
     padding: 8px;
-    border:solid 1px #060259;
     text-decoration: none;
     width: 300px;
     margin:50px auto;
     display: block;
     text-align: center;
     background-color: #040c2a;
+    border-radius: 20px;
 }
-#btn_duyet:hover{
-    background-color: rgb(8, 42, 165);
-    border-radius: 8px;
+#btn_duyet:hover, #btn_baocao:hover, #btn_dieukhoan:hover{
+    background-color:  #041b6d;
+    border-radius: 20px;
     color: white;
+    box-shadow: 2px 2px 2px  #556087;
 }
-#btn_baocao{
-    color: #e8fffd;
-    font-size: 100%;
-    padding: 8px;
-    border:solid 1px #060259;
-    text-decoration: none;
-    width: 300px;
-    margin:50px auto;
-    display: block;
-    text-align: center;
-    background-color: #040c2a;
-}
-#btn_baocao:hover{
-    background-color:rgb(8, 42, 165);
-    border-radius: 8px;
-    color: white;
-}
-#btn_dieukhoan{
-    color: #e8fffd;
-    font-size: 100%;
-    padding: 8px;
-    border:solid 1px #060259;
-    text-decoration: none;
-    width: 300px;
-    margin:50px auto;
-    display: block;
-    text-align: center;
-    background-color: #040c2a;
-}
-#btn_dieukhoan:hover{
-    background-color: rgb(8, 42, 165);
-    border-radius: 8px;
-    color: white;
-}
+
 /*TRANG NHÀ TỔ CHỨC*/
 .container_nhatochuc{
     display: flex;           
@@ -428,6 +464,21 @@ h3{
     gap: 0px;
     flex-direction: row;
     
+}
+.nd {
+  flex: 1;
+  background-color: white;
+  color: #060259;
+  padding: 30px;
+  margin: 100px 35px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  min-height: 80vh;
+  overflow-y: auto;
+  height: 100%;
+
+  /* chiều cao bằng nhau */
+    align-self: stretch;
 }
 .nhatochuc{
     padding: 15px;
@@ -438,11 +489,12 @@ h3{
 }   
 .nhatochuc_2{
     margin-top:100px ;
+    margin-left: 20px;
     width: 280px;
     background-color: #293f97;
     position: relative;
     padding-top: 80px;
-    box-shadow: 10px 10px 20px rgb(56, 83, 255);
+    box-shadow: 10px 10px 10px rgb(56, 83, 255);
     color:#66fcf1;
     border-radius: 40px ;
     box-sizing: border-box; 
@@ -570,80 +622,35 @@ h3{
 }
 
 
-/*O lable
-#tensk, #loaisk, #thoigiansk, #diadiemsk, #motask, #ve_loaive, 
-#image_anh{
-
-    font-size: 18px;
-    padding: 5px 0px 5px 10px;
-}*/
-/*O input
-#chonsk, #tsk, #tgsk, #ddsk {
-  background: none;
-  border: none;
-  max-width: 400px;
-  color: #060259;   
-}
-.mota{
-    color: #060259;
-  border-radius: 20px;
-  border: solid 2.5px #290352;
-  height: 200px;
-  width: 400px;
-  margin: 15px auto;
-  box-sizing: border-box;
-  font-size: 18px;
-  padding: 8px;
-}
-#khungloaive .ve-item {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-#khungloaive input {
-  flex: 1;
-  border: 2px solid #3b0066;
-  border-radius: 10px;
-  padding: 8px 10px;
-  font-size: 18px;
-  color: #3b0066;
-  outline: none;
-  background-color: transparent;
-}
-
-#khungloaive input::placeholder {
-  color: #7a62a6;
-  font-style: italic;
-} 
-*/
-
 /*SỬA THÔNG TIN*/
-.update_info{
-  text-align: center;
+.back{
   margin-top: 20px;
 }
-#update{
+#back{
   background-color: #290352;
   color:white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 10px 35px;
   cursor: pointer;
-  text-align: center;
   font-weight: bold;
   font-size: 20px;
-  margin-left: 10%;
   white-space: nowrap;
-  width: 10%;
+  width: 20%;
   height: fit-content;
   border-radius: 2rem;
   text-align: center;
   text-decoration: none;
   flex-wrap: nowrap;
-    transition-duration: 0.31s;
-    transition-timing-function: ease;
-    cursor: pointer;
+  transition-duration: 0.31s;
+  transition-timing-function: ease;
+  cursor: pointer;
+  font-size: 100%;
+}
+
+#back:hover{
+  background-color: #5d5f62;
+  color: white;
+  text-align: center;
 }
 #update:hover{
   background-color: #100b6c;
@@ -651,32 +658,28 @@ h3{
   text-align: center;
  
 }
-.container_1 {
-  display: flex;           
-  justify-content: center; 
-  gap: 10px;   
+
+.container_2 {
+  display: flex;
+  justify-content: center; /* căn giữa ngang toàn bộ 2 nút */
+  align-items: center;     /* căn giữa dọc */
+  gap: 100px; 
 }
-.box_1 {
+.box_1, .box_2 {
   flex: 1;             
   color: white;
   padding: 5px;
-  text-align: center;
+  text-align: right;
   border-radius: 8px;
 }
-.box_2 {
-  color: white;
-  padding: 5px;
-  text-align: center;
-  border-radius: 8px;
-}
-
-
-.dang_nhap, .update_info {
-  text-align: center;
+ .update_info {
+  text-align: left;
   margin-top: 20px;
-}
+ }
 
-#back{
+
+.container_2 #change,
+.container_2 #logout{
   background-color: #290352;
   color:white;
   border: none;
@@ -691,39 +694,25 @@ h3{
   transition-duration: 0.31s;
   transition-timing-function: ease;
   cursor: pointer;
+  
 }
 #back:hover{
-  background-color: #66FCF1;
+  background-color: #7a7dab;
   color: white;
   text-align: center;
 }
 #change{
-  background-color: #290352;
-  color:white;
-  border: none;
-  padding: 10px 20px;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 10%;
-  white-space: nowrap;
-  border-radius: 2rem;
-  border-radius: 2rem;
-  text-align: center;
-  text-decoration: none;
-  transition-duration: 0.31s;
-  transition-timing-function: ease;
-  cursor: pointer;
-  height: fit-content;
-  flex-wrap: nowrap;
-    transition-duration: 0.31s;
-    transition-timing-function: ease;
+    width: 100px;
 }
+
 #change:hover{
   background-color: #0a047f;
   color: white;
   text-align: center;
 }
-
+.sua{
+    display: inline-block;
+}
 
 /* STYLE CỦA HUỲNH NGÂN*/
 * {

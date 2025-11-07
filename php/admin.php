@@ -79,7 +79,7 @@ require_once 'header.php';
     
             <div >
                 <div class="box_3">
-                    <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout">
+                    <a href="dangxuat.php" class="w3-bar-item w3-button w3-padding" id="logout" data-bs-toggle="tooltip" title="Đăng xuất">
                         <i class="fa-solid fa-right-from-bracket"></i> 
                     </a>
                 </div>           
