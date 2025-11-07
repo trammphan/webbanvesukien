@@ -3,16 +3,12 @@ session_start();
 
 // 1. Kết nối CSDL
 include 'connect_1.php'; 
-// --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP TRÊN SERVER ---
-// Đây là chốt chặn bảo mật cuối cùng
 $email_khach_hang_cookie = $_COOKIE['email'] ?? null;
 
 if ($email_khach_hang_cookie === null) {
     // Nếu vì lý do nào đó mà session không có (VD: hết hạn, bị tấn công)
     die("Lỗi: Phiên đăng nhập không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại và thử thanh toán.");
 }
-// --- KẾT THÚC BỔ SUNG ---
-
 // 2. Kiểm tra phương thức POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -29,7 +25,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- Trạng thái ---
     $trangThai_payment = 'Đã thanh toán'; // Trạng thái cho bảng ThanhToan
     $trangThai_ve = 'Đã bán';       // Trạng thái mới cho bảng Ve
+// --- BỔ SUNG: XỬ LÝ CHI TIẾT THANH TOÁN ---
+    $chiTietJson = null; // Mặc định là NULL
 
+    if ($phuongThucTT === 'card') {
+        $card_name = $_POST['customer_card_name'] ?? '';
+        $card_number = $_POST['customer_card_number'] ?? '';
+        $card_expiry = $_POST['customer_card_expiry'] ?? '';
+        // $card_cvv = $_POST['customer_card_cvv'] ?? ''; // ***Bảo mật: KHÔNG LƯU CVV***
+
+        // Chỉ lưu 4 số cuối để đối chiếu (loại bỏ mọi ký tự không phải số)
+        $card_last_four = substr(preg_replace('/[^0-9]/', '', $card_number), -4);
+
+        $chiTiet = [
+            'payment_method' => 'card',
+            'card_holder_name' => $card_name,
+            'card_last_four' => $card_last_four,
+            'card_expiry' => $card_expiry
+            // Tuyệt đối không lưu CVV vào CSDL
+        ];
+        
+        // Mã hóa thành JSON để lưu vào cột TEXT
+        $chiTietJson = json_encode($chiTiet); 
+
+    } elseif ($phuongThucTT === 'momo') {
+         $chiTiet = [
+            'payment_method' => 'momo'
+         ];
+         $chiTietJson = json_encode($chiTiet);
+    }
+    // --- KẾT THÚC BỔ SUNG ---
     // 4. Validation cơ bản (đã loại bỏ emailKH vì đã kiểm tra session ở trên)
     if (empty($maSK) || empty($maLV) || $soLuong <= 0 || empty($tenKH)) {
         die("Lỗi: Vui lòng điền đầy đủ thông tin bắt buộc.");
@@ -43,9 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_price_check->bind_param("ss", $maSK, $maLV);
     $stmt_price_check->execute();
     
-    // *** SỬA LỖI ĐÁNH MÁY TẠI ĐÂY ***
-    // Sửa từ: $result_price_check
-    // Thành: $stmt_price_check
     $result_price = $stmt_price_check->get_result();
 
     if ($result_price->num_rows == 0) {
@@ -93,36 +115,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $maTT = uniqid('TT_'); 
 
-        // Câu lệnh SQL giờ CHỈ CÓ Email_KH (7 cột)
+        // --- BỔ SUNG SQL: Thêm cột ChiTietThanhToan ---
         $sql_thanhtoan = "INSERT INTO ThanhToan (
-                                MaTT, PhuongThucThanhToan, SoTien, 
-                                TenNguoiThanhToan, SDT, TrangThai, 
-                                Email_KH
-                            ) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?)"; // 7 dấu ?
+                            MaTT, PhuongThucThanhToan, SoTien, 
+                            TenNguoiThanhToan, SDT, TrangThai, 
+                            Email_KH, ChiTietThanhToan
+                        ) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; // 8 dấu ?
         
         $stmt_thanhtoan = $conn->prepare($sql_thanhtoan);
         if ($stmt_thanhtoan === false) {
             throw new Exception("Lỗi sql thanh toán: " . $conn->error);
         }
 
-        // *** SỬA LỖI QUAN TRỌNG ***
-        // bind_param giờ phải có 7 kiểu ("ssdssss") và 7 biến
-        $stmt_thanhtoan->bind_param("ssissss",  
+        // --- BỔ SUNG BIND_PARAM: Thêm biến $chiTietJson ---
+        // bind_param giờ phải có 8 kiểu ("ssisssss") và 8 biến
+        $stmt_thanhtoan->bind_param("ssisssss",  
             $maTT,                      // 1. MaTT (s)
             $phuongThucTT,              // 2. PhuongThucThanhToan (s)
-            $server_total,              // 3. SoTien (d)
-            $tenKH,                       // 4. TenNguoiThanhToan (s)
-            $sdtKH,                       // 5. SDT (s)
+            $server_total,              // 3. SoTien (i)
+            $tenKH,                     // 4. TenNguoiThanhToan (s)
+            $sdtKH,                     // 5. SDT (s)
             $trangThai_payment,         // 6. TrangThai (s)
-            $email_khach_hang_cookie    // 7. Email_KH (s) - Lấy từ cookie
+            $email_khach_hang_cookie,   // 7. Email_KH (s) - Lấy từ cookie
+            $chiTietJson                // 8. ChiTietThanhToan (s) - BỔ SUNG
         );
 
         if (!$stmt_thanhtoan->execute()) {
             throw new Exception("Lỗi khi tạo thanh toán: " . $stmt_thanhtoan->error);
         }
         $stmt_thanhtoan->close();
-
         // --- BƯỚC 3: UPDATE BẢNG 'VE' ĐỂ GÁN MaTT ---
         $sql_update_ve = "UPDATE ve SET MaTT = ?, TrangThai = ? WHERE MaVe = ?";
         $stmt_update_ve = $conn->prepare($sql_update_ve);
@@ -179,5 +201,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Lỗi: Phương thức truy cập không hợp lệ.";
 }
 ?>
-
-
