@@ -245,7 +245,12 @@ const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
 </div>
 <div id="momo-payment-info" class="payment-details-box">
     <h4>Quét mã MoMo</h4>
-    <p>Sau khi xác nhận, một mã QR sẽ được tạo (hoặc bạn sẽ được chuyển hướng) để hoàn tất thanh toán qua ví MoMo.</p>
+    <!-- BỔ SUNG MÃ QR -->
+    <!-- Giả định bạn đặt file bing_generated_qrcode.png vào thư mục ../img/ -->
+    <img src="../img/image.png" alt="Mã QR MoMo" style="width: 200px; height: 200px; display: block; margin: 10px auto; border-radius: 8px;">
+    
+    <p style="text-align: center; margin-top: 10px; font-weight: bold;">Quét mã trên để hoàn tất thanh toán.</p>
+    <p style="text-align: center; font-size: 0.9em;">Sau khi xác nhận, chúng tôi sẽ kiểm tra giao dịch của bạn.</p>
 </div>
 
 <!-- Thông tin cho Thẻ Tín dụng (mặc định ẩn) -->

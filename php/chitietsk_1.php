@@ -82,14 +82,9 @@
                     </div>
 
                     <div class="cardRight" style="background-image: url('<?=htmlspecialchars($row['img_sukien'])?>'); background-size: cover; background-position: center;">
-                        <div class= "blurOverlay"></div>
-                        
                         <div class="button">
                             <?php
-                            // ******** FIX 5: THAY ĐỔI LOGIC ĐỂ KIỂM TRA COOKIE (THEO YÊU CẦU CỦA BẠN) ********
-                            // Logic này kiểm tra COOKIE thay vì SESSION.
-                            
-                            // Giả định cookie lưu email tên là 'email'.
+
                             if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
                                 // Nếu ĐÃ ĐĂNG NHẬP (dựa trên cookie): Trỏ đến trang mua vé
                                 echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';

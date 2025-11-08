@@ -43,8 +43,18 @@
             <div class="header-right">
                 <nav class="header-nav">
                     <ul>
-                        <li><a href="#taosukien">Tạo sự kiện</a></li>
-                        <li><a href="lich_su_mua_ve.php">Vé của tôi</a></li>
+                        <li><a href="#taosukien">Tạo sự kiện</a></li>  
+                        <?php
+                        $is_logged_in = isset($_COOKIE['email']);
+
+                         if ($is_logged_in) {
+                        $ticket_link = "lich_su_mua_ve.php";
+                        } else {
+                            $redirect_url = urlencode("lich_su_mua_ve.php");
+                            $ticket_link = "dangnhap.php?redirect=" . $redirect_url;
+                        }
+                        ?>
+                        <li><a href="<?php echo $ticket_link; ?>">Vé của tôi</a></li>
                     </ul>
                 </nav>
 
