@@ -1,5 +1,4 @@
 <?php
-require_once 'config.php';
 include 'db_connect.php';
 
 $additional_css = ['index.css']; 

@@ -337,9 +337,11 @@ button{
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    height: 48px;
+    line-height: 24px;
+    height: 72px;
 }
 
 .event-date {
