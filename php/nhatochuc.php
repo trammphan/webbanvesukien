@@ -50,11 +50,12 @@ require_once 'header.php';
     <div class="container_nhatochuc">
       
         <article class="nhatochuc_2">
-          <div class="back_nhatochuc">
-            <a href="#" onclick="history.back(); return false;">
-              <i class="fa-solid fa-x" id="x"></i> 
-            </a>
-        </div>
+          <div class="back_nguoidung"  onclick="history.back(); return false;">
+                 <!-- <i class="fa-solid fa-x"></i>  -->
+                <a href="#">
+                         <i class="fa-solid fa-x" id="x"></i> 
+                </a>
+                </div>
             <p class="tieude">NHÀ TỔ CHỨC</p>
             <button class="congviec" id="btn-taosk">
                 <i class="fa-solid fa-calendar-plus"></i>

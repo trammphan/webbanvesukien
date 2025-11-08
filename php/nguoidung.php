@@ -60,9 +60,9 @@ require_once 'header.php';
 ?>
 <main>
         <article class="khungdungchung">
-            <div class="back_nguoidung">
+            <div class="back_nguoidung"  onclick="history.back(); return false;">
                  <!-- <i class="fa-solid fa-x"></i>  -->
-                <a href="#" onclick="history.back(); return false;">
+                <a href="#">
                          <i class="fa-solid fa-x" id="x"></i> 
                 </a>
                 </div>
