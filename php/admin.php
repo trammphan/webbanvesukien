@@ -56,11 +56,12 @@ require_once 'header.php';
 
     <main>
     <article class= "thanh_doc">
-        <div class="back_nhatochuc">
-            <a href="#" onclick="history.back(); return false;">
-              <i class="fa-solid fa-x" id="x"></i> 
-            </a>
-        </div>
+        <div class="back_nguoidung"  onclick="history.back(); return false;">
+                 <!-- <i class="fa-solid fa-x"></i>  -->
+                <a href="#">
+                         <i class="fa-solid fa-x" id="x"></i> 
+                </a>
+                </div>
         <p class="tieude"> QUẢN TRỊ VIÊN</p>
         <button class="congviec" id="btn-duyet">
             <i class="fa-solid fa-user-shield"></i>
