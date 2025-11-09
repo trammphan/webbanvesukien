@@ -56,14 +56,14 @@ require_once 'header.php';
 
     <main class="layout">
     <article class= "sidebar">
-        <div class="back">
+        <div class="back_nhatochuc">
             <a href="#" onclick="history.back(); return false;">
-              <i class="fa-regular fa-circle-left" id="x"></i> 
+              <i class="fa-solid fa-x" id="x"></i> 
             </a>
         </div>
         <div class="brand">
                 <span class="brand-dot"></span>
-                <span class="brand-text">Quản trị viên</span>
+                <span class="brand-text">Organizer Center</span>
         </div>
         <nav class="nav">
         <button class="nav-item active" id="btn-sukien">
@@ -102,72 +102,32 @@ require_once 'header.php';
         <?php endif; ?>
     </article>
 
-    <article class="noidung" id="sukien-section">
-        <h2 class="noidung-title">QUẢN LÝ SỰ KIỆN</h2>
-        <div class="header">
-            <div class="actions">
-                <form class="searchbar" method="get" action="admin.php">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" placeholder="Danh sách sự kiện và thao tác duyệt/sửa/xóa sẽ hiển thị ở đây." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                    <button class="btn-search" type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
+    <article class=" noidung" id="sukien-section">
+        <h2>Quản lý sự kiện</h2>
+        <p>Danh sách sự kiện và thao tác duyệt/sửa/xóa sẽ hiển thị ở đây.</p>
         <i class="fa-solid fa-spinner"></i> Đang cập nhật...
     </article>
     <article class="noidung hidden" id="danhmuc-section">
-        <h2 class="noidung-title">QUẢN LÝ DANH MỤC</h2>
-        <div class="header">
-            <div class="actions">
-                <form class="searchbar" method="get" action="admin.php">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" placeholder="Thêm/sửa/xóa danh mục sự kiện." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                    <button class="btn-search" type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
+        <h2>Quản lý danh mục</h2>
+        <p>Thêm/sửa/xóa danh mục sự kiện.</p>
         <i class="fa-solid fa-spinner"></i> Đang cập nhật...
     </article>
 
     <article class="noidung hidden" id="nguoidung-section">
-        <h2 class="noidung-title">QUẢN LÝ NGƯỜI DÙNG</h2>
-        <div class="header">
-            <div class="actions">
-                <form class="searchbar" method="get" action="admin.php">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" placeholder="Danh sách và quyền hạn người dùng." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                    <button class="btn-search" type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
+        <h2>Quản lý người dùng</h2>
+        <p>Danh sách và quyền hạn người dùng.</p>
         <i class="fa-solid fa-spinner"></i> Đang cập nhật...</i>
     </article>
 
     <article class="noidung hidden" id="ve-section">
-        <h2 class="noidung-title">QUẢN LÝ VÉ</h2>
-        <div class="header">
-            <div class="actions">
-                <form class="searchbar" method="get" action="admin.php">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" placeholder="Theo dõi vé, doanh thu từng sự kiện." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                    <button class="btn-search" type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
+        <h2>Quản lý vé</h2>
+        <p>Theo dõi vé, doanh thu từng sự kiện.</p>
         <i class="fa-solid fa-spinner"></i> Đang cập nhật...</i>
     </article>
 
     <article class="noidung hidden" id="thongke-section">
-        <h2 class="noidung-title">THỐNG KÊ</h2>
-        <div class="header">
-            <div class="actions">
-                <form class="searchbar" method="get" action="admin.php">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" placeholder="Báo cáo tổng hợp theo thời gian." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                    <button class="btn-search" type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
+        <h2>Thống kê</h2>
+        <p>Báo cáo tổng hợp theo thời gian.</p>
         <i class="fa-solid fa-spinner"></i> Đang cập nhật...</i>
     </article>
 

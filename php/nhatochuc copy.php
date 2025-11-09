@@ -47,34 +47,33 @@ $additional_head = <<<HTML
 HTML;
 require_once 'header.php';
 ?>   
-  <main class="layout">
-    <article class= "sidebar">
-        <div class="back">
-            <a href="#" onclick="history.back(); return false;">
-              <i class="fa-regular fa-circle-left" id="x"></i> 
-            </a>
-        </div>
-        <div class="brand">
-                <span class="brand-dot"></span>
-                <span class="brand-text">Nhà tổ chức</span>
-        </div>
-        <nav class="nav">
-        <button class="nav-item" id="btn-taosk">
-            <i class="fa-solid fa-calendar-plus"></i>
-            <span>Tạo sự kiện mới</span>
-        </button>
-        <button class="nav-item" id="btn-qly">
-            <i class="fa-solid fa-list-check"></i>
-            <span>Quản lý sự kiện</span>
-        </button>
-        <button class="nav-item" id="btn-xembc">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>Xem báo cáo</span>
-        </button>
-        <button class="nav-item" id="btn-capnhat">
-            <i class="fa-solid fa-user-pen"></i>
-            <span>Cập Nhật Thông Tin</span>
-        </button>
+    <div class="container_nhatochuc">
+      
+        <article class="nhatochuc_2">
+          <div class="back_nguoidung"  onclick="history.back(); return false;">
+                 <!-- <i class="fa-solid fa-x"></i>  -->
+                <a href="#">
+                         <i class="fa-solid fa-x" id="x"></i> 
+                </a>
+                </div>
+            <p class="tieude">NHÀ TỔ CHỨC</p>
+            <button class="congviec" id="btn-taosk">
+                <i class="fa-solid fa-calendar-plus"></i>
+                <span>Tạo Sự Kiện Mới</span>
+            </button>
+            <button class="congviec" id="btn-qly">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Quản Lý Sự Kiện</span>
+            </button>
+            <button class="congviec" id="btn-xembc">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Xem Báo Cáo</span>
+            </button>
+            <button class="congviec" id="btn-capnhat">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>Cập Nhật Thông Tin</span>
+            </button>
+          
           <?php if ($is_logged_in && $user_info): ?>
             <label class="email_ntc">
               <i class="fa-solid fa-envelope"></i>
@@ -87,56 +86,41 @@ require_once 'header.php';
             </div>
             
           <?php endif; ?>
-
+          
         </article>
 
-        <article class="noidung nhatochuc">
-            <h2 class="noidung-title">Chào mừng Nhà tổ chức đến với Vibe4</h2>
-            <p class="chaomung">
+        <article class=" nd nhatochuc">
+          <h2>Chào mừng Nhà tổ chức đến với Vibe4</h2>
+          <p class="chaomung">
             Vibe4 là nền tảng giúp bạn tạo, quản lý và bán vé sự kiện một cách dễ dàng.
             Từ hội thảo, hòa nhạc đến các buổi gặp gỡ, chúng tôi mang đến công cụ mạnh mẽ
             để bạn kết nối khán giả, tăng doanh thu và lan tỏa thương hiệu của mình.</p>
         </article>
+        <article class=" nd hidden taosukien" id="taosk-section">
+            <h2>Tạo Sự Kiện Mới</h2>
+            
 
-        <article class="noidung hidden" id="taosk-section">
-            <h2 class="noidung-title">TẠO SỰ KIỆN MỚI</h2>
-            <i class="fa-solid fa-spinner"></i> Đang cập nhật...
         </article>
 
-        <article class="noidung hidden" id="qly-section">
-            <h2 class="noidung-title">QUẢN LÝ SỰ KIỆN</h2>
-            <div class="header">
-                <div class="actions">
-                    <form class="searchbar" method="get" action="admin.php">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" name="q" placeholder="Danh sách các sự kiện bạn đã tạo." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                        <button class="btn-search" type="submit">Tìm kiếm</button>
-                    </form>
-                </div>
-            </div>
-            <i class="fa-solid fa-spinner"></i> Đang cập nhật...
+        <article class="nd hidden quanly" id="qly-section">
+          <h2>Quản Lý Sự Kiện</h2>
+          <p>Danh sách các sự kiện bạn đã tạo.</p>
+          <i class="fa-solid fa-spinner"></i> Đang cập nhật...
         </article>
 
-        <article class="noidung hidden" id="xembc-section">
-            <h2 class="noidung-title">XEM BÁO CÁO</h2>
-            <div class="header">
-                <div class="actions">
-                    <form class="searchbar" method="get" action="admin.php">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" name="q" placeholder="Báo cáo thống kê doanh thu, lượt bán vé,..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                        <button class="btn-search" type="submit">Tìm kiếm</button>
-                    </form>
-                </div>
-            </div>
-            <i class="fa-solid fa-spinner"></i> Đang cập nhật...
+        <article class="nd hidden xembaocao" id="xembc-section">
+          <h2>Xem Báo Cáo</h2>
+          <p>Báo cáo thống kê doanh thu, lượt bán vé,...</p>
+          <i class="fa-solid fa-spinner"></i> Đang cập nhật...
         </article>
 
-        <article class="noidung hidden" id="capnhat-section">
-            <h2 class="noidung-title">CẬP NHẬT THÔNG TIN NHÀ TỔ CHỨC</h2>
-            <p>Trang cập nhật hồ sơ và thông tin liên hệ.</p>
-            <i class="fa-solid fa-spinner"></i> Đang cập nhật...
+        <article class="nd hidden capnhat" id="capnhat-section">
+          <h2>Cập Nhật Thông Tin Nhà Tổ Chức</h2>
+          <p>Trang cập nhật hồ sơ và thông tin liên hệ.</p>
+          <i class="fa-solid fa-spinner"></i> Đang cập nhật...
         </article>
-    </main>
+
+      </div>
 <?php 
   $additional_footer_scripts = <<<HTML
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

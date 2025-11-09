@@ -6,7 +6,7 @@
   -webkit-text-fill-color: transparent;
 }
 html{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Nunito', 'Open Sans', sans-serif;
     font-size: 100%;
 }
 body{
@@ -29,17 +29,25 @@ h2{
     margin-top: 10px;
     padding: 10px 20px;
 }
+.noidung-title{
+    font-size:300%;
+    color: #f8f7fd;
+    text-shadow: 5px 5px 6px rgb(121, 132, 255);
+}
 .header{
   padding: 10px 20px;
   margin-bottom: 20px;
 }
-input::placeholder {
-  color: #060259;
-  opacity: 0.7;
-  border: none;
-  width: 200%;
-  height: 53px;
-  font-size: large;
+.thongtin input::placeholder,
+.form-group input::placeholder{
+  color: #39393f;
+  opacity: 0.85;
+  font-size: inherit;
+}
+.searchbar input::placeholder {
+    color: #d2d2f3;
+    opacity: 0.85;
+    font-size: inherit;
 }
 h3{
   text-align: center;
@@ -61,7 +69,7 @@ h3{
 .back_nguoidung, .back_nhanvien{
     text-align: center;
     margin-right: 3%;
-    margin-left: 85%;
+    margin-left: 91%;
     border-radius: 20%;
     color:#040c2a;
     border:none;
@@ -73,9 +81,9 @@ h3{
     border: none; 
 }
 #x{
-    color:#040c2a
+    color:#cbd4f6
 }
-.back_nhatochuc{
+.back{
     text-align: center;
     border-radius: 20%;
     color:#040c2a;
@@ -84,7 +92,7 @@ h3{
     margin-left: 70%;
     margin-right: 10%;
 }
-.back_nhatochuc:hover{
+.back:hover{
     color: #060259;
     box-shadow: 5px 5px 10px #0c0683b7;
     border: none; 
@@ -123,12 +131,10 @@ h3{
     color: white;
 }
 .tieude{
-    margin:auto;
-    padding: 20px;
-    font-size: 20px;
-    text-align: center;
-    font-weight: bold;
-    color: #e6e7e9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
 }
 /*đăng ký - đăng nhập - người dùng - nhân viên - */
     .thongtin {
@@ -263,19 +269,24 @@ h3{
 
 .noidung {
   flex: 1;
-  background-color: white;
-  color: #060259;
+background: rgba(7, 16, 36, 0.95);
+  color: #e8fffd;
   padding: 30px;
-  margin: 100px 35px;
+  margin: 0;
   border-radius: 30px;
   /* box-shadow: 0 0 10px rgba(0,0,0,0.4); */
-  box-shadow:  2px 2px 5px 15px  rgba(10, 29, 103, 0.47);
-  min-height: 80vh;
-  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(10, 29, 103, 0.35);
+  min-height: inherit;
+  overflow-y: visible;
   height: 100%;
 
   /* chiều cao bằng nhau */
     align-self: stretch;
+}
+
+.noidung.nhatochuc {
+  background: rgba(7, 16, 36, 0.95);
+  color: #d9e0ef;
 }
 .thanh_doc button:hover,
 .thanh_doc button.active {
@@ -483,7 +494,7 @@ h3{
 .nhatochuc{
     padding: 15px;
     box-sizing: border-box; 
-    border: 1px solid #ccc;
+    border: 1px solid #7036f8ccc;
 
     align-self: stretch;
 }   
@@ -541,7 +552,7 @@ h3{
   transition: background 0.3s;
 }
 .chaomung{
-    color: #060259;
+    color: #d9d8ed;
     font-size: 90%;
     padding: 10px 20px;
 }
@@ -1033,12 +1044,6 @@ body, html {
  }
 
 
-
-
-
-
-
-
 main{
     display: flex;
     align-items: stretch;
@@ -1048,6 +1053,89 @@ main{
     min-height: 80vh; 
     width: 100%;
     box-sizing: border-box;
+}
+
+/* ==== ADMIN MODERN UI (Ticketbox-like) ==== */
+.layout {
+  display: grid; /* ghi đè rule main { display:flex } */
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  padding: 40px;
+  align-items: stretch;
+  margin-top: 70px; /* rút ngắn khoảng cách dưới header */
+  min-height: calc(100vh - 140px);
+}
+
+.sidebar {
+  position: sticky;
+  top: 90px;
+  align-self: stretch;
+  background: rgba(7, 16, 36, 0.95);
+  border-radius: 16px;
+  padding: 20px 16px;
+  color: #e8fffd;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  min-height: inherit;
+  height: 100%;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.brand-dot {
+  width: 10px; height: 10px;
+  background: #2773e7;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #2ee9a8;
+}
+.brand-text {
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+.nav { display: flex; flex-direction: column; gap: 8px; }
+.sidebar .nav-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; border: none; cursor: pointer;
+  background: transparent; color: #e8fffd;
+  padding: 10px 12px; border-radius: 10px;
+  transition: background .2s ease, color .2s ease;
+}
+.sidebar .nav-item:hover { background: #122349; }
+.sidebar .nav-item.active { background: #1c2d5c; color: #fff; }
+
+.user { margin-top: 14px; padding-top: 12px; border-top: 1px solid #243a72; }
+.user .user-email { display:flex; align-items:center; gap:8px; color:#a6c8ff; font-size: 14px; margin-bottom:10px; }
+.user .btn-logout { display:inline-flex; gap:8px; align-items:center; padding:8px 12px; background:#243a72; color:#fff; border-radius:8px; text-decoration:none; }
+.user .btn-logout:hover { background:#3155a5; }
+
+.content { align-self: start; }
+.header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px; flex-wrap: wrap; }
+.title { color:#fff; font-size:22px; font-weight:800; margin:0; }
+.actions { display:flex; align-items:center; gap:10px; flex-wrap: wrap; flex: 1 1 420px; }
+
+.searchbar { display:flex; align-items:center; gap:8px; background:#0b1736; border:1px solid #243a72; color:#cfe6ff; padding:8px 30px; border-radius:999px; min-width: 260px; flex: 1 1 260px; }
+.searchbar i { color:#8fb7ff; }
+.searchbar input { background:transparent; border:none; outline:none; color:#e8f3ff; min-width: 160px; width: 100%; }
+.btn-search { background:#1c2d5c; color:#fff; border:none; padding:8px 12px; border-radius:999px; font-weight:700; cursor:pointer; }
+.btn-search:hover { background:#3155a5; }
+
+.btn-create { display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#2ee9a8; color:#061126; padding:10px 14px; border-radius:999px; font-weight:800; }
+.btn-create:hover { background:#1fd095; }
+
+.tabs { display:flex; gap:8px; margin: 8px 0 16px; flex-wrap: wrap; flex-basis: 100%; }
+.tabs .tab { background:#0b1736; color:#b9c9ff; border:1px solid #243a72; border-radius:999px; padding:8px 12px; cursor:pointer; font-weight:700; }
+.tabs .tab.active { background:#2ee9a8; color:#041225; border-color:transparent; }
+
+.panel { background:#ffffff; border-radius:14px; padding:20px; min-height: 60vh; box-shadow: 0 10px 30px rgba(9, 28, 84, 0.35); }
+.panel h2 { color:#061437; text-shadow:none; padding:0; margin:0 0 8px 0; }
+.panel p { color:#22345f; }
+
+@media (max-width: 992px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .searchbar { min-width: unset; width: 100%; }
 }
 
 
@@ -1063,5 +1151,14 @@ main{
 
 
 
+
+/* ===== Font unification (match site style) ===== */
+body, html {
+  font-family: 'Nunito', 'Open Sans', sans-serif;
+}
+h1, h2, h3, .title, .section-title, .brand-text {
+  font-family: 'Montserrat', 'Nunito', 'Open Sans', sans-serif;
+  font-weight: 800;
+}
 
 
