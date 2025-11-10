@@ -43,7 +43,7 @@
             <div class="header-right">
                 <nav class="header-nav">
                     <ul>
-                        <li><a href="#taosukien">Tạo sự kiện</a></li>  
+                        <!-- <li><a href="#taosukien">Tạo sự kiện</a></li>   -->
                         <?php
                         $is_logged_in = isset($_COOKIE['email']);
 
