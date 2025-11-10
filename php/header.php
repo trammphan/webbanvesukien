@@ -66,6 +66,7 @@
             </div>
         </div>
     </header>
+    <script src="../js/search-autocomplete.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
     // 1. Tìm liên kết "Vé của tôi"

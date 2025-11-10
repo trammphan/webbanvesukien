@@ -209,4 +209,3 @@ if (empty($search_query)) {
 ?>
 <script src="../js/sukien.js"></script>
 <script src="../js/index.js"></script>
-<script src="../js/search-autocomplete.js"></script>
