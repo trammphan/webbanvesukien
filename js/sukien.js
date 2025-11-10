@@ -1,7 +1,18 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('event-filter');
-    const container = document.getElementById('event-list');
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("event-filter");
+  const radios = form.querySelectorAll('input[name="diadiem"]');
+
+  radios.forEach(function (radio) {
+    radio.addEventListener("change", function () {
+      form.submit();
+      const filterBox = document.getElementById("filter-details");
+      if (filterBox) {
+        filterBox.classList.add("hidden");
+      }
+    });
+  });
 });
+
 
 //Xu ly toggle bo loc
 function toggleFilter() {

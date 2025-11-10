@@ -191,16 +191,14 @@ main {
 .filter-box {
     border-radius: 8px;
     margin: 0 auto;
-}
 
-/* Khung nội dung bộ lọc địa điểm*/
-#filter-details{
-    background-color: #f9f9f9;
-    border: 1px solid white;
-    border-radius: 8px;
-    padding: 20px;
-    width: 320px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 /* Tiêu đề bộ lọc */
@@ -215,44 +213,25 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
 }
 
-/* Nhóm lọc */
-.filter-box label {
-    display: block;
-    font-weight: bold;
-    margin-top: 12px;
-    margin-bottom: 6px;
+.hidden {
+  display: none;
 }
 
-.filter-box select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+/* Nhóm radio nằm ngang, không có khung */
+.radio-group {
+  display: flex;
+  gap: 40px; /* cách xa giữa các lựa chọn */
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
 }
 
-/* Nút hành động */
-.filter-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.filter-buttons button {
-    padding: 8px 14px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.filter-buttons button[type="reset"] {
-    background-color: #ddd;
-}
-
-.filter-buttons button[type="submit"] {
-    background-color: #00e0ff;
-    color: white;
+/* Mỗi lựa chọn radio */
+.radio-group label {
+  font-weight: bold;
+  color: #ddd8ec;
+  font-size: 15px;
+  cursor: pointer;
 }

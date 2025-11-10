@@ -46,25 +46,26 @@
             <form id="event-filter" class="filter-box">
                 <input type="hidden" name="loai_sukien" value="<?= htmlspecialchars($loai) ?>">
                 <button type="button" class="filter-toggle" onclick="toggleFilter()">
-                    <i class="fa-solid fa-filter"></i>Bộ lọc
+                    <i class="fa-solid fa-filter"></i>Địa điểm
                 </button>
 
-                <div id="filter-details" style="display: none;">
+                <div id="filter-details" class="hidden">
                     <!-- Địa điểm -->
-                    <label>Địa điểm:
-                        <select class= 'filter-group' name="diadiem">
-                            <option value="">-- Tất cả --</option>
-                            <option value="HCM" <?= ($_GET['diadiem'] ?? '') == 'HCM' ? 'selected' : '' ?>>Hồ Chí Minh</option> <!-- Giữ lại lựa chọn của người dùng-->
-                            <option value="HN" <?= ($_GET['diadiem'] ?? '') == 'HN' ? 'selected' : '' ?>>Hà Nội</option>
-                            <option value="DL" <?= ($_GET['diadiem'] ?? '') == 'DL' ? 'selected' : '' ?>>Đà Lạt</option>
-                            <option value="HY" <?= ($_GET['diadiem'] ?? '') == 'HY' ? 'selected' : '' ?>>Hưng Yên</option>
-                        </select>
-                    </label>
-
-                    <!-- Nút -->
-                    <div class="filter-buttons">
-                        <button type="reset">Thiết lập lại</button>
-                        <button type="submit">Áp dụng</button>
+                    <div class="radio-group">
+                        <?php
+                            $selected_location = $_GET['diadiem'] ?? '';
+                            $locations = [
+                                ''    => 'Tất cả',
+                                'HN'  => 'Hà Nội',
+                                'DL'  => 'Đà Lạt',
+                                'HY'  => 'Hưng Yên'
+                            ];
+                            
+                            foreach ($locations as $code => $name) {
+                                $checked = ($selected_location === $code) ? 'checked' : '';
+                                echo "<label><input type='radio' name='diadiem' value='$code' $checked onchange='this.form.submit()'> $name</label>";
+                            }
+                        ?>
                     </div>
                 </div>
             </form>
