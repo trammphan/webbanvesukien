@@ -97,7 +97,7 @@ require_once 'header.php';
             </a>
         </div>
 
-        <header>
+        <header class="page-header">
             <h1>Lịch sử mua vé của bạn</h1>
         </header>
 

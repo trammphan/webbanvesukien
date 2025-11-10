@@ -98,7 +98,7 @@
                                 $login_url = 'dangnhap.php?redirect=' . urlencode($target_url);
                                 
                                 // 3. In nút "MUA VÉ" trỏ đến trang đăng nhập
-                                echo '<a class="buy" href="' . $login_url . '">MUA VÉ</a>';
+                                echo '<a class="buy" href="' . $login_url . '" id="buy-ticket-link">MUA VÉ</a>';
                             }
                             ?>
                         </div>
@@ -129,3 +129,32 @@
 <?php
 require_once 'footer.php'; 
 ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // === PHẦN 2: XỬ LÝ CHO NÚT "MUA VÉ" (TRÊN TRANG NÀY) ===
+    var buyTicketLink = document.getElementById("buy-ticket-link");
+
+    // Kiểm tra an toàn: Chỉ chạy nếu tìm thấy nút "Mua vé"
+    if (buyTicketLink) {
+        buyTicketLink.addEventListener("click", function(event) {
+            var destinationUrl = this.href; 
+            
+            event.preventDefault(); // Ngăn chuyển trang
+
+            // Hiển thị thông báo
+            Swal.fire({
+                title: 'Bạn chưa đăng nhập!',
+                text: 'Vui lòng đăng nhập để mua vé. Đang chuyển trang...',
+                icon: 'info',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            }).then(() => {
+                // Sau 3 giây, chuyển trang
+                window.location.href = destinationUrl;
+            });
+        });
+    } 
+
+});
+</script>

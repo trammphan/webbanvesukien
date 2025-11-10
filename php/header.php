@@ -54,7 +54,7 @@
                             $ticket_link = "dangnhap.php?redirect=" . $redirect_url;
                         }
                         ?>
-                        <li><a href="<?php echo $ticket_link; ?>">Vé của tôi</a></li>
+                        <li><a href="<?php echo $ticket_link; ?>" id="ticket-link">Vé của tôi</a></li>
                     </ul>
                 </nav>
 
@@ -66,3 +66,34 @@
             </div>
         </div>
     </header>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // 1. Tìm liên kết "Vé của tôi"
+    var myTicketLink = document.getElementById("ticket-link");
+
+    // 2. Gắn sự kiện "click"
+    myTicketLink.addEventListener("click", function(event) {
+        var destinationUrl = this.href; 
+
+        // 3. Kiểm tra nếu là link đăng nhập
+        if (destinationUrl.includes("dangnhap.php")) {
+            
+            // 4. Ngăn chuyển trang ngay lập tức
+            event.preventDefault(); 
+
+            // 5. HIỆN THÔNG BÁO SWEETALERT2
+            Swal.fire({
+                title: 'Bạn chưa đăng nhập!',
+                text: 'Đang chuyển đến trang đăng nhập...',
+                icon: 'info',
+                timer: 3000, // Tự động đóng sau 3 giây
+                timerProgressBar: true, // Hiển thị thanh đếm lùi
+                showConfirmButton: false // Ẩn nút "OK"
+            }).then(() => {
+                // 6. Hết 3 giây, tự động chuyển trang
+                window.location.href = destinationUrl;
+            });
+        }
+    });
+});
+</script>

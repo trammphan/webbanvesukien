@@ -40,12 +40,12 @@ body {
 }
 /* ------------------------- */
 
-header {
+.page-header {
   padding: 25px 30px;
-  border-bottom: 2px solid #eee;
   background: #fff;
+  border-bottom: 1px solid #eee;
 }
-header h1 {
+.page-header h1 {
   margin: 0;
   color: #2c3e50;
   font-weight: 700;
