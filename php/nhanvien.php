@@ -117,23 +117,23 @@ require_once 'header.php';
             
 
         <h2 class="nhanvien-title">Chào mừng Nhân Viên Soát Vé!</h2>
-        <p class="chaomung">Chào mừng bạn đến với trang quản lý nhân viên soát vé của Vibe4. Tại đây, bạn có thể dễ dàng quản lý và xác nhận vé sự kiện một cách nhanh chóng và hiệu quả.</p>
+        <p class="chaomung_nv">Chào mừng bạn đến với trang quản lý nhân viên soát vé của Vibe4. Tại đây, bạn có thể dễ dàng quản lý và xác nhận vé sự kiện một cách nhanh chóng và hiệu quả.</p>
 
         <section id="duyet-section" class="nhanvien-section">
             <h3>Duyệt Vé Sự Kiện</h3>
-            <p class="chaomung">Tại đây bạn có thể quét và xác nhận vé của khách hàng một cách nhanh chóng.</p>
+            <p class="chaomung_nv">Tại đây bạn có thể quét và xác nhận vé của khách hàng một cách nhanh chóng.</p>
             <button id="btn_duyet" class="nhanvien-btn active">Duyệt Vé</button>
         </section>
 
         <section id="baocao-section" class="nhanvien-section ">
             <h3>Báo Cáo Công Việc</h3>
-            <p class="chaomung">Xem và tải về các báo cáo công việc hàng ngày của bạn.</p>
+            <p class="chaomung_nv">Xem và tải về các báo cáo công việc hàng ngày của bạn.</p>
             <button id="btn_baocao" class="nhanvien-btn">Báo Cáo</button>
         </section>
 
         <section id="dieukhoan-section" class="nhanvien-section ">
             <h3>Điều Khoản và Chính Sách</h3>
-            <p class="chaomung">Đọc kỹ các điều khoản và chính sách liên quan đến công việc của bạn.</p>
+            <p class="chaomung_nv">Đọc kỹ các điều khoản và chính sách liên quan đến công việc của bạn.</p>
             <button id="btn_dieukhoan" class="nhanvien-btn">Điều Khoản</button>
         </section>
     </article>

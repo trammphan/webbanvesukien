@@ -467,7 +467,11 @@ background: rgba(7, 16, 36, 0.95);
     color: white;
     box-shadow: 2px 2px 2px  #556087;
 }
-
+.chaomung_nv{
+    color: #04004c;
+    font-size: 90%;
+    padding: 10px 20px;
+}
 /*TRANG NHÀ TỔ CHỨC*/
 .container_nhatochuc{
     display: flex;           
