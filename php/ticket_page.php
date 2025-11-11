@@ -27,20 +27,19 @@ $event_details = $event_result->fetch_assoc();
 // 3. Lấy thông tin các loại vé của sự kiện này từ CSDL
 $stmt = $conn->prepare("
     SELECT 
-        v.MaLoai,      -- Lấy MaLoai từ bảng loaive
-        v.TenLoai,     -- Lấy TenLoai từ bảng loaive
-        v.Gia,         -- Lấy Gia từ bảng loaive
-        -- Bảng 'loaive' của bạn KHÔNG có cột 'MoTa'
-        COUNT(t.MaVe) AS SoVeConLai -- Đếm vé từ bảng 've'
+        v.MaLoai, 
+        v.TenLoai, 
+        v.Gia, 
+        v.MoTa, -- <!-- BỔ SUNG MỚI (1/2): Lấy cột MoTa -->
+        COUNT(t.MaVe) AS SoVeConLai 
     FROM 
-        loaive v       -- Bắt đầu từ bảng 'loaive' (alias là 'v')
+        loaive v 
     LEFT JOIN 
-        ve t ON v.MaLoai = t.MaLoai AND t.MaTT IS NULL -- Join với bảng 've' (alias là 't')
-                                                      -- Giả định MaTT IS NULL là vé còn trống
+        ve t ON v.MaLoai = t.MaLoai AND t.MaTT IS NULL 
     WHERE 
-        v.MaSK = ?     -- Lọc theo MaSK trực tiếp từ bảng 'loaive'
+        v.MaSK = ? 
     GROUP BY 
-        v.MaLoai, v.TenLoai, v.Gia  -- Nhóm theo các cột đã SELECT
+        v.MaLoai, v.TenLoai, v.Gia, v.MoTa -- <!-- BỔ SUNG MỚI (2/2): Thêm MoTa vào GROUP BY -->
 ");
 
 $stmt->bind_param("s", $maSK); 
@@ -54,8 +53,8 @@ while ($row = $tickets_result->fetch_assoc()) {
     $ticket_types[$row['MaLoai']] = [
         'name' => $row['TenLoai'],
         'price' => $row['Gia'],
-        // Vì CSDL không có cột MoTa, chúng ta để trống
-        'description' => '', 
+        // <!-- BỔ SUNG MỚI (3/3): Gán giá trị MoTa -->
+        'description' => $row['MoTa'] ?? '', // Lấy mô tả, nếu không có thì để trống
         'remaining' => $row['SoVeConLai'] 
     ];
 }
@@ -165,8 +164,6 @@ function format_currency($amount) {
         // Dữ liệu này bây giờ đã bao gồm 'description'
         const ticketData = <?php echo json_encode($ticket_types); ?>;
 
-        // THÊM DÒNG NÀY:
-        // (Giả sử bạn lưu mã khách hàng trong $_SESSION['email'] khi họ đăng nhập)
         const isUserLoggedIn = <?php echo isset($_COOKIE['email']) ? 'true' : 'false'; ?>;
     </script>
     <script src="../js/ticket_page.js"></script>

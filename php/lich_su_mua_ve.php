@@ -28,35 +28,42 @@ if (!function_exists('format_currency_simple')) {
 }
 
 // 4. XỬ LÝ LỌC VÀ TRUY VẤN (Giữ nguyên logic PHP của bạn)
-// (Đã dọn dẹp các ký tự rác ' ')
 $sql = "SELECT 
             tt.MaTT, tt.SoTien, tt.TrangThai, tt.PhuongThucThanhToan, tt.NgayTao,
-            v.MaVe, lv.TenLoai, sk.TenSK
+            v.MaVe, lv.TenLoai, 
+            sk.TenSK, sk.Tgian 
         FROM ThanhToan tt
         JOIN ve v ON tt.MaTT = v.MaTT
         JOIN loaive lv ON v.MaLoai = lv.MaLoai
         JOIN sukien sk ON lv.MaSK = sk.MaSK";
+
 $conditions = [];
 $params = [];
 $param_types = "";
+
 $conditions[] = "tt.Email_KH = ?";
 $params[] = $email_dang_nhap;
 $param_types .= "s";
+
 $filter_thangnam = $_GET['thangnam'] ?? '';
 if (!empty($filter_thangnam)) {
     $conditions[] = "DATE_FORMAT(tt.NgayTao, '%Y-%m') = ?";
     $params[] = $filter_thangnam;
     $param_types .= "s"; 
 }
+
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
+
 $sql .= " ORDER BY tt.NgayTao DESC, tt.MaTT";
+
 $stmt = $conn->prepare($sql);
 if ($stmt === false) { die("Lỗi chuẩn bị truy vấn: " . $conn->error); }
 if (!empty($params)) { $stmt->bind_param($param_types, ...$params); }
 $stmt->execute();
 $result = $stmt->get_result();
+
 $don_hang = [];
 while ($row = $result->fetch_assoc()) {
     $maTT = $row['MaTT'];
@@ -66,7 +73,9 @@ while ($row = $result->fetch_assoc()) {
             'TrangThai' => $row['TrangThai'],
             'NgayTao' => $row['NgayTao'],
             'PhuongThuc' => $row['PhuongThucThanhToan'],
-            'TenSuKien' => $row['TenSK'], 
+            'TenSuKien' => $row['TenSK'],
+            // --- MỚI THÊM: Lưu thời gian sự kiện vào mảng ---
+            'ThoiGianSuKien' => $row['Tgian'], 
             'Ve' => [] 
         ];
     }
@@ -83,8 +92,7 @@ $additional_css = ['lichsu.css'];
 $page_title = 'Lịch sử mua vé';
 require_once 'header.php';
 
-// 7. Bắt đầu nội dung trang
-// (XÓA <html>, <head>, <style>, <body> thừa ở đây)
+
 ?>
 
 <main class="main-content-area">
@@ -135,6 +143,7 @@ require_once 'header.php';
                             </span>
                         </div>
                         <div class="order-body"> <p><strong>Sự kiện:</strong> <?php echo htmlspecialchars($don['TenSuKien']); ?></p>
+                        <p><strong>Thời gian diễn ra:</strong> <?php echo date("d/m/Y H:i", strtotime($don['ThoiGianSuKien'])); ?></p>
                             <p><strong>Tổng tiền:</strong> <?php echo format_currency_simple($don['SoTien']); ?> VNĐ</p>
                             <p><strong>Ngày đặt:</strong> <?php echo date("d/m/Y H:i", strtotime($don['NgayTao'])); ?></p>
                             <p><strong>Hình thức:</strong> <?php echo htmlspecialchars($don['PhuongThuc']); ?></p>
@@ -154,9 +163,7 @@ require_once 'header.php';
             <?php endif; ?>
         </div>
     </div> </main> <?php
-// (XÓA </html> thừa ở đây)
 
-// 8. Gọi Footer (SỬA ĐƯỜNG DẪN TUYỆT ĐỐI)
 require_once  'footer.php'; 
 ?>
 

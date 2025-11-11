@@ -259,158 +259,213 @@ body {
   line-height: 1.6;
 }
 
-/* Nhóm 1 (Cyan) - ID kết thúc bằng 1 hoặc 6 */
-#LV01,
-#LV06,
-#LV11,
-#LV16,
-#LV21,
-#LV26,
-#LV31,
-#LV36,
-#LV41,
-#LV46,
-#LV51,
-#LV56,
-#LV61,
-#LV66,
-#LV71,
-#LV76,
-#LV81,
-#LV86,
-#LV91,
-#LV96,
-#LV101,
-#LV106,
-#LV111,
-#LV116,
-#LV121,
-#LV126 {
-  background-color: #00b8d4; /* Cyan */
-  border-color: #00b8d4;
-  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
-}
-
-/* Nhóm 2 (Pink) - ID kết thúc bằng 2 hoặc 7 */
-#LV02,
-#LV07,
-#LV12,
+/* --- Nhóm 1 (Đỏ) --- */
+/* (ID % 8 == 1) */
+#LV1,
+#LV9,
 #LV17,
-#LV22,
-#LV27,
-#LV32,
-#LV37,
-#LV42,
-#LV47,
-#LV52,
-#LV57,
-#LV62,
-#LV67,
-#LV72,
-#LV77,
-#LV82,
-#LV87,
-#LV92,
-#LV97,
-#LV102,
-#LV107,
-#LV112,
-#LV117,
-#LV122 {
-  background-color: #e6007a; /* Pink */
-  border-color: #e6007a;
-  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
-}
-
-/* Nhóm 3 (Yellow) - ID kết thúc bằng 3 hoặc 8 */
-#LV03,
-#LV08,
-#LV13,
-#LV18,
-#LV23,
-#LV28,
+#LV25,
 #LV33,
-#LV38,
-#LV43,
-#LV48,
-#LV53,
-#LV58,
-#LV63,
-#LV68,
+#LV41,
+#LV49,
+#LV57,
+#LV65,
 #LV73,
-#LV78,
-#LV83,
-#LV88,
-#LV93,
-#LV98,
-#LV103,
-#LV108,
+#LV81,
+#LV89,
+#LV97,
+#LV105,
 #LV113,
-#LV118,
-#LV123 {
-  background-color: #ffc107; /* Yellow */
-  border-color: #ffc107;
-  color: #000; /* Giữ nguyên màu chữ đen */
+#LV121,
+#LV129,
+#LV137,
+#LV145,
+#LV153 {
+  background-color: #d32f2f; /* Red */
+  border-color: #d32f2f;
+  color: #ffffff;
 }
 
-/* Nhóm 4 (Orange) - ID kết thúc bằng 4 hoặc 9 */
-#LV04,
-#LV09,
-#LV14,
-#LV19,
-#LV24,
-#LV29,
+/* --- Nhóm 2 (Cam) --- */
+/* (ID % 8 == 2) */
+#LV2,
+#LV10,
+#LV18,
+#LV26,
 #LV34,
-#LV39,
-#LV44,
-#LV49,
-#LV54,
-#LV59,
-#LV64,
-#LV69,
+#LV42,
+#LV50,
+#LV58,
+#LV66,
 #LV74,
-#LV79,
-#LV84,
-#LV89,
-#LV94,
-#LV99,
-#LV104,
-#LV109,
+#LV82,
+#LV90,
+#LV98,
+#LV106,
 #LV114,
-#LV119,
-#LV124 {
+#LV122,
+#LV130,
+#LV138,
+#LV146,
+#LV154 {
   background-color: #f57c00; /* Orange */
   border-color: #f57c00;
-  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
+  color: #ffffff;
 }
 
-/* Nhóm 5 (Purple) - ID kết thúc bằng 0 hoặc 5 */
-#LV05,
-#LV10,
-#LV15,
-#LV20,
-#LV25,
-#LV30,
+/* --- Nhóm 3 (Vàng) --- */
+/* (ID % 8 == 3) */
+#LV3,
+#LV11,
+#LV19,
+#LV27,
 #LV35,
-#LV40,
-#LV45,
-#LV50,
-#LV55,
-#LV60,
-#LV65,
-#LV70,
+#LV43,
+#LV51,
+#LV59,
+#LV67,
 #LV75,
-#LV80,
-#LV85,
-#LV90,
-#LV95,
-#LV100,
-#LV105,
-#LV110,
+#LV83,
+#LV91,
+#LV99,
+#LV107,
 #LV115,
-#LV120,
-#LV125 {
+#LV123,
+#LV131,
+#LV139,
+#LV147,
+#LV155 {
+  background-color: #ffc107; /* Yellow */
+  border-color: #ffc107;
+  color: #000000;
+}
+
+/* --- Nhóm 4 (Xanh lá) --- */
+/* (ID % 8 == 4) */
+#LV4,
+#LV12,
+#LV20,
+#LV28,
+#LV36,
+#LV44,
+#LV52,
+#LV60,
+#LV68,
+#LV76,
+#LV84,
+#LV92,
+#LV100,
+#LV108,
+#LV116,
+#LV124,
+#LV132,
+#LV140,
+#LV148 {
+  background-color: #388e3c; /* Green */
+  border-color: #388e3c;
+  color: #ffffff;
+}
+
+/* --- Nhóm 5 (Xanh dương) --- */
+/* (ID % 8 == 5) */
+#LV5,
+#LV13,
+#LV21,
+#LV29,
+#LV37,
+#LV45,
+#LV53,
+#LV61,
+#LV69,
+#LV77,
+#LV85,
+#LV93,
+#LV101,
+#LV109,
+#LV117,
+#LV125,
+#LV133,
+#LV141,
+#LV149 {
+  background-color: #0288d1; /* Blue */
+  border-color: #0288d1;
+  color: #ffffff;
+}
+
+/* --- Nhóm 6 (Chàm) --- */
+/* (ID % 8 == 6) */
+#LV6,
+#LV14,
+#LV22,
+#LV30,
+#LV38,
+#LV46,
+#LV54,
+#LV62,
+#LV70,
+#LV78,
+#LV86,
+#LV94,
+#LV102,
+#LV110,
+#LV118,
+#LV126,
+#LV134,
+#LV142,
+#LV150 {
+  background-color: #303f9f; /* Indigo */
+  border-color: #303f9f;
+  color: #ffffff;
+}
+
+/* --- Nhóm 7 (Tím) --- */
+/* (ID % 8 == 7) */
+#LV7,
+#LV15,
+#LV23,
+#LV31,
+#LV39,
+#LV47,
+#LV55,
+#LV63,
+#LV71,
+#LV79,
+#LV87,
+#LV95,
+#LV103,
+#LV111,
+#LV119,
+#LV127,
+#LV135,
+#LV143,
+#LV151 {
   background-color: #7b1fa2; /* Purple */
   border-color: #7b1fa2;
-  color: #ffffff; /* Thêm màu chữ cho dễ đọc */
+  color: #ffffff;
+}
+
+/* --- Nhóm 8 (Xám) --- */
+/* (ID % 8 == 0) */
+#LV8,
+#LV16,
+#LV24,
+#LV32,
+#LV40,
+#LV48,
+#LV56,
+#LV64,
+#LV72,
+#LV80,
+#LV88,
+#LV96,
+#LV104,
+#LV112,
+#LV120,
+#LV128,
+#LV136,
+#LV144,
+#LV152 {
+  background-color: #616161; /* Grey */
+  border-color: #616161;
+  color: #ffffff;
 }

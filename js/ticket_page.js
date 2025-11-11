@@ -21,13 +21,33 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentQuantity = 1;
   let basePrice = 0; // === CÁC HÀM TRỢ GIÚP === // --- SỬA ĐỔI 1: SỬA HÀM HIỂN THỊ ĐỂ GIỐNG NHƯ HÌNH ẢNH --- // Hàm hiển thị thông tin vé (Tên và Số vé còn lại)
 
-  function showDescription(name, remaining) {
+  function showDescription(name, description, remaining) {
     if (descriptionContainer) {
-      // Tạo HTML giống như hình ảnh bạn gửi
+      // Tách mô tả (MoTa) bằng ký tự '|'
+      const descriptions = (description || "").split("|");
+      let descriptionHtml = "";
+
+      // Kiểm tra xem có mô tả hay không
+      if (
+        descriptions.length > 1 ||
+        (descriptions.length === 1 && descriptions[0] !== "")
+      ) {
+        descriptionHtml += "<ul class='ticket-description-list'>"; // Thêm class để CSS
+        descriptions.forEach((d) => {
+          if (d) descriptionHtml += `<li>${d}</li>`; // Bỏ qua nếu rỗng
+        });
+        descriptionHtml += "</ul>";
+      } else {
+        // Hiển thị nếu không có mô tả
+        descriptionHtml += `<p class='no-description'>Chưa có mô tả chi tiết cho loại vé này.</p>`;
+      }
+
+      // Tạo HTML mới
       descriptionContainer.innerHTML = `
         <h4 style="color: #00e0ff;">${name}</h4>
-        <p style="margin-top: 15px; color: #fff;">
-            <strong> Số vé còn lại: ${remaining} </strong>
+        ${descriptionHtml} 
+        <p style="margin-top: 15px; color: #fff; border-top: 1px solid #555; padding-top: 10px;">
+            <strong>Số vé còn lại: ${remaining}</strong>
         </p>
       `;
       descriptionContainer.style.display = "block"; // Hiển thị khung
@@ -66,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const currentZoneId = zone.dataset.id;
       const ticketName = zone.dataset.name; // Lấy từ data-name
       const remaining = parseInt(zone.dataset.remaining); // Lấy từ data-remaining // 2. KIỂM TRA HẾT VÉ (SOLD OUT) NGAY LẬP TỨC
-
+      const description = ticketData[currentZoneId].description;
       if (zone.classList.contains("sold-out") || remaining === 0) {
         // Hiển thị thông báo hết vé
         descriptionContainer.innerHTML = `
@@ -111,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateTotal();
 
         calculator.classList.add("visible"); // Gọi hàm showDescription VỚI THAM SỐ ĐÃ SỬA // (Dùng 'remaining' thay vì 'description')
-        showDescription(ticketName, remaining); // Kích hoạt nút "Thanh Toán"
+        showDescription(ticketName, description, remaining);
 
         if (nextButton) {
           nextButton.classList.add("active");
