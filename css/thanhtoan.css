@@ -345,3 +345,212 @@ body {
     border-bottom: 2px solid #071024e6;
   }
 }
+/* ============================================================
+   RESPONSIVE: TABLET & MOBILE OPTIMIZATION
+   ============================================================ */
+
+/* --- 1. TABLET/IPAD (768px đến 1024px) --- 
+   Mục tiêu: GIỮ NGUYÊN 2 CỘT (như Laptop) nhưng thu nhỏ lại
+*/
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    padding: 10px; /* Giảm lề ngoài */
+  }
+
+  .checkout-panel {
+    flex-direction: row !important; /* Bắt buộc nằm ngang (2 cột) */
+    flex-wrap: nowrap !important; /* Không cho phép rớt dòng */
+  }
+
+  /* Cột Trái (Tóm tắt) */
+  .order-summary {
+    width: 40%; /* Giữ tỷ lệ */
+    padding: 25px; /* Giảm padding (gốc là 40px) */
+    min-width: unset; /* Bỏ giới hạn chiều rộng tối thiểu */
+  }
+
+  /* Cột Phải (Form) */
+  .payment-form {
+    width: 60%;
+    padding: 25px; /* Giảm padding */
+    min-width: unset;
+  }
+
+  /* --- Thu nhỏ Fonts trên Tablet --- */
+  .order-summary h2,
+  .payment-form h2 {
+    font-size: 1.2rem; /* Tiêu đề nhỏ lại */
+    margin-bottom: 20px;
+  }
+
+  .ticket-info,
+  .ticket-info strong {
+    font-size: 0.9rem; /* Chữ thông tin vé nhỏ lại */
+  }
+
+  .total-price p {
+    font-size: 1.8rem; /* Số tiền tổng nhỏ lại chút */
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .form-group input {
+    padding: 10px; /* Ô nhập liệu gọn hơn */
+    font-size: 0.9rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
+
+/* --- 2. MOBILE (Dưới 760px) --- 
+   Mục tiêu: Xếp dọc (để nhập liệu được) nhưng thiết kế Tinh Gọn, Chữ Nhỏ
+*/
+@media screen and (max-width: 760px) {
+  body {
+    padding: 10px; /* Giảm lề body */
+  }
+
+  .checkout-panel {
+    flex-direction: column; /* Bắt buộc xếp dọc trên đt */
+  }
+
+  .order-summary,
+  .payment-form {
+    width: 100%;
+    padding: 20px; /* Padding nhỏ gọn */
+  }
+
+  /* Tinh chỉnh Font cho điện thoại */
+  .order-summary h2,
+  .payment-form h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    text-align: center; /* Căn giữa tiêu đề cho đẹp trên đt */
+  }
+
+  /* Phần tổng tiền nằm gọn */
+  .total-price {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .total-price p {
+    font-size: 2rem;
+  }
+
+  /* Các ô input */
+  .form-group input {
+    padding: 12px;
+    font-size: 16px; /* Font tối thiểu 16px để iOS không tự zoom */
+  }
+
+  /* Các nút chọn thanh toán */
+  .payment-methods {
+    flex-direction: column; /* Nút xếp dọc cho dễ bấm */
+  }
+
+  .payment-methods label {
+    margin-bottom: 5px;
+    padding: 12px;
+  }
+}
+/* --- 1. MÀN HÌNH TABLET (iPad) - 768px đến 1024px --- */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  /* Giảm khoảng cách lề trên (vì Tablet màn hình ngắn hơn) */
+  .main-content-area {
+    margin: 40px auto 20px auto; /* Gốc là 100px, giảm còn 40px */
+    width: 95%; /* Mở rộng chiều ngang ra 95% màn hình */
+    max-width: 100%;
+  }
+
+  /* Filter form: Giữ hàng ngang nhưng co giãn input */
+  .filter-form {
+    justify-content: space-between;
+  }
+  .filter-form input[type="month"] {
+    width: 200px; /* Cố định kích thước input ngày tháng cho đẹp */
+  }
+}
+
+/* --- 2. MÀN HÌNH ĐIỆN THOẠI (Mobile) - Dưới 768px --- */
+@media screen and (max-width: 767px) {
+  /* --- Căn chỉnh khung chính --- */
+  .main-content-area {
+    margin: 20px auto; /* Cách header ít thôi */
+    width: 95%; /* Chiếm gần hết màn hình */
+  }
+
+  .container {
+    border-radius: 8px; /* Bo góc nhỏ lại chút */
+  }
+
+  .page-header {
+    padding: 15px 20px;
+  }
+  .page-header h1 {
+    font-size: 1.3em; /* Tiêu đề nhỏ lại */
+  }
+
+  /* --- Form lọc tháng/năm --- */
+  .filter-form {
+    flex-direction: column; /* Xếp dọc */
+    align-items: flex-start; /* Căn trái */
+    padding: 15px;
+  }
+
+  .filter-form div,
+  .filter-form input[type="month"],
+  .filter-form button {
+    width: 100%; /* Input và Nút bấm dài hết màn hình để dễ bấm */
+    margin-bottom: 10px;
+  }
+
+  .filter-form label {
+    margin-bottom: 5px;
+  }
+
+  /* --- Danh sách đơn hàng --- */
+  .order-list {
+    padding: 15px 10px; /* Giảm padding 2 bên */
+  }
+
+  .order-header {
+    padding: 15px 40px 15px 15px; /* Padding phải 40px để chừa chỗ cho dấu + */
+    flex-direction: column; /* Xếp tiêu đề và trạng thái dọc */
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .order-header h2 {
+    font-size: 1.1em;
+  }
+
+  /* Trạng thái đơn hàng */
+  .order-header .status {
+    font-size: 0.8em;
+    padding: 4px 10px;
+  }
+
+  /* --- Nội dung chi tiết đơn hàng --- */
+  .order-body {
+    padding: 15px;
+  }
+  .order-body p {
+    font-size: 0.9em;
+  }
+
+  /* Danh sách vé bên trong */
+  .ticket-list li {
+    flex-direction: column; /* Mã vé và Loại vé xếp chồng lên nhau */
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .ticket-list li span {
+    word-break: break-all; /* Ngắt dòng nếu mã vé quá dài */
+  }
+}

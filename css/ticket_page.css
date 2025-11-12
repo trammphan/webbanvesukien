@@ -469,3 +469,139 @@ body {
   border-color: #616161;
   color: #ffffff;
 }
+/* =========================================================
+   RESPONSIVE: TABLET (iPad) - GIỮ NGUYÊN BỐ CỤC 2 CỘT
+   Áp dụng cho màn hình từ 768px đến 1024px
+   ========================================================= */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  /* 1. Giữ bố cục ngang (Row) nhưng giảm khoảng cách */
+  .page-container {
+    display: flex;
+    flex-direction: row; /* Bắt buộc nằm ngang */
+    flex-wrap: nowrap; /* Không cho xuống dòng */
+    gap: 15px; /* Giảm khoảng cách giữa 2 cột */
+    padding: 0 10px; /* Thêm lề nhỏ 2 bên màn hình */
+  }
+
+  /* 2. Cột Trái (Chọn vé + Tính tiền) */
+  .seat-map-container {
+    flex: 0 0 60%; /* Chiếm 60% màn hình */
+    max-width: 60%;
+  }
+
+  /* 3. Cột Phải (Sidebar) - QUAN TRỌNG */
+  .sidebar {
+    flex: 0 0 38%; /* Chiếm 38% màn hình */
+    max-width: 38%;
+    min-width: 0; /* ⚠️ QUAN TRỌNG: Bỏ giới hạn chiều rộng tối thiểu 320px */
+    padding: 15px; /* Giảm padding bên trong */
+  }
+
+  /* 4. Thu nhỏ các nút vé (Zone) để vừa khung 60% */
+  .zone {
+    padding: 10px 5px; /* Nút mỏng hơn */
+    font-size: 0.75em; /* Chữ bé hơn */
+    flex-basis: 100px; /* Giảm chiều rộng cơ sở của nút */
+  }
+  .seat-map {
+    gap: 8px; /* Khoảng cách các nút khít lại */
+  }
+
+  /* 5. Thu nhỏ chữ và bảng giá bên Sidebar */
+  .sidebar h3 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  .sidebar p {
+    font-size: 0.85em;
+  }
+
+  .price-list h4 {
+    font-size: 1em;
+    margin-bottom: 5px;
+  }
+  .price-item {
+    padding: 8px 0;
+    font-size: 0.8em; /* Chữ giá vé nhỏ lại */
+  }
+  .ticket-price {
+    font-size: 0.95em;
+  }
+
+  /* 6. Thu nhỏ khung tính tiền (Calculator) */
+  .ticket-calculator {
+    padding: 15px;
+    margin-top: 15px;
+  }
+  .quantity-control,
+  .tier-total {
+    font-size: 0.9em; /* Chữ bé lại */
+    margin-bottom: 10px;
+  }
+  .quantity-btn {
+    width: 26px; /* Nút cộng trừ bé lại */
+    height: 26px;
+    line-height: 24px;
+    font-size: 1em;
+  }
+  #total-price-display {
+    font-size: 1.1em;
+  }
+
+  /* Nút thanh toán */
+  .next-button {
+    padding: 12px;
+    font-size: 1em;
+    margin-top: 15px;
+  }
+  #ticket-description-container {
+    font-size: 15px;
+  }
+}
+
+/* --- RESPONSIVE MOBILE (Dưới 768px) --- */
+@media screen and (max-width: 760px) {
+  .section-title {
+    font-size: 25px !important;
+    margin-bottom: 30px;
+  }
+  .page-container {
+    display: flex;
+    flex-direction: column; /* Xếp các khối theo chiều dọc */
+  }
+  .zone {
+    /* Hủy bỏ các thiết lập ép size cũ */
+    width: auto !important;
+    flex: 0 0 auto !important;
+    max-width: 100% !important;
+    aspect-ratio: unset !important; /* Bỏ hình vuông */
+
+    /* Cài đặt giao diện nút bấm */
+    display: inline-block;
+    padding: 12px 20px; /* Padding: TrênDưới 12px, TráiPhải 20px */
+    font-size: 0.9em;
+    white-space: nowrap; /* Không cho chữ xuống dòng trong nút */
+    border-radius: 50px; /* (Tùy chọn) Bo tròn nút cho mềm mại giống App */
+  }
+  /* 1. Đưa Sidebar lên vị trí số 1 (Đầu tiên) */
+  .sidebar {
+    order: 1;
+    margin-bottom: 20px; /* Tạo khoảng cách với khối bên dưới */
+    margin-top: 0; /* Xóa khoảng cách thừa nếu có */
+    font-size: 14px;
+  }
+
+  /* 2. Đẩy khối chọn vé xuống vị trí số 2 */
+  .seat-map-container {
+    order: 2;
+  }
+
+  /* 3. Nếu bạn đã tách phần thanh toán ra riêng (như hướng dẫn trước)
+     thì cho nó xuống cuối cùng */
+  .bottom-control-area {
+    order: 3;
+  }
+  #ticket-description-container {
+    font-size: 15px;
+  }
+}
