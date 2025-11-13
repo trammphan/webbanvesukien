@@ -35,9 +35,21 @@
             <nav class="category-bar">
                 <div class="category-container">
                     <ul class="category-list">
-                        <li><a href="sukien.php?loai_sukien=LSK03&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK03' ? 'active' : '' ?>">Concert🔥</a></li>
-                        <li><a href="sukien.php?loai_sukien=LSK02&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK02' ? 'active' : '' ?>">Festival</a></li>
-                        <li><a href="sukien.php?loai_sukien=LSK01&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK01' ? 'active' : '' ?>">Liveshow</a></li>
+                        <li class="tooltip"><a href="sukien.php?loai_sukien=LSK03&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK03' ? 'active' : '' ?>">Concert🔥</a>
+                            <span class="tooltiptext">Concert là một buổi biểu diễn âm nhạc trực tiếp, chuyên nghiệp, quy mô lớn, tập trung vào trải nghiệm 
+                                sân khấu hoành tráng, nơi nghệ sĩ hoặc ban nhạc trình diễn trước khán giả. Nó có thể là một buổi hòa nhạc cổ điển, hoặc một 
+                                chương trình âm nhạc đại chúng như K-pop, US-UK.</span>
+                        </li>
+                        <li class="tooltip"><a href="sukien.php?loai_sukien=LSK02&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK02' ? 'active' : '' ?>">Festival</a>
+                            <span class="tooltiptext">Festival là sự kiện âm nhạc thu hút đông đảo khán giả, thường diễn ra theo chủ đề với quy mô rộng lớn như 
+                                công viên, quảng trường, sân vận động...., thường kết hợp với các hoạt động khác như ăn uống, triển lãm nghệ thuật, đồ 
+                                thủ công, khu vui chơi, hoạt động xã hội.</span>
+                        </li>
+                        <li class="tooltip"><a href="sukien.php?loai_sukien=LSK01&diadiem=<?= urlencode($diadiem) ?>" class="category-item <?= $loai == 'LSK01' ? 'active' : '' ?>">Liveshow</a>
+                            <span class="tooltiptext">Liveshow âm nhạc là buổi biểu diễn trực tiếp của một nghệ sĩ hoặc nhóm nhạc, thường được tổ chức để thể hiện 
+                                dấu ấn cá nhân, kỷ niệm sự nghiệp, hoặc ra mắt sản phẩm âm nhạc mới. Liveshow thường diễn ra trong không gian gần gũi như 
+                                nhà hát, phòng trà, hoặc sân khấu nhỏ - nơi mà người nghệ sĩ chia sẻ cảm xúc, câu chuyện cá nhân, giao lưu trực tiếp với khán giả.</span>
+                        </li>
 
                     </ul>
                 </div>
@@ -93,20 +105,28 @@
                         <div class="card-image-wrapper">
                             <img src="<?= htmlspecialchars($row['img_sukien']) ?>" alt="<?= htmlspecialchars($row['TenSK']) ?>" class="card-image" />
                             
+                            <?php
+                                $now = new DateTime();
+                                $eventTime = new DateTime($row['Tgian']);
+                                $isPast = $eventTime < $now;
+                                $eventId = htmlspecialchars($row['MaSK']);
+                                $dataEnded = $isPast ? 'true' : 'false';
+                            ?>
+
                             <div class="card-badge-row">
                                 <!-- Mua vé ngay mà không xem chi tiết -->
                                 <?php
                                 // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
                                 if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
                                     // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
-                                    echo '<a class="event-tag" href="ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']) . '">Mua vé ngay</a>';
+                                    echo '<a class="event-tag" href="ticket_page.php?MaSK=' . $eventId . '" data-ended="' . $dataEnded . '" onclick="handleTicketClick(event, this)">Mua vé ngay</a>';
                                 } else {
                                     // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
                                     // Lấy URL hiện tại
                                     $current_page_url = $_SERVER['REQUEST_URI'];
                                     // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
                                     $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
-                                    echo '<a class="event-tag" href="' . $login_url . '">Mua vé ngay</a>';
+                                    echo '<a class="event-tag" href="' . $login_url . '" data-ended="' . $dataEnded . '">Mua vé ngay</a>';
                                 }
                                 ?>
 
@@ -125,6 +145,14 @@
                 </div>
                 <?php endwhile; ?>
             </div>
+
+            <div id="custom-alert" class="custom-alert hidden">
+                <div class="custom-alert-box">
+                    <p>Sự kiện đã kết thúc. Bạn không thể mua vé.</p>
+                    <button onclick="closeCustomAlert()">Đã hiểu</button>
+                </div>
+            </div>
+
 <?php 
     $additional_footer_scripts = <<<HTML
         <script src="../js/sukien.js"></script>

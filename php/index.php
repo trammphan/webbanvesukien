@@ -93,9 +93,21 @@ if (empty($search_query)) {
     <nav class="category-bar">
         <div class="category-container">
             <ul class="category-list">
-                <li><a href="sukien.php?loai_sukien=LSK03" class="category-item">Concert🔥</a></li>
-                <li><a href="sukien.php?loai_sukien=LSK02" class="category-item">Festival</a></li>
-                <li><a href="sukien.php?loai_sukien=LSK01" class="category-item">Liveshow</a></li>
+                <li class="tooltip"><a href="sukien.php?loai_sukien=LSK03" class="category-item">Concert🔥</a>
+                    <span class="tooltiptext">Concert là một buổi biểu diễn âm nhạc trực tiếp, chuyên nghiệp, quy mô lớn, tập trung vào trải nghiệm 
+                                sân khấu hoành tráng, nơi nghệ sĩ hoặc ban nhạc trình diễn trước khán giả. Nó có thể là một buổi hòa nhạc cổ điển, hoặc một 
+                                chương trình âm nhạc đại chúng như K-pop, US-UK.</span>
+                </li>
+                <li class="tooltip"><a href="sukien.php?loai_sukien=LSK02" class="category-item">Festival</a>
+                    <span class="tooltiptext">Festival là sự kiện âm nhạc thu hút đông đảo khán giả, thường diễn ra theo chủ đề với quy mô rộng lớn như 
+                                công viên, quảng trường, sân vận động...., thường kết hợp với các hoạt động khác như ăn uống, triển lãm nghệ thuật, đồ 
+                                thủ công, khu vui chơi, hoạt động xã hội.</span>
+                </li>
+                <li class="tooltip"><a href="sukien.php?loai_sukien=LSK01" class="category-item">Liveshow</a>
+                    <span class="tooltiptext">Liveshow âm nhạc là buổi biểu diễn trực tiếp của một nghệ sĩ hoặc nhóm nhạc, thường được tổ chức để thể hiện 
+                                dấu ấn cá nhân, kỷ niệm sự nghiệp, hoặc ra mắt sản phẩm âm nhạc mới. Liveshow thường diễn ra trong không gian gần gũi như 
+                                nhà hát, phòng trà, hoặc sân khấu nhỏ - nơi mà người nghệ sĩ chia sẻ cảm xúc, câu chuyện cá nhân, giao lưu trực tiếp với khán giả.</span>
+                </li>
             </ul>
         </div>
     </nav>
