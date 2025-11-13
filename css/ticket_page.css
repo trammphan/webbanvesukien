@@ -472,136 +472,103 @@ body {
 /* =========================================================
    RESPONSIVE: TABLET (iPad) - GIỮ NGUYÊN BỐ CỤC 2 CỘT
    Áp dụng cho màn hình từ 768px đến 1024px
-   ========================================================= */
+/* --- RESPONSIVE: TABLET & LAPTOP NHỎ (768px -> 1024px) --- */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-  /* 1. Giữ bố cục ngang (Row) nhưng giảm khoảng cách */
   .page-container {
     display: flex;
-    flex-direction: row; /* Bắt buộc nằm ngang */
-    flex-wrap: nowrap; /* Không cho xuống dòng */
-    gap: 15px; /* Giảm khoảng cách giữa 2 cột */
-    padding: 0 10px; /* Thêm lề nhỏ 2 bên màn hình */
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 20px; /* Tăng khoảng cách giữa 2 cột cho thoáng */
+    padding: 0 20px;
+    justify-content: center; /* Căn giữa toàn bộ nội dung */
   }
 
-  /* 2. Cột Trái (Chọn vé + Tính tiền) */
+  /* 1. CỘT TRÁI (CHỌN VÉ) - Cho phép giãn tối đa */
   .seat-map-container {
-    flex: 0 0 60%; /* Chiếm 60% màn hình */
-    max-width: 60%;
+    flex: 1; /* Tự động chiếm hết không gian còn lại */
+    max-width: none; /* Bỏ giới hạn 60% cũ */
+    width: auto;
   }
 
-  /* 3. Cột Phải (Sidebar) - QUAN TRỌNG */
+  /* 2. CỘT PHẢI (SIDEBAR) - Cố định kích thước chuẩn */
   .sidebar {
-    flex: 0 0 38%; /* Chiếm 38% màn hình */
-    max-width: 38%;
-    min-width: 0; /* ⚠️ QUAN TRỌNG: Bỏ giới hạn chiều rộng tối thiểu 320px */
-    padding: 15px; /* Giảm padding bên trong */
+    flex: 0 0 340px; /* Cố định chiều rộng 340px (đủ đẹp cho Laptop) */
+    max-width: 340px;
+    min-width: 300px;
+    padding: 20px;
   }
 
-  /* 4. Thu nhỏ các nút vé (Zone) để vừa khung 60% */
+  /* 3. Điều chỉnh nút vé cho cân đối hơn */
   .zone {
-    padding: 10px 5px; /* Nút mỏng hơn */
-    font-size: 0.75em; /* Chữ bé hơn */
-    flex-basis: 100px; /* Giảm chiều rộng cơ sở của nút */
-  }
-  .seat-map {
-    gap: 8px; /* Khoảng cách các nút khít lại */
-  }
-
-  /* 5. Thu nhỏ chữ và bảng giá bên Sidebar */
-  .sidebar h3 {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-  }
-  .sidebar p {
+    flex-basis: 120px; /* Tăng độ rộng cơ sở của nút lên xíu */
+    padding: 12px 10px;
     font-size: 0.85em;
   }
 
-  .price-list h4 {
-    font-size: 1em;
-    margin-bottom: 5px;
-  }
-  .price-item {
-    padding: 8px 0;
-    font-size: 0.8em; /* Chữ giá vé nhỏ lại */
-  }
-  .ticket-price {
-    font-size: 0.95em;
-  }
-
-  /* 6. Thu nhỏ khung tính tiền (Calculator) */
-  .ticket-calculator {
-    padding: 15px;
-    margin-top: 15px;
-  }
-  .quantity-control,
-  .tier-total {
-    font-size: 0.9em; /* Chữ bé lại */
-    margin-bottom: 10px;
-  }
-  .quantity-btn {
-    width: 26px; /* Nút cộng trừ bé lại */
-    height: 26px;
-    line-height: 24px;
-    font-size: 1em;
-  }
-  #total-price-display {
-    font-size: 1.1em;
-  }
-
-  /* Nút thanh toán */
-  .next-button {
-    padding: 12px;
-    font-size: 1em;
-    margin-top: 15px;
-  }
-  #ticket-description-container {
-    font-size: 15px;
+  .seat-map {
+    gap: 10px;
+    /* Nếu muốn các nút căn giữa khung trái */
+    justify-content: flex-start;
   }
 }
-
 /* --- RESPONSIVE MOBILE (Dưới 768px) --- */
 @media screen and (max-width: 760px) {
   .section-title {
     font-size: 25px !important;
     margin-bottom: 30px;
   }
+
   .page-container {
     display: flex;
-    flex-direction: column; /* Xếp các khối theo chiều dọc */
+    flex-direction: column;
+    /* Đảm bảo các phần tử con giãn hết chiều ngang */
+    align-items: stretch;
+    gap: 20px; /* Khoảng cách giữa Sidebar và Seat map */
   }
+
+  /* --- SỬA LỖI LỆCH TẠI ĐÂY --- */
+  .seat-map-container,
+  .sidebar {
+    /* 1. Reset flex của desktop để không ảnh hưởng chiều cao/rộng */
+    flex: none !important;
+
+    /* 2. Ép buộc chiếm 100% chiều ngang của khung chứa */
+    width: 100% !important;
+    max-width: 100% !important;
+
+    /* 3. Hủy bỏ min-width 320px của desktop để tránh bị cứng khung */
+    min-width: 0 !important;
+
+    /* 4. Đảm bảo padding không làm vỡ khung */
+    box-sizing: border-box;
+  }
+
+  /* Các class zone giữ nguyên như code cũ của bạn */
   .zone {
-    /* Hủy bỏ các thiết lập ép size cũ */
     width: auto !important;
     flex: 0 0 auto !important;
     max-width: 100% !important;
-    aspect-ratio: unset !important; /* Bỏ hình vuông */
-
-    /* Cài đặt giao diện nút bấm */
+    aspect-ratio: unset !important;
     display: inline-block;
-    padding: 12px 20px; /* Padding: TrênDưới 12px, TráiPhải 20px */
+    padding: 12px 20px;
     font-size: 0.9em;
-    white-space: nowrap; /* Không cho chữ xuống dòng trong nút */
-    border-radius: 50px; /* (Tùy chọn) Bo tròn nút cho mềm mại giống App */
+    white-space: nowrap;
+    border-radius: 50px;
+    margin-bottom: 5px; /* Thêm chút lề dưới cho đẹp */
   }
-  /* 1. Đưa Sidebar lên vị trí số 1 (Đầu tiên) */
+
+  /* Thứ tự hiển thị (Order) */
   .sidebar {
     order: 1;
-    margin-bottom: 20px; /* Tạo khoảng cách với khối bên dưới */
-    margin-top: 0; /* Xóa khoảng cách thừa nếu có */
-    font-size: 14px;
+    margin-bottom: 0; /* Gap ở page-container đã lo việc này */
   }
 
-  /* 2. Đẩy khối chọn vé xuống vị trí số 2 */
   .seat-map-container {
     order: 2;
   }
 
-  /* 3. Nếu bạn đã tách phần thanh toán ra riêng (như hướng dẫn trước)
-     thì cho nó xuống cuối cùng */
-  .bottom-control-area {
-    order: 3;
-  }
-  #ticket-description-container {
-    font-size: 15px;
+  /* Căn giữa các nút vé nếu muốn đẹp hơn trên mobile */
+  .seat-map {
+    justify-content: center;
   }
 }

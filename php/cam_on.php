@@ -26,8 +26,8 @@ $customer_email = $customer_info['email'];
 $customer_phone = $customer_info['phone'];
 
 // Quan trọng: Xóa session sau khi đã lấy thông tin
-unset($_SESSION['order_details']);
-unset($_SESSION['customer_info']);
+// unset($_SESSION['order_details']);
+// unset($_SESSION['customer_info']);
 
 ?>
 <!DOCTYPE html>
@@ -36,6 +36,7 @@ unset($_SESSION['customer_info']);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cảm ơn đã đặt vé!</title>
+    <link href="../img/fav-icon.png" rel="icon" type="image/vnd.microsoft.icon">
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap"
       rel="stylesheet"
