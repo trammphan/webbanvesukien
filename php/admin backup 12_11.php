@@ -8,11 +8,6 @@ $dbname = "qlysukien";
 // Khởi tạo các biến trạng thái
 $is_logged_in = false;
 $user_info = null;
-$result_thong_ke_ve = null; // Khởi tạo kết quả vé
-$items_per_page = 10;
-$current_page = isset($_GET['trang']) ? (int)$_GET['trang'] : 1;
-if ($current_page < 1) $current_page = 1;
-$total_pages = 1; // Khởi tạo tổng số trang
 
 // 1. KIỂM TRA VÀ TRUY VẤN THÔNG TIN NẾU ĐÃ ĐĂNG NHẬP
 if (isset($_COOKIE['email'])) {
@@ -46,41 +41,8 @@ if (isset($_COOKIE['email'])) {
         }
 
         $stmt->close();
-    }
-    // D. THỰC HIỆN TRUY VẤN THỐNG KÊ VÉ CHỈ KHI ĐÃ ĐĂNG NHẬP VÀ KẾT NỐI TỐT
-    if ($is_logged_in) {
-        // Lấy TỔNG SỐ DÒNG (COUNT)
-        $sql_count = "
-            SELECT COUNT(DISTINCT CONCAT(s.TenSK, lv.TenLoai)) AS total_items
-            FROM ve v JOIN loaive lv ON v.MaLoai = lv.MaLoai JOIN sukien s ON lv.MaSK = s.MaSK;
-        ";
-        $result_count = $conn->query($sql_count);
-        $total_items = $result_count ? $result_count->fetch_assoc()['total_items'] : 0;
-        $total_pages = ceil($total_items / $items_per_page);
-
-        // Tính toán OFFSET cho truy vấn chính
-        $offset = ($current_page - 1) * $items_per_page;
-        if ($offset < 0) $offset = 0;
-        
-        // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
-        $sql_thong_ke_ve = "
-            SELECT 
-                s.TenSK, lv.TenLoai, lv.MaLoai, COUNT(v.MaVe) AS TongSoVe,
-                SUM(CASE WHEN v.MaTT IS NOT NULL THEN 1 ELSE 0 END) AS SoVeDaThanhToan,
-                SUM(CASE WHEN v.TrangThai = 'chưa thanh toán' AND v.MaTT IS NULL THEN 1 ELSE 0 END) AS SoVeTon
-            FROM ve v JOIN loaive lv ON v.MaLoai = lv.MaLoai JOIN sukien s ON lv.MaSK = s.MaSK
-            GROUP BY s.TenSK, lv.TenLoai, lv.MaLoai
-            ORDER BY s.TenSK ASC, lv.TenLoai ASC
-            LIMIT $items_per_page OFFSET $offset;
-        ";
-
-        $result_thong_ke_ve = $conn->query($sql_thong_ke_ve);
-    }
-    // E. ĐÓNG KẾT NỐI SAU KHI DÙNG XONG TẤT CẢ
-    if ($conn && !$conn->connect_error) {
         $conn->close();
     }
-
 }
 
 // Thiết lập tiêu đề và assets trang, dùng header/footer chung
@@ -91,7 +53,6 @@ $additional_head = <<<HTML
 HTML;
 require_once 'header.php';
 ?>
-
 
     <main class="layout">
     <article class= "sidebar">
@@ -152,12 +113,7 @@ require_once 'header.php';
                 </form>
             </div>
         </div>
-
-
         <i class="fa-solid fa-spinner"></i> Đang cập nhật...
-
-
-
     </article>
     <article class="noidung hidden" id="danhmuc-section">
         <h2 class="noidung-title">QUẢN LÝ DANH MỤC</h2>
@@ -198,66 +154,7 @@ require_once 'header.php';
                 </form>
             </div>
         </div>
-        <!-- <i class="fa-solid fa-spinner"></i> Đang cập nhật...</i> -->
-<!-- Quản lý số lượng vé bán-->
-        <div class="thongkeve">
-        <?php if (!$is_logged_in): ?>
-        <p style="color: red;">⚠️ Vui lòng đăng nhập để xem nội dung này.</p>
-        <?php elseif (isset($result_thong_ke_ve) && $result_thong_ke_ve->num_rows > 0): ?>
-        <div class=" table-responsive">
-            <table class="table table-striped table-hover " >
-                <thead >
-                    <tr >
-                        <th class="tieudeqlve">Tên Sự Kiện</th> 
-                        <th class="tieudeqlve">Loại Vé</th>
-                        <th class="tieudeqlve">Tổng Số Vé</th>
-                        <th class="tieudeqlve">Đã Thanh Toán </th>
-                        <th class="tieudeqlve">Tồn Kho </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result_thong_ke_ve->fetch_assoc()): ?>
-                        <tr>
-                            <td class="ndsk"><?php echo htmlspecialchars($row['TenSK']); ?></td>
-                            <td class="ndsk"><?php echo htmlspecialchars($row['TenLoai']); ?> (<?php echo htmlspecialchars($row['MaLoai']); ?>)</td>
-                            <td class="ndsk"><?php echo number_format($row['TongSoVe']); ?></td>
-                            <td  class="ndsk">
-                                <b><?php echo number_format($row['SoVeDaThanhToan']); ?></b>
-                            </td class="ndsk">
-                            <td  class="ndsk">
-                                <?php echo number_format($row['SoVeTon']); ?>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-        
-        <?php if ($total_pages > 1): ?>
-    <nav aria-label="Page navigation example" class="mt-3">
-        <ul class="pagination justify-content-center">
-            <li class="page-item <?= ($current_page <= 1) ? 'disabled' : '' ?>">
-                <a class="page-link" href="admin.php?tab=ve&trang=<?= $current_page - 1 ?>#ve-section">Previous</a>
-            </li>
-            
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <li class="page-item <?= ($i == $current_page) ? 'active' : '' ?>">
-                    <a class="page-link" href="admin.php?tab=ve&trang=<?= $i ?>#ve-section"><?= $i ?></a>
-                </li>
-            <?php endfor; ?>
-            
-            <li class="page-item <?= ($current_page >= $total_pages) ? 'disabled' : '' ?>">
-                <a class="page-link" href="admin.php?tab=ve&trang=<?= $current_page + 1 ?>#ve-section">Next</a>
-            </li>
-        </ul>
-    </nav>
-<?php endif; ?>
-        <?php else: ?>
-        <p>Không có dữ liệu thống kê vé hoặc lỗi kết nối CSDL.</p>
-    <?php endif; ?>
-
-
-    </div>   
+        <i class="fa-solid fa-spinner"></i> Đang cập nhật...</i>
     </article>
 
     <article class="noidung hidden" id="thongke-section">
@@ -299,17 +196,6 @@ require_once 'header.php';
         const sectionVe = document.getElementById("ve-section");
         const sectionThongke = document.getElementById("thongke-section");
 
-        const sections = [sectionSukien, sectionDanhmuc, sectionNguoidung, sectionVe, sectionThongke];
-        const buttons = [btnSukien, btnDanhmuc, btnNguoidung, btnVe, btnThongke];
-        
-        // Ánh xạ tham số URL 'tab' sang ID của button/section
-        const tabMap = {
-            'sukien': { button: btnSukien, section: sectionSukien },
-            'danhmuc': { button: btnDanhmuc, section: sectionDanhmuc },
-            'nguoidung': { button: btnNguoidung, section: sectionNguoidung },
-            've': { button: btnVe, section: sectionVe },
-            'thongke': { button: btnThongke, section: sectionThongke },
-        };
         function showSection(sectionToShow, clickedButton) {
             [sectionSukien, sectionDanhmuc, sectionNguoidung, sectionVe, sectionThongke]
               .forEach(sec => sec.classList.add("hidden"));
@@ -317,16 +203,6 @@ require_once 'header.php';
             [btnSukien, btnDanhmuc, btnNguoidung, btnVe, btnThongke]
               .forEach(btn => btn.classList.remove("active"));
             clickedButton.classList.add("active");
-        }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const activeTab = urlParams.get('tab') || 'sukien'; // Mặc định là 'sukien'
-        
-        if (tabMap[activeTab]) {
-            showSection(tabMap[activeTab].section, tabMap[activeTab].button);
-        } else {
-            // Đảm bảo mục 'sukien' vẫn là mặc định nếu không có tham số hợp lệ
-            showSection(sectionSukien, btnSukien);
         }
 
         btnSukien.addEventListener("click", () => showSection(sectionSukien, btnSukien));

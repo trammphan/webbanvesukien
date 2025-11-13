@@ -283,6 +283,17 @@ background: rgba(7, 16, 36, 0.95);
   /* chiều cao bằng nhau */
     align-self: stretch;
 }
+.noidung {
+  opacity: 1; /* Mặc định là hiển thị đầy đủ */
+    transition: opacity 5s ease-in-out, visibility 2s; /* Áp dụng transition 2 giây */
+}
+
+.noidung.hidden {
+    opacity: 0;
+    visibility: hidden; 
+    height: 0; 
+    overflow: hidden;
+}
 
 .noidung.nhatochuc {
   background: rgba(7, 16, 36, 0.95);
@@ -314,6 +325,20 @@ background: rgba(7, 16, 36, 0.95);
     color: rgb(136, 202, 255) ;
     font-size: 100%;
     
+}
+
+table thead .tieudeqlve {
+    background-color: #04004c;
+    color: rgb(254, 254, 254);
+    text-align: center;
+    vertical-align: middle !important;
+    border-bottom: #12bad04e 2px solid;
+}
+tbody tr .ndve{
+    color: #04004c;
+    background-color: rgba(33, 100, 189, 0.673);
+    align-items: center;
+    text-align: center;
 }
 /*TRANG ĐĂNG KÝ*/
 
@@ -498,7 +523,7 @@ background: rgba(7, 16, 36, 0.95);
 .nhatochuc{
     padding: 15px;
     box-sizing: border-box; 
-    border: 1px solid #7036f8ccc;
+    border: 1px solid #7036;
 
     align-self: stretch;
 }   
