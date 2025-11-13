@@ -86,32 +86,29 @@ function format_currency($amount) {
       
         <div class="seat-map-container">
           <p>Bấm vào khu vực để chọn vé</p>
-          <div class="seat-map">
-<?php foreach ($ticket_types as $id => $ticket): ?>
-    <?php
-        // Kiểm tra xem vé còn hay hết
-        $is_sold_out = ($ticket['remaining'] == 0);
-        $sold_out_class = $is_sold_out ? 'sold-out' : '';
-    ?>
+            <div class="seat-map">
+            <?php foreach ($ticket_types as $id => $ticket): ?>
+            <?php
+                    // Kiểm tra xem vé còn hay hết
+            $is_sold_out = ($ticket['remaining'] == 0);
+            $sold_out_class = $is_sold_out ? 'sold-out' : '';
+            ?>
     
-    <div class="zone seat-zone <?php echo $sold_out_class; ?>" 
-         id="<?php echo $id; ?>" 
-         data-id="<?php echo $id; ?>"
-         data-name="<?php echo htmlspecialchars($ticket['name']); ?>"
-         data-remaining="<?php echo $ticket['remaining']; ?>">
+            <div class="zone seat-zone <?php echo $sold_out_class; ?>" 
+                id="<?php echo $id; ?>" 
+                data-id="<?php echo $id; ?>"
+                data-name="<?php echo htmlspecialchars($ticket['name']); ?>"
+                data-remaining="<?php echo $ticket['remaining']; ?>">
         
-        <?php echo htmlspecialchars($ticket['name']); ?>
-        
-        <?php if ($is_sold_out): ?>
-            <span>(Hết vé)</span>
-        <?php endif; ?>
-    </div>
-<?php endforeach; ?>
-          </div>
-          <div id="ticket-description-container" style="display: none; margin-top: 20px;"></div>
-
-
-          <div class="ticket-calculator" id="ticket-calculator">
+                <?php echo htmlspecialchars($ticket['name']); ?>    
+                <?php if ($is_sold_out): ?>
+                    <span>(Hết vé)</span>
+                <?php endif; ?>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <div id="ticket-description-container" style="display: none; margin-top: 20px;"></div>
+        <div class="ticket-calculator" id="ticket-calculator">
               <div class="quantity-control">
                   <label>Số lượng:</label>
                   <div class="quantity-buttons">
