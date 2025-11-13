@@ -76,6 +76,11 @@ require_once 'header.php';
 ?>
 <main>
    <article class="khungdungchung">
+    <div class="back" onclick="history.back(); return false;">
+            <a href="#" >
+              <i class="fa-regular fa-circle-left" id="x"></i> 
+            </a>
+        </div>
         <h2 class="w3-text-blue">🔒 Đổi mật khẩu</h2>
 
         <form class="w3-container w3-card-4 w3-light-grey" method="POST" style="max-width:500px;">
@@ -98,13 +103,7 @@ require_once 'header.php';
                 placeholder="Vui lòng nhập lại mật khẩu mới" required>
           </div>
 
-        <div class="container_2">
-            <div class="back">
-                <a href="nguoidung.php" class="w3-bar-item w3-button w3-padding" id="back" class="sua"
-                data-bs-toggle="tooltip" title="Quay lại trang người dùng">
-                    <i class="fa-solid fa-backward"></i>
-                </a>
-            </div>
+        <div class="container_2">         
             <div class="update_info" >
                 <button  type="submit" id="change" data-bs-toggle="tooltip"
                  title="Cập nhật thông tin" class="sua">

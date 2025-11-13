@@ -172,6 +172,13 @@ h3{
     border-radius: 8px;
   margin-top: 20px;
 }
+
+
+
+
+
+
+
 /*THIET KE DAP UNG*/
 @media screen and (max-width: 768px) {
     .khungdungchung{
@@ -234,6 +241,11 @@ h3{
     
 
 }
+
+
+
+
+
 /*TRANG ADMIN QUẢN TRỊ VIÊN*/
 .duyetsukien, .baocao, .dieukhoan {
   width: 75%;
@@ -247,8 +259,6 @@ h3{
   min-height: 80vh;
   margin: 30px;
 }
-
-
 .thanh_doc {
     margin-top:100px ;
     margin-bottom: 100px;
@@ -326,24 +336,65 @@ background: rgba(7, 16, 36, 0.95);
     font-size: 100%;
     
 }
-
+.table-responsive{
+    border-radius: 8px;
+    background-color: whitesmoke;
+    border: none;
+}
 table thead .tieudeqlve {
-    background-color: #04004c;
+    background-color: #302b88;
     color: rgb(254, 254, 254);
     text-align: center;
     vertical-align: middle !important;
     border-bottom: #12bad04e 2px solid;
+    border-style: none !important;
 }
-tbody tr .ndve{
+
+tbody tr .ndsk{
     color: #04004c;
-    background-color: rgba(33, 100, 189, 0.673);
+    background-color: rgba(225, 238, 255, 0.777);
     align-items: center;
     text-align: center;
+    border: none;
+    
 }
+
+nav ul .page-item .page-link{
+    background-color: #1f2281ef;
+    color: #d1e0ff;
+    border-bottom: red;
+    border-top: yellow;
+    border-left: none;
+    border-right:none ;
+}
+nav ul .page-item.active .page-link{
+    background-color: #e6e7ffef;
+    color: #163573;
+    border: gainsboro 1px solid;
+    font-family:Arial, Helvetica, sans-serif;
+}
+#sukien-chi-tiet{
+    text-align: center;
+    background-color: #061126;
+    border-style: none !important;
+    box-shadow: 2px 0px 5px gainsboro;
+    
+}
+#sukien-list{
+    
+    padding: 0;
+}
+#chi-tiet-title{
+    color: rgb(238, 248, 255);
+}
+
+
+
+
+
+
 /*TRANG ĐĂNG KÝ*/
-
-
-#user_name, #gender, #birthday, #tel, #email, #address, #password, 
+#user_name, , #tel, #email, #address, #password, 
 #confirm_pass, #old_pass, #new_pass {
   background: none;
   border: none;
@@ -425,7 +476,7 @@ tbody tr .ndve{
   background-color: #5d5f62;
   color: white;
   text-align: center;
-  box-shadow:  2px 2px 5px 2px rgb(23, 35, 148);
+  box-shadow:  2px 2px 5px 2px rgba(149, 153, 189, 0.615);
 }
     /*thông báo chưa đăng nhập*/
 /*  */
@@ -466,6 +517,15 @@ tbody tr .ndve{
   justify-content: center;   
   gap: 80px
 }
+
+
+
+
+
+
+
+
+
 /*TRANG NHÂN VIÊN*/
 .thongtinnhanvien{
     padding: 20px;
@@ -497,6 +557,14 @@ tbody tr .ndve{
     font-size: 90%;
     padding: 10px 20px;
 }
+
+
+
+
+
+
+
+
 /*TRANG NHÀ TỔ CHỨC*/
 .container_nhatochuc{
     display: flex;           
@@ -607,8 +675,6 @@ tbody tr .ndve{
     border-radius: 8px;
     color: white;
 }
-
-
 .box {
   box-sizing: border-box;
 }
@@ -660,6 +726,12 @@ tbody tr .ndve{
   padding: 5px 10px; 
   box-sizing: border-box;
 }
+
+
+
+
+
+
 
 
 /*SỬA THÔNG TIN*/
@@ -716,8 +788,6 @@ tbody tr .ndve{
   text-align: left;
   margin-top: 20px;
  }
-
-
 .container_2 #change,
 .container_2 #logout{
   background-color: #290352;
@@ -734,7 +804,6 @@ tbody tr .ndve{
   transition-duration: 0.31s;
   transition-timing-function: ease;
   cursor: pointer;
-  
 }
 #back:hover{
   background-color: #7a7dab;
@@ -753,6 +822,12 @@ tbody tr .ndve{
 .sua{
     display: inline-block;
 }
+
+
+
+
+
+
 
 /* STYLE CỦA HUỲNH NGÂN*/
 * {
@@ -1084,6 +1159,10 @@ main{
     box-sizing: border-box;
 }
 
+
+
+
+
 /* ==== ADMIN MODERN UI (Ticketbox-like) ==== */
 .layout {
   display: grid; /* ghi đè rule main { display:flex } */
@@ -1166,19 +1245,6 @@ main{
   .sidebar { position: static; }
   .searchbar { min-width: unset; width: 100%; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* ===== Font unification (match site style) ===== */
