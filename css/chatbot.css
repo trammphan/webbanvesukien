@@ -369,32 +369,87 @@ body.show-emoji-picker em-emoji-picker {
   visibility: visible;
 }
 
-/* Responsive (Giữ nguyên) */
+/* 1. Màn hình Tablet & Mobile ngang (Dưới 768px) */
+@media (max-width: 768px) {
+  .chatbot-popup {
+    width: 350px; /* Thu nhỏ chiều rộng một chút */
+    bottom: 90px;
+    right: 20px;
+  }
+}
+
+/* 2. Màn hình Mobile dọc (Dưới 520px) - Chế độ Full màn hình */
 @media (max-width: 520px) {
   #chatbot-toggler {
     right: 20px;
     bottom: 20px;
   }
+
   .chatbot-popup {
     right: 0;
     bottom: 0;
-    height: 100%;
-    border-radius: 0;
     width: 100%;
-    border: none; /* Bỏ viền ở mobile */
+    height: 100dvh; /* QUAN TRỌNG: Dùng dvh để tránh bị thanh URL che mất */
+    border-radius: 0;
+    border: none;
+
+    /* Chuyển sang Flexbox để canh chỉnh chiều cao tự động chuẩn xác hơn */
+    display: flex;
+    flex-direction: column;
   }
+
+  /* Header cố định ở trên */
   .chatbot-popup .chat-header {
-    padding: 12px 15px;
+    padding: 15px;
+    flex-shrink: 0; /* Không bị co lại */
   }
+
+  /* Thân chat tự động giãn để chiếm hết khoảng trống */
   .chat-body {
-    height: calc(90% - 55px);
-    padding: 25px 15px;
+    flex: 1; /* Tự động giãn */
+    height: auto; /* Bỏ chiều cao cố định */
+    margin-bottom: 0; /* Bỏ margin cũ */
+    padding: 20px 15px;
+    padding-bottom: 100px; /* Khoảng trống để scroll qua khỏi footer */
   }
+
+  /* Footer ghim dưới đáy */
   .chat-footer {
+    position: relative; /* Đổi từ absolute sang relative trong flex container */
+    width: 100%;
     padding: 10px 15px 15px;
-    border-top: 1px solid rgba(0, 254, 252, 0.3); /* Thêm viền ở mobile */
+    background: #0a0e2b; /* Thêm nền màu tối để che nội dung khi cuộn */
+    border-top: 1px solid rgba(0, 254, 252, 0.3);
+
+    /* Hỗ trợ iPhone tai thỏ/Dynamic Island */
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
   }
+
+  /* Ẩn nút hủy file trên mobile nếu vướng */
   .chat-form .file-upload-wrapper.file-uploaded #file-cancel {
     opacity: 0;
+    pointer-events: none; /* Không bấm nhầm */
+  }
+
+  /* Điều chỉnh Emoji Picker trên mobile */
+  em-emoji-picker {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    top: auto;
+    bottom: 100%; /* Hiện ngay trên footer */
+    transform: none;
+    border-radius: 0;
+  }
+}
+
+/* 3. Màn hình siêu nhỏ / Gập (Dưới 360px) */
+@media (max-width: 360px) {
+  .chat-header .logo-text {
+    font-size: 1.1rem; /* Giảm cỡ chữ logo */
+  }
+
+  .chat-form .message-input {
+    font-size: 0.9rem; /* Giảm cỡ chữ input */
   }
 }

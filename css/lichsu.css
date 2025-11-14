@@ -1,18 +1,12 @@
-/* === BẮT ĐẦU TỆP vibe4/css/lichsu.css (Theme Hộp Trắng) === */
 body {
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
 }
-/* * 1. Lớp vỏ (wrapper) để cách header 100px 
- * (Đây là phần CSS sửa lỗi layout của bạn)
- */
+
 .main-content-area {
   max-width: 900px; /* Giới hạn chiều rộng */
   margin: 100px auto 40px auto; /* Cách header 100px, căn giữa */
 }
 
-/* * 2. .container (Hộp nội dung màu trắng)
- * (Đây là phần CSS theme trắng bạn muốn)
- */
 .container {
   background: #ffffff; /* NỀN TRẮNG */
   border-radius: 12px;
@@ -222,4 +216,88 @@ body {
 .no-orders p {
   font-size: 1.1em;
   margin: 0;
+}
+
+/* 1. Tablet (từ 768px đến 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .main-content-area {
+    /* Giảm lề trên và thêm lề hai bên */
+    margin: 80px 20px 30px 20px;
+    max-width: none; /* Bỏ max-width để nó co giãn theo lề */
+  }
+}
+
+/* 2. Mobile (dưới 767px) */
+@media screen and (max-width: 767px) {
+  .main-content-area {
+    /* Giảm lề trên (để bớt trống) và thêm lề hai bên (10px) */
+    margin: 70px 10px 20px 10px;
+    max-width: none; /* Bỏ max-width để nó co giãn theo lề */
+  }
+
+  .container {
+    /* Đảm bảo container co giãn đúng cách trên mobile */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .page-header {
+    padding: 20px 15px;
+  }
+
+  .page-header h1 {
+    font-size: 1.3em; /* Giảm cỡ chữ tiêu đề chính */
+  }
+
+  .order-list {
+    padding: 15px;
+  }
+
+  .order-header {
+    padding: 15px;
+    /* Cho phép wrap tốt hơn nếu tiêu đề + status quá dài */
+    flex-wrap: wrap;
+    gap: 10px; /* Khoảng cách nếu status rớt xuống */
+  }
+
+  .order-header::after {
+    /* Di chuyển icon +/- vào trong một chút */
+    right: 15px;
+  }
+
+  .order-header h2 {
+    font-size: 1.1em; /* Giảm cỡ chữ tiêu đề đơn hàng */
+  }
+
+  .order-header .status {
+    font-size: 0.8em; /* Giảm cỡ chữ status */
+    padding: 5px 10px;
+  }
+
+  .order-item.active .order-body {
+    padding: 15px; /* Giảm padding của nội dung */
+  }
+
+  .order-body p {
+    font-size: 0.9em; /* Giảm cỡ chữ nội dung */
+    line-height: 1.5;
+  }
+
+  /* --- SỬA LỖI QUAN TRỌNG NHẤT --- */
+  .order-body p strong {
+    /* Bỏ min-width để không làm vỡ layout */
+    min-width: 0;
+    /* Cho nhãn (Sự kiện:, Tổng tiền:) xếp chồng lên trên giá trị */
+    display: block;
+    margin-bottom: 3px;
+    color: #555;
+  }
+  /* -------------------------------- */
+
+  .ticket-list li {
+    /* Xếp chồng Mã vé và Loại vé */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
 }

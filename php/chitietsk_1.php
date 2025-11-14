@@ -24,7 +24,7 @@
         position: relative;
         overflow: hidden;
         /* THAY ĐỔI 1: Tăng chiều cao tối đa khi thu gọn */
-        max-height: 200px; /* Tăng từ 120px lên 200px */
+        max-height: 15px; /* Tăng từ 120px lên 200px */
         transition: max-height 0.5s ease-out;
     }
 
@@ -36,7 +36,7 @@
         left: 0;
         right: 0;
         /* THAY ĐỔI 2: Tăng chiều cao lớp phủ mờ */
-        height: 75px; /* Tăng từ 50px lên 75px */
+        height: 10px; /* Tăng từ 50px lên 75px */
         background: linear-gradient(to bottom, transparent, white);
         pointer-events: none; 
         transition: opacity 0.3s ease;
@@ -103,7 +103,7 @@
                 
                 // ******** FIX 2: SỬA LỖI BẢO MẬT SQL INJECTION (BẮT BUỘC PHẢI CÓ) ********
                 // <!-- BỔ SUNG MỚI (1/3): Thêm 's.img_sodo' vào câu SELECT -->
-                $stmt = $conn->prepare("SELECT l.TenLoaiSK, s.TenSK, s.img_sukien, s.Tgian, s.mota, d.TenTinh, MIN(lv.Gia) AS MinPrice, s.img_sodo
+                $stmt = $conn->prepare("SELECT l.TenLoaiSK, s.TenSK, s.MaSK, s.img_sukien, s.Tgian, s.mota, d.TenTinh, MIN(lv.Gia) AS MinPrice, s.img_sodo
                                         FROM sukien s JOIN diadiem d on s.MaDD = d.MaDD 
                                         JOIN loaisk l on s.MaLSK = l.MaloaiSK
                                         JOIN loaive lv on lv.MaSK = s.MaSK
@@ -167,10 +167,16 @@
                     <div class="cardRight" style="background-image: url('<?=htmlspecialchars($row['img_sukien'])?>'); background-size: cover; background-position: center;">
                         <div class="button">
                             <?php
+                                $now = new DateTime();
+                                $eventTime = new DateTime($row['Tgian']);
+                                $isPast = $eventTime < $now;
+                                $dataEnded = $isPast ? 'true' : 'false';
+                            ?>
 
+                            <?php
                             if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
                                 // Nếu ĐÃ ĐĂNG NHẬP (dựa trên cookie): Trỏ đến trang mua vé
-                                echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($maSK) . '">MUA VÉ</a>';
+                                echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']) . '" data-ended="' . $dataEnded . '" onclick="handleTicketClick(event, this)">MUA VÉ</a>';
                             } else {
                                 // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
 
@@ -181,7 +187,7 @@
                                 $login_url = 'dangnhap.php?redirect=' . urlencode($target_url);
                                 
                                 // 3. In nút "MUA VÉ" trỏ đến trang đăng nhập
-                                echo '<a class="buy" href="' . $login_url . '" id="buy-ticket-link">MUA VÉ</a>';
+                                echo '<a class="buy" href="' . $login_url . '" data-ended="' . $dataEnded . '" id="buy-ticket-link">MUA VÉ</a>';
                             }
                             ?>
                         </div>
@@ -189,14 +195,15 @@
                 </div>
             </div>
             <!-- BỔ SUNG MỚI (2/3): Sửa lại cấu trúc HTML của phần .mota -->
-<div class="mota" >
+            <div class="mota" >
                 <!-- 1. Bọc MỌI THỨ (text + sơ đồ) trong .collapsible-content -->
-                <div class="collapsible-content" id="mota-container">
+                <!--<div class="collapsible-content" id="mota-container">
                     
                     <!-- Phần Giới thiệu sự kiện -->
                     <h2 class= "tieude">Giới thiệu sự kiện</h2>
                     <p class= "noidung"><?=nl2br(htmlspecialchars($row['mota']))?></p>
                     
+                    <div class="collapsible-content" id="mota-container">
                     <!-- Phần Sơ đồ chỗ ngồi (đã được chuyển vào bên trong) -->
                     <?php if (!empty($row['img_sodo'])): // Chỉ hiển thị nếu có ảnh sơ đồ ?>
                     <div class="sodo" style="margin-top: 20px;"> <!-- Thêm chút khoảng cách -->
@@ -242,6 +249,13 @@
                     }
                 ?>
             </div>
+
+            <div id="custom-alert" class="custom-alert hidden">
+                <div class="custom-alert-box">
+                    <p>Sự kiện đã kết thúc. Bạn không thể mua vé.</p>
+                    <button onclick="closeCustomAlert()">Đã hiểu</button>
+                </div>
+            </div>
 </main> 
 <?php
 require_once 'footer.php'; 
@@ -280,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.addEventListener("load", function() {
-    var motaContainer = document.getElementById("mota-container");
+    var motaContainer = document.getElementById("mota-container"); 
     var motaToggleButton = document.getElementById("mota-toggle-btn");
 
     if (motaContainer && motaToggleButton) {
@@ -301,4 +315,16 @@ window.addEventListener("load", function() {
 });
 // <!-- KẾT THÚC SỬA LỖI (3/3) -->
 
+function handleTicketClick(e, el) {
+    const isEnded = el.getAttribute("data-ended") === "true";
+    if (isEnded) {
+        e.preventDefault();
+        document.getElementById("custom-alert").classList.remove("hidden");
+        return false;
+    }
+}
+
+function closeCustomAlert() {
+    document.getElementById("custom-alert").classList.add("hidden");
+}
 </script>

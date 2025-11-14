@@ -1,6 +1,6 @@
 <?php
 
-// ---- BẢO MẬT (QUAN TRỌNG) ----
+// ---- BẢO MẬT ----
 require_once 'config.php'; 
 
 $API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $GEMINI_API_KEY;
@@ -8,24 +8,73 @@ $API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-f
 header('Content-Type: application/json; charset=utf-8');
 
 // 2. HÀM LẤY DỮ LIỆU TỪ DATABASE
+// function getEventsData($host, $dbname, $user, $pass) {
+//     try {
+//         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+//         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//         $sql = "
+//             SELECT 
+//                 sk.TenSK, 
+//                 sk.Tgian, 
+//                 dd.TenTinh, 
+//                 lsk.TenLoaiSK AS LoaiHinh, 
+//                 lv.TenLoai, 
+//                 lv.Gia
+//             FROM sukien sk
+//             JOIN diadiem dd ON sk.MaDD = dd.MaDD
+//             JOIN loaisk lsk ON sk.MaLSK = lsk.MaloaiSK
+//             JOIN loaive lv ON sk.MaSK = lv.MaSK
+//             WHERE sk.Tgian >= CURDATE() 
+//             ORDER BY sk.Tgian ASC;
+//         ";
+
+//         $stmt = $pdo->prepare($sql);
+//         $stmt->execute();
+//         $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//         if (empty($events)) {
+//             return "Hiện tại không có dữ liệu sự kiện nào trong hệ thống.";
+//         }
+
+//         $dataString = "Dưới đây là danh sách các sự kiện và vé ĐANG MỞ BÁN trong hệ thống (Dữ liệu thực tế):\n";
+//         foreach ($events as $ev) {
+//             $giaVeVND = number_format($ev['Gia'], 0, ',', '.'); 
+            
+//             // --- CẬP NHẬT QUAN TRỌNG Ở ĐÂY ---
+//             // Thêm trường "Loại hình" vào chuỗi để AI đọc được
+//             $dataString .= "- Sự kiện: {$ev['TenSK']} | Loại hình: {$ev['LoaiHinh']} | Ngày: {$ev['Tgian']} | Tại: {$ev['TenTinh']} | Loại vé: {$ev['TenLoai']} - Giá: {$giaVeVND} VND\n";
+//         }
+//         return $dataString;
+
+//     } catch (PDOException $e) {
+//         return "Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage();
+//     }
+// }
 function getEventsData($host, $dbname, $user, $pass) {
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        // --- SỬA ĐỔI QUAN TRỌNG ---
+        // 1. Dùng LEFT JOIN: Để sự kiện vẫn hiện ra dù chưa có vé nhập vào.
+        // 2. GROUP_CONCAT: Để gom nhóm các loại vé lại, tránh lặp lại tên sự kiện nhiều lần làm AI rối.
         $sql = "
             SELECT 
                 sk.TenSK, 
                 sk.Tgian, 
                 dd.TenTinh, 
-                lsk.TenLoaiSK AS LoaiHinh, 
-                lv.TenLoai, 
-                lv.Gia
+                lsk.TenLoaiSK AS LoaiHinh,
+                GROUP_CONCAT(
+                    CONCAT(IFNULL(lv.TenLoai, 'Chưa có vé'), ': ', IFNULL(FORMAT(lv.Gia, 0), 'Liên hệ')) 
+                    SEPARATOR ', '
+                ) as DanhSachVe
             FROM sukien sk
             JOIN diadiem dd ON sk.MaDD = dd.MaDD
             JOIN loaisk lsk ON sk.MaLSK = lsk.MaloaiSK
-            JOIN loaive lv ON sk.MaSK = lv.MaSK
-            WHERE sk.Tgian >= CURDATE() 
+            LEFT JOIN loaive lv ON sk.MaSK = lv.MaSK  -- ĐỔI THÀNH LEFT JOIN
+            -- WHERE sk.Tgian >= CURDATE()  <-- Tạm thời comment dòng này lại để test xem có phải do ngày tháng không
+            GROUP BY sk.MaSK, sk.TenSK, sk.Tgian, dd.TenTinh, lsk.TenLoaiSK
             ORDER BY sk.Tgian ASC;
         ";
 
@@ -34,21 +83,23 @@ function getEventsData($host, $dbname, $user, $pass) {
         $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($events)) {
-            return "Hiện tại không có dữ liệu sự kiện nào trong hệ thống.";
+            return "Hệ thống ghi nhận: Hiện chưa có dữ liệu sự kiện nào.";
         }
 
-        $dataString = "Dưới đây là danh sách các sự kiện và vé ĐANG MỞ BÁN trong hệ thống (Dữ liệu thực tế):\n";
+        $dataString = "Dữ liệu sự kiện thực tế từ Database:\n";
         foreach ($events as $ev) {
-            $giaVeVND = number_format($ev['Gia'], 0, ',', '.'); 
-            $dataString .= "- Sự kiện: {$ev['TenSK']} | Ngày: {$ev['Tgian']} | Tại: {$ev['TenTinh']} | Loại vé: {$ev['TenLoai']} - Giá: {$giaVeVND} VND\n";
+            // Xử lý hiển thị ngày
+            $dataString .= "- Sự kiện: {$ev['TenSK']} \n";
+            $dataString .= "  + Phân loại: {$ev['LoaiHinh']} | Tại: {$ev['TenTinh']} | Ngày: {$ev['Tgian']}\n";
+            $dataString .= "  + Bảng giá vé: {$ev['DanhSachVe']}\n";
+            $dataString .= "------------------------------------------------\n";
         }
         return $dataString;
 
     } catch (PDOException $e) {
-        return "Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage();
+        return "Lỗi truy vấn DB: " . $e->getMessage();
     }
 }
-
 // 3. XỬ LÝ YÊU CẦU
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -58,10 +109,10 @@ if (is_null($data) || !isset($data['contents'])) {
     exit;
 }
 
-// Lấy dữ liệu TRƯỚC
+// Lấy dữ liệu
 $databaseContext = getEventsData($db_host, $db_name, $db_user, $db_pass);
 
-// CẬP NHẬT SYSTEM INSTRUCTION (THÊM PHẦN GỢI Ý)
+// CẬP NHẬT SYSTEM INSTRUCTION (Thêm quy tắc phân loại)
 $systemInstruction = [
     'role' => 'user', 
     'parts' => [
@@ -72,23 +123,22 @@ $systemInstruction = [
         
         QUY TẮC ỨNG XỬ & TRẢ LỜI (BẮT BUỘC):
         
-        1. KHI HIỂN THỊ DANH SÁCH SỰ KIỆN:
-           - Chỉ liệt kê Tên Sự Kiện và Ngày diễn ra (ngắn gọn).
-           - KHÔNG liệt kê giá vé ngay lập tức.
-           - QUAN TRỌNG: Kết thúc câu trả lời bằng một câu hỏi gợi mở để người dùng tương tác tiếp.
-           - Ví dụ câu kết: 'Bạn quan tâm đến sự kiện nào để mình báo giá chi tiết ạ?' hoặc 'Bạn muốn biết thêm về show nào không?'
+        1. KHI NGƯỜI DÙNG HỎI THEO THỂ LOẠI (Liveshow, Concert, Festival...):
+           - Hãy kiểm tra kỹ trường 'Loại hình' trong dữ liệu.
+           - Chỉ liệt kê các sự kiện có 'Loại hình' khớp hoặc gần đúng với yêu cầu (ví dụ: Liveshow, Concert, Nhạc hội).
+           - Nếu không có loại sự kiện đó, hãy trả lời thật thà: 'Hiện tại hệ thống chưa có sự kiện thuộc thể loại [tên thể loại] nào ạ.'
         
-        2. KHI BÁO GIÁ VÉ:
-           - Chỉ báo giá khi người dùng hỏi cụ thể về một sự kiện.
-           - Liệt kê rõ các hạng vé và giá tiền.
-           - Kết thúc bằng hướng dẫn đặt vé: 'Để đặt vé, bạn hãy nhấn vào sự kiện trên website và chọn Mua Vé nhé.'
+        2. KHI HIỂN THỊ DANH SÁCH:
+           - Chỉ liệt kê Tên Sự Kiện, Ngày diễn ra và Loại hình.
+           - Kết thúc bằng câu hỏi gợi mở: 'Bạn quan tâm đến sự kiện nào để mình báo giá chi tiết ạ?'
         
-        3. GIỚI HẠN CHỨC NĂNG:
-           - Bạn KHÔNG có chức năng đặt vé trực tiếp trong khung chat.
-           - Nếu khách muốn đặt, hãy hướng dẫn họ thao tác trên website.
+        3. KHI BÁO GIÁ VÉ:
+           - Chỉ báo giá khi được hỏi chi tiết.
+           - Kết thúc bằng hướng dẫn: 'Để đặt vé, bạn hãy nhấn vào sự kiện trên website và chọn Mua Vé nhé.'
         
-        4. DỮ LIỆU:
-           - Trả lời dựa trên dữ liệu đã cung cấp. Nếu không tìm thấy, hãy nói 'Hiện chưa có sự kiện nào theo yêu cầu của bạn'.
+        4. GIỚI HẠN CHỨC NĂNG:
+           - Bạn KHÔNG có chức năng đặt vé trực tiếp.
+           - Trả lời dựa trên dữ liệu đã cung cấp.
         "]
     ]
 ];

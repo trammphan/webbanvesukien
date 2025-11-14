@@ -4,6 +4,8 @@
 body {
   margin: 0;
   box-sizing: border-box;
+  cursor: default;
+  user-select: none;
 }
 
 main {
@@ -18,7 +20,7 @@ main {
 .cardWrap {
   max-width: 1200px;
   width: 100%;
-  margin: 100px auto 60px;
+  margin: 100px auto 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -193,12 +195,52 @@ main {
 
 .mota .tieude {
     font-size: 1.875em;
+    margin-bottom: 10px;
 }
 
 .noidung {
-  padding: 0 80px;
+  padding: 0 180px;
   font-size: 1.2em;
-  text-align: center;
+  text-align: justify;
+}
+
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.custom-alert-box {
+    background: #040c2a;
+    color: #fff3b0;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 224, 255, 0.3);
+    text-align: center;
+    font-size: 16px;
+    max-width: 300px;
+}
+
+.custom-alert-box button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #00e0ff;
+    color: #0d1222;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Container chính chứa tất cả vé */
@@ -259,6 +301,7 @@ main {
   color: #ffffff; /* Màu xám nhạt hơn */
   margin-top: 0;
   margin-bottom: 12px;
+  width: 1000px;
   /* Giữ lại thụt lề nếu mô tả của bạn là dạng 1. 2. 3. */
   /* padding-left: 28px; */
 }
