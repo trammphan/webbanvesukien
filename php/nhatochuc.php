@@ -88,9 +88,9 @@ require_once 'header.php';
             
           <?php endif; ?>
 
-        </article>
+      </article>
 
-        <article class="noidung nhatochuc">
+      <article class="noidung nhatochuc">
             <h2 class="noidung-title">Chào mừng Nhà tổ chức đến với Vibe4</h2>
             <p class="chaomung">
             Vibe4 là nền tảng giúp bạn tạo, quản lý và bán vé sự kiện một cách dễ dàng.
