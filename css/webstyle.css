@@ -179,69 +179,6 @@ h3{
 
 
 
-/*THIET KE DAP UNG*/
-@media screen and (max-width: 768px) {
-    .khungdungchung{
-        max-width: 500px;
-    }
-    .thongtin {
-        height: 53px;
-        width: 400px;
-        margin: 18px auto;
-    }
-    .thongtin input{
-        width: 350px;      
-    }
-    html{
-        font-size: 70%;
-    }
-    .khungdungchung{
-        padding: 30px;
-    }
-    .nhatochuc_2{
-        width: 200px;
-    }
-    .congviec{
-        font-size: 15px;
-
-    }
-    .nhatochuc, .taosukien, .quanly, .xembaocao, .capnhat {
-        width: 700px;
-    }
-
-    
-    
-}
-
-@media screen and (max-width: 576px) {
-    .khungdungchung{
-        max-width: 330px;
-    }
-    .thongtin {
-        height: 53px;
-        width:238px;
-        margin: 10px auto;
-
-    }
-    .thongtin input{
-        width: 90%;     
-    }
-    html{
-        font-size: 60%;
-    }
-    input::placeholder {
-        font-size: smaller;
-    }
-    h2{
-        margin: 8px auto;
-    }
-    .khungdungchung{
-        padding: 15px;
-    }
-    
-
-}
-
 
 
 
@@ -279,7 +216,7 @@ h3{
 
 .noidung {
   flex: 1;
-background: rgba(7, 16, 36, 0.95);
+  background: rgba(7, 16, 36, 0.95);
   color: #e8fffd;
   padding: 30px;
   margin: 0;
@@ -308,6 +245,7 @@ background: rgba(7, 16, 36, 0.95);
 .noidung.nhatochuc {
   background: rgba(7, 16, 36, 0.95);
   color: #d9e0ef;
+  margin-right: 50px;
 }
 .thanh_doc button:hover,
 .thanh_doc button.active {
@@ -369,7 +307,8 @@ nav ul .page-item .page-link{
 }
 nav ul .page-item.active .page-link{
     background-color: #e6e7ffef;
-    color: #163573;
+    color: #163573;cursor: default;
+  user-select: none;
     border: gainsboro 1px solid;
     font-family:Arial, Helvetica, sans-serif;
 }
@@ -616,7 +555,8 @@ nav ul .page-item.active .page-link{
   background-color: white;
   color: #060259;
   padding: 30px;
-  margin: 100px 35px;
+  /* margin: 100px 35px; */
+  margin-right: 20px;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
   height: 80vh;
@@ -829,12 +769,105 @@ nav ul .page-item.active .page-link{
 
 
 
+
+
+/*THIET KE DAP UNG*/
+@media screen and (max-width:  1024px) {
+    *{
+        font-size: 1.2pm;
+    }
+    .khungdungchung{
+        max-width: 800px;
+    }
+    .thongtin {
+        height: 53px;
+        width: 500px;
+        margin: 18px auto;
+    }
+    .thongtin input{
+        width: 350px;      
+    }
+    html{
+        font-size: 85%;
+    }
+    .khungdungchung{
+        padding: 30px;
+    }
+    .nhatochuc_2{
+        width: 200px;
+    }
+    .congviec{
+        font-size: 15px;
+
+    }
+    .nhatochuc, .taosukien, .quanly, .xembaocao, .capnhat {
+        width: 800px;
+    }
+    #dk_submit, #login{
+        font-size: 15px;
+    }
+    .container_1 {
+        gap: 90px
+    }
+
+    
+    
+}
+
+@media screen and (max-width: 767px) {
+    .khungdungchung{
+        max-width: 330px;
+    }
+    .thongtin {
+        height: 53px;
+        width:238px;
+        margin: 10px auto;
+
+    }
+    .thongtin input{
+        width: 190px;      
+    }
+    html{
+        font-size: 72%;
+    }
+    input::placeholder {
+        font-size: smaller;
+    }
+    h2{
+        margin: 8px auto;
+    }
+    .khungdungchung{
+        padding: 15px;
+    }
+    #dk_submit, #login{
+        font-size: 12px;
+    }
+    .container_1 {
+        gap: 30px
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* STYLE CỦA HUỲNH NGÂN*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Nunito', 'Open Sans', sans-serif;
+    cursor: default;
+  user-select: none;
 }
 body, html {
         margin: 0;

@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Cấu hình CSDL
 $servername = "localhost";
 $username = "root";
@@ -32,28 +35,38 @@ $total_pages_lsk = 1; // Khởi tạo tổng số trang cho loại sự kiện
 
 $search_query = isset($_GET['q']) ? trim($_GET['q']) : '';
 $search_condition = '';
+//khởi tạo doanh số
 
-// Khởi tạo kết quả khách hàng
-$result_khachhang = null; 
-$items_per_page_khachhang = 10;
-$current_page_khachhang = isset($_GET['trang_kh']) ? (int)$_GET['trang_kh'] : 1; 
-if ($current_page_khachhang < 1) $current_page_khachhang = 1;
-$total_pages_khachhang = 1;
-// Khởi tạo kết quả nhân viên soát vé
-$result_nhanviensoatve = null; 
-$items_per_page_nhanviensoatve = 10;
-$current_page_nhanviensoatve = isset($_GET['trang_nv']) ? (int)$_GET['trang_nv'] : 1; 
-if ($current_page_nhanviensoatve < 1) $current_page_nhanviensoatve = 1;
-$total_pages_nhanviensoatve = 1;
-// Khởi tạo kết quả nhà tổ chức
-$result_nhatochuc = null; 
-$items_per_page_nhatochuc = 10;
-$current_page_nhatochuc = isset($_GET['trang_ntc']) ? (int)$_GET['trang_ntc'] : 1; 
-if ($current_page_nhatochuc < 1) $current_page_nhatochuc = 1;
-$total_pages_nhatochuc = 1;
+$result_thongke_sk = null; 
+$items_per_page_doanhso = 10;
+$current_page_doanhso = isset($_GET['trang_ds']) ? (int)$_GET['trang_ds'] : 1; 
+if ($current_page_doanhso < 1) $current_page_doanhso = 1;
+$total_pages_doanhso = 1; 
+$total_doanhso = 0; 
+
+
+// // Khởi tạo kết quả khách hàng
+    // $result_khachhang = null; 
+    // $items_per_page_khachhang = 10;
+    // $current_page_khachhang = isset($_GET['trang_kh']) ? (int)$_GET['trang_kh'] : 1; 
+    // if ($current_page_khachhang < 1) $current_page_khachhang = 1;
+    // $total_pages_khachhang = 1;
+    // // Khởi tạo kết quả nhân viên soát vé
+    // $result_nhanviensoatve = null; 
+    // $items_per_page_nhanviensoatve = 10;
+    // $current_page_nhanviensoatve = isset($_GET['trang_nv']) ? (int)$_GET['trang_nv'] : 1; 
+    // if ($current_page_nhanviensoatve < 1) $current_page_nhanviensoatve = 1;
+    // $total_pages_nhanviensoatve = 1;
+    // // Khởi tạo kết quả nhà tổ chức
+    // $result_nhatochuc = null; 
+    // $items_per_page_nhatochuc = 10;
+    // $current_page_nhatochuc = isset($_GET['trang_ntc']) ? (int)$_GET['trang_ntc'] : 1; 
+    // if ($current_page_nhatochuc < 1) $current_page_nhatochuc = 1;
+// $total_pages_nhatochuc = 1;
 $offset_nhanviensoatve = 0; 
 $offset_nhatochuc = 0;
-
+$offset_khachhang = 0;
+$offset_doanhso = 0;
 
 
 // 1. KIỂM TRA VÀ TRUY VẤN THÔNG TIN NẾU ĐÃ ĐĂNG NHẬP
@@ -199,61 +212,74 @@ if (isset($_COOKIE['email'])) {
     }
     
     if ($is_logged_in) {
+        // ... (Giữ nguyên phần thống kê Tổng Tài Khoản)
         $tong_khach_hang_tk = get_statistic_value($conn, "SELECT COUNT(email) FROM khachhang");
-
-        // Tổng số Nhân viên soát vé
         $tong_nhan_vien = get_statistic_value($conn, "SELECT COUNT(email) FROM nhanviensoatve");
-        
-        // Tổng số Nhà tổ chức (Đã có 2 bản ghi trong CSDL mới)
-        $tong_nha_to_chuc = get_statistic_value($conn, "SELECT COUNT(email) FROM nhatochuc"); // <--- Đã thêm truy vấn này
-
-        // Tổng số Tài khoản (Tổng 3 loại)
+        $tong_nha_to_chuc = get_statistic_value($conn, "SELECT COUNT(email) FROM nhatochuc");
         $tong_tai_khoan_3_bang = $tong_khach_hang_tk + $tong_nhan_vien + $tong_nha_to_chuc;
-
-        $sql_khachhang = "
-            SELECT 
-                email,
-                 user_name,
-                 tel
-            FROM khachhang " 
-        . $search_condition . 
-            " ORDER BY email ASC
-            LIMIT $items_per_page_khachhang OFFSET $offset_khachhang;
-        ";
-
-        $result_khachhang = $conn->query($sql_khachhang);
-
-        $sql_nhanviensoatve = "
-            SELECT 
-                email,
-                 user_name,
-                 gender,
-                 tel
-            FROM nhanviensoatve " 
-        . $search_condition . 
-            " ORDER BY email ASC
-            LIMIT $items_per_page_nhanviensoatve OFFSET $offset_nhanviensoatve;
-        ";
-
-        $result_nhanviensoatve = $conn->query($sql_nhanviensoatve);
-
-        $sql_nhatochuc = "
-            SELECT 
-                email,
-                 user_name,
-                 tel,
-                 address,
-                 taikhoannganhang
-            FROM nhatochuc " 
-        . $search_condition . 
-            " ORDER BY email ASC
-            LIMIT $items_per_page_nhatochuc OFFSET $offset_nhatochuc;
-        ";
-
-        $result_nhatochuc = $conn->query($sql_nhatochuc);
     }
+    if ($is_logged_in) {   
+        // --- LOGIC TRUY VẤN THỐNG KÊ DOANH SỐ (THONGKE-SECTION) ---
+        
+        // 1. Lấy TỔNG SỐ SỰ KIỆN CÓ DOANH THU (COUNT DISTINCT)
+       // 1. Lấy TỔNG SỐ TẤT CẢ SỰ KIỆN từ bảng sukien
+        $sql_count_all_sk = "SELECT COUNT(MaSK) AS total_items FROM sukien";
+        $result_count_all_sk = $conn->query($sql_count_all_sk);
+        
+        // Kiểm tra kết quả truy vấn đếm
+        if ($result_count_all_sk) {
+            $total_doanhso = $result_count_all_sk->fetch_assoc()['total_items'];
+        } else {
+            $total_doanhso = 0; 
+        }
+        
+        // 2. Tính toán phân trang
+        if ($total_doanhso > 0) {
+            $total_pages_doanhso = ceil($total_doanhso / $items_per_page_doanhso);
+            if ($current_page_doanhso > $total_pages_doanhso) {
+                $current_page_doanhso = $total_pages_doanhso;
+            }
+            $offset_doanhso = ($current_page_doanhso - 1) * $items_per_page_doanhso;
+            if ($offset_doanhso < 0) $offset_doanhso = 0;
+        } else {
+            $offset_doanhso = 0;
+        }
 
 
+        // 3. Truy vấn dữ liệu thống kê cho trang hiện tại
+        // Vẫn sử dụng truy vấn LEFT JOIN đã tối ưu
+        $sql_thongke_sk = "
+            SELECT
+                sk.TenSK,
+                COALESCE(COUNT(v.MaVe), 0) AS TongSoVeBan, 
+                COALESCE(SUM(lv.Gia), 0) AS TongDoanhThu
+            FROM
+                sukien sk
+            LEFT JOIN
+                loaive lv ON sk.MaSK = lv.MaSK
+            LEFT JOIN
+                ve v ON lv.MaLoai = v.MaLoai
+            LEFT JOIN
+                thanhtoan tt ON v.MaTT = tt.MaTT
+            GROUP BY
+                sk.MaSK, sk.TenSK
+            ORDER BY
+                TongDoanhThu DESC
+            LIMIT $items_per_page_doanhso OFFSET $offset_doanhso;
+        ";
+        
+        // Gán kết quả
+        $result_thongke_sk = $conn->query($sql_thongke_sk); 
+            if (!$result_thongke_sk) {
+                // ⚠️ HIỂN THỊ LỖI SQL để tìm nguyên nhân
+                if (isset($conn) && $conn->error) {
+                    // Tạm thời dừng chương trình và in ra lỗi
+                    die("❌ **LỖI TRUY VẤN THỐNG KÊ DOANH SỐ:** " . $conn->error . "<br>SQL: <pre>" . $sql_thongke_sk . "</pre>");
+                }
+                // Nếu không có lỗi DB, set null
+                $result_thongke_sk = null;
+          }
+}
 
 
     // E. ĐÓNG KẾT NỐI SAU KHI DÙNG XONG TẤT CẢ
@@ -336,43 +362,43 @@ require_once 'header.php';
         </div>
 
         <div class="thongkesukien mt-3">
-        <?php if (!$is_logged_in): ?>
-            <p style="color: red;">⚠️ Vui lòng đăng nhập để xem nội dung này.</p>
-        <?php elseif (isset($result_sukien) && $result_sukien->num_rows > 0): ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th class="tieudeqlve">Mã SK</th>
-                            <th class="tieudeqlve">Tên Sự Kiện</th>
-                            <th class="tieudeqlve">Thời Gian Bắt Đầu</th>
-                            <th class="tieudeqlve">Lượt Truy Cập</th>
-                            <th class="tieudeqlve">Lượt tìm kiếm</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result_sukien->fetch_assoc()): ?>
+            <?php if (!$is_logged_in): ?>
+                <p style="color: red;">⚠️ Vui lòng đăng nhập để xem nội dung này.</p>
+            <?php elseif (isset($result_sukien) && $result_sukien->num_rows > 0): ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
                             <tr>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['MaSK']); ?></td>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['TenSK']); ?></td>
-                                <td class="ndsk">
-                                    <?php 
-                                        // Định dạng lại thời gian cho dễ đọc
-                                        $timestamp = strtotime($row['TGian']);
-                                        echo date('d/m/Y H:i', $timestamp); 
-                                    ?>
-                                </td>
-                                <td class="ndsk">
-                                    <b><?php echo number_format($row['luot_timkiem'] ?? 0); ?></b>
-                                </td>
-                                <td class="ndsk">
-                                    <b><?php echo number_format($row['luot_truycap'] ?? 0); ?></b>
-                                </td>
+                                <th class="tieudeqlve">Mã SK</th>
+                                <th class="tieudeqlve">Tên Sự Kiện</th>
+                                <th class="tieudeqlve">Thời Gian Bắt Đầu</th>
+                                <th class="tieudeqlve">Lượt Truy Cập</th>
+                                <th class="tieudeqlve">Lượt tìm kiếm</th>
                             </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = $result_sukien->fetch_assoc()): ?>
+                                <tr>
+                                    <td class="ndsk"><?php echo htmlspecialchars($row['MaSK']); ?></td>
+                                    <td class="ndsk"><?php echo htmlspecialchars($row['TenSK']); ?></td>
+                                    <td class="ndsk">
+                                        <?php 
+                                            // Định dạng lại thời gian cho dễ đọc
+                                            $timestamp = strtotime($row['TGian']);
+                                            echo date('d/m/Y H:i', $timestamp); 
+                                        ?>
+                                    </td>
+                                    <td class="ndsk">
+                                        <b><?php echo number_format($row['luot_timkiem'] ?? 0); ?></b>
+                                    </td>
+                                    <td class="ndsk">
+                                        <b><?php echo number_format($row['luot_truycap'] ?? 0); ?></b>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                </div>
 
             <?php if ($total_pages_sukien > 1): ?>
                 <nav aria-label="Page navigation" class="mt-3">
@@ -394,10 +420,10 @@ require_once 'header.php';
                 </nav>
             <?php endif; ?>
 
-        <?php else: ?>
-            <p>Không có sự kiện nào được tìm thấy hoặc lỗi kết nối CSDL.</p>
-        <?php endif; ?>
-    </div>
+            <?php else: ?>
+                <p>Không có sự kiện nào được tìm thấy hoặc lỗi kết nối CSDL.</p>
+            <?php endif; ?>
+        </div>
     </article>
 
     <article class="noidung hidden" id="danhmuc-section">
@@ -602,7 +628,55 @@ require_once 'header.php';
                 </form>
             </div>
         </div>
-        <i class="fa-solid fa-spinner"></i> Đang cập nhật...</i>
+
+        <?php if ($result_thongke_sk && $result_thongke_sk->num_rows > 0): ?>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên Sự Kiện</th>
+                    <th>Doanh Số Vé Bán Ra</th>
+                    <th>Tổng Doanh Thu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                // Tính STT dựa trên trang hiện tại và offset
+                $stt = ($current_page_doanhso - 1) * $items_per_page_doanhso + 1; 
+                ?>
+                <?php while ($row = $result_thongke_sk->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo $stt++; ?></td>
+                        <td><?php echo htmlspecialchars($row['TenSK']); ?></td>
+                        <td><?php echo number_format($row['TongSoVeBan']); ?></td>
+                        <td><?php echo number_format($row['TongDoanhThu']) . ' VNĐ'; ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="alert alert-info">Không có dữ liệu thống kê sự kiện nào.</p>
+    <?php endif; ?>
+    
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <?php if ($total_pages_doanhso > 1): ?>
+                <li class="page-item <?php echo ($current_page_doanhso <= 1) ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso - 1; ?>#thongke-section">Trước</a>
+                </li>
+
+                <?php for ($i = 1; $i <= $total_pages_doanhso; $i++): ?>
+                    <li class="page-item <?php echo ($i == $current_page_doanhso) ? 'active' : ''; ?>">
+                         <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $i; ?>#thongke-section"><?php echo $i; ?></a>
+                    </li>
+                <?php endfor; ?>
+
+                <li class="page-item <?php echo ($current_page_doanhso >= $total_pages_doanhso) ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso + 1; ?>#thongke-section">Sau</a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </nav>
     </article>
 
 
