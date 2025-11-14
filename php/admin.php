@@ -33,25 +33,26 @@ $total_pages_lsk = 1; // Khởi tạo tổng số trang cho loại sự kiện
 $search_query = isset($_GET['q']) ? trim($_GET['q']) : '';
 $search_condition = '';
 
-// Khởi tạo người dùng
+// Khởi tạo kết quả khách hàng
 $result_khachhang = null; 
-$items_per_page_kh = 10; // Giả định 10 mục/trang
-$current_page_kh = isset($_GET['trang_kh']) ? (int)$_GET['trang_kh'] : 1; 
-if ($current_page_kh < 1) $current_page_kh = 1;
-$total_pages_kh = 1;
-
-$search_query_kh = isset($_GET['q_user']) ? trim($_GET['q_user']) : '';
-$search_condition_kh = '';
-
-//Khởi tạo ntc
+$items_per_page_khachhang = 10;
+$current_page_khachhang = isset($_GET['trang_kh']) ? (int)$_GET['trang_kh'] : 1; 
+if ($current_page_khachhang < 1) $current_page_khachhang = 1;
+$total_pages_khachhang = 1;
+// Khởi tạo kết quả nhân viên soát vé
+$result_nhanviensoatve = null; 
+$items_per_page_nhanviensoatve = 10;
+$current_page_nhanviensoatve = isset($_GET['trang_nv']) ? (int)$_GET['trang_nv'] : 1; 
+if ($current_page_nhanviensoatve < 1) $current_page_nhanviensoatve = 1;
+$total_pages_nhanviensoatve = 1;
+// Khởi tạo kết quả nhà tổ chức
 $result_nhatochuc = null; 
-$items_per_page_ntc = 10;
-$current_page_ntc = isset($_GET['trang_ntc']) ? (int)$_GET['trang_ntc'] : 1; 
-if ($current_page_ntc < 1) $current_page_ntc = 1;
-$total_pages_ntc = 1;
-
-$search_query_ntc = isset($_GET['q_ntc']) ? trim($_GET['q_ntc']) : '';
-$search_condition_ntc = '';
+$items_per_page_nhatochuc = 10;
+$current_page_nhatochuc = isset($_GET['trang_ntc']) ? (int)$_GET['trang_ntc'] : 1; 
+if ($current_page_nhatochuc < 1) $current_page_nhatochuc = 1;
+$total_pages_nhatochuc = 1;
+$offset_nhanviensoatve = 0; 
+$offset_nhatochuc = 0;
 
 
 
@@ -69,6 +70,16 @@ if (isset($_COOKIE['email'])) {
         $is_logged_in = false; 
     }
 
+    if ($conn && !$conn->connect_error) {
+        function get_statistic_value($conn, $sql) {
+            $result = $conn->query($sql);
+            // Kiểm tra kết quả và trả về giá trị đầu tiên (số lượng)
+            if ($result && $row = $result->fetch_array()) {
+                return $row[0];
+            }
+            return 0;
+        }
+    }
     if ($is_logged_in) {
         // // Lấy thông tin người dùng an toàn hơn (Prepared Statement)
          $sql = "SELECT user_name, email FROM quantrivien WHERE email = ?";
@@ -186,83 +197,61 @@ if (isset($_COOKIE['email'])) {
 
         $result_thong_ke_loai_sk = $conn->query($sql_thong_ke_loai_sk);
     }
-    if ($is_logged_in && $conn && !$conn->connect_error) {
-        
-        // Xử lý điều kiện tìm kiếm người dùng theo tên hoặc email
-        if (!empty($search_query_kh)) {
-            $search_term = "%" . $conn->real_escape_string($search_query_kh) . "%";
-            $search_condition_kh = " WHERE HoTen LIKE '$search_term' OR email LIKE '$search_term'";
-        }
+    
+    if ($is_logged_in) {
+        $tong_khach_hang_tk = get_statistic_value($conn, "SELECT COUNT(email) FROM khachhang");
 
-        // 1. Lấy TỔNG SỐ DÒNG (COUNT) cho Khách hàng
-        $sql_count_kh = "SELECT COUNT(email) AS total_items FROM khachhang" . $search_condition_kh;
+        // Tổng số Nhân viên soát vé
+        $tong_nhan_vien = get_statistic_value($conn, "SELECT COUNT(email) FROM nhanviensoatve");
         
-        $result_count_kh = $conn->query($sql_count_kh);
-        $total_items_kh = $result_count_kh ? $result_count_kh->fetch_assoc()['total_items'] : 0;
-        
-        // Tính tổng số trang
-        $total_pages_kh = ceil($total_items_kh / $items_per_page_kh);
+        // Tổng số Nhà tổ chức (Đã có 2 bản ghi trong CSDL mới)
+        $tong_nha_to_chuc = get_statistic_value($conn, "SELECT COUNT(email) FROM nhatochuc"); // <--- Đã thêm truy vấn này
 
-        // Tính toán OFFSET cho truy vấn khách hàng
-        $offset_kh = ($current_page_kh - 1) * $items_per_page_kh;
-        if ($offset_kh < 0) $offset_kh = 0;
-        
-        // 2. Câu truy vấn chính lấy danh sách khách hàng
-        // LƯU Ý: Không lấy trường 'password' vì lý do bảo mật.
+        // Tổng số Tài khoản (Tổng 3 loại)
+        $tong_tai_khoan_3_bang = $tong_khach_hang_tk + $tong_nhan_vien + $tong_nha_to_chuc;
+
         $sql_khachhang = "
             SELECT 
-                email, 
-                user_name, 
-                tel 
-            FROM khachhang
-            " . $search_condition_kh . "
-            ORDER BY user_name ASC
-            LIMIT $items_per_page_kh OFFSET $offset_kh;
+                email,
+                 user_name,
+                 tel
+            FROM khachhang " 
+        . $search_condition . 
+            " ORDER BY email ASC
+            LIMIT $items_per_page_khachhang OFFSET $offset_khachhang;
         ";
 
         $result_khachhang = $conn->query($sql_khachhang);
-    }
-    if ($is_logged_in && $conn && !$conn->connect_error) {
-    
-    // Xử lý điều kiện tìm kiếm quản trị/nhân viên theo tên hoặc email
-    if (!empty($search_query_ntc)) {
-        $search_term_ntc = "%" . $conn->real_escape_string($search_query_ntc) . "%";
-        // LƯU Ý: Phải truy vấn trường `user_name` trong bảng `nhatochuc`
-        $search_condition_ntc = " WHERE user_name LIKE '$search_term_ntc' OR email LIKE '$search_term_ntc'";
-    }
 
-    // 1. Lấy TỔNG SỐ DÒNG (COUNT) cho nhatochuc
-    $sql_count_ntc = "SELECT COUNT(email) AS total_items FROM nhatochuc" . $search_condition_ntc;
-    
-    // Phải kiểm tra lại kết nối vì khối này độc lập với các khối trên
-    if (isset($conn) && !$conn->connect_error) { 
-        $result_count_ntc = $conn->query($sql_count_ntc);
-        $total_items_ntc = $result_count_ntc ? $result_count_ntc->fetch_assoc()['total_items'] : 0;
-        
-        // Tính tổng số trang
-        $total_pages_ntc = ceil($total_items_ntc / $items_per_page_ntc);
+        $sql_nhanviensoatve = "
+            SELECT 
+                email,
+                 user_name,
+                 gender,
+                 tel
+            FROM nhanviensoatve " 
+        . $search_condition . 
+            " ORDER BY email ASC
+            LIMIT $items_per_page_nhanviensoatve OFFSET $offset_nhanviensoatve;
+        ";
 
-        // Tính toán OFFSET cho truy vấn nhatochuc
-        $offset_ntc = ($current_page_ntc - 1) * $items_per_page_ntc;
-        if ($offset_ntc < 0) $offset_ntc = 0;
-        
-        // 2. Câu truy vấn chính lấy danh sách nhatochuc
+        $result_nhanviensoatve = $conn->query($sql_nhanviensoatve);
+
         $sql_nhatochuc = "
             SELECT 
-                email, 
-                user_name, 
-                tel,
-                address,
-                taikhoannganhang
-            FROM nhatochuc
-            " . $search_condition_ntc . "
-            ORDER BY user_name ASC
-            LIMIT $items_per_page_ntc OFFSET $offset_ntc;
+                email,
+                 user_name,
+                 tel,
+                 address,
+                 taikhoannganhang
+            FROM nhatochuc " 
+        . $search_condition . 
+            " ORDER BY email ASC
+            LIMIT $items_per_page_nhatochuc OFFSET $offset_nhatochuc;
         ";
 
         $result_nhatochuc = $conn->query($sql_nhatochuc);
     }
-}
 
 
 
@@ -490,124 +479,44 @@ require_once 'header.php';
                 </form>
             </div>
         </div>
-        <div class="thongkeadmin mt-3">
-        <?php if (!$is_logged_in): ?>
-            <p style="color: red;">⚠️ Vui lòng đăng nhập để xem nội dung này.</p>
-        <?php elseif (isset($result_nhatochuc) && $result_nhatochuc->num_rows > 0): ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th class="tieudeqlve">Email (Tài khoản)</th>
-                            <th class="tieudeqlve">Tên Người Dùng</th>
-                            <th class="tieudeqlve">Mã TV</th>
-                            <th class="tieudeqlve">Vai Trò (Giả định)</th>
-                            <th class="tieudeqlve">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result_nhatochuc->fetch_assoc()): ?>
-                            <tr>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['email']); ?></td>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['user_name']); ?></td>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['MaTV'] ?? 'N/A'); ?></td>
-                                <td class="ndsk">
-                                    <span class="badge bg-primary">Quản trị viên</span>
-                                </td>
-                                <td class="ndsk">
-                                    <button class="btn btn-sm btn-warning">Sửa</button>
-                                    <button class="btn btn-sm btn-danger">Xóa</button>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">Tổng số Khách hàng</div>
+                    <div class="card-body">
+                        <h4 class="card-title"><?php echo $tong_khach_hang_tk; ?></h4>
+                    </div>
+                </div>
             </div>
-
-            <?php if ($total_pages_ntc > 1): ?>
-                <nav aria-label="Page navigation ntc" class="mt-3">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item <?= ($current_page_ntc <= 1) ? 'disabled' : '' ?>">
-                            <a class="page-link" href="admin.php?tab=nguoidung&trang_ntc=<?= $current_page_ntc - 1 ?><?= !empty($search_query_ntc) ? '&q_admin=' . urlencode($search_query_ntc) : '' ?>#nguoidung-section">Previous</a>
-                        </li>
-                        
-                        <?php for ($i = 1; $i <= $total_pages_ntc; $i++): ?>
-                            <li class="page-item <?= ($i == $current_page_ntc) ? 'active' : '' ?>">
-                                <a class="page-link" href="admin.php?tab=nguoidung&trang_ntc=<?= $i ?><?= !empty($search_query_ntc) ? '&q_admin=' . urlencode($search_query_ntc) : '' ?>#nguoidung-section"><?= $i ?></a>
-                            </li>
-                        <?php endfor; ?>
-                        
-                        <li class="page-item <?= ($current_page_ntc >= $total_pages_ntc) ? 'disabled' : '' ?>">
-                            <a class="page-link" href="admin.php?tab=nguoidung&trang_ntc=<?= $current_page_ntc + 1 ?><?= !empty($search_query_ntc) ? '&q_admin=' . urlencode($search_query_ntc) : '' ?>#nguoidung-section">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            <?php endif; ?>
-
-        <?php else: ?>
-            <p>Không có tài khoản quản trị/nhân viên nào được tìm thấy hoặc lỗi kết nối CSDL.</p>
-        <?php endif; ?>
-    </div>
-    
-    <hr class="my-5">
-    
-    <h3 class="mt-5">👥 Tài khoản Khách hàng (Người dùng cuối)</h3>
-    
-    
-    <div class="thongkeuser mt-3">
-        <?php if (!$is_logged_in): ?>
-            <p style="color: red;">⚠️ Vui lòng đăng nhập để xem nội dung này.</p>
-        <?php elseif (isset($result_khachhang) && $result_khachhang->num_rows > 0): ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th class="tieudeqlve">Email (Tài khoản)</th>
-                            <th class="tieudeqlve">Họ Tên</th>
-                            <th class="tieudeqlve">Số Điện Thoại</th>
-                            <th class="tieudeqlve">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result_khachhang->fetch_assoc()): ?>
-                            <tr>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['email']); ?></td>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['user_name']); ?></td>
-                                <td class="ndsk"><?php echo htmlspecialchars($row['tel']); ?></td>
-                                <td class="ndsk">
-                                    <button class="btn btn-sm btn-warning">Sửa</button>
-                                    <button class="btn btn-sm btn-danger">Xóa</button>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Tổng số Nhân viên</div>
+                    <div class="card-body">
+                        <h4 class="card-title"><?php echo $tong_nhan_vien; ?></h4>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Tổng số Nhà tổ chức</div>
+                    <div class="card-body">
+                        <h4 class="card-title"><?php echo $tong_nha_to_chuc; ?></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card text-white bg-dark mb-3">
+                    <div class="card-header">TỔNG SỐ TÀI KHOẢN (3 loại)</div>
+                    <div class="card-body">
+                        <h3 class="card-title"><?php echo $tong_tai_khoan_3_bang; ?></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <?php if ($total_pages_kh > 1): ?>
-                <nav aria-label="Page navigation KH" class="mt-3">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item <?= ($current_page_kh <= 1) ? 'disabled' : '' ?>">
-                            <a class="page-link" href="admin.php?tab=nguoidung&trang_kh=<?= $current_page_kh - 1 ?><?= !empty($search_query_kh) ? '&q_user=' . urlencode($search_query_kh) : '' ?>#nguoidung-section">Previous</a>
-                        </li>
-                        
-                        <?php for ($i = 1; $i <= $total_pages_kh; $i++): ?>
-                            <li class="page-item <?= ($i == $current_page_kh) ? 'active' : '' ?>">
-                                <a class="page-link" href="admin.php?tab=nguoidung&trang_kh=<?= $i ?><?= !empty($search_query_kh) ? '&q_user=' . urlencode($search_query_kh) : '' ?>#nguoidung-section"><?= $i ?></a>
-                            </li>
-                        <?php endfor; ?>
-                        
-                        <li class="page-item <?= ($current_page_kh >= $total_pages_kh) ? 'disabled' : '' ?>">
-                            <a class="page-link" href="admin.php?tab=nguoidung&trang_kh=<?= $current_page_kh + 1 ?><?= !empty($search_query_kh) ? '&q_user=' . urlencode($search_query_kh) : '' ?>#nguoidung-section">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            <?php endif; ?>
-
-        <?php else: ?>
-            <p>Không có khách hàng nào được tìm thấy hoặc lỗi kết nối CSDL.</p>
-        <?php endif; ?>
-    </div>
     </article>
 
     <article class="noidung hidden" id="ve-section">
