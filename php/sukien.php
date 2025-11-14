@@ -101,7 +101,7 @@
                         }
                     ?>
                 <div class="event-card">
-                    <a href="chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= htmlspecialchars($row['MaSK']) ?>" onclick="trackEvent(this)">
+                    <a href="chitietsk_1.php?MaSK=<?=urlencode($row['MaSK']) ?>" data-mask="<?= htmlspecialchars($row['MaSK']) ?>" onclick="handleTicketClick(event, this)">
                         <div class="card-image-wrapper">
                             <img src="<?= htmlspecialchars($row['img_sukien']) ?>" alt="<?= htmlspecialchars($row['TenSK']) ?>" class="card-image" />
                             
