@@ -197,8 +197,6 @@
             <!-- BỔ SUNG MỚI (2/3): Sửa lại cấu trúc HTML của phần .mota -->
             <div class="mota" >
                 <!-- 1. Bọc MỌI THỨ (text + sơ đồ) trong .collapsible-content -->
-                <!--<div class="collapsible-content" id="mota-container">
-                    
                     <!-- Phần Giới thiệu sự kiện -->
                     <h2 class= "tieude">Giới thiệu sự kiện</h2>
                     <p class= "noidung"><?=nl2br(htmlspecialchars($row['mota']))?></p>
