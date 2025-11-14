@@ -24,7 +24,7 @@
         position: relative;
         overflow: hidden;
         /* THAY ĐỔI 1: Tăng chiều cao tối đa khi thu gọn */
-        max-height: 200px; /* Tăng từ 120px lên 200px */
+        max-height: 15px; /* Tăng từ 120px lên 200px */
         transition: max-height 0.5s ease-out;
     }
 
@@ -36,7 +36,7 @@
         left: 0;
         right: 0;
         /* THAY ĐỔI 2: Tăng chiều cao lớp phủ mờ */
-        height: 75px; /* Tăng từ 50px lên 75px */
+        height: 10px; /* Tăng từ 50px lên 75px */
         background: linear-gradient(to bottom, transparent, white);
         pointer-events: none; 
         transition: opacity 0.3s ease;
@@ -197,12 +197,13 @@
             <!-- BỔ SUNG MỚI (2/3): Sửa lại cấu trúc HTML của phần .mota -->
             <div class="mota" >
                 <!-- 1. Bọc MỌI THỨ (text + sơ đồ) trong .collapsible-content -->
-                <div class="collapsible-content" id="mota-container">
+                <!--<div class="collapsible-content" id="mota-container">
                     
                     <!-- Phần Giới thiệu sự kiện -->
                     <h2 class= "tieude">Giới thiệu sự kiện</h2>
                     <p class= "noidung"><?=nl2br(htmlspecialchars($row['mota']))?></p>
                     
+                    <div class="collapsible-content" id="mota-container">
                     <!-- Phần Sơ đồ chỗ ngồi (đã được chuyển vào bên trong) -->
                     <?php if (!empty($row['img_sodo'])): // Chỉ hiển thị nếu có ảnh sơ đồ ?>
                     <div class="sodo" style="margin-top: 20px;"> <!-- Thêm chút khoảng cách -->
@@ -293,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.addEventListener("load", function() {
-    var motaContainer = document.getElementById("mota-container");
+    var motaContainer = document.getElementById("mota-container"); 
     var motaToggleButton = document.getElementById("mota-toggle-btn");
 
     if (motaContainer && motaToggleButton) {

@@ -4,6 +4,8 @@
 body {
   margin: 0;
   box-sizing: border-box;
+  cursor: default;
+  user-select: none;
 }
 
 main {
@@ -18,7 +20,7 @@ main {
 .cardWrap {
   max-width: 1200px;
   width: 100%;
-  margin: 100px auto 60px;
+  margin: 100px auto 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -193,12 +195,13 @@ main {
 
 .mota .tieude {
     font-size: 1.875em;
+    margin-bottom: 10px;
 }
 
 .noidung {
-  padding: 0 80px;
+  padding: 0 180px;
   font-size: 1.2em;
-  text-align: center;
+  text-align: justify;
 }
 
 .custom-alert {
@@ -298,6 +301,7 @@ main {
   color: #ffffff; /* Màu xám nhạt hơn */
   margin-top: 0;
   margin-bottom: 12px;
+  width: 1000px;
   /* Giữ lại thụt lề nếu mô tả của bạn là dạng 1. 2. 3. */
   /* padding-left: 28px; */
 }
