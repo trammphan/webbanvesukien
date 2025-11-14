@@ -8,6 +8,8 @@ body {
   margin: 0;
   font-family: "Poppins", "Roboto", "Inter", sans-serif;
   color: #ffffff;
+  cursor: default;
+  user-select: none;
 }
 
 .seat-map-section {
