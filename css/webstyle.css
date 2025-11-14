@@ -740,6 +740,7 @@ nav ul .page-item.active .page-link{
 .sua {
   display: inline-block;
 }
+<<<<<<< HEAD
 
 
 
@@ -1172,6 +1173,8 @@ main {
   box-sizing: border-box;
 }
 
+=======
+>>>>>>> fdbf426 ( menu header + ntc ch xg)
 /* ==== ADMIN MODERN UI (Ticketbox-like) ==== */
 .layout {
   display: grid; /* ghi đè rule main { display:flex } */
@@ -1230,6 +1233,7 @@ main {
   border-radius: 10px;
   transition: background 0.2s ease, color 0.2s ease;
 }
+<<<<<<< HEAD
 .sidebar .nav-item:hover {
   background: #122349;
 }
@@ -1242,6 +1246,44 @@ main {
   margin-top: 14px;
   padding-top: 12px;
   border-top: 1px solid #243a72;
+=======
+.sidebar .nav-item:hover { background: #122349; }
+.sidebar .nav-item.active { background: #1c2d5c; color: #fff; }
+
+.content { align-self: start; }
+.header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px; flex-wrap: wrap; }
+.title { color:#fff; font-size:22px; font-weight:800; margin:0; }
+.actions { display:flex; align-items:center; gap:10px; flex-wrap: wrap; flex: 1 1 420px; }
+
+.searchbar { display:flex; align-items:center; gap:8px; background:#0b1736; border:1px solid #243a72; color:#cfe6ff; padding:8px 30px; border-radius:999px; min-width: 260px; flex: 1 1 260px; }
+.searchbar i { color:#8fb7ff; }
+.searchbar input { background:transparent; border:none; outline:none; color:#e8f3ff; min-width: 160px; width: 100%; }
+.btn-search { background:#1c2d5c; color:#fff; border:none; padding:8px 12px; border-radius:999px; font-weight:700; cursor:pointer; }
+.btn-search:hover { background:#3155a5; }
+
+.btn-create { display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#2ee9a8; color:#061126; padding:10px 14px; border-radius:999px; font-weight:800; }
+.btn-create:hover { background:#1fd095; }
+
+.tabs { display:flex; gap:8px; margin: 8px 0 16px; flex-wrap: wrap; flex-basis: 100%; }
+.tabs .tab { background:#0b1736; color:#b9c9ff; border:1px solid #243a72; border-radius:999px; padding:8px 12px; cursor:pointer; font-weight:700; }
+.tabs .tab.active { background:#2ee9a8; color:#041225; border-color:transparent; }
+
+.panel { background:#ffffff; border-radius:14px; padding:20px; min-height: 60vh; box-shadow: 0 10px 30px rgba(9, 28, 84, 0.35); }
+.panel h2 { color:#061437; text-shadow:none; padding:0; margin:0 0 8px 0; }
+.panel p { color:#22345f; }
+
+@media (max-width: 992px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .searchbar { min-width: unset; width: 100%; }
+}
+
+
+
+/* ===== Font unification (match site style) ===== */
+body, html {
+  font-family: 'Nunito', 'Open Sans', sans-serif;
+>>>>>>> fdbf426 ( menu header + ntc ch xg)
 }
 .user .user-email {
   display: flex;

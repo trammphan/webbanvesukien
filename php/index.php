@@ -20,7 +20,7 @@ function getMinPrice($conn, $MaSK) {
 function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_func, $section_id = '') { 
     $result_events = $conn->query($sql_query);
     ?>
-    <section class="event-section <?php echo strtolower(str_replace(' ', '-', $title)); ?>" <?php echo !empty($section_id) ? "id=\"$section_id\"" : ""; ?>>
+    <section class="event-section" <?php echo !empty($section_id) ? "id=\"$section_id\"" : ""; ?>>
         <h2 class="section-title"><i class="<?php echo $icon_class; ?>"></i> <?php echo $title; ?></h2>
         
         <div class="event-carousel">

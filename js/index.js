@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
     sections.forEach((section) => {
         const carousel = section.querySelector('.event-carousel');
         if (!carousel) return;
+
+        // Không tạo nút điều hướng cho khu vực kết quả tìm kiếm
+        if (section.id === 'search-results-top') return;
+
         if (section.querySelector('.slider-nav')) return;
         const nav = document.createElement('div');
         nav.className = 'slider-nav';

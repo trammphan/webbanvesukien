@@ -141,3 +141,65 @@ footer {
         text-align: center;
     }
 }
+/* MOBILE NHỎ: tối ưu footer cho màn hình điện thoại */
+@media (max-width: 576px) {
+    footer {
+        padding: 30px 0 10px;
+    }
+
+    .footer-container {
+        gap: 24px;
+        padding: 0 10px;
+    }
+
+    .footer-logo {
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+
+    .footer-branding p {
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        padding: 0 4px;
+    }
+
+    .footer-col h4 {
+        font-size: 15px;
+        margin-bottom: 14px;
+    }
+
+    .footer-links li,
+    .footer-contact li {
+        margin-bottom: 6px;
+    }
+
+    .footer-links a,
+    .footer-contact span {
+        font-size: 12px;
+    }
+
+    .footer-contact i {
+        font-size: 14px;
+        margin-right: 6px;
+    }
+
+    .social-links a {
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .btn-download {
+        padding: 8px 18px;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .footer-bottom {
+        padding-top: 10px;
+    }
+
+    .footer-bottom p {
+        font-size: 11px;
+    }
+}

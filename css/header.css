@@ -63,6 +63,51 @@
     align-items: center;
     gap: 30px;
 }
+.menu-toggle i{
+    font-size: 20px;
+}
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    color: #fff;
+    margin-left: 15px;
+}
+
+.menu-toggle .material-symbols-rounded {
+    font-size: 32px;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 0;
+    left: 0;
+  background: linear-gradient(135deg, #0f2027, #060259, #290352);
+      padding: 10px 20px 20px;
+    z-index: 999;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-menu li {
+    margin-bottom: 10px;
+}
+
+.mobile-menu a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.mobile-menu.open {
+    display: block;
+}
 
 .header-nav ul {
     list-style: none;
@@ -115,7 +160,7 @@
 
 
 /* RESPONSIVE STYLES (HEADER/BANNER) */
-@media (max-width: 992px) {
+@media (max-width: 922px) {
     .header-search,
     .header-right {
         display: none;

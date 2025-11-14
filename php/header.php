@@ -39,6 +39,10 @@
                     </button>
                 </form>
             </div>
+
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
             
             <div class="header-right">
                 <nav class="header-nav">
@@ -65,9 +69,37 @@
                 </div>
             </div>
         </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#taosukien" onclick="toggleMobileMenu()">Tạo sự kiện</a></li>
+                <li><a href="<?php echo $ticket_link; ?>" onclick="toggleMobileMenu()">Vé của tôi</a></li>
+                <?php if (is_logged_in()): ?>
+                    <li><a href="<?php echo $profile_link; ?>" onclick="toggleMobileMenu()">Tài khoản</a></li>
+                <?php else: ?>
+                    <li><a href="dangnhap.php" onclick="toggleMobileMenu()">Đăng nhập</a></li>
+                    <li><a href="dangky.php" onclick="toggleMobileMenu()">Đăng ký</a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </header>
-    <script src="../js/search-autocomplete.js"></script>
-    <script>
+<script src="../js/search-autocomplete.js"></script>
+<script>
+    function toggleMobileMenu() {
+        var menu = document.getElementById('mobileMenu');
+        if (menu) {
+            menu.classList.toggle('open');
+        }
+    }
+
+    // Ẩn menu mobile khi quay lại màn hình lớn
+    window.addEventListener('resize', function () {
+        var menu = document.getElementById('mobileMenu');
+        if (window.innerWidth > 922 && menu && menu.classList.contains('open')) {
+            menu.classList.remove('open');
+        }
+    });
+</script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
     // 1. Tìm liên kết "Vé của tôi"
     var myTicketLink = document.getElementById("ticket-link");

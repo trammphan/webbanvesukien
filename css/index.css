@@ -270,6 +270,26 @@ button{
     position: relative; */
 }
 
+/* Kết quả tìm kiếm: cho xổ hết các sự kiện, không cần kéo ngang */
+#search-results-top .event-carousel {
+    flex-wrap: wrap;
+    overflow-x: visible;
+}
+
+/* Kết quả tìm kiếm: 4 card mỗi hàng trên màn hình lớn */
+#search-results-top .event-card {
+    flex: 0 0 calc(25% - 15px);
+    width: calc(25% - 15px);
+}
+
+@media (max-width: 992px) {
+    /* Trên màn nhỏ, cho 2 card mỗi hàng để không quá chật */
+    #search-results-top .event-card {
+        flex: 0 0 calc(50% - 15px);
+        width: calc(50% - 15px);
+    }
+}
+
 .event-carousel::-webkit-scrollbar {
     display: none;
 }
@@ -395,17 +415,106 @@ button{
 }
 
 @media (max-width: 992px) {
-    .category-list {
-        justify-content: initial;
+    *{
+        font-size: 80%;
+    }
+    .hero-banner {
+        padding: 24px 12px 20px;
+        min-height: 250px;
+        margin-top: 6px;
+    }
+
+    .banner-logo {
+        max-width: 90px;
+        margin-bottom: 10px;
+    }
+
+    .banner-logo-text {
+        font-size: 26px;
+    }
+
+    .banner-title {
+        font-size: 30px;
+        line-height: 1.25;
+    }
+
+    .banner-subtitle {
+        font-size: 12px;
+        margin-bottom: 14px;
+        max-width: 90%;
+    }
+
+    .btn-banner {
+        max-width: 200px;
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+
+    .event-card {
+        flex: 0 0 190px;
+        width: 190px;
+    }
+
+    /* Giữ kích thước icon tài khoản trong header trên mobile */
+    .header-actions .btn-signin i {
+        font-size: 20px; /* hoặc kích thước bạn thấy đẹp hơn */
     }
 }
-@media (max-width: 768px) {
-    .btn-banner {
-        width: 100%;
-        max-width: 300px;
+
+/* Mobile rất nhỏ: làm chữ và card gọn hơn */
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 8px;
     }
-    .banner-actions {
-        flex-direction: column;
-        gap: 15px;
+
+    .event-section {
+        margin: 6px 5px;
+        padding: 0 2px;
+    }
+
+    /* Card trong các section bình thường (không áp dụng cho search results đã custom riêng) */
+    .event-section:not(#search-results-top) .event-card {
+        flex: 0 0 55%;
+        width: 55%;
+    }
+
+    .event-section:not(#search-results-top) .card-image-wrapper {
+        height: 130px;
+    }
+
+    .event-section:not(#search-results-top) .card-info {
+        padding: 10px 12px;
+    }
+
+    .event-card {
+        margin-bottom: 0px;
+    }
+    .event-name {
+        font-size: 13px;
+        line-height: 20px;
+        height: 60px;
+    }
+
+    .event-date {
+        font-size: 11px;
+    }
+
+    .event-price,
+    .price-value {
+        font-size: 13px;
+    }
+
+    /* Thu nhỏ slider trên mobile */
+    .slider {
+        height: 160px;
+    }
+    .slider::before,
+    .slider::after {
+        height: 160px;
+    }
+    .slider .slide img {
+        height: 160px;
+        object-fit: cover;
     }
 }

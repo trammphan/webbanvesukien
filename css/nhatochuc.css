@@ -1,0 +1,597 @@
+/* ==== LAYOUT NHÀ TỔ CHỨC ==== */
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  padding: 40px;
+  align-items: stretch;
+  margin-top: 70px;
+  min-height: calc(100vh - 140px);
+}
+
+.sidebar {
+  position: sticky;
+  top: 90px;
+  align-self: stretch;
+  background: rgba(7, 16, 36, 0.95);
+  border-radius: 16px;
+  padding: 20px 16px;
+  color: #e8fffd;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  min-height: inherit;
+  height: 100%;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  background: #2773e7;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #2ee9a8;
+}
+.brand-text {
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sidebar .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #e8fffd;
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: background .2s ease, color .2s ease;
+}
+.sidebar .nav-item:hover {
+  background: #122349;
+}
+.sidebar .nav-item.active {
+  background: #1c2d5c;
+  color: #fff;
+}
+
+.email_ntc {
+  padding-left: 10px;
+  margin-top: 20px;
+  color: rgb(136, 202, 255);
+  font-size: 100%;
+}
+
+/* ===== NỘI DUNG CHÍNH ===== */
+
+.noidung {
+  flex: 1;
+  background: rgba(7, 16, 36, 0.95);
+  color: #e8fffd;
+  padding: 30px;
+  margin: 0;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(10, 29, 103, 0.35);
+  min-height: inherit;
+  overflow-y: visible;
+  height: 100%;
+  align-self: stretch;
+}
+
+.noidung.nhatochuc {
+  background: rgba(7, 16, 36, 0.95);
+  color: #d9e0ef;
+}
+
+.noidung-title {
+  text-align: left;
+  font-size: 26px;
+  color: #ffffff;
+  text-shadow: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+/* Header trong QUẢN LÝ SỰ KIỆN */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1 1 420px;
+}
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0b1736;
+  border: 1px solid #243a72;
+  color: #cfe6ff;
+  padding: 8px 30px;
+  border-radius: 999px;
+  min-width: 260px;
+  flex: 1 1 260px;
+}
+.searchbar i {
+  color: #8fb7ff;
+}
+.searchbar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8f3ff;
+  min-width: 160px;
+  width: 100%;
+}
+.btn-search {
+  background: #1c2d5c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-search:hover {
+  background: #3155a5;
+}
+
+/* Nút Tạo sự kiện trong header quản lý */
+
+.btn-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  background: #2ee9a8;
+  color: #061126;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+.btn-create:hover {
+  background: #1fd095;
+}
+
+/* Tabs Sắp tới / Đã qua */
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 16px;
+  flex-wrap: wrap;
+}
+.tabs .tab {
+  background: #0b1736;
+  color: #b9c9ff;
+  border: 1px solid #243a72;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.tabs .tab.active {
+  background: #2ee9a8;
+  color: #041225;
+  border-color: transparent;
+}
+
+/* Danh sách sự kiện */
+
+.qly-events {
+  margin-top: 16px;
+}
+.qly-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.qly-card {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(5, 12, 30, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.qly-card-thumb {
+  width: 90px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.qly-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.qly-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+.qly-card-title {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.qly-card-meta {
+  color: #9fb4ff;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.qly-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-qly,
+.btn-scan {
+  flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-qly,
+.btn-scan {
+  background: #00c46a;
+  color: #041225;
+}
+.btn-qly:hover,
+.btn-scan:hover {
+  background: #00e07b;
+}
+
+/* === Panel Doanh thu === */
+
+.revenue-panel {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: radial-gradient(circle at top left, #102447, #050c1f);
+  box-shadow: 0 10px 30px rgba(9, 28, 84, 0.45);
+  color: #e8fffd;
+}
+.revenue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.revenue-title {
+  margin: 0;
+  font-size: 18px;
+}
+.revenue-close {
+  border: none;
+  background: transparent;
+  color: #9fb4ff;
+  font-size: 22px;
+  cursor: pointer;
+}
+.revenue-event {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #9fb4ff;
+}
+.revenue-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(11, 23, 55, 0.9);
+  margin-bottom: 12px;
+}
+.revenue-summary .label {
+  font-size: 14px;
+  color: #c5d6ff;
+}
+.revenue-summary .value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2ee9a8;
+}
+.revenue-subtitle {
+  font-size: 14px;
+  margin: 8px 0;
+}
+.revenue-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.revenue-table th,
+.revenue-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1b2c56;
+}
+.revenue-table th {
+  text-align: left;
+  color: #c5d6ff;
+  font-weight: 600;
+}
+.revenue-table td {
+  color: #e4f0ff;
+}
+
+/* === Panel Đơn hàng === */
+
+.orders-panel {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: radial-gradient(circle at top left, #102447, #050c1f);
+  box-shadow: 0 10px 30px rgba(9, 28, 84, 0.45);
+  color: #e8fffd;
+}
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.orders-title {
+  margin: 0;
+  font-size: 18px;
+}
+.orders-close {
+  border: none;
+  background: transparent;
+  color: #9fb4ff;
+  font-size: 22px;
+  cursor: pointer;
+}
+.orders-event {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #9fb4ff;
+}
+.orders-count {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #c5d6ff;
+}
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.order-card {
+  background: rgba(6, 13, 34, 0.95);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.order-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.order-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+.order-code {
+  font-size: 12px;
+  color: #9fb4ff;
+}
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: #cfd7ff;
+}
+
+@media (max-width: 768px) {
+  .revenue-panel,
+  .orders-panel {
+    padding: 12px;
+  }
+  .revenue-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .order-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.report-table-wrapper {
+    margin-top: 20px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.qly-events {
+  margin-top: 16px;
+}
+.qly-subtitle {
+  color: #e8fffd;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.qly-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.qly-card {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(5, 12, 30, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.qly-card-thumb {
+  width: 90px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.qly-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.qly-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+.qly-card-title {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.qly-card-meta {
+  color: #9fb4ff;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.qly-card-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-qly,
+.btn-scan {
+  flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-qly {
+  background: #00c46a;
+  color: #041225;
+}
+.btn-scan {
+  background: #00c46a;
+  color: #041225;
+}
+.btn-qly:hover,
+.btn-scan:hover {
+  background: #00e07b;
+}
+
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-size: 14px;
+}
+.report-table thead tr {
+    background: #2c2f36;
+}
+.report-table th,
+.report-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1b1e24;
+    text-align: left;
+}
+.report-table th {
+    font-weight: 600;
+}
+.report-table .empty-row td {
+    padding: 40px 12px;
+    background: #111;
+}
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #777;
+}
+.empty-state .empty-icon {
+    font-size: 32px;
+}
+.empty-state .empty-text {
+    font-size: 14px;
+}
+
+/* Ẩn/hiện chung */
+.hidden {
+  display: none;
+}
+
+/* ==== RESPONSIVE NHÀ TỔ CHỨC ==== */
+
+@media (max-width: 992px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .sidebar {
+    position: static;
+  }
+  .searchbar {
+    min-width: unset;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .layout {
+    padding: 16px 10px;
+  }
+  .noidung {
+    padding: 20px;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .btn-create {
+    align-self: flex-start;
+    width: 100%;
+    justify-content: center;
+  }
+  .qly-card {
+    flex-direction: row;
+  }
+}
