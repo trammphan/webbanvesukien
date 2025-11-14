@@ -1,5 +1,7 @@
 body {
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
+  cursor: default;
+  user-select: none;
 }
 
 .main-content-area {
@@ -266,11 +268,13 @@ body {
   }
 
   .order-header h2 {
-    font-size: 1.1em; /* Giảm cỡ chữ tiêu đề đơn hàng */
+    font-size: 1em; /* Giảm cỡ chữ tiêu đề đơn hàng */
   }
-
+  .order-header h3 {
+    font-size: 1em; /* Giảm cỡ chữ tiêu đề đơn hàng */
+  }
   .order-header .status {
-    font-size: 0.8em; /* Giảm cỡ chữ status */
+    font-size: 0.5em; /* Giảm cỡ chữ status */
     padding: 5px 10px;
   }
 
@@ -279,7 +283,7 @@ body {
   }
 
   .order-body p {
-    font-size: 0.9em; /* Giảm cỡ chữ nội dung */
+    font-size: 0.7em; /* Giảm cỡ chữ nội dung */
     line-height: 1.5;
   }
 

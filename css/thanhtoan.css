@@ -29,6 +29,8 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 20px;
+  cursor: default;
+  user-select: none;
 }
 
 .container {
