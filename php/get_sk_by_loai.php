@@ -30,7 +30,7 @@ $conn->set_charset("utf8mb4");
 
 // 3. Chuẩn bị truy vấn SQL an toàn (Prepared Statement)
 // Giả định trường liên kết giữa loaisk và sukien là MaLSK
-$sql = "SELECT MaSK, TenSK, TGian, luot_truycap, luot_timkiem 
+$sql = "SELECT MaSK, TenSK, TGian, luot_truycap
         FROM sukien 
         WHERE MaLSK = ? 
         ORDER BY TGian DESC";
@@ -59,7 +59,6 @@ if ($result->num_rows > 0) {
                     <th class="tieudeqlve">Tên Sự Kiện</th>
                     <th class="tieudeqlve">Thời Gian</th>
                     <th class="tieudeqlve">Lượt Truy Cập</th>
-                    <th class="tieudeqlve">Lượt Tìm Kiếm</th>
                 </tr>
             </thead>
             <tbody>';
@@ -73,7 +72,6 @@ if ($result->num_rows > 0) {
                                 <td class="ndsk">' . htmlspecialchars($row['TenSK']) . '</td>
                                 <td class="ndsk">' . $formatted_time . '</td>
                                 <td class="ndsk">' . number_format($row['luot_truycap'] ?? 0) . '</td>
-                                <td class="ndsk">' . number_format($row['luot_timkiem'] ?? 0) . '</td>
                             </tr>';
                 }
                 

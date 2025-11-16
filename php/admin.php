@@ -1,3 +1,4 @@
+ <!-- xóa lượt tìm kiếm của các bảng thống kê -->
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -93,6 +94,7 @@ if (isset($_COOKIE['email'])) {
             return 0;
         }
     }
+    // thông tin tài khoản
     if ($is_logged_in) {
         // // Lấy thông tin người dùng an toàn hơn (Prepared Statement)
          $sql = "SELECT user_name, email FROM quantrivien WHERE email = ?";
@@ -113,6 +115,7 @@ if (isset($_COOKIE['email'])) {
         $stmt->close();
     }
     // D. THỰC HIỆN TRUY VẤN THỐNG KÊ VÉ CHỈ KHI ĐÃ ĐĂNG NHẬP VÀ KẾT NỐI TỐT
+    // thông tin vé đã bán
     if ($is_logged_in) {
         // Lấy TỔNG SỐ DÒNG (COUNT)
         $sql_count = "
@@ -141,7 +144,7 @@ if (isset($_COOKIE['email'])) {
 
         $result_thong_ke_ve = $conn->query($sql_thong_ke_ve);
     }
-
+    // thống kê sự kiện
     if ($is_logged_in) {
         // 1. Lấy TỔNG SỐ DÒNG (COUNT) cho Sự kiện (Đã thêm điều kiện tìm kiếm)
         $sql_count_sk = "SELECT COUNT(MaSK) AS total_items FROM sukien" . $search_condition;
@@ -163,7 +166,6 @@ if (isset($_COOKIE['email'])) {
                 MaSK, 
                 TenSK, 
                 TGian, 
-                luot_timkiem,
                 luot_truycap 
             FROM sukien " 
         . $search_condition . 
@@ -173,8 +175,8 @@ if (isset($_COOKIE['email'])) {
 
         $result_sukien = $conn->query($sql_sukien);
     }
-
-    if ($is_logged_in && $conn && !$conn->connect_error) {
+    // thống kê loại sự kiện
+     if ($is_logged_in && $conn && !$conn->connect_error) {
         // 1. Lấy TỔNG SỐ DÒNG (COUNT)
         // COUNT DISTINCT (MaloaiSK) vì mỗi loại sự kiện là một dòng
         $sql_count_lsk = "SELECT COUNT(DISTINCT t1.MaloaiSK) AS total_items 
@@ -210,7 +212,7 @@ if (isset($_COOKIE['email'])) {
 
         $result_thong_ke_loai_sk = $conn->query($sql_thong_ke_loai_sk);
     }
-    
+    //thống kê số lượng tài khoản
     if ($is_logged_in) {
         // ... (Giữ nguyên phần thống kê Tổng Tài Khoản)
         $tong_khach_hang_tk = get_statistic_value($conn, "SELECT COUNT(email) FROM khachhang");
@@ -218,6 +220,7 @@ if (isset($_COOKIE['email'])) {
         $tong_nha_to_chuc = get_statistic_value($conn, "SELECT COUNT(email) FROM nhatochuc");
         $tong_tai_khoan_3_bang = $tong_khach_hang_tk + $tong_nhan_vien + $tong_nha_to_chuc;
     }
+    //Thống kê doanh thu
     if ($is_logged_in) {   
         // --- LOGIC TRUY VẤN THỐNG KÊ DOANH SỐ (THONGKE-SECTION) ---
         
@@ -261,6 +264,8 @@ if (isset($_COOKIE['email'])) {
                 ve v ON lv.MaLoai = v.MaLoai
             LEFT JOIN
                 thanhtoan tt ON v.MaTT = tt.MaTT
+                WHERE
+            v.TrangThai = 'đã bán'  
             GROUP BY
                 sk.MaSK, sk.TenSK
             ORDER BY
@@ -373,7 +378,6 @@ require_once 'header.php';
                                 <th class="tieudeqlve">Tên Sự Kiện</th>
                                 <th class="tieudeqlve">Thời Gian Bắt Đầu</th>
                                 <th class="tieudeqlve">Lượt Truy Cập</th>
-                                <th class="tieudeqlve">Lượt tìm kiếm</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -387,9 +391,6 @@ require_once 'header.php';
                                             $timestamp = strtotime($row['TGian']);
                                             echo date('d/m/Y H:i', $timestamp); 
                                         ?>
-                                    </td>
-                                    <td class="ndsk">
-                                        <b><?php echo number_format($row['luot_timkiem'] ?? 0); ?></b>
                                     </td>
                                     <td class="ndsk">
                                         <b><?php echo number_format($row['luot_truycap'] ?? 0); ?></b>
@@ -654,29 +655,29 @@ require_once 'header.php';
                 <?php endwhile; ?>
             </tbody>
         </table>
-    <?php else: ?>
-        <p class="alert alert-info">Không có dữ liệu thống kê sự kiện nào.</p>
-    <?php endif; ?>
-    
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <?php if ($total_pages_doanhso > 1): ?>
-                <li class="page-item <?php echo ($current_page_doanhso <= 1) ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso - 1; ?>#thongke-section">Trước</a>
-                </li>
-
-                <?php for ($i = 1; $i <= $total_pages_doanhso; $i++): ?>
-                    <li class="page-item <?php echo ($i == $current_page_doanhso) ? 'active' : ''; ?>">
-                         <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $i; ?>#thongke-section"><?php echo $i; ?></a>
+        <?php else: ?>
+            <p class="alert alert-info">Không có dữ liệu thống kê sự kiện nào.</p>
+        <?php endif; ?>
+        
+        <?php if ($total_pages_doanhso > 1): ?>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <?php echo ($current_page_doanhso <= 1) ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso - 1; ?>#thongke-section">Trước</a>
                     </li>
-                <?php endfor; ?>
 
-                <li class="page-item <?php echo ($current_page_doanhso >= $total_pages_doanhso) ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso + 1; ?>#thongke-section">Sau</a>
-                </li>
-            <?php endif; ?>
-        </ul>
-    </nav>
+                    <?php for ($i = 1; $i <= $total_pages_doanhso; $i++): ?>
+                        <li class="page-item <?php echo ($i == $current_page_doanhso) ? 'active' : ''; ?>">
+                            <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $i; ?>#thongke-section"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <li class="page-item <?php echo ($current_page_doanhso >= $total_pages_doanhso) ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso + 1; ?>#thongke-section">Sau</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </article>
 
 

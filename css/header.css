@@ -203,6 +203,9 @@
         flex-direction: column;
         gap: 15px;
     }
+}
+
+.search-suggest {
     background: #ffffff;
     color: #333333;
     border: 1px solid #e0e0e0;
@@ -214,6 +217,8 @@
     max-height: 280px;
     overflow-y: auto;
     z-index: 1100;
+    position: absolute;
+    width: 100%;
 }
 
 .search-suggest-item {
