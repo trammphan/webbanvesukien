@@ -106,7 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Kiểm tra xem có đủ vé không
         if (count($ve_ids) < $soLuong) {
-            throw new Exception("Lỗi: Không đủ vé. Số vé còn lại đã thay đổi. Vui lòng thử lại.");
+            // --- [BỔ SUNG] SỬA LỖI: Thay Exception thường bằng mã "SOLD_OUT" ---
+            throw new Exception("SOLD_OUT"); 
+            // --- KẾT THÚC BỔ SUNG ---
         }
 
         // --- BƯỚC 2: INSERT VÀO BẢNG THANHTOAN (ĐÃ SỬA) ---
@@ -186,9 +188,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: cam_on.php");
         exit;
 
-    } catch (Exception $e) {
+    }  catch (Exception $e) {
         // *** XỬ LÝ LỖI ***
         $conn->rollback();
+
+        // --- [BỔ SUNG] XỬ LÝ LỖI HẾT VÉ VÀ CHUYỂN HƯỚNG ---
+        if ($e->getMessage() === 'SOLD_OUT') {
+            // Chuyển hướng lại trang thanh toán (hoặc trang sự kiện) kèm tham số lỗi sold_out
+            $redirectUrl = "thanhtoan.php?MaSK=" . urlencode($maSK) . "&zone=" . urlencode($maLV) . "&qty=" . urlencode($soLuong) . "&error=sold_out";
+            header("Location: " . $redirectUrl);
+            exit;
+        }
+        // --- KẾT THÚC BỔ SUNG ---
+
         echo "Đã xảy ra lỗi giao dịch: " . $e->getMessage();
     
     } finally {

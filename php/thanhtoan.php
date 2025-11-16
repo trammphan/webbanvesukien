@@ -1,15 +1,32 @@
 <?php
 // --- PHẦN 1: LOGIC PHP (XỬ LÝ PHÍA SERVER) ---
 session_start();
+// --- BỔ SUNG MỚI: LOGIC GIỚI HẠN THỜI GIAN (10 PHÚT) ---
+$limit_minutes = 10;
+$limit_seconds = $limit_minutes * 60;
 
+// Nếu chưa có mốc thời gian bắt đầu trong session, tạo mới
+if (!isset($_SESSION['payment_start_time'])) {
+    $_SESSION['payment_start_time'] = time();
+}
+
+// Tính thời gian đã trôi qua và thời gian còn lại
+$elapsed_time = time() - $_SESSION['payment_start_time'];
+$remaining_time = $limit_seconds - $elapsed_time;
+
+// Nếu hết giờ (thời gian còn lại <= 0)
+if ($remaining_time <= 0) {
+    unset($_SESSION['payment_start_time']);
+    echo "<script>
+            alert('Đã hết thời gian giữ vé (15 phút). Vui lòng thực hiện lại quy trình đặt vé.');
+            window.location.href = 'index.php'; // Chuyển về trang chủ
+          </script>";
+    exit; 
+}
+// --- KẾT THÚC BỔ SUNG ---
 // --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP ĐỂ VÀO TRANG ---
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
-    
-    // Nếu chưa đăng nhập, lưu lại trang đang định vào
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
-    
-    // Chuyển hướng họ đến trang đăng nhập
-    // File xuly_dangnhap.php của bạn đã hỗ trợ 'redirect' nên sẽ hoạt động
     header("Location: dangnhap.php?redirect=" . $redirect_url);
     exit; // Dừng chạy code
 }
@@ -68,7 +85,7 @@ if ($ticket_result->num_rows > 0) {
     $base_price = (int)$ticket_info['Gia']; // LẤY GIÁ TỪ CSDL
     $stmt_ticket->close(); // Đóng câu lệnh đầu tiên
 
-    // --- TRUY VẤN MỚI ĐỂ ĐẾM SỐ VÉ CÒN LẠI (maTT IS NULL) ---
+    // --- TRUY VẤN SỐ LƯỢNG VÉ CÒN LẠI ---
     $stmt_count = $conn->prepare("SELECT COUNT(MaVe) AS SoLuongConLai 
                                     FROM ve 
                                     WHERE MaLoai = ? AND maTT IS NULL");
@@ -127,17 +144,34 @@ function format_currency_simple($amount) {
       rel="stylesheet"
     />
 <script>
- // *** CẦU NỐI QUAN TRỌNG: PHP -> JAVASCRIPT ***
-const TICKET_BASE_PRICE = <?php echo $base_price; ?>;
+ const TICKET_BASE_PRICE = <?php echo $base_price; ?>;
+ const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
 
-// --- DÒNG NÀY BÂY GIỜ ĐÃ CHẠY ĐÚNG (vì $so_luong_con_lai đã được gán giá trị) ---
-const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
+ // --- [BỔ SUNG QUAN TRỌNG] KIỂM TRA LỖI HẾT VÉ TỪ URL ---
+ // Đây là phần xử lý logic khi người dùng bị "bật" lại từ xuly_thanhtoan.php
+ window.addEventListener('DOMContentLoaded', (event) => {
+     // Lấy các tham số trên thanh địa chỉ (URL)
+     const urlParams = new URLSearchParams(window.location.search);
+     
+     // Kiểm tra nếu có tham số "error" và giá trị là "sold_out"
+     if (urlParams.get('error') === 'sold_out') {
+         // Hiện thông báo xin lỗi
+         alert('Rất tiếc! Trong lúc bạn đang thực hiện thanh toán, vé này đã được người khác nhanh tay mua hết.\n\nHệ thống sẽ đưa bạn về trang chủ để chọn vé hoặc sự kiện khác.');
+         
+         // Chuyển hướng về trang chủ (hoặc trang danh sách sự kiện)
+         window.location.href = 'index.php'; 
+     }
+ });
 </script>
   </head>
   <body>
     <div class="container">
       <div class="checkout-panel">
         <div class="order-summary">
+          <!-- BỔ SUNG: HIỂN THỊ ĐỒNG HỒ -->
+<div class="timer-bar" style="background-color: #fff3cd; color: #856404; padding: 10px; text-align: center; border-radius: 5px; margin-bottom: 20px;">
+    Thời gian hoàn tất thanh toán: <span id="countdown-display" style="font-weight: bold;">--:--</span>
+</div>
           <h2>ĐƠN HÀNG CỦA BẠN</h2>
           <div class="ticket-info">
             
@@ -296,7 +330,41 @@ const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
     </div>
     
     <script src="../js/thanhtoan.js"></script>
-    
+    <script>// --- BỔ SUNG: SCRIPT ĐẾM NGƯỢC THỜI GIAN ---
+let timeRemaining = <?php echo $remaining_time; ?>; // Lấy từ PHP
+
+function startTimer() {
+    const timerDisplay = document.getElementById('countdown-display');
+    const countdown = setInterval(() => {
+        let minutes = Math.floor(timeRemaining / 60);
+        let seconds = timeRemaining % 60;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        if (timerDisplay) {
+             timerDisplay.textContent = minutes + ":" + seconds;
+             if (timeRemaining < 120) { // Dưới 2 phút thì đổi màu đỏ
+                 timerDisplay.style.color = "#D9534F"; 
+                 timerDisplay.style.fontWeight = "bold";
+             }
+        }
+
+        // --- [CẬP NHẬT] XỬ LÝ KHI HẾT GIỜ ---
+        if (--timeRemaining < 0) {
+            clearInterval(countdown);
+            // Ta chỉ cần reload trang.
+            // Lý do: Đoạn PHP ở đầu file ('Nếu hết giờ') sẽ tự động bắt sự kiện này,
+            // hiện thông báo (alert) và chuyển hướng (window.location.href) về index.php.
+            // Cách này đảm bảo Session được xóa sạch trên Server.
+            window.location.reload(); 
+        }
+    }, 1000);
+}
+
+// Chạy timer khi tải trang (Thêm vào window.onload cũ hoặc tạo mới)
+window.onload = function() {
+    startTimer();
+};</script>
     
   </body>
 </html>
