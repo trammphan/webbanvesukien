@@ -174,6 +174,42 @@ if (isset($_COOKIE['email'])) {
         $result_sukien = $conn->query($sql_sukien);
     }
 
+     if ($is_logged_in && $conn && !$conn->connect_error) {
+        // 1. Lấy TỔNG SỐ DÒNG (COUNT)
+        // COUNT DISTINCT (MaloaiSK) vì mỗi loại sự kiện là một dòng
+        $sql_count_lsk = "SELECT COUNT(DISTINCT t1.MaloaiSK) AS total_items 
+                        FROM loaisk t1 JOIN sukien t2 ON t1.MaloaiSK = t2.MaLSK";
+        
+        $result_count_lsk = $conn->query($sql_count_lsk);
+        $total_items_lsk = $result_count_lsk ? $result_count_lsk->fetch_assoc()['total_items'] : 0;
+        
+        // Tính tổng số trang (sử dụng $items_per_page = 10)
+        $total_pages_lsk = ceil($total_items_lsk / $items_per_page);
+
+        // Tính toán OFFSET cho truy vấn loại sự kiện
+        $offset_lsk = ($current_page_lsk - 1) * $items_per_page;
+        if ($offset_lsk < 0) $offset_lsk = 0;
+        
+        // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
+        // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
+        $sql_thong_ke_loai_sk = "
+            SELECT
+                t1.MaloaiSK,
+                t1.TenLoaiSK,
+                COUNT(t2.MaSK) AS SoLuongSuKien
+            FROM
+                loaisk t1
+            JOIN
+                sukien t2 ON t1.MaloaiSK = t2.MaLSK
+            GROUP BY
+                t1.MaloaiSK, t1.TenLoaiSK /* Phải GROUP BY cả 2 trường */
+            ORDER BY
+                SoLuongSuKien DESC
+            LIMIT $items_per_page OFFSET $offset_lsk;
+        ";
+
+        $result_thong_ke_loai_sk = $conn->query($sql_thong_ke_loai_sk);
+    }
     if ($is_logged_in) {
         // ... (Giữ nguyên phần thống kê Tổng Tài Khoản)
         $tong_khach_hang_tk = get_statistic_value($conn, "SELECT COUNT(email) FROM khachhang");
@@ -623,9 +659,9 @@ require_once 'header.php';
         <p class="alert alert-info">Không có dữ liệu thống kê sự kiện nào.</p>
     <?php endif; ?>
     
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <?php if ($total_pages_doanhso > 1): ?>
+    <?php if ($total_pages_doanhso > 1): ?>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
                 <li class="page-item <?php echo ($current_page_doanhso <= 1) ? 'disabled' : ''; ?>">
                     <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso - 1; ?>#thongke-section">Trước</a>
                 </li>
@@ -639,9 +675,9 @@ require_once 'header.php';
                 <li class="page-item <?php echo ($current_page_doanhso >= $total_pages_doanhso) ? 'disabled' : ''; ?>">
                     <a class="page-link" href="admin.php?tab=thongke&trang_ds=<?php echo $current_page_doanhso + 1; ?>#thongke-section">Sau</a>
                 </li>
-            <?php endif; ?>
-        </ul>
-    </nav>
+            </ul>
+        </nav>
+    <?php endif; ?>
     </article>
 
 
