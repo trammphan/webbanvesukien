@@ -4,23 +4,86 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 20px;
-  padding: 40px;
+  padding: 20px;
   align-items: stretch;
   margin-top: 70px;
   min-height: calc(100vh - 140px);
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 992px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .sidebar {
+    position: relative;
+    top: 0;
+    margin-bottom: 15px;
+  }
+  
+  .noidung {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    padding: 10px;
+    margin-top: 60px;
+  }
+  
+  .noidung-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    padding: 8px;
+  }
+  
+  .noidung {
+    padding: 15px 10px;
+  }
+  
+  .noidung-title {
+    font-size: 20px;
+  }
 }
 
 .sidebar {
   position: sticky;
-  top: 90px;
-  align-self: stretch;
+  top: 80px;
+  align-self: flex-start;
   background: rgba(7, 16, 36, 0.95);
   border-radius: 16px;
   padding: 20px 16px;
   color: #e8fffd;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  min-height: inherit;
-  height: 100%;
+  min-height: calc(100vh - 180px);
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  width: 280px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    position: relative;
+    top: 0;
+    width: 100%;
+    min-height: auto;
+    max-height: none;
+    margin-bottom: 15px;
+  }
 }
 
 .brand {
@@ -80,14 +143,18 @@
   flex: 1;
   background: rgba(7, 16, 36, 0.95);
   color: #e8fffd;
-  padding: 30px;
+  padding: 25px;
   margin: 0;
-  border-radius: 30px;
+  border-radius: 16px;
   box-shadow: 0 10px 30px rgba(10, 29, 103, 0.35);
   min-height: inherit;
-  overflow-y: visible;
+  overflow-y: auto;
   height: 100%;
   align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .noidung.nhatochuc {
@@ -249,27 +316,99 @@
 }
 .qly-card-actions {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 6px;
+  gap: 10px;
+  margin-left: auto;
+  min-width: 200px;
+  justify-content: flex-end;
 }
 
-.qly-card-actions .btn-manage,
-.qly-card-actions .btn-update {
-  flex: 1;
-  display: flex;
+.btn-manage, 
+.btn-update {
+  background: #1a56db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  transition: all 0.2s ease;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
+  min-width: 80px;
+  min-width: 100px;
+  display: block;
+  text-decoration-line: none;
+}
+
+.btn-update {
   background: #00c46a;
   color: #041225;
-  white-space: nowrap;
-  text-decoration: none;
+}
+
+.btn-update:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.manage-menu {
+  display: none;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 8px 8px;
+  padding: 10px 15px;
+  margin: 10px -15px -15px -15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.manage-menu-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  max-width: 400px;
+  margin-left: auto;
+  color: white !important;
+}
+
+.manage-menu-buttons button {
+  color: white !important;
+  background: #2d3b5b;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.manage-menu-buttons button:hover {
+  background: #3a4a6e;
+  transform: translateY(-1px);
+}
+
+.manage-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+}
+
+.manage-menu button:hover {
+  background: #f3f4f6;
+  color: #1a56db;
+}
+
+.manage-menu:not(.hidden) {
+  display: block;
 }
 
 .qly-card-actions .manage-menu {

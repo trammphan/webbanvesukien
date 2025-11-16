@@ -5,12 +5,16 @@ $logged_in = false;
 $profile_link = '#';
 $user_name = 'Tài khoản';
 $user_role = 'guest';
+$show_ticket = true; // Mặc định hiển thị link vé
 
 // Kiểm tra xem các cookie cần thiết có tồn tại không
 if (isset($_COOKIE['email']) && isset($_COOKIE['user_name']) && isset($_COOKIE['user_role'])) {
     $logged_in = true;
     $user_name = htmlspecialchars($_COOKIE['user_name']);
     $user_role = $_COOKIE['user_role'];
+    
+    // Ẩn vé cho admin (quantrivien) và nhà tổ chức (nhatochuc)
+    $show_ticket = !in_array($user_role, ['quantrivien', 'nhatochuc']);
 
     // Ánh xạ vai trò (user_role) tới trang profile tương ứng
     switch ($user_role) {
@@ -30,6 +34,12 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['user_name']) && isset($_COOKIE['
     }
 }
 // Kết thúc logic
+
+// Hàm kiểm tra có hiển thị vé không
+function should_show_ticket() {
+    global $show_ticket;
+    return $show_ticket;
+}
 ?>
 <div class="header-actions">
     <?php if (is_logged_in()): ?>

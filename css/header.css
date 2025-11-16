@@ -39,14 +39,16 @@
     border: none;
     background: transparent;
     color: #fff;
-    padding: 5px;
+    padding: 5px 10px;
     outline: none;
     width: 250px;
     font-size: 14px;
+    transition: all 0.3s ease;
 }
 
-.header-search .search-input::placeholder {
-    color: #a0a6b5;
+.header-search .search-input:focus {
+    background: transparent;
+    color: #fff;
 }
 
 .header-search .search-button {
@@ -105,27 +107,26 @@
     font-weight: 500;
 }
 
-.mobile-menu.open {
-    display: block;
-}
-
 .header-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 
-.header-nav a {
-    text-decoration: none;
+#ticket-link {
     color: #fff;
+    text-decoration: none;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
+    white-space: nowrap;
     transition: color 0.3s;
+    margin-left: 10px;
 }
 
-.header-nav a:hover {
+#ticket-link:hover {
     color: #00e0ff;
 }
 
@@ -158,7 +159,6 @@
     text-decoration: none;
 }
 
-
 /* RESPONSIVE STYLES (HEADER/BANNER) */
 @media (max-width: 922px) {
     .header-search,
@@ -172,6 +172,7 @@
         justify-content: space-between;
     }
 }
+
 @media (max-width: 768px) {
     .hero-banner {
         padding: 60px 20px 40px;
@@ -204,33 +205,32 @@
     }
 }
 
-/* SEARCH AUTOCOMPLETE DROPDOWN */
-.header-search {
-    position: relative;
-}
 .search-suggest {
-    position: absolute;
-    top: 42px;
-    left: 0;
-    right: 0;
-    background: #1a2035;
-    color: #ecedf1;
-    border: 1px solid rgba(0,0,0,0.1);
+    background: #ffffff;
+    color: #333333;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     list-style: none;
     margin: 6px 0 0 0;
     padding: 6px 0;
     max-height: 280px;
     overflow-y: auto;
     z-index: 1100;
+    position: absolute;
+    width: 100%;
 }
+
 .search-suggest-item {
-    padding: 10px 12px;
+    padding: 10px 16px;
     cursor: pointer;
     font-size: 14px;
+    color: #333333;
+    transition: all 0.2s ease;
 }
 .search-suggest-item:hover,
 .search-suggest-item.active {
-    background: #f0f6ff;
+    background: #f5f5f5;
+    color: #000000;
+    font-weight: 500;
 }

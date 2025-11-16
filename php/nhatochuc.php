@@ -82,7 +82,7 @@ if ($view && $selected_mask) {
                     JOIN ve v ON v.MaLoai = lv.MaLoai
                     JOIN thanhtoan tt ON tt.MaTT = v.MaTT
                     WHERE s.MaSK = ?
-                      AND tt.TrangThai = 'Đã bán'
+                      AND (tt.TrangThai = 'Đã thanh toán' OR tt.TrangThai = 'Đã bán')
                     GROUP BY s.MaSK, s.TenSK, lv.MaLoai, lv.TenLoai";
         if ($stmt_rev = $conn_stats->prepare($sql_rev)) {
             $stmt_rev->bind_param('s', $selected_mask);
@@ -106,7 +106,7 @@ if ($view && $selected_mask) {
                         JOIN ve v ON v.MaLoai = lv.MaLoai
                         JOIN thanhtoan tt ON tt.MaTT = v.MaTT
                         WHERE s.MaSK = ?
-                          AND tt.TrangThai = 'Đã bán'";
+                          AND (tt.TrangThai = 'Đã thanh toán' OR tt.TrangThai = 'Đã bán')";
         if ($stmt_orders = $conn_stats->prepare($sql_orders)) {
             $stmt_orders->bind_param('s', $selected_mask);
             $stmt_orders->execute();
@@ -320,25 +320,29 @@ require_once 'header.php';
                                         <img src="<?= htmlspecialchars($event['img_sukien'] ?? '') ?>" alt="<?= htmlspecialchars($event['TenSK'] ?? '') ?>" />
                                     </div>
                                     <div class="qly-card-body">
-                                        <div class="qly-card-title"><?= htmlspecialchars($event['TenSK'] ?? '') ?></div>
-                                        <div class="qly-card-meta"><?= htmlspecialchars($time_str) ?><?= $location ? ' • ' . htmlspecialchars($location) : '' ?></div>
+                                        <div class="qly-card-info">
+                                            <div class="qly-card-title"><?= htmlspecialchars($event['TenSK'] ?? '') ?></div>
+                                            <div class="qly-card-meta"><?= htmlspecialchars($time_str) ?><?= $location ? ' • ' . htmlspecialchars($location) : '' ?></div>
+                                        </div>
                                         <div class="qly-card-actions">
-                                            <button type="button"
-                                                    class="btn-qly btn-manage">
-                                                Quản lý
-                                            </button>
-                                            <div class="manage-menu hidden">
-                                                <button type="button"
-                                                        class="btn-qly btn-revenue"
-                                                        data-event="<?= htmlspecialchars($event['TenSK'] ?? '') ?>">
-                                                    Doanh thu
+                                            <div class="actions-wrapper">
+                                                <button type="button" class="btn-manage">
+                                                    Quản lý
                                                 </button>
-                                                <button type="button" class="btn-qly btn-scan">Đơn hàng</button>
+                                                <a href="chitietsk_1.php?MaSK=<?= urlencode($event['MaSK'] ?? '') ?>" class="btn-update">
+                                                    Chỉnh sửa
+                                                </a>
                                             </div>
-                                            <a href="chitietsk_1.php?MaSK=<?= urlencode($event['MaSK'] ?? '') ?>"
-                                               class="btn-qly btn-update">
-                                                Chỉnh sửa
-                                            </a>
+                                            <div class="manage-menu hidden">
+                                                <div class="manage-menu-buttons">
+                                                    <button type="button" class="btn-revenue" data-event="<?= htmlspecialchars($event['TenSK'] ?? '') ?>">
+                                                        Doanh thu
+                                                    </button>
+                                                    <button type="button" class="btn-orders">
+                                                        Đơn hàng
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
