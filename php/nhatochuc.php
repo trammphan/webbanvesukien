@@ -40,6 +40,90 @@ if (isset($_COOKIE['email'])) {
     }
 }
 
+$events_upcoming = [];
+$events_past = [];
+
+$conn_list = new mysqli($servername, $username, $password, $dbname);
+if (!$conn_list->connect_error) {
+    $sql_upcoming = "SELECT s.*, d.TenTinh FROM sukien s LEFT JOIN diadiem d ON s.MaDD = d.MaDD WHERE s.Tgian >= NOW() ORDER BY s.Tgian ASC";
+    if ($result_upcoming = $conn_list->query($sql_upcoming)) {
+        while ($row = $result_upcoming->fetch_assoc()) {
+            $events_upcoming[] = $row;
+        }
+        $result_upcoming->free();
+    }
+
+    $sql_past = "SELECT s.*, d.TenTinh FROM sukien s LEFT JOIN diadiem d ON s.MaDD = d.MaDD WHERE s.Tgian < NOW() ORDER BY s.Tgian DESC";
+    if ($result_past = $conn_list->query($sql_past)) {
+        while ($row = $result_past->fetch_assoc()) {
+            $events_past[] = $row;
+        }
+        $result_past->free();
+    }
+
+    $conn_list->close();
+}
+
+$view = $_GET['view'] ?? null;
+$selected_mask = $_GET['mask'] ?? null;
+
+$revenue_total = 0;
+$revenue_rows = [];
+$orders = [];
+$stats_event_name = '';
+
+if ($view && $selected_mask) {
+    $conn_stats = new mysqli($servername, $username, $password, $dbname);
+    if (!$conn_stats->connect_error) {
+        // Doanh thu theo loại vé
+        $sql_rev = "SELECT s.TenSK, lv.TenLoai, COUNT(v.MaVe) AS so_luong, SUM(lv.Gia) AS doanh_thu
+                    FROM sukien s
+                    JOIN loaive lv ON lv.MaSK = s.MaSK
+                    JOIN ve v ON v.MaLoai = lv.MaLoai
+                    JOIN thanhtoan tt ON tt.MaTT = v.MaTT
+                    WHERE s.MaSK = ?
+                      AND tt.TrangThai = 'Đã thanh toán'
+                    GROUP BY s.MaSK, s.TenSK, lv.MaLoai, lv.TenLoai";
+        if ($stmt_rev = $conn_stats->prepare($sql_rev)) {
+            $stmt_rev->bind_param('s', $selected_mask);
+            $stmt_rev->execute();
+            $result_rev = $stmt_rev->get_result();
+            while ($row = $result_rev->fetch_assoc()) {
+                if ($stats_event_name === '' && !empty($row['TenSK'])) {
+                    $stats_event_name = $row['TenSK'];
+                }
+                $revenue_rows[] = $row;
+                $revenue_total += (float)($row['doanh_thu'] ?? 0);
+            }
+            $stmt_rev->close();
+        }
+
+        // Đơn hàng / vé đã bán
+        $sql_orders = "SELECT s.TenSK, v.MaVe, lv.TenLoai, lv.Gia, tt.MaTT, tt.TenNguoiThanhToan,
+                              tt.SDT, tt.Email_KH, tt.NgayTao, tt.TrangThai
+                        FROM sukien s
+                        JOIN loaive lv ON lv.MaSK = s.MaSK
+                        JOIN ve v ON v.MaLoai = lv.MaLoai
+                        JOIN thanhtoan tt ON tt.MaTT = v.MaTT
+                        WHERE s.MaSK = ?
+                          AND tt.TrangThai = 'Đã thanh toán'";
+        if ($stmt_orders = $conn_stats->prepare($sql_orders)) {
+            $stmt_orders->bind_param('s', $selected_mask);
+            $stmt_orders->execute();
+            $result_orders = $stmt_orders->get_result();
+            while ($row = $result_orders->fetch_assoc()) {
+                if ($stats_event_name === '' && !empty($row['TenSK'])) {
+                    $stats_event_name = $row['TenSK'];
+                }
+                $orders[] = $row;
+            }
+            $stmt_orders->close();
+        }
+
+        $conn_stats->close();
+    }
+}
+
 $page_title = 'Nhà tổ chức';
 $additional_css = ['webstyle.css', 'nhatochuc.css'];
 $additional_head = <<<HTML
@@ -59,21 +143,14 @@ require_once 'header.php';
                 <span class="brand-text">Nhà tổ chức</span>
         </div>
         <nav class="nav">
-        <button class="nav-item" id="btn-taosk">
-            <i class="fa-solid fa-calendar-plus"></i>
-            <span>Tạo sự kiện mới</span>
-        </button>
         <button class="nav-item" id="btn-qly">
             <i class="fa-solid fa-list-check"></i>
             <span>Quản lý sự kiện</span>
         </button>
+
         <button class="nav-item" id="btn-xembc">
             <i class="fa-solid fa-chart-line"></i>
             <span>Xem báo cáo</span>
-        </button>
-        <button class="nav-item" id="btn-capnhat">
-            <i class="fa-solid fa-user-pen"></i>
-            <span>Cập Nhật Thông Tin</span>
         </button>
           <?php if ($is_logged_in && $user_info): ?>
             <label class="email_ntc">
@@ -118,18 +195,22 @@ require_once 'header.php';
                     <span>Tạo sự kiện</span>
                 </a>
             </div>
-<div class="revenue-panel hidden" id="revenue-panel">
+<div class="revenue-panel <?= ($view === 'revenue' && $selected_mask) ? '' : 'hidden' ?>" id="revenue-panel">
   <div class="revenue-header">
     <h3 class="revenue-title">Doanh thu sự kiện</h3>
     <button type="button" class="revenue-close" id="revenue-close">&times;</button>
   </div>
 
-  <p class="revenue-event" id="revenue-event-name">Tên sự kiện</p>
+  <p class="revenue-event" id="revenue-event-name">
+    <?= htmlspecialchars($stats_event_name ?: 'Chọn một sự kiện để xem doanh thu') ?>
+  </p>
 
   <!-- Dòng 1: tổng doanh thu -->
   <div class="revenue-summary">
     <span class="label">Tổng doanh thu:</span>
-    <span class="value" id="revenue-total">500.000.000đ</span>
+    <span class="value" id="revenue-total">
+      <?= number_format($revenue_total, 0, ',', '.') ?>đ
+    </span>
   </div>
 
   <!-- Dòng 2: thống kê từng loại vé -->
@@ -143,54 +224,71 @@ require_once 'header.php';
       </tr>
     </thead>
     <tbody id="revenue-ticket-rows">
-      <tr>
-        <td>Vé VIP</td>
-        <td>200</td>
-        <td>300.000.000đ</td>
-      </tr>
-      <tr>
-        <td>Vé Thường</td>
-        <td>500</td>
-        <td>200.000.000đ</td>
-      </tr>
+      <?php if (!empty($revenue_rows)): ?>
+        <?php foreach ($revenue_rows as $row): ?>
+          <tr>
+            <td><?= htmlspecialchars($row['TenLoai'] ?? '') ?></td>
+            <td><?= (int)($row['so_luong'] ?? 0) ?></td>
+            <td><?= number_format((float)($row['doanh_thu'] ?? 0), 0, ',', '.') ?>đ</td>
+          </tr>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <tr>
+          <td colspan="3">Chưa có dữ liệu doanh thu cho sự kiện này.</td>
+        </tr>
+      <?php endif; ?>
     </tbody>
   </table>
 </div>
 
 <!-- Panel Đơn hàng: danh sách khách hàng -->
-<div class="orders-panel hidden" id="orders-panel">
+<div class="orders-panel <?= ($view === 'orders' && $selected_mask) ? '' : 'hidden' ?>" id="orders-panel">
   <div class="orders-header">
     <h3 class="orders-title">Đơn hàng sự kiện</h3>
     <button type="button" class="orders-close" id="orders-close">&times;</button>
   </div>
-  <p class="orders-event" id="orders-event-name">Tên sự kiện</p>
+  <p class="orders-event" id="orders-event-name">
+    <?= htmlspecialchars($stats_event_name ?: 'Chọn một sự kiện để xem đơn hàng') ?>
+  </p>
 
-  <p class="orders-count">Có 1.234 đơn hàng</p>
+  <p class="orders-count">
+    <?php if (!empty($orders)): ?>
+      Có <?= count($orders) ?> đơn hàng
+    <?php else: ?>
+      Chưa có đơn hàng nào cho sự kiện này.
+    <?php endif; ?>
+  </p>
 
   <div class="orders-list" id="orders-list">
-    <div class="order-card">
-      <div class="order-main">
-        <div class="order-name">Hoàng Trung</div>
-        <div class="order-code">Mã đơn hàng: 123454</div>
-        <div class="order-row">
-          <span>Email: h***05@gmail.com</span>
-          <span>Số điện thoại: +84353***166</span>
+    <?php if (!empty($orders)): ?>
+      <?php foreach ($orders as $order): ?>
+        <div class="order-card">
+          <div class="order-main">
+            <div class="order-name">
+              <?= htmlspecialchars($order['TenNguoiThanhToan'] ?? 'Khách hàng') ?>
+            </div>
+            <div class="order-code">Mã đơn hàng: <?= htmlspecialchars($order['MaTT'] ?? 'N/A') ?></div>
+            <div class="order-row">
+              <span>Email: <?= htmlspecialchars($order['Email_KH'] ?? 'Không có') ?></span>
+              <span>Số điện thoại: <?= htmlspecialchars($order['SDT'] ?? 'Không có') ?></span>
+            </div>
+            <div class="order-row">
+              <span>Loại vé: <?= htmlspecialchars($order['TenLoai'] ?? '') ?></span>
+              <span>Giá: <?= number_format((float)($order['Gia'] ?? 0), 0, ',', '.') ?>đ</span>
+            </div>
+            <div class="order-row">
+              <span>Thời gian: <?= htmlspecialchars($order['NgayTao'] ?? '') ?></span>
+              <span>Trạng thái: <?= htmlspecialchars($order['TrangThai'] ?? '') ?></span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="order-card">
-      <div class="order-main">
-        <div class="order-name">Phong Nguyen</div>
-        <div class="order-code">Mã đơn hàng: 567890</div>
-        <div class="order-row">
-          <span>Email: p***09@gmail.com</span>
-          <span>Số điện thoại: +84888***999</span>
-        </div>
-      </div>
-    </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p>Không có đơn hàng để hiển thị.</p>
+    <?php endif; ?>
   </div>
 </div>
+
             <div class="tabs">
                 <button type="button" class="tab active" data-status="saptoi">Sắp tới</button>
                 <button type="button" class="tab" data-status="daqua">Đã qua</button>
@@ -202,118 +300,100 @@ require_once 'header.php';
                 <div class="qly-list qly-list-saptoi">
                     <!-- <h3 class="qly-subtitle">Sự kiện sắp tới</h3> -->
                     <div class="qly-events-list">
-                        <div class="qly-card">
-                            <div class="qly-card-thumb">
-                                <img src="https://salt.tkbcdn.com/ts/ds/2b/62/6d/b72040ac36d256c6c51e4c01797cf879.png" alt="G-DRAGON" />
-                            </div>
-                            <div class="qly-card-body">
-                                <div class="qly-card-title">G-DRAGON 2025 WORLD TOUR [Übermensch] IN HANOI</div>
-                                <div class="qly-card-meta">08/11/2025 • Hà Nội</div>
-                                <div class="qly-card-actions">
-                                    <button type="button"
-                                            class="btn-qly btn-revenue"
-                                            data-event="G-DRAGON 2025 WORLD TOUR [Übermensch] IN HANOI">
-                                        Doanh thu
-                                    </button>
-                                    <button type="button" class="btn-scan">Đơn hàng</button>
+                        <?php if (!empty($events_upcoming)): ?>
+                            <?php foreach ($events_upcoming as $event): ?>
+                                <?php
+                                    $dt = null;
+                                    $time_str = '';
+                                    if (!empty($event['Tgian'])) {
+                                        try {
+                                            $dt = new DateTime($event['Tgian']);
+                                            $time_str = $dt->format('d/m/Y H:i');
+                                        } catch (Exception $e) {
+                                            $time_str = $event['Tgian'];
+                                        }
+                                    }
+                                    $location = $event['TenTinh'] ?? '';
+                                ?>
+                                <div class="qly-card">
+                                    <div class="qly-card-thumb">
+                                        <img src="<?= htmlspecialchars($event['img_sukien'] ?? '') ?>" alt="<?= htmlspecialchars($event['TenSK'] ?? '') ?>" />
+                                    </div>
+                                    <div class="qly-card-body">
+                                        <div class="qly-card-title"><?= htmlspecialchars($event['TenSK'] ?? '') ?></div>
+                                        <div class="qly-card-meta"><?= htmlspecialchars($time_str) ?><?= $location ? ' • ' . htmlspecialchars($location) : '' ?></div>
+                                        <div class="qly-card-actions">
+                                            <button type="button"
+                                                    class="btn-qly btn-manage">
+                                                Quản lý
+                                            </button>
+                                            <div class="manage-menu hidden">
+                                                <button type="button"
+                                                        class="btn-qly btn-revenue"
+                                                        data-event="<?= htmlspecialchars($event['TenSK'] ?? '') ?>">
+                                                    Doanh thu
+                                                </button>
+                                                <button type="button" class="btn-qly btn-scan">Đơn hàng</button>
+                                            </div>
+                                            <a href="chitietsk_1.php?MaSK=<?= urlencode($event['MaSK'] ?? '') ?>"
+                                               class="btn-qly btn-update">
+                                                Chỉnh sửa
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="qly-card">
-                            <div class="qly-card-thumb">
-                                <img src="https://salt.tkbcdn.com/ts/ds/f3/80/f0/32ee189d7a435daf92b6a138d925381c.png" alt="Waterbomb" />
-                            </div>
-                            <div class="qly-card-body">
-                                <div class="qly-card-title">Waterbomb Ho Chi Minh City 2025</div>
-                                <div class="qly-card-meta">15–16/11/2025 • TP.HCM</div>
-                                <div class="qly-card-actions">
-                                    <button type="button" class="btn-qly btn-revenue" data-event="Waterbomb Ho Chi Minh City 2025">
-                                        Doanh thu
-                                    </button>
-                                    <button type="button" class="btn-scan">Đơn hàng</button>
-                                    <!-- <button type="button" class="btn-qly">Vé</button>
-                                    <button type="button" class="btn-scan">Nội dung</button> -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="qly-card">
-                            <div class="qly-card-thumb">
-                                <img src="https://salt.tkbcdn.com/ts/ds/6e/2f/fa/32d07d9e0b2bd6ff7de8dfe2995619d5.jpg" alt="GS25" />
-                            </div>
-                            <div class="qly-card-body">
-                                <div class="qly-card-title">GS25 MUSIC FESTIVAL 2025</div>
-                                <div class="qly-card-meta">22/11/2025 • TP.HCM</div>
-                                <div class="qly-card-actions">
-                                    <button type="button" class="btn-qly btn-revenue" data-event="GS25 MUSIC FESTIVAL 2025">
-                                        Doanh thu
-                                    </button>
-                                    <button type="button" class="btn-scan">Đơn hàng</button>
-                                    <!-- <button type="button" class="btn-qly">Vé</button>
-                                    <button type="button" class="btn-scan">Quét vé</button> -->
-                                </div>
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>Hiện chưa có sự kiện sắp tới.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <div class="qly-list qly-list-daqua hidden">
-                    <!-- <h3 class="qly-subtitle">Sự kiện đã qua</h3> -->
                     <div class="qly-events-list">
-                        <div class="qly-card">
-                            <div class="qly-card-thumb">
-                                <img src="https://salt.tkbcdn.com/ts/ds/ee/86/df/261a5fd2fa0890c25f4c737103bbbe0c.png" alt="Lululola" />
-                            </div>
-                            <div class="qly-card-body">
-                                <div class="qly-card-title">LULULOLA SHOW VICKY NHUNG &amp; CHU THÚY QUỲNH | NGÀY MƯA ẤY</div>
-                                <div class="qly-card-meta">20/09/2025 • Đà Lạt</div>
-                                <div class="qly-card-actions">
-                                    <button type="button" class="btn-qly btn-revenue" data-event="LULULOLA SHOW VICKY NHUNG &amp; CHU THÚY QUỲNH | NGÀY MƯA ẤY">
-                                        Doanh thu
-                                    </button>
-                                    <button type="button" class="btn-scan">Đơn hàng</button>
-                                    <!-- <button type="button" class="btn-qly">Quản lý</button>
-                                    <button type="button" class="btn-scan">Quét vé</button> -->
+                        <?php if (!empty($events_past)): ?>
+                            <?php foreach ($events_past as $event): ?>
+                                <?php
+                                    $dt = null;
+                                    $time_str = '';
+                                    if (!empty($event['Tgian'])) {
+                                        try {
+                                            $dt = new DateTime($event['Tgian']);
+                                            $time_str = $dt->format('d/m/Y H:i');
+                                        } catch (Exception $e) {
+                                            $time_str = $event['Tgian'];
+                                        }
+                                    }
+                                    $location = $event['TenTinh'] ?? '';
+                                ?>
+                                <div class="qly-card">
+                                    <div class="qly-card-thumb">
+                                        <img src="<?= htmlspecialchars($event['img_sukien'] ?? '') ?>" alt="<?= htmlspecialchars($event['TenSK'] ?? '') ?>" />
+                                    </div>
+                                    <div class="qly-card-body">
+                                        <div class="qly-card-title"><?= htmlspecialchars($event['TenSK'] ?? '') ?></div>
+                                        <div class="qly-card-meta"><?= htmlspecialchars($time_str) ?><?= $location ? ' • ' . htmlspecialchars($location) : '' ?></div>
+                                        <div class="qly-card-actions">
+                                            <button type="button" class="btn-qly btn-manage">
+                                                Quản lý
+                                            </button>
+                                            <div class="manage-menu hidden">
+                                                <button type="button" class="btn-qly btn-revenue" data-event="<?= htmlspecialchars($event['TenSK'] ?? '') ?>">
+                                                    Doanh thu
+                                                </button>
+                                                <button type="button" class="btn-qly btn-scan">Đơn hàng</button>
+                                            </div>
+                                            <a href="chitietsk_1.php?MaSK=<?= urlencode($event['MaSK'] ?? '') ?>"
+                                               class="btn-qly btn-update">
+                                                Xem
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="qly-card">
-                            <div class="qly-card-thumb">
-                                <img src="https://salt.tkbcdn.com/ts/ds/e3/06/ed/faff7ef36d95334510e51f7d337357d4.jpg" alt="Stephan Bodzin" />
-                            </div>
-                            <div class="qly-card-body">
-                                <div class="qly-card-title">ELAN &amp; APLUS present: STEPHAN BODZIN</div>
-                                <div class="qly-card-meta">21/09/2025 • Hà Nội</div>
-                                <div class="qly-card-actions">
-                                    <button type="button" class="btn-qly btn-revenue" data-event="ELAN &amp; APLUS present: STEPHAN BODZIN">
-                                        Doanh thu
-                                    </button>
-                                    <button type="button" class="btn-scan">Đơn hàng</button>
-                                    <!-- <button type="button" class="btn-qly">Quản lý</button>
-                                    <button type="button" class="btn-scan">Quét vé</button> -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="qly-card">
-                            <div class="qly-card-thumb">
-                                <img src="https://salt.tkbcdn.com/ts/ds/90/37/6e/cfa9510b1f648451290e0cf57b6fd548.jpg" alt="Em Xinh" />
-                            </div>
-                            <div class="qly-card-body">
-                                <div class="qly-card-title">EM XINH &quot;SAY HI&quot; CONCERT - ĐÊM 2</div>
-                                <div class="qly-card-meta">11/10/2025 • Hà Nội</div>
-                                <div class="qly-card-actions">
-                                    <button type="button" class="btn-qly btn-revenue" data-event="EM XINH &quot;SAY HI&quot; CONCERT - ĐÊM 2">
-                                        Doanh thu
-                                    </button>
-                                    <button type="button" class="btn-scan">Đơn hàng</button>
-                                    <!-- <button type="button" class="btn-qly">Quản lý</button>
-                                    <button type="button" class="btn-scan">Quét vé</button> -->
-                                </div>
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>Hiện chưa có sự kiện đã qua.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -325,72 +405,59 @@ require_once 'header.php';
 
         <article class="noidung hidden" id="xembc-section">
             <h2 class="noidung-title">XEM BÁO CÁO</h2>
-            <!-- <div class="header">
-                <div class="actions">
-                    <form class="searchbar" method="get" action="admin.php">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" name="q" placeholder="Báo cáo thống kê doanh thu, lượt bán vé,..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
-                        <button class="btn-search" type="submit">Tìm kiếm</button>
-                    </form>
-                </div>
-            </div> -->
-            <i class="fa-solid fa-spinner"></i> Đang cập nhật...
-             <div class="report-table-wrapper">
+            <div class="report-table-wrapper">
                 <table class="report-table">
-                <thead>
-                <tr>
-                <th style="width: 40px;"><input type="checkbox" /></th>
-                <th>File</th>
-                <th>Ngày tạo</th>
-                <th>Người tạo</th>
-                <th>Trạng thái xử lý</th>
-                <th>Thao tác</th>
-                </tr>
-                </thead>
-               <tbody>
-    <tr>
-        <td><input type="checkbox" /></td>
-        <td>baocao_doanhthu_gdragon_2025.xlsx</td>
-        <td>2025-11-09 10:15</td>
-        <td>ntc@ctu.edu.vn</td>
-        <td>Đã xử lý</td>
-        <td>
-            <button class="btn-qly">Tải xuống</button>
-        </td>
-    </tr>
-    <tr>
-        <td><input type="checkbox" /></td>
-        <td>baocao_khachhang_waterbomb.csv</td>
-        <td>2025-11-17 09:00</td>
-        <td>report@vibe4.vn</td>
-        <td>Đã xử lý</td>
-        <td>
-            <button class="btn-qly">Tải xuống</button>
-        </td>
-    </tr>
-    <tr>
-        <td><input type="checkbox" /></td>
-        <td>baocao_ve_gs25_theoloai.pdf</td>
-        <td>2025-11-23 18:30</td>
-        <td>ntc@ctu.edu.vn</td>
-        <td>Đang xử lý</td>
-        <td>
-            <button class="btn-qly">Xem</button>
-        </td>
-    </tr>
-</tbody>
-                
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Ngày tạo</th>
+                            <th>Người tạo</th>
+                            <th>Trạng thái xử lý</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>baocao_doanhthu_gdragon_2025.xlsx</td>
+                            <td>2025-11-09 10:15</td>
+                            <td>ntc@ctu.edu.vn</td>
+                            <td>Đã xử lý</td>
+                            <td>
+                                <button class="btn-qly btn-download-report">Tải xuống</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>baocao_khachhang_waterbomb.csv</td>
+                            <td>2025-11-17 09:00</td>
+                            <td>report@vibe4.vn</td>
+                            <td>Đã xử lý</td>
+                            <td>
+                                <button class="btn-qly btn-download-report">Tải xuống</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-                
+            </div>
+
+            <!-- Modal thông báo tải xuống thành công -->
+            <div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="background:#ffffff; color:#000000;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color:#000000;">Thông báo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="color:#000000;">
+                            Tải xuống thành công.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
                 </div>
-                
+            </div>
         </article>
 
-        <article class="noidung hidden" id="capnhat-section">
-            <h2 class="noidung-title">CẬP NHẬT ĐIỀU KHOẢN</h2>
-            <p>Trang cập nhật hồ sơ và thông tin liên hệ.</p>
-            <i class="fa-solid fa-spinner"></i> Đang cập nhật...
-        </article>
     </main>
 <?php 
   $additional_footer_scripts = <<<HTML
@@ -401,18 +468,16 @@ require_once 'header.php';
   <script>
 document.addEventListener("DOMContentLoaded", () => {
   const btns = {
-    taosk: document.getElementById("btn-taosk"),
+    taosk: document.getElementById("btn-taosk"), // có thể null vì đã bỏ nút bên trái
     qly: document.getElementById("btn-qly"),
-    xembc: document.getElementById("btn-xembc"),
-    capnhat: document.getElementById("btn-capnhat")
+    xembc: document.getElementById("btn-xembc")
   };
 
   const sections = {
     nhatochuc: document.querySelector(".nhatochuc"),
     taosk: document.getElementById("taosk-section"),
     qly: document.getElementById("qly-section"),
-    xembc: document.getElementById("xembc-section"),
-    capnhat: document.getElementById("capnhat-section")
+    xembc: document.getElementById("xembc-section")
   };
 
   // Ban đầu: chỉ hiển thị phần "Chào mừng Nhà tổ chức"
@@ -426,14 +491,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hiện section tương ứng với nút bấm
     sections[name].classList.remove("hidden");
 
-    // Làm nổi bật nút đang chọn
-    Object.values(btns).forEach(btn => btn.classList.remove("active"));
-    btns[name].classList.add("active");
+    // Làm nổi bật nút đang chọn (nếu tồn tại nút trong sidebar)
+    Object.values(btns).forEach(btn => btn && btn.classList.remove("active"));
+    if (btns[name]) {
+      btns[name].classList.add("active");
+    }
   }
 
   // Gán sự kiện click cho mỗi nút
   Object.keys(btns).forEach(name => {
-    btns[name].addEventListener("click", () => showSection(name));
+    const btn = btns[name];
+    if (!btn) return;
+    btn.addEventListener("click", () => showSection(name));
   });
 
   // Nút tạo sự kiện trong phần QUẢN LÝ SỰ KIỆN
@@ -466,7 +535,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Xử lý nút Doanh thu mở/đóng panel
+  // Xử lý nút Quản lý: toggle menu con (Doanh thu / Đơn hàng)
+  document.querySelectorAll('.qly-card .btn-manage').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.qly-card');
+      const menu = card?.querySelector('.manage-menu');
+      if (!menu) return;
+
+      menu.classList.toggle('hidden');
+    });
+  });
+
+  // Xử lý nút Doanh thu / Đơn hàng mở/đóng panel thống kê
   const revenuePanel = document.getElementById('revenue-panel');
   const revenueClose = document.getElementById('revenue-close');
   const revenueEventName = document.getElementById('revenue-event-name');
@@ -519,6 +599,62 @@ document.addEventListener("DOMContentLoaded", () => {
     ordersClose.addEventListener('click', () => {
       ordersPanel.classList.add('hidden');
     });
+  }
+
+  // Thông báo tải xuống thành công cho phần Xem báo cáo
+  const downloadButtons = document.querySelectorAll('.btn-download-report');
+  const downloadModalElement = document.getElementById('downloadSuccessModal');
+  if (downloadButtons.length && downloadModalElement && window.bootstrap) {
+    const downloadModal = new bootstrap.Modal(downloadModalElement);
+    downloadButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        downloadModal.show();
+      });
+    });
+  }
+
+  // Tìm kiếm trong phần QUẢN LÝ SỰ KIỆN: lọc danh sách sự kiện bằng JS tại chỗ
+  const qlySearchForm = document.querySelector('#qly-section .searchbar');
+  if (qlySearchForm) {
+    const qlyInput  = qlySearchForm.querySelector('input[name="q"]');
+    const qlyButton = qlySearchForm.querySelector('.btn-search');
+    const qlyCards  = document.querySelectorAll('#qly-section .qly-events-list .qly-card');
+
+    const applyQlyFilter = () => {
+      if (!qlyInput) return;
+      const q = qlyInput.value.trim().toLowerCase();
+
+      qlyCards.forEach(card => {
+        const titleEl = card.querySelector('.qly-card-title');
+        const title = (titleEl?.textContent || '').toLowerCase();
+        if (!q || title.includes(q)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    };
+
+    qlySearchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      applyQlyFilter();
+    });
+
+    if (qlyInput) {
+      qlyInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          applyQlyFilter();
+        }
+      });
+    }
+
+    if (qlyButton) {
+      qlyButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        applyQlyFilter();
+      });
+    }
   }
 });
 </script>

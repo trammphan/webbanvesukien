@@ -17,11 +17,8 @@
             <div class="footer-col">
                 <h4>Liên kết Hữu ích</h4>
                 <ul class="footer-links">
-                    <li><a href="#home">Trang chủ</a></li>
-                    <li><a href="#taosukien">Tạo sự kiện</a></li>
-                    <li><a href="#vecuatoi">Vé của tôi</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#contact">Liên hệ</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Liên hệ</a></li>
                 </ul>
             </div>
 

@@ -249,26 +249,54 @@
 }
 .qly-card-actions {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
 }
 
-.btn-qly,
-.btn-scan {
+.qly-card-actions .btn-manage,
+.qly-card-actions .btn-update {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: 6px 16px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-}
-.btn-qly,
-.btn-scan {
   background: #00c46a;
   color: #041225;
+  white-space: nowrap;
+  text-decoration: none;
 }
-.btn-qly:hover,
-.btn-scan:hover {
+
+.qly-card-actions .manage-menu {
+  justify-content: center;
+  gap: 8px;
+}
+
+.qly-card-actions .manage-menu:not(.hidden) {
+  display: flex;
+}
+
+.qly-card-actions .manage-menu .btn-qly,
+.qly-card-actions .manage-menu .btn-scan {
+  flex: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+/* Hover cho các nút trong khu vực quản lý sự kiện */
+.qly-card-actions .btn-manage:hover,
+.qly-card-actions .btn-update:hover,
+.qly-card-actions .manage-menu .btn-qly:hover,
+.qly-card-actions .manage-menu .btn-scan:hover {
   background: #00e07b;
 }
 
