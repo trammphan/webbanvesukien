@@ -1,18 +1,33 @@
-
 <?php
+// Thiết lập header để trả về JSON
+header('Content-Type: application/json');
+
+// Hàm chuẩn hóa kết quả lỗi
+function sendErrorResponse($errors) {
+    global $conn;
+    // Đảm bảo đóng kết nối nếu nó đang mở
+    if ($conn && $conn->ping()) {
+        $conn->close();
+    }
+    // Dùng exit(json_encode) để dừng script và xuất JSON
+    exit(json_encode(['success' => false, 'errors' => $errors]));
+}
+
+// *** Đảm bảo các thông số này chính xác ***
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = ""; 
 $dbname = "qlysukien";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    // THAY THẾ die() bằng JSON error response
+    sendErrorResponse(["Lỗi kết nối cơ sở dữ liệu. Vui lòng kiểm tra lại cấu hình. Chi tiết: " . $conn->connect_error]);
 }
 
-// Lấy dữ liệu từ POST và làm sạch (chuyển sang dùng trim và Prepared Statement)
+// Lấy dữ liệu từ POST và làm sạch
 $user_name = trim($_POST["user_name"] ?? '');
 $tel = trim($_POST["tel"] ?? '');
 $email = trim(strtolower($_POST["email"] ?? ''));
@@ -21,32 +36,39 @@ $redirect_url = $_POST["redirect"] ?? '';
 
 $errors = [];
 
-// --- 1. XÁC THỰC SERVER-SIDE (Kiểm tra trường rỗng và độ dài) ---
-
+// --- 1. XÁC THỰC SERVER-SIDE ---
 if (empty($user_name) || empty($tel) || empty($email) || empty($raw_password)) {
     $errors[] = "Vui lòng điền đầy đủ tất cả các trường bắt buộc.";
 }
-
-// Kiểm tra độ dài mật khẩu tối thiểu 5 ký tự
 if (strlen($raw_password) < 5) {
     $errors[] = "Mật khẩu phải có tối thiểu 5 ký tự.";
 }
+// Thêm kiểm tra số điện thoại (bị thiếu trong code gốc)
+if (!preg_match('/^\d{10,11}$/', $tel)) {
+    $errors[] = "Số điện thoại không hợp lệ. Vui lòng nhập 10 hoặc 11 chữ số.";
+}
 
-// --- 2. BẮT SỰ KIỆN EMAIL ĐÃ TỒN TẠI (TRƯỚC INSERT) ---
+
+// --- 2. BẮT SỰ KIỆN EMAIL ĐÃ TỒN TẠI (Kiểm tra 4 bảng) ---
 
 if (empty($errors)) {
-    // Kiểm tra Email đã tồn tại trong NHIỀU BẢNG (khachhang, nhatochuc, nhanviensoatve)
+    // Kiểm tra Email đã tồn tại trong BỐN BẢNG
     $check_email_sql = "
         SELECT email FROM khachhang WHERE email = ?
         UNION
         SELECT email FROM nhatochuc WHERE email = ?
         UNION
         SELECT email FROM nhanviensoatve WHERE email = ?
+        UNION
+        SELECT email FROM quantrivien WHERE email = ?
     ";
     $stmt_check = $conn->prepare($check_email_sql);
     
-    // Liên kết 3 tham số (đều là email)
-    $stmt_check->bind_param("sss", $email, $email, $email);
+    // Liên kết 4 tham số (4 email string)
+    if ($stmt_check === false) {
+         sendErrorResponse(["Lỗi chuẩn bị truy vấn SQL (Kiểm tra Email)."]);
+    }
+    $stmt_check->bind_param("ssss", $email, $email, $email, $email); 
     $stmt_check->execute();
     $stmt_check->store_result();
 
@@ -59,95 +81,45 @@ if (empty($errors)) {
 // --- 3. XỬ LÝ LỖI VÀ THỰC HIỆN INSERT ---
 
 if (!empty($errors)) {
-    $conn->close(); // Đóng kết nối trước khi xuất HTML
-
-    // Lấy URL chuyển hướng (nếu có) để quay lại đúng trang đăng ký ban đầu
-    $redirect_param = !empty($redirect_url) ? '?redirect=' . urlencode($redirect_url) : '';
-    $dangky_url = "dangky.php" . $redirect_param;
-
-    ?>
-    <!DOCTYPE html>
-    <html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <title>Đăng ký Thất bại</title>
-        <style>
-            body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #d7f3f8ff; }
-            .error-box { background-color: #c6d7f5ff; border: 1px solid #3546dcff; color: #081c55ff; padding: 20px; border-radius: 5px; text-align: center; max-width: 400px; }
-            .error-box h3 { color: #35b8dcff; margin-top: 0; }
-            .error-box ul { list-style: none; padding: 0; }
-            .countdown { font-size: 1.2em; font-weight: bold; margin-top: 15px; }
-        </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
-    </head>
-    <body>
-        <div class="error-box">
-            <h3>🔴 Đăng ký thất bại!</h3>
-            <ul>
-                <?php foreach ($errors as $error) { ?>
-                    <li><?php echo htmlspecialchars($error); ?></li>
-                <?php } ?>
-            </ul>
-            <p>Bạn sẽ được chuyển hướng về trang Đăng ký sau <span id="countdown-timer">10</span> giây.</p>
-            <p>Hoặc <a href="<?php echo $dangky_url; ?>"><i class="fa-solid fa-backward-fast"></i></a>.</p>
-        </div>
-
-        <script>
-            let seconds = 10;
-            const timerElement = document.getElementById('countdown-timer');
-            const targetURL = "<?php echo $dangky_url; ?>";
-
-            function updateTimer() {
-                timerElement.textContent = seconds;
-                seconds--;
-                
-                if (seconds < 0) {
-                    window.location.href = targetURL;
-                } else {
-                    // Cập nhật lại sau 1 giây
-                    setTimeout(updateTimer, 1000); 
-                }
-            }
-
-            // Bắt đầu đếm ngược
-            setTimeout(updateTimer, 1000); 
-        </script>
-    </body>
-    </html>
-    <?php
-    exit(); // RẤT QUAN TRỌNG: Dừng PHP sau khi xuất HTML
+    // TRẢ VỀ JSON CHỨA LỖI VÀ DỪNG LẠI
+    sendErrorResponse($errors);
 }
 
-// Hash mật khẩu an toàn thay cho md5()
-$password = md5(trim($_POST["password"]));
+// Hash mật khẩu 
+$password = md5($raw_password); // Sửa: Dùng $raw_password thay vì trim($_POST["password"]) vì đã lấy ở trên
 
-// Sử dụng Prepared Statement cho câu lệnh INSERT (AN TOÀN HƠN)
+// Sử dụng Prepared Statement cho câu lệnh INSERT
 $sql = "INSERT INTO khachhang (email, user_name, tel, password) 
         VALUES (?, ?, ?, ?)";
 
 $stmt_insert = $conn->prepare($sql);
-$stmt_insert->bind_param("ssss", $email, $user_name, $tel, $password); // Lưu $hashed_password
 
-if ($stmt_insert->execute()) {
-    // *** LOGIC REDIRECT SAU ĐĂNG KÝ ***
-    
-    // Kiểm tra xem có URL redirect không
-    if (!empty($redirect_url)) {
-        // Tự động đăng nhập và chuyển hướng TRỞ LẠI trang sự kiện
-        setcookie("email", $email, time() + 3600, "/");
-        setcookie("user_name", $user_name, time() + 3600, "/");
-        
-        header('Location: ' . urldecode($redirect_url));
-        
-    } else {
-        // Nếu không, chuyển hướng về trang đăng nhập (có thể thay bằng trang người dùng)
-        header("Location: dangnhap.php");
-    }
-    $stmt_insert->close();
-    
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
+if ($stmt_insert === false) {
+    sendErrorResponse(["Lỗi chuẩn bị truy vấn SQL (Thêm người dùng)."]);
 }
 
-$conn->close();
+$stmt_insert->bind_param("ssss", $email, $user_name, $tel, $password); 
+
+if ($stmt_insert->execute()) {
+    // Đăng ký thành công
+    
+    $redirect_to = "dangnhap.php"; 
+    if (!empty($redirect_url)) {
+        // Tự động đăng nhập
+        setcookie("email", $email, time() + 3600, "/");
+        setcookie("user_name", $user_name, time() + 3600, "/");
+        $redirect_to = urldecode($redirect_url);
+    }
+    
+    $stmt_insert->close();
+    $conn->close();
+
+    // TRẢ VỀ JSON THÀNH CÔNG VỚI URL CHUYỂN HƯỚNG
+    echo json_encode(['success' => true, 'redirect_url' => $redirect_to]);
+
+} else {
+    // Lỗi SQL khi INSERT
+    // THAY THẾ echo "Error: ..." bằng JSON error response
+    sendErrorResponse(["Lỗi hệ thống: Không thể đăng ký. Chi tiết: " . $conn->error]);
+}
 ?>

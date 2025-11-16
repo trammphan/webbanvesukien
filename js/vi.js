@@ -1,84 +1,101 @@
 document.addEventListener('DOMContentLoaded', function() {
-          // Lấy form bằng ID
-          const formDK = document.getElementById('form_dk');
-          
-          // Nếu form tồn tại, gắn trình xử lý sự kiện
-          if (formDK) {
-              formDK.addEventListener('dk_submit', validateRegistrationForm);
-          }
-      });
+    const formDK = document.getElementById('form_dk');
+    const submitButton = document.getElementById('dk_submit');
+    
+    // Tạo container để hiển thị lỗi Server-side ngay trên form
+    const errorMessageContainer = document.createElement('div');
+    errorMessageContainer.id = 'server-error-messages';
+    errorMessageContainer.style.color = '#dc3545'; // Màu đỏ cho lỗi
+    errorMessageContainer.style.marginBottom = '15px';
+    errorMessageContainer.style.textAlign = 'center';
+    
+    if (formDK) {
+        // Thêm div hiển thị lỗi ngay trên form
+        formDK.prepend(errorMessageContainer);
+        // SỬA LỖI: Thay 'dk_submit' bằng sự kiện 'submit' chuẩn của form
+        formDK.addEventListener('submit', validateAndSubmitForm);
+    }
 
-      /**
-       * Hàm kiểm tra xác thực dữ liệu form đăng ký
-       * @param {Event} e Sự kiện submit
-       */
-      function validateRegistrationForm(e) {
-          // Ngăn chặn việc gửi form mặc định để thực hiện xác thực
-          e.preventDefault();
+    /**
+     * Hàm kiểm tra xác thực dữ liệu form đăng ký (Client-Side)
+     * và gửi form qua Fetch API (AJAX)
+     */
+    async function validateAndSubmitForm(e) {
+        e.preventDefault(); 
+        
+        // Xóa các thông báo lỗi cũ
+        errorMessageContainer.innerHTML = '';
+        submitButton.disabled = true; // Vô hiệu hóa nút
 
-          // Lấy giá trị từ các trường input
-          const userNameInput = document.getElementById('user_name');
-          const telInput = document.getElementById('tel');
-          const emailInput = document.getElementById('email');
-          const passwordInput = document.getElementById('password');
-          // Lưu ý: Form dangky.php hiện tại không có password_again. 
-          // Nếu muốn kiểm tra, bạn cần thêm <input type="password" id="password_again" ...> vào form HTML.
-          
-          // Lấy giá trị
-          const user_name = userNameInput.value.trim();
-          const tel = telInput.value.trim();
-          const email = emailInput.value.trim();
-          const password = passwordInput.value;
+        const userNameInput = document.getElementById('user_name');
+        const telInput = document.getElementById('tel');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        
+        const user_name = userNameInput.value.trim();
+        const tel = telInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        
+        const clientErrors = [];
+        
+        // --- 1. Kiểm tra các ô không được để trống ---
+        if (user_name === "" || tel === "" || email === "" || password === "") {
+            clientErrors.push("Vui lòng điền đầy đủ tất cả các trường bắt buộc.");
+        } 
+        
+        // --- 2. Kiểm tra định dạng số điện thoại (10 hoặc 11 số) ---
+        const telRegex = /^\d{10,11}$/; 
+        if (tel && !telRegex.test(tel)) {
+            clientErrors.push("Số điện thoại không hợp lệ. Vui lòng nhập 10 hoặc 11 chữ số.");
+        }
+        
+        // --- 3. Kiểm tra độ dài mật khẩu (Tối thiểu 5 ký tự)
+        if (password && password.length < 5) {
+            clientErrors.push("Mật khẩu phải có tối thiểu 5 ký tự.");
+        }
 
-          let isValid = true; // Cờ theo dõi trạng thái hợp lệ
+        if (clientErrors.length > 0) {
+            const uniqueErrors = [...new Set(clientErrors)]; 
+            errorMessageContainer.innerHTML = '🔴 Đăng ký thất bại!<ul>' + uniqueErrors.map(err => `<li>${err}</li>`).join('') + '</ul>';
+            submitButton.disabled = false;
+            return; 
+        }
 
-          // --- 1. Kiểm tra các ô không được để trống (Required Fields) ---
-          if (user_name === "") {
-              alert("Họ và tên không được để trống!");
-              userNameInput.focus();
-              isValid = false;
-          } else if (tel === "") {
-              alert("Số điện thoại không được để trống!");
-              telInput.focus();
-              isValid = false;
-          } else if (email === "") {
-              alert("Email đăng nhập không được để trống!");
-              emailInput.focus();
-              isValid = false;
-          } else if (password === "") {
-              alert("Mật khẩu không được để trống!");
-              passwordInput.focus();
-              isValid = false;
-          }
-          
-          if (!isValid) return; // Dừng lại nếu có trường rỗng
+        // --- 4. Gửi form qua AJAX/Fetch ---
+        try {
+            const formData = new FormData(formDK);
+            
+            const response = await fetch(formDK.action, {
+                method: 'POST',
+                body: formData,
+            });
+            
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const result = await response.json();
+                
+                if (result.success) {
+                    window.location.href = result.redirect_url;
+                } else {
+                    errorMessageContainer.innerHTML = '🔴 Đăng ký thất bại!<ul>' + result.errors.map(err => `<li>${err}</li>`).join('') + '</ul>';
+                    submitButton.disabled = false;
+                }
+            } else {
+                // Xử lý lỗi khi Server trả về non-JSON (HTML/Text)
+                errorMessageContainer.innerHTML = '🔴 Lỗi máy chủ không xác định. Vui lòng kiểm tra console.';
+                console.error("Server returned non-JSON response:", await response.text());
+                submitButton.disabled = false;
+            }
 
-          // --- 2. Kiểm tra định dạng số điện thoại (10 hoặc 11 số) ---
-          // Regex đơn giản cho 10-11 chữ số
-          const telRegex = /^\d{10,11}$/; 
-          if (!telRegex.test(tel)) {
-              alert("Số điện thoại không hợp lệ. Vui lòng nhập 10 hoặc 11 chữ số.");
-              telInput.focus();
-              return;
-          }
+        } catch (error) {
+            // Lỗi kết nối mạng thực sự (request không đến được server)
+            console.error('Lỗi khi gửi form:', error);
+            errorMessageContainer.innerHTML = '🔴 Lỗi kết nối. Vui lòng thử lại sau.';
+            submitButton.disabled = false; 
+        }
+    }
 
-
-          // --- 3. Kiểm tra định dạng mật khẩu (Tối thiểu 5 ký tự)
-          if (password.length < 5) {
-            alert(
-                "Mật khẩu phải có tối thiểu 5 ký tự."
-            );
-              passwordInput.focus();
-              return;
-          }
-
-
-          // Nếu tất cả các kiểm tra đều PASS
-          // Gửi form đi
-          this.submit(); 
-          // Lưu ý: Việc kiểm tra email đã tồn tại PHẢI được thực hiện trên máy chủ (luuthongtin.php)
-          // vì dữ liệu LocalStorage không còn được sử dụng.
-}  
-
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el))
+});
