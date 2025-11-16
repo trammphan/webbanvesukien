@@ -49,22 +49,26 @@
                     <ul>
                         <!-- <li><a href="#taosukien">Tạo sự kiện</a></li>   -->
                         <?php
+                        // Include header_actions.php to access should_show_ticket()
+                        require_once __DIR__ . '/header_actions.php';
+                        
                         $is_logged_in = isset($_COOKIE['email']);
-
-                         if ($is_logged_in) {
-                        $ticket_link = "lich_su_mua_ve.php";
-                        } else {
-                            $redirect_url = urlencode("lich_su_mua_ve.php");
-                            $ticket_link = "dangnhap.php?redirect=" . $redirect_url;
-                        }
-                        ?>
+                        
+                        // Set ticket link based on login status
+                        $ticket_link = $is_logged_in 
+                            ? "lich_su_mua_ve.php" 
+                            : "dangnhap.php?redirect=" . urlencode("lich_su_mua_ve.php");
+                        
+                        // Only show ticket link if user is not admin or organizer
+                        if (should_show_ticket()): ?>
                         <li><a href="<?php echo $ticket_link; ?>" id="ticket-link">Vé của tôi</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
             <?php 
                 require_once __DIR__ . '/auth.php';
-                include __DIR__ . '/../php/header_actions.php'; 
+                // Include header_actions.php is already done at the top
             ?>
                 </div>
             </div>
@@ -72,7 +76,9 @@
         <div class="mobile-menu" id="mobileMenu">
             <ul>
                 <li><a href="#taosukien" onclick="toggleMobileMenu()">Tạo sự kiện</a></li>
+                <?php if (should_show_ticket()): ?>
                 <li><a href="<?php echo $ticket_link; ?>" onclick="toggleMobileMenu()">Vé của tôi</a></li>
+                <?php endif; ?>
                 <?php if (is_logged_in()): ?>
                     <li><a href="<?php echo $profile_link; ?>" onclick="toggleMobileMenu()">Tài khoản</a></li>
                 <?php else: ?>
