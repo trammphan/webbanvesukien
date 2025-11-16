@@ -82,7 +82,7 @@ if ($view && $selected_mask) {
                     JOIN ve v ON v.MaLoai = lv.MaLoai
                     JOIN thanhtoan tt ON tt.MaTT = v.MaTT
                     WHERE s.MaSK = ?
-                      AND tt.TrangThai = 'Đã thanh toán'
+                      AND tt.TrangThai = 'Đã bán'
                     GROUP BY s.MaSK, s.TenSK, lv.MaLoai, lv.TenLoai";
         if ($stmt_rev = $conn_stats->prepare($sql_rev)) {
             $stmt_rev->bind_param('s', $selected_mask);
@@ -106,7 +106,7 @@ if ($view && $selected_mask) {
                         JOIN ve v ON v.MaLoai = lv.MaLoai
                         JOIN thanhtoan tt ON tt.MaTT = v.MaTT
                         WHERE s.MaSK = ?
-                          AND tt.TrangThai = 'Đã thanh toán'";
+                          AND tt.TrangThai = 'Đã bán'";
         if ($stmt_orders = $conn_stats->prepare($sql_orders)) {
             $stmt_orders->bind_param('s', $selected_mask);
             $stmt_orders->execute();
