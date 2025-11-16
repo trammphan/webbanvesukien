@@ -38,6 +38,10 @@ function handleTicketClick(e, el) {
     }
 }
 
+function showEndedAlert(event) {
+    event.preventDefault();
+    document.getElementById('custom-alert').classList.remove('hidden');
+}
 function closeCustomAlert() {
-    document.getElementById("custom-alert").classList.add("hidden");
+    document.getElementById('custom-alert').classList.add('hidden');
 }

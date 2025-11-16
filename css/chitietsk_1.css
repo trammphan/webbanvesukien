@@ -423,7 +423,7 @@ main {
   }
 
   .button {
-    margin-top: 40%;           /* đẩy nút xuống giữa cardRight */
+    margin-top: 30%;           /* đẩy nút xuống giữa cardRight */
     width: 100%;
     display: flex;
     justify-content: center;    /* căn giữa nút */
@@ -465,10 +465,14 @@ main {
     align-items: center;
   }
 
-  .cardRight:before,
   .cardRight:after {
     left: 50%;                /* chấm bo tròn nằm giữa cạnh trên/dưới */
     transform: translateX(-50%);
+  }
+
+  .cardRight:before {
+      content: none !important;
+      display: none !important;
   }
 
   .cardRight:before {
@@ -491,4 +495,83 @@ main {
     border-radius: 20px;
     white-space: nowrap;
   }
+
+  /* Nội dung trong cardLeft */
+  .cardLeft h1 {
+    font-size: 1.2em;   /* nhỏ hơn */
+  }
+
+  .cardLeft .title h2,
+  .cardLeft .name h2,
+  .cardLeft .price h2,
+  .cardLeft .time h2 {
+    font-size: 0.9em;   /* thu nhỏ */
+  }
+
+  .title span,
+  .name span,
+  .price span,
+  .time span {
+    font-size: 0.7em;   /* chữ phụ nhỏ hơn */
+  }
+
+  /* Phần mô tả sự kiện */
+  .noidung {
+    padding: 0 12px;    /* giảm padding cho mobile */
+    font-size: 0.9em;   /* chữ nhỏ hơn, dễ đọc trên điện thoại */
+    line-height: 1.5;   /* khoảng cách dòng hợp lý */
+  }
+
+  .mota .tieude {
+    font-size: 1.2em;   /* tiêu đề nhỏ lại */
+  }
+
+  /* Phần chi tiết vé */
+  .chitietve {
+    padding: 12px;      /* giảm padding */
+    font-size: 0.9em;   /* chữ nhỏ hơn */
+  }
+
+  .tenLoaiVe {
+    font-size: 1em;     /* nhỏ hơn */
+  }
+
+  .moTaVe {
+    font-size: 0.85em;  /* chữ mô tả nhỏ hơn */
+    width: 65%;        /* full width cho dễ đọc */
+    margin-left: 12px;   /* dịch sang phải một chút cho mobile */
+  }
+
+  .giaVe {
+    font-size: 0.9em;   /* giá vé nhỏ hơn */
+    width: 100%;
+  }
+
+  .giaVe strong {
+    font-size: 1em;     /* giá tiền nổi bật nhưng vẫn vừa */
+  }
+
+  @media (max-width: 376px) {
+  .giaVe {
+    font-size: 1em;       /* giữ kích thước vừa phải */
+  }
+
+  /* Ẩn chữ "Giá vé:" nhưng vẫn giữ số tiền */
+  .giaVe {
+    color: transparent;   /* ẩn toàn bộ chữ */
+  }
+
+  .giaVe strong {
+    color: #2dc492;       /* hiện lại số tiền với màu nổi bật */
+    font-size: 1.1em;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 321px) {
+  .giaVe {
+    font-size: 0.9em;       /* giữ kích thước vừa phải */
+  }
+}
+
 }

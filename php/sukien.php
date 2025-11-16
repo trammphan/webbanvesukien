@@ -116,20 +116,22 @@
                             <div class="card-badge-row">
                                 <!-- Mua vé ngay mà không xem chi tiết -->
                                 <?php
-                                // Kiểm tra xem cookie 'email' (dấu hiệu đã đăng nhập) có tồn tại không
-                                if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
-                                    // Nếu ĐÃ ĐĂNG NHẬP: Trỏ đến trang mua vé
-                                    echo '<a class="event-tag" href="ticket_page.php?MaSK=' . $eventId . '" data-ended="' . $dataEnded . '" onclick="handleTicketClick(event, this)">Mua vé ngay</a>';
+                                if ($isPast) {
+                                    // Nếu sự kiện đã kết thúc
+                                    echo '<a class="event-tag" href="#" onclick="showEndedAlert(event)">Mua vé ngay</a>';
                                 } else {
-                                    // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
-                                    // Lấy URL hiện tại
-                                    $current_page_url = $_SERVER['REQUEST_URI'];
-                                    // Thêm URL này vào link đăng nhập để sau khi login thành công có thể quay lại
-                                    $login_url = 'dangnhap.php?redirect=' . urlencode($current_page_url);
-                                    echo '<a class="event-tag" href="' . $login_url . '" data-ended="' . $dataEnded . '">Mua vé ngay</a>';
+                                    if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
+                                        // Đã đăng nhập và sự kiện chưa kết thúc → đi thẳng tới ticket_page
+                                        echo '<a class="event-tag" href="ticket_page.php?MaSK=' . $eventId . '">Mua vé ngay</a>';
+                                    } else {
+                                        // Chưa đăng nhập → sau khi login sẽ redirect tới ticket_page
+                                        $target_url = 'ticket_page.php?MaSK=' . $eventId;
+                                        $login_url = 'dangnhap.php?redirect=' . urlencode($target_url);
+                                        echo '<a class="event-tag" href="' . $login_url . '">Mua vé ngay</a>';
+                                    }
                                 }
                                 ?>
-
+      
                                 <?php if ($status): ?> <!-- Hiển thị trạng thái sự kiện -->
                                     <div class="event-status <?= $statusClass ?>"><?= $status ?></div>
                                 <?php endif; ?>

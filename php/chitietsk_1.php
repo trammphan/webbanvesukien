@@ -147,7 +147,6 @@
                         <div class="title">
                             <h2><?=htmlspecialchars($row['TenSK'])?></h2>
                         </div>
-
                         <div class="name">
                             <span>Địa Điểm</span>
                             <h2><?=htmlspecialchars($row['TenTinh'])?></h2>
@@ -170,26 +169,24 @@
                                 $now = new DateTime();
                                 $eventTime = new DateTime($row['Tgian']);
                                 $isPast = $eventTime < $now;
-                                $dataEnded = $isPast ? 'true' : 'false';
                             ?>
 
-                            <?php
-                            if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])) {
-                                // Nếu ĐÃ ĐĂNG NHẬP (dựa trên cookie): Trỏ đến trang mua vé
-                                echo '<a class="buy" href="ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']) . '" data-ended="' . $dataEnded . '" onclick="handleTicketClick(event, this)">MUA VÉ</a>';
-                            } else {
-                                // Nếu CHƯA ĐĂNG NHẬP: Trỏ đến trang đăng nhập
-
-                                // 1. Xác định URL mục tiêu (trang mua vé)
-                                $target_url = 'ticket_page.php?MaSK=' . htmlspecialchars($maSK);
-                                
-                                // 2. Tạo URL đăng nhập, đính kèm URL mục tiêu vào tham số 'redirect'
-                                $login_url = 'dangnhap.php?redirect=' . urlencode($target_url);
-                                
-                                // 3. In nút "MUA VÉ" trỏ đến trang đăng nhập
-                                echo '<a class="buy" href="' . $login_url . '" data-ended="' . $dataEnded . '" id="buy-ticket-link">MUA VÉ</a>';
-                            }
-                            ?>
+                            <?php if ($isPast): ?>
+                                <!-- Nếu sự kiện đã kết thúc -->
+                                <a class="buy" href="#" onclick="showEndedAlert(event)">MUA VÉ</a>
+                            <?php else: ?>
+                                <?php if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])): ?>
+                                    <!-- Đã đăng nhập và sự kiện chưa kết thúc -->
+                                    <a class="buy" href="ticket_page.php?MaSK=<?= htmlspecialchars($row['MaSK']) ?>" onclick="handleTicketClick(event, this)">MUA VÉ</a>
+                                <?php else: ?>
+                                    <!-- Chưa đăng nhập -->
+                                    <?php
+                                        $target_url = 'ticket_page.php?MaSK=' . htmlspecialchars($row['MaSK']);
+                                        $login_url = 'dangnhap.php?redirect=' . urlencode($target_url);
+                                    ?>
+                                    <a class="buy" href="<?= $login_url ?>" id="buy-ticket-link">MUA VÉ</a>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -322,7 +319,11 @@ function handleTicketClick(e, el) {
     }
 }
 
+function showEndedAlert(event) {
+    event.preventDefault();
+    document.getElementById('custom-alert').classList.remove('hidden');
+}
 function closeCustomAlert() {
-    document.getElementById("custom-alert").classList.add("hidden");
+    document.getElementById('custom-alert').classList.add('hidden');
 }
 </script>

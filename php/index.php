@@ -192,11 +192,11 @@ if (empty($search_query)) {
                             ASC LIMIT 8";
             renderEventCards($conn, $sql_special, 'Sự kiện Gần đây', 'fas fa-star', $tag_default, 'sukien-gan-day'); 
 
-            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, (s.luot_timkiem + s.luot_truycap) AS truycap
+            $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, s.luot_truycap
                             FROM sukien s
                             JOIN loaive lv ON s.MaSK = lv.MaSK
                             GROUP BY s.MaSK
-                            ORDER BY truycap DESC
+                            ORDER BY s.luot_truycap DESC
                             LIMIT 8";
 
             $tag_trending = function($event) { return 'HOT 👑'; };
