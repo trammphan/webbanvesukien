@@ -262,6 +262,8 @@ body {
 }
 
 /* --- Nhóm 1 (Đỏ) --- */
+
+/* --- Nhóm 1 (Đỏ) --- */
 /* (ID % 8 == 1) */
 #LV1,
 #LV9,
@@ -282,7 +284,9 @@ body {
 #LV129,
 #LV137,
 #LV145,
-#LV153 {
+#LV153,
+#LV161,
+#LV169 {
   background-color: #d32f2f; /* Red */
   border-color: #d32f2f;
   color: #ffffff;
@@ -309,7 +313,9 @@ body {
 #LV130,
 #LV138,
 #LV146,
-#LV154 {
+#LV154,
+#LV162,
+#LV170 {
   background-color: #f57c00; /* Orange */
   border-color: #f57c00;
   color: #ffffff;
@@ -336,7 +342,9 @@ body {
 #LV131,
 #LV139,
 #LV147,
-#LV155 {
+#LV155,
+#LV163,
+#LV171 {
   background-color: #ffc107; /* Yellow */
   border-color: #ffc107;
   color: #000000;
@@ -362,7 +370,10 @@ body {
 #LV124,
 #LV132,
 #LV140,
-#LV148 {
+#LV148,
+#LV156,
+#LV164,
+#LV172 {
   background-color: #388e3c; /* Green */
   border-color: #388e3c;
   color: #ffffff;
@@ -388,7 +399,10 @@ body {
 #LV125,
 #LV133,
 #LV141,
-#LV149 {
+#LV149,
+#LV157,
+#LV165,
+#LV173 {
   background-color: #0288d1; /* Blue */
   border-color: #0288d1;
   color: #ffffff;
@@ -414,7 +428,10 @@ body {
 #LV126,
 #LV134,
 #LV142,
-#LV150 {
+#LV150,
+#LV158,
+#LV166,
+#LV174 {
   background-color: #303f9f; /* Indigo */
   border-color: #303f9f;
   color: #ffffff;
@@ -440,7 +457,10 @@ body {
 #LV127,
 #LV135,
 #LV143,
-#LV151 {
+#LV151,
+#LV159,
+#LV167,
+#LV175 {
   background-color: #7b1fa2; /* Purple */
   border-color: #7b1fa2;
   color: #ffffff;
@@ -466,7 +486,9 @@ body {
 #LV128,
 #LV136,
 #LV144,
-#LV152 {
+#LV152,
+#LV160,
+#LV168 {
   background-color: #616161; /* Grey */
   border-color: #616161;
   color: #ffffff;
