@@ -133,12 +133,12 @@ if (isset($_COOKIE['email'])) {
         // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
         $sql_thong_ke_ve = "
             SELECT 
-                s.TenSK, lv.TenLoai, lv.MaLoai, COUNT(v.MaVe) AS TongSoVe,
+                s.MaSK, s.TenSK, lv.TenLoai, lv.MaLoai, COUNT(v.MaVe) AS TongSoVe,
                 SUM(CASE WHEN v.MaTT IS NOT NULL THEN 1 ELSE 0 END) AS SoVeDaThanhToan,
                 SUM(CASE WHEN v.TrangThai = 'chưa thanh toán' AND v.MaTT IS NULL THEN 1 ELSE 0 END) AS SoVeTon
             FROM ve v JOIN loaive lv ON v.MaLoai = lv.MaLoai JOIN sukien s ON lv.MaSK = s.MaSK
             GROUP BY s.TenSK, lv.TenLoai, lv.MaLoai
-            ORDER BY s.TenSK ASC, lv.TenLoai ASC
+            ORDER BY s.MaSK ASC, lv.TenLoai ASC
             LIMIT $items_per_page OFFSET $offset;
         ";
 
@@ -253,7 +253,7 @@ if (isset($_COOKIE['email'])) {
         // Vẫn sử dụng truy vấn LEFT JOIN đã tối ưu
         $sql_thongke_sk = "
             SELECT
-                sk.TenSK,
+                sk.MaSK, sk.TenSK,
                 COALESCE(COUNT(v.MaVe), 0) AS TongSoVeBan, 
                 COALESCE(SUM(lv.Gia), 0) AS TongDoanhThu
             FROM
@@ -567,6 +567,7 @@ require_once 'header.php';
             <table class="table table-striped table-hover " >
                 <thead >
                     <tr >
+                        <th class="tieudeqlve">Mã Sự Kiện</th> 
                         <th class="tieudeqlve">Tên Sự Kiện</th> 
                         <th class="tieudeqlve">Loại Vé</th>
                         <th class="tieudeqlve">Tổng Số Vé</th>
@@ -577,6 +578,7 @@ require_once 'header.php';
                 <tbody>
                     <?php while ($row = $result_thong_ke_ve->fetch_assoc()): ?>
                         <tr>
+                            <td class="ndsk"><?php echo htmlspecialchars($row['MaSK']); ?></td>
                             <td class="ndsk"><?php echo htmlspecialchars($row['TenSK']); ?></td>
                             <td class="ndsk"><?php echo htmlspecialchars($row['TenLoai']); ?> (<?php echo htmlspecialchars($row['MaLoai']); ?>)</td>
                             <td class="ndsk"><?php echo number_format($row['TongSoVe']); ?></td>
@@ -635,6 +637,7 @@ require_once 'header.php';
             <thead>
                 <tr>
                     <th>STT</th>
+                    <th>Mã Sự Kiện</th>
                     <th>Tên Sự Kiện</th>
                     <th>Doanh Số Vé Bán Ra</th>
                     <th>Tổng Doanh Thu</th>
@@ -648,6 +651,7 @@ require_once 'header.php';
                 <?php while ($row = $result_thongke_sk->fetch_assoc()): ?>
                     <tr>
                         <td><?php echo $stt++; ?></td>
+                        <td><?php echo htmlspecialchars($row['MaSK']); ?></td>
                         <td><?php echo htmlspecialchars($row['TenSK']); ?></td>
                         <td><?php echo number_format($row['TongSoVeBan']); ?></td>
                         <td><?php echo number_format($row['TongDoanhThu']) . ' VNĐ'; ?></td>
