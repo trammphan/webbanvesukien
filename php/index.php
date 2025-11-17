@@ -195,6 +195,7 @@ if (empty($search_query)) {
             $sql_trending = "SELECT s.MaSK, s.TenSK, s.Tgian, s.img_sukien, s.MaLSK, s.luot_truycap
                             FROM sukien s
                             JOIN loaive lv ON s.MaSK = lv.MaSK
+                            WHERE Tgian >= CURDATE()
                             GROUP BY s.MaSK
                             ORDER BY s.luot_truycap DESC
                             LIMIT 8";

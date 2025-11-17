@@ -68,6 +68,7 @@
                             $selected_location = $_GET['diadiem'] ?? '';
                             $locations = [
                                 ''    => 'Tất cả',
+                                'HCM' => 'Thành phố Hồ Chí Minh',
                                 'HN'  => 'Hà Nội',
                                 'DL'  => 'Đà Lạt',
                                 'HY'  => 'Hưng Yên'
