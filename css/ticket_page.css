@@ -262,6 +262,10 @@ body {
 }
 
 /* --- Nhóm 1 (Đỏ) --- */
+/* File CSS này chia các ID Loại Vé (LV) từ 1 đến 200 thành 8 nhóm màu
+  để phân biệt các khu vực hoặc sự kiện khác nhau.
+  Mỗi nhóm có một màu nền và màu chữ tương phản.
+*/
 
 /* --- Nhóm 1 (Đỏ) --- */
 /* (ID % 8 == 1) */
@@ -286,7 +290,10 @@ body {
 #LV145,
 #LV153,
 #LV161,
-#LV169 {
+#LV169,
+#LV177,
+#LV185,
+#LV193 {
   background-color: #d32f2f; /* Red */
   border-color: #d32f2f;
   color: #ffffff;
@@ -315,7 +322,10 @@ body {
 #LV146,
 #LV154,
 #LV162,
-#LV170 {
+#LV170,
+#LV178,
+#LV186,
+#LV194 {
   background-color: #f57c00; /* Orange */
   border-color: #f57c00;
   color: #ffffff;
@@ -344,7 +354,10 @@ body {
 #LV147,
 #LV155,
 #LV163,
-#LV171 {
+#LV171,
+#LV179,
+#LV187,
+#LV195 {
   background-color: #ffc107; /* Yellow */
   border-color: #ffc107;
   color: #000000;
@@ -373,7 +386,10 @@ body {
 #LV148,
 #LV156,
 #LV164,
-#LV172 {
+#LV172,
+#LV180,
+#LV188,
+#LV196 {
   background-color: #388e3c; /* Green */
   border-color: #388e3c;
   color: #ffffff;
@@ -402,7 +418,10 @@ body {
 #LV149,
 #LV157,
 #LV165,
-#LV173 {
+#LV173,
+#LV181,
+#LV189,
+#LV197 {
   background-color: #0288d1; /* Blue */
   border-color: #0288d1;
   color: #ffffff;
@@ -431,7 +450,10 @@ body {
 #LV150,
 #LV158,
 #LV166,
-#LV174 {
+#LV174,
+#LV182,
+#LV190,
+#LV198 {
   background-color: #303f9f; /* Indigo */
   border-color: #303f9f;
   color: #ffffff;
@@ -460,7 +482,10 @@ body {
 #LV151,
 #LV159,
 #LV167,
-#LV175 {
+#LV175,
+#LV183,
+#LV191,
+#LV199 {
   background-color: #7b1fa2; /* Purple */
   border-color: #7b1fa2;
   color: #ffffff;
@@ -488,7 +513,11 @@ body {
 #LV144,
 #LV152,
 #LV160,
-#LV168 {
+#LV168,
+#LV176,
+#LV184,
+#LV192,
+#LV200 {
   background-color: #616161; /* Grey */
   border-color: #616161;
   color: #ffffff;
