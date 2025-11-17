@@ -71,6 +71,7 @@
                                 'HCM' => 'Hồ Chí Minh',
                                 'HN'  => 'Hà Nội',
                                 'DL'  => 'Đà Lạt',
+                                'DN'  => 'Đà Nẵng',
                                 'HY'  => 'Hưng Yên'
                             ];
                             
