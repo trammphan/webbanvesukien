@@ -1,6 +1,10 @@
 <?php
 session_start();
-
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
 // 1. Kết nối CSDL
 include 'connect_1.php'; 
 $email_khach_hang_cookie = $_COOKIE['email'] ?? null;
@@ -211,5 +215,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 } else {
     echo "Lỗi: Phương thức truy cập không hợp lệ.";
+    header("Location: index.php");
 }
 ?>

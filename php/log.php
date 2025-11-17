@@ -1,6 +1,7 @@
 
 
 <?php
+session_start();
 // Kết nối CSDL
 $servername = "localhost";
 $username = "root";
@@ -18,7 +19,7 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = mysqli_real_escape_string($conn, trim(strtolower($_POST['email'])));
   $password = mysqli_real_escape_string($conn, trim($_POST['password']));
-
+  $redirect_url = $_POST['redirect']; 
   // Lấy thông tin người dùng theo email
   $email = $conn->real_escape_string($email);
   $tables = ['khachhang', 'quantrivien', 'nhatochuc', 'nhanviensoatve'];
@@ -49,15 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       switch ($user['table']) {
             case 'khachhang':
-                // --- BẮT ĐẦU PHẦN GỘP CODE ---
-                // Kiểm tra xem có trường 'redirect' được gửi từ form không
-                if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
-                    // Nếu có, chuyển hướng người dùng TRỞ LẠI trang họ đang xem
-                    header('Location: ' . urldecode($_POST['redirect']));
+                if (isset($redirect_url) && !empty($redirect_url)) {
+                       header('Location: ' . $redirect_url);
                 } else {
-                    // Nếu không, chuyển hướng về trang chủ (mặc định)
-                    header("Location: index.php");
-                }
+                      header("Location: index.php");
+                } 
                 // --- KẾT THÚC PHẦN GỘP CODE ---
                 break;
             case 'quantrivien':
@@ -71,14 +68,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
         }
         exit(); // Rất quan trọng, phải gọi exit() sau khi header()
-    }
+}
       else {
-      echo "<script>alert('Sai mật khẩu!'); window.location='dangnhap.php';</script>";
+        // BỔ SUNG MỚI (3/3): Thêm redirect_url vào link lỗi
+        $error_location = 'dangnhap.php';
+      if (!empty($redirect_url)) {
+            // Gửi lại redirect_url để form đăng nhập không bị mất
+            $error_location .= '?redirect=' . urlencode($redirect_url);
+        }
+      echo "<script>alert('Sai mật khẩu!'); window.location='$error_location';</script>";
+     }
+   } 
+   else {
+    // BỔ SUNG MỚI (3/3): Thêm redirect_url vào link lỗi
+    $error_location = 'dangnhap.php';
+    if (!empty($redirect_url)) {
+        // Gửi lại redirect_url để form đăng nhập không bị mất
+        $error_location .= '?redirect=' . urlencode($redirect_url);
     }
-  } 
-  else {
-    echo "<script>alert('Email không tồn tại!'); window.location='dangnhap.php';</script>";
-  }
+  echo "<script>alert('Email không tồn tại!'); window.location='$error_location';</script>";
+ }
 }
 
 $conn->close();

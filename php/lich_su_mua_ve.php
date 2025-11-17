@@ -1,21 +1,12 @@
 <?php
 // 1. Bắt đầu session và kiểm tra đăng nhập
 session_start();
-
-// ĐỊNH NGHĨA THƯ MỤC GỐC
-$BASE_URL = '/webbanvesukien'; 
-$BASE_DIR = $_SERVER['DOCUMENT_ROOT'] . $BASE_URL . '/'; 
-
-// Kiểm tra đăng nhập
-if (!isset($_COOKIE['email'])) {
-    $login_page = $BASE_URL . '/dangnhap.php';
-    $current_page_url = $_SERVER['REQUEST_URI'];
-    $login_url = $login_page . '?redirect=' . urlencode($current_page_url);
-    header("Location: " . $login_url);
-    exit;
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
 }
-
-// 2. Kết nối CSDL (ĐÃ SỬA DÙNG $BASE_DIR)
+// 2. Kết nối CSDL
 require_once  'connect_1.php'; 
 $email_dang_nhap = $_COOKIE['email'] ?? '';
 
@@ -159,4 +150,12 @@ require_once  'header.php';
 require_once  'footer.php'; 
 ?>
 <!-- Gọi JS dùng đường dẫn tuyệt đối (ĐÃ SỬA DÙNG $BASE_URL) -->
-<script src="<?php echo $BASE_URL; ?>/js/lichsu.js"></script>
+ <script>
+        // Dữ liệu này bây giờ đã bao gồm 'description'
+        const ticketData = <?php echo json_encode($ticket_types); ?>;
+
+        const isUserLoggedIn = <?php echo isset($_COOKIE['email']) ? 'true' : 'false'; ?>;
+
+        const userEmail = "<?php echo isset($_COOKIE['email']) ? htmlspecialchars($_COOKIE['email']) : ''; ?>";
+    </script>
+<script src="../js/lichsu.js"></script>

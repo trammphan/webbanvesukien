@@ -1,7 +1,11 @@
 <?php
 // LUÔN LUÔN bắt đầu session ở dòng đầu tiên
 session_start();
-
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
 // Lấy thông tin đơn hàng từ Session
 $order_details = $_SESSION['order_details'] ?? null;
 $customer_info = $_SESSION['customer_info'] ?? null;

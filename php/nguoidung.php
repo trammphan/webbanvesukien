@@ -9,7 +9,12 @@ $dbname = "qlysukien";
 $is_logged_in = false;
 $user_info = null;
 
-
+session_start();
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
 // 1. KIỂM TRA VÀ TRUY VẤN THÔNG TIN NẾU ĐÃ ĐĂNG NHẬP
 if (isset($_COOKIE['email'])) {
     $user_email = $_COOKIE['email'];

@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
 // Thiết lập header để trả về JSON
 header('Content-Type: application/json');
 

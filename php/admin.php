@@ -1,5 +1,11 @@
  <!-- xóa lượt tìm kiếm của các bảng thống kê -->
 <?php
+session_start();
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

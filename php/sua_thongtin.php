@@ -1,11 +1,9 @@
 <?php
-// Bắt đầu phiên (cần thiết nếu trang khác vẫn dùng session)
 session_start();
-
-// 🔹 Kiểm tra cookie "email" thay vì session
-if (!isset($_COOKIE["email"])) {
-    header("Location: dangnhap.php");
-    exit();
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
 }
 
 $servername = "localhost";

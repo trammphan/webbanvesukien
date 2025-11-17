@@ -1,5 +1,11 @@
 <?php
 session_start();
+// <!-- BỔ SUNG MỚI (1/3): KIỂM TRA ĐĂNG NHẬP BẰNG COOKIE -->
+if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
+    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: dangnhap.php?redirect=" . $redirect_url);
+    exit; // Dừng chạy code
+}
 // 1. Kết nối CSDL và lấy MaSK từ URL
 include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
 
@@ -30,7 +36,7 @@ $stmt = $conn->prepare("
         v.MaLoai, 
         v.TenLoai, 
         v.Gia, 
-        v.MoTa, -- <!-- BỔ SUNG MỚI (1/2): Lấy cột MoTa -->
+        v.MoTa, 
         COUNT(t.MaVe) AS SoVeConLai 
     FROM 
         loaive v 
@@ -39,7 +45,7 @@ $stmt = $conn->prepare("
     WHERE 
         v.MaSK = ? 
     GROUP BY 
-        v.MaLoai, v.TenLoai, v.Gia, v.MoTa -- <!-- BỔ SUNG MỚI (2/2): Thêm MoTa vào GROUP BY -->
+        v.MaLoai, v.TenLoai, v.Gia, v.MoTa 
 ");
 
 $stmt->bind_param("s", $maSK); 
@@ -162,6 +168,8 @@ function format_currency($amount) {
         const ticketData = <?php echo json_encode($ticket_types); ?>;
 
         const isUserLoggedIn = <?php echo isset($_COOKIE['email']) ? 'true' : 'false'; ?>;
+
+        const userEmail = "<?php echo isset($_COOKIE['email']) ? htmlspecialchars($_COOKIE['email']) : ''; ?>";
     </script>
     <script src="../js/ticket_page.js"></script>
   </body>
