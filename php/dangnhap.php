@@ -28,8 +28,6 @@ HTML;
           <h2>ĐĂNG NHẬP</h2>
 
           <form action="log.php" method="post"  >
-                        <!--autocomplete="off"-->
-            <!-- *** BẮT ĐẦU THAY ĐỔI *** -->
             <!-- Thêm trường ẩn để chứa URL redirect -->
              <input type="hidden" name="redirect" value="<?php echo $redirect_url_hidden; ?>">
             <!-- *** KẾT THÚC THAY ĐỔI *** -->
@@ -66,6 +64,10 @@ HTML;
          <!-- Thêm link chuyển sang trang đăng ký bên dưới form -->
          <div class="chuyen_trang" style="text-align: center; margin-top: 15px; color: #333;">
             <p>Chưa có tài khoản? <a href="dangky.php<?php echo $redirect_url_href; ?>" style="color: #007bff; text-decoration: none; font-weight: 600;">Đăng ký ngay</a></p>
+            <!-- *** BẮT ĐẦU BỔ SUNG QUÊN MẬT KHẨU *** -->
+           <p style="margin-top: 10px;"><a href="quen_mk.php<?php echo $redirect_url_href; ?>" style="color: #007bff; text-decoration: none; font-weight: 600;">Quên mật khẩu?</a></p>
+           <!-- *** KẾT THÚC BỔ SUNG QUÊN MẬT KHẨU *** -->
+
          </div>
          <!-- *** KẾT THÚC THAY ĐỔI MỚI *** -->
 
