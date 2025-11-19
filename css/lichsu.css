@@ -118,7 +118,7 @@ body {
 
 /* Icon cộng/trừ */
 .order-header::after {
-  content: "+";
+  content: "";
   position: absolute;
   right: 20px;
   top: 50%;
@@ -129,7 +129,7 @@ body {
   transition: transform 0.3s ease;
 }
 .order-item.active .order-header::after {
-  content: "-"; /* Dấu trừ */
+  content: ""; /* Dấu trừ */
 }
 /* ------------------------------------- */
 
@@ -147,6 +147,7 @@ body {
   font-size: 0.9em;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-left: auto; /* đẩy sát về bên phải */
 }
 .status-cho {
   background-color: #f0ad4e;
@@ -157,6 +158,59 @@ body {
 .status-da-huy {
   background-color: #e74c3c;
 }
+
+/* ------ Nút hoàn vé ---------*/
+.btn-hoan-ve {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.btn-hoan-ve:hover {
+    background-color: #c0392b;
+}
+
+/* --------- Thông báo xác nhận hoàn vé ----------- */
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+}
+.popup-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    max-width: 400px;
+    text-align: center;
+}
+.popup-actions button {
+    margin: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#popup-confirm { background: #27ae60; color: #fff; }
+#popup-cancel { background: #e74c3c; color: #fff; }
+
+
+.alert-box {
+  background: #27ae60; /* xanh lá cho thành công */
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 15px;
+  text-align: center;
+}
+.alert-box.error {
+  background: #e74c3c; /* đỏ cho lỗi */
+}
+
 
 /* ----- Ẩn body mặc định ----- */
 .order-body {
