@@ -18,14 +18,12 @@ if (!function_exists('format_currency_simple')) {
 }
 
 // 4. XỬ LÝ TRUY VẤN
-$sql = "SELECT 
-            tt.MaTT, tt.SoTien, tt.TrangThai, tt.PhuongThucThanhToan, tt.NgayTao,
-            v.MaVe, lv.TenLoai, 
-            sk.TenSK, sk.Tgian 
-        FROM ThanhToan tt
-        JOIN ve v ON tt.MaTT = v.MaTT
-        JOIN loaive lv ON v.MaLoai = lv.MaLoai
-        JOIN sukien sk ON lv.MaSK = sk.MaSK";
+$sql = "SELECT tt.MaTT, tt.SoTien, tt.TrangThai, tt.PhuongThucThanhToan, tt.NgayTao,
+        v.MaVe, lv.TenLoai, sk.TenSK, sk.Tgian
+    FROM ThanhToan tt
+    LEFT JOIN ve v ON tt.MaTT = v.MaTT
+    LEFT JOIN loaive lv ON v.MaLoai = lv.MaLoai
+    LEFT JOIN sukien sk ON lv.MaSK = sk.MaSK";
 
 $conditions = [];
 $params = [];
@@ -87,6 +85,14 @@ require_once  'header.php';
             <h1>Lịch sử mua vé của bạn</h1>
         </header>
 
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert-box">
+                <?php echo htmlspecialchars($_SESSION['message']); ?>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+
+
         <!-- ĐÃ XÓA BỎ FORM LỌC -->
 
         <div class="order-list">
@@ -104,7 +110,7 @@ require_once  'header.php';
                                 <h2>Mã đơn: <?php echo htmlspecialchars($maTT); ?></h2>
                                 <!-- MỚI: Thêm ngày đặt vào header -->
                                 <span class="order-date-header" style="font-size: 0.9em; color: #555; margin-top: 4px; display: block;">
-                                    <h3>Ngày đặt: <?php echo date("d/m/Y H:i", strtotime($don['NgayTao'])); ?></h3>
+                                    <h3>Ngày đặt: <?php echo date("d/m/Y H:i:s", strtotime($don['NgayTao'])); ?></h3>
                                 </span>
                             </div>
                             <?php 
@@ -118,6 +124,27 @@ require_once  'header.php';
                             <span class="status <?php echo $status_class; ?>">
                                 <?php echo htmlspecialchars($don['TrangThai']); ?>
                             </span>
+
+                            <div class="order-actions">
+                                <?php 
+                                    if ($don['TrangThai'] == 'Đã thanh toán') {
+                                        $thoiGianThanhToan = new DateTime($don['NgayTao']);
+                                        $hienTai = new DateTime();
+                                        $khoangCach = $hienTai->getTimestamp() - $thoiGianThanhToan->getTimestamp();
+
+                                        // Nếu <= 3600 giây (1 tiếng) thì cho phép hủy vé
+                                        if ($khoangCach <= 3600) {
+                                ?>
+                                            <form method="post" action="hoanve.php">
+                                                <input type="hidden" name="maTT" value="<?php echo htmlspecialchars($maTT); ?>">
+                                                <button type="submit" class="btn-hoan-ve">Hoàn vé</button>
+                                            </form>
+                                <?php 
+                                        }
+                                    }
+                                ?>
+                            </div>
+
                         </div>
                         <div class="order-body"> 
                             <p><strong>Sự kiện:</strong> <?php echo htmlspecialchars($don['TenSuKien']); ?></p>
@@ -142,7 +169,19 @@ require_once  'header.php';
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-    </div> 
+    </div>
+    
+    <div id="refund-popup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+        <p>Bạn có chắc muốn hoàn vé này không?<br>
+        Chúng tôi sẽ liên hệ hoàn tiền trong 24h tiếp theo sau khi hoàn tất quá trình hoàn vé.</p>
+        <div class="popup-actions">
+            <button id="popup-confirm">Hoàn vé</button>
+            <button id="popup-cancel">Hủy</button>
+        </div>
+    </div>
+</div>
+
 </main> 
 
 <?php
