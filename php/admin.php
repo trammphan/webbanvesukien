@@ -51,30 +51,21 @@ if ($current_page_doanhso < 1) $current_page_doanhso = 1;
 $total_pages_doanhso = 1; 
 $total_doanhso = 0; 
 
-
-// // Khởi tạo kết quả khách hàng
-    // $result_khachhang = null; 
-    // $items_per_page_khachhang = 10;
-    // $current_page_khachhang = isset($_GET['trang_kh']) ? (int)$_GET['trang_kh'] : 1; 
-    // if ($current_page_khachhang < 1) $current_page_khachhang = 1;
-    // $total_pages_khachhang = 1;
-    // // Khởi tạo kết quả nhân viên soát vé
-    // $result_nhanviensoatve = null; 
-    // $items_per_page_nhanviensoatve = 10;
-    // $current_page_nhanviensoatve = isset($_GET['trang_nv']) ? (int)$_GET['trang_nv'] : 1; 
-    // if ($current_page_nhanviensoatve < 1) $current_page_nhanviensoatve = 1;
-    // $total_pages_nhanviensoatve = 1;
-    // // Khởi tạo kết quả nhà tổ chức
-    // $result_nhatochuc = null; 
-    // $items_per_page_nhatochuc = 10;
-    // $current_page_nhatochuc = isset($_GET['trang_ntc']) ? (int)$_GET['trang_ntc'] : 1; 
-    // if ($current_page_nhatochuc < 1) $current_page_nhatochuc = 1;
-// $total_pages_nhatochuc = 1;
 $offset_nhanviensoatve = 0; 
 $offset_nhatochuc = 0;
 $offset_khachhang = 0;
 $offset_doanhso = 0;
 
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối CSDL thất bại: " . $conn->connect_error);
+}
+$conn->set_charset("utf8mb4");
+
+// Lấy ngày bắt đầu (10 ngày trước)
+$startDate = date('Y-m-d', strtotime('-10 days'));
 
 // 1. KIỂM TRA VÀ TRUY VẤN THÔNG TIN NẾU ĐÃ ĐĂNG NHẬP
 if (isset($_COOKIE['email'])) {
@@ -290,7 +281,8 @@ if (isset($_COOKIE['email'])) {
                 // Nếu không có lỗi DB, set null
                 $result_thongke_sk = null;
           }
-}
+    }
+    
 
 
     // E. ĐÓNG KẾT NỐI SAU KHI DÙNG XONG TẤT CẢ
@@ -343,6 +335,10 @@ require_once 'header.php';
         <button class="nav-item" id="btn-thongke">
             <i class="fa-regular fa-file-lines"></i>
             <span>Thống kê</span>
+        </button>
+        <button class="nav-item" id="btn-bieudo">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Biểu đồ</span>
         </button>
         <?php if ($is_logged_in && $user_info): ?>
             <label class="email_ntc">
@@ -689,7 +685,94 @@ require_once 'header.php';
             </nav>
         <?php endif; ?>
     </article>
+    
+    <article class="noidung hidden" id="bieudo-sukien-section">
+        <h2 class="noidung-title">Biểu đồ Thống kê </h2>
 
+        <!-- Thống kê loại sự kiện -->
+        <div class="row justify-content-center"> 
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">📈Thống kê số lượng Sự kiện theo Loại</h6>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 350px; width: 100%;"> 
+                            <canvas id="bieuDoSuKienLoai"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thống kê doanh thu sự kiện -->
+        <div class="row justify-content-center"> 
+            <div class="col-lg-12">
+                <div class="card shadow  mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success">💰 Doanh thu theo Sự kiện (Biểu đồ Cột)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 350px;"> 
+                            <canvas id="bieuDoDoanhThuSuKien"></canvas> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Thống kê số lượt truy cập -->
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Top 10 Lượt Truy Cập Sự Kiện</h6>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 400px; width: 100%;">
+                            <canvas id="bieuDoLuotTruyCap"></canvas> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách sự kiện -->    
+         <p>Thống kê Doanh thu và Vé chi tiết trong 10 ngày gần nhất.</p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12"> 
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Sự kiện</h6>
+                    </div>
+                    <div class="card-body">
+                        <select class="form-control" id="select-event">
+                            <option value="">-- Chọn Sự kiện -- (Tổng hợp 10 ngày)</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success" id="chart-title">Biểu đồ Tổng hợp Doanh thu và Vé (10 ngày gần nhất)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 400px; width: 100%;">
+                            <canvas id="bieuDoDoanhThuVeNgay"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    
+                
 
        
     </main>
@@ -698,89 +781,13 @@ require_once 'header.php';
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script defer src="/scripts/web-layout.js"></script>
         <script defer src="/scripts/homepage.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <script src="../js/admin.js"></script>
+
     HTML;
     require_once 'footer.php';
 ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-        const btnSukien = document.getElementById("btn-sukien");
-        const btnDanhmuc = document.getElementById("btn-danhmuc");
-        const btnNguoidung = document.getElementById("btn-nguoidung");
-        const btnVe = document.getElementById("btn-ve");
-        const btnThongke = document.getElementById("btn-thongke");
+    
 
-        const sectionSukien = document.getElementById("sukien-section");
-        const sectionDanhmuc = document.getElementById("danhmuc-section");
-        const sectionNguoidung = document.getElementById("nguoidung-section");
-        const sectionVe = document.getElementById("ve-section");
-        const sectionThongke = document.getElementById("thongke-section");
-
-        const sections = [sectionSukien, sectionDanhmuc, sectionNguoidung, sectionVe, sectionThongke];
-        const buttons = [btnSukien, btnDanhmuc, btnNguoidung, btnVe, btnThongke];
-        
-        // Ánh xạ tham số URL 'tab' sang ID của button/section
-        const tabMap = {
-            'sukien': { button: btnSukien, section: sectionSukien },
-            'danhmuc': { button: btnDanhmuc, section: sectionDanhmuc },
-            'nguoidung': { button: btnNguoidung, section: sectionNguoidung },
-            've': { button: btnVe, section: sectionVe },
-            'thongke': { button: btnThongke, section: sectionThongke },
-        };
-        function showSection(sectionToShow, clickedButton) {
-            [sectionSukien, sectionDanhmuc, sectionNguoidung, sectionVe, sectionThongke]
-              .forEach(sec => sec.classList.add("hidden"));
-            sectionToShow.classList.remove("hidden");
-            [btnSukien, btnDanhmuc, btnNguoidung, btnVe, btnThongke]
-              .forEach(btn => btn.classList.remove("active"));
-            clickedButton.classList.add("active");
-        }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const activeTab = urlParams.get('tab') || 'sukien'; // Mặc định là 'sukien'
-        
-        if (tabMap[activeTab]) {
-            showSection(tabMap[activeTab].section, tabMap[activeTab].button);
-        } else {
-            // Đảm bảo mục 'sukien' vẫn là mặc định nếu không có tham số hợp lệ
-            showSection(sectionSukien, btnSukien);
-        }
-
-        btnSukien.addEventListener("click", () => showSection(sectionSukien, btnSukien));
-        btnDanhmuc.addEventListener("click", () => showSection(sectionDanhmuc, btnDanhmuc));
-        btnNguoidung.addEventListener("click", () => showSection(sectionNguoidung, btnNguoidung));
-        btnVe.addEventListener("click", () => showSection(sectionVe, btnVe));
-        btnThongke.addEventListener("click", () => showSection(sectionThongke, btnThongke));
-        });
-
-
-        $(document).on('click', '.loaisk-link', function(e) {
-        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a
-        
-        const maLoai = $(this).data('id');
-        const tenLoai = $(this).text().trim();
-        const chiTietDiv = $('#sukien-chi-tiet');
-        const listDiv = $('#sukien-list');
-
-        // Hiển thị loading
-        listDiv.html('<i class="fa-solid fa-spinner fa-spin"></i> Đang tải danh sách sự kiện...');
-        chiTietDiv.show();
-        $('#chi-tiet-title').text(`Danh sách Sự kiện thuộc loại "${tenLoai}":`);
-
-        // Gửi yêu cầu AJAX
-        $.ajax({
-            url: 'get_sk_by_loai.php', // Tên file mới sẽ tạo ở Bước 3
-            type: 'GET',
-            data: { maloai: maLoai },
-            success: function(response) {
-                listDiv.html(response);
-            },
-            error: function() {
-                listDiv.html('<p style="color: red;">Lỗi khi tải dữ liệu sự kiện.</p>');
-            }
-        });
-        // Cuộn màn hình về khu vực hiển thị kết quả
-        $('html, body').animate({
-            scrollTop: chiTietDiv.offset().top - 20 
-        }, 500);
-    });
-</script>

@@ -54,6 +54,11 @@ h3 {
   font-size: 150%;
   margin: 10px;
 }
+h6{
+  text-align: center;
+  align-items: center;
+  font-size: larger;
+}
 .hidden {
   display: none;
 }
@@ -317,6 +322,21 @@ nav ul .page-item.active .page-link{
 }
 #chi-tiet-title {
   color: rgb(238, 248, 255);
+}
+.chonsukien {
+  color: #060259;
+  border-radius: 20px;
+  border: solid 2.5px #290352;
+  height: 53px;
+  width: 600px;
+  margin: 28px auto;
+  padding: 5px 5px;
+  box-sizing: border-box;
+
+  flex-direction: row;
+  outline: none; /* Loại bỏ viền khi click */
+  background: none; /* Loại bỏ nền */
+  display: flex;
 }
 
 /*TRANG ĐĂNG KÝ*/
