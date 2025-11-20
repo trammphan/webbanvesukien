@@ -39,7 +39,7 @@ $sql = "
     JOIN
         loaive LV ON V.MaLoai = LV.MaLoai
     WHERE
-        V.TrangThai = 'đã bán' AND DATE(TT.NgayTao) >= '{$startDate}'
+        V.TrangThai = 'Đã bán' AND DATE(TT.NgayTao) >= '{$startDate}'
     GROUP BY
         Ngay
     ORDER BY

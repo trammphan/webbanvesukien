@@ -32,7 +32,7 @@ $sql = "
             LEFT JOIN
                 thanhtoan tt ON v.MaTT = tt.MaTT
                 WHERE
-            v.TrangThai = 'đã bán'  
+            v.TrangThai = 'Đã bán'  
             GROUP BY
                 sk.MaSK
             ORDER BY

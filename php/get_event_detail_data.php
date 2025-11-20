@@ -41,7 +41,7 @@ $sql = "
     JOIN
         loaive LV ON V.MaLoai = LV.MaLoai
     WHERE
-        V.TrangThai = 'đã bán' AND V.MaSK = ? AND DATE(TT.NgayTao) >= ?
+        V.TrangThai = 'Đã bán' AND V.MaSK = ? AND DATE(TT.NgayTao) >= ?
     GROUP BY
         Ngay
     ORDER BY
