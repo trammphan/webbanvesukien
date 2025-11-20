@@ -18,7 +18,7 @@ $remaining_time = $limit_seconds - $elapsed_time;
 if ($remaining_time <= 0) {
     unset($_SESSION['payment_start_time']);
     echo "<script>
-            alert('Đã hết thời gian giữ vé (15 phút). Vui lòng thực hiện lại quy trình đặt vé.');
+            alert('Đã hết thời gian giữ vé (10 phút). Vui lòng thực hiện lại quy trình đặt vé.');
             window.location.href = 'index.php'; // Chuyển về trang chủ
           </script>";
     exit; 
