@@ -39,7 +39,7 @@ if ($maTT) {
         }
 
         // Update tất cả vé thuộc đơn hàng thành "Còn trống"
-        $stmt = $conn->prepare("UPDATE ve SET TrangThai = 'Còn trống', MaTT = NULL WHERE MaTT = ?");
+        $stmt = $conn->prepare("UPDATE ve SET TrangThai = 'chưa thanh toán', MaTT = NULL WHERE MaTT = ?");
         $stmt->bind_param("s", $maTT);
         $stmt->execute();
         $stmt->close();
@@ -52,7 +52,7 @@ if ($maTT) {
 
         $conn->commit();
 
-        $_SESSION['message'] = "Hoàn đơn hàng thành công. Chúng tôi sẽ liên hệ hoàn tiền trong 24h.";
+        $_SESSION['message'] = "Hoàn vé thành công. Chúng tôi sẽ liên hệ hoàn tiền trong 24h.";
     } catch (Exception $e) {
         $conn->rollback();
         $_SESSION['message'] = "Lỗi hoàn đơn hàng: " . $e->getMessage();
