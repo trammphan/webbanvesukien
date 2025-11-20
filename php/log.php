@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($user)) {
         
         // Lấy mật khẩu trong DB (hỗ trợ cả cột tên 'password' hoặc 'matkhau')
-        $db_pass = isset($user['password']) ? $user['password'] : (isset($user['matkhau']) ? $user['matkhau'] : '');
+        $db_pass =$user['password'];
         
         $login_success = false;
         $need_update_hash = false;
@@ -73,15 +73,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($need_update_hash) {
                 $new_hash = password_hash($password_raw, PASSWORD_DEFAULT);
                 $table_name = $user['table'];
-                $user_id = $user['id'];
+                $user_email = $user['email'];
                 
                 // Cập nhật lại mật khẩu đã mã hóa vào DB (cột password hoặc matkhau)
                 $col_name = isset($user['password']) ? 'password' : 'matkhau';
-                $conn->query("UPDATE $table_name SET $col_name = '$new_hash' WHERE id = '$user_id'");
+                $conn->query("UPDATE $table_name SET $col_name = '$new_hash' WHERE email = '$user_email'");
             }
 
             // Lưu Session (Quan trọng cho đăng nhập)
-            $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_role'] = $user['table'];
             $_SESSION['user_name'] = isset($user['user_name']) ? $user['user_name'] : (isset($user['hoten']) ? $user['hoten'] : $user['email']);
