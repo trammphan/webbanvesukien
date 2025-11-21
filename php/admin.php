@@ -456,7 +456,7 @@ require_once 'header.php';
                                 <?php while ($row = $result_thong_ke_loai_sk->fetch_assoc()): ?>
                                     <tr>
                                         <td class="ndsk">
-                                            <a href="#" class="loaisk-link" data-id="<?php echo htmlspecialchars($row['MaloaiSK']); ?>" style="color: blue; text-decoration: underline;">
+                                            <a href="#" id="loai_sk" class="loaisk-link" data-id="<?php echo htmlspecialchars($row['MaloaiSK']); ?>" >
                                                 <?php echo htmlspecialchars($row['TenLoaiSK']); ?>
                                             </a>
                                         </td>
@@ -738,83 +738,9 @@ require_once 'header.php';
             </div>
         </div>
 
-        <!-- Danh sách sự kiện -->    
-         <p>Thống kê Doanh thu và Vé chi tiết trong 10 ngày gần nhất.</p>
-
-        <div class="row justify-content-center">
-            <div class="col-md-12"> 
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Sự kiện</h6>
-                    </div>
-                    <div class="card-body">
-                        <select class="form-control" id="select-event">
-                            <option value="">-- Chọn Sự kiện -- (Tổng hợp 10 ngày)</option>
-                            </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-12">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-success" id="chart-title">Biểu đồ Tổng hợp Doanh thu và Vé (10 ngày gần nhất)</h6>
-                    </div>
-                    <div class="card-body">
-                        <div style="height: 400px; width: 100%;">
-                            <canvas id="bieuDoDoanhThuVeNgay"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-        let chart;
-
-        async function loadChart(days = 10, event_id = "") {
-            const url = new URL("http://127.0.0.1:5000/chart-data");
-            url.searchParams.append("days", days);
-            if (event_id) url.searchParams.append("event_id", event_id);
-
-            const response = await fetch(url);
-            const data = await response.json();
-
-            const ctx = document.getElementById("bieuDoDoanhThuVeNgay");
-
-            if (chart) chart.destroy(); // hủy chart cũ
-
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Biểu đồ Doanh thu và Vé (' + days + ' ngày gần nhất)'
-                        }
-                    }
-                }
-            });
-        }
-
-        // gọi lần đầu
-        loadChart(10);
-
-        // khi chọn sự kiện
-        document.getElementById("select-event").addEventListener("change", function() {
-            const event_id = this.value;
-            loadChart(10, event_id);
-        });
-
-        // tự động cập nhật mỗi 30 giây
-        setInterval(() => {
-            const event_id = document.getElementById("select-event").value;
-            loadChart(10, event_id);
-        }, 30000);
-        </script>
+        
 
     </article>
 
