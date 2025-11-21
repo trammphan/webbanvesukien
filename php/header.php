@@ -75,7 +75,7 @@
         </div>
         <div class="mobile-menu" id="mobileMenu">
             <ul>
-                <li><a href="#taosukien" onclick="toggleMobileMenu()">Tạo sự kiện</a></li>
+                <!-- <li><a href="#taosukien" onclick="toggleMobileMenu()">Tạo sự kiện</a></li> -->
                 <?php if (should_show_ticket()): ?>
                 <li><a href="<?php echo $ticket_link; ?>" onclick="toggleMobileMenu()">Vé của tôi</a></li>
                 <?php endif; ?>
@@ -90,13 +90,49 @@
     </header>
 <script src="../js/search-autocomplete.js"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy các phần tử cần thiết
+        var menuToggle = document.querySelector('.menu-toggle');
+        var mobileMenu = document.getElementById('mobileMenu');
+        var menuLinks = document.querySelectorAll('.mobile-menu a');
+
+        // Hàm toggle menu
+        function toggleMobileMenu() {
+            if (mobileMenu) {
+                mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        // Thêm sự kiện click cho nút menu
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+        }
+
+        // Đóng menu khi click bên ngoài
+        document.addEventListener('click', function(e) {
+            if (mobileMenu && !mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+
+        // Đóng menu khi click vào các link trong menu
+        menuLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                mobileMenu.style.display = 'none';
+            });
+        });
+    });
+
+    // Giữ lại hàm gốc để tương thích ngược
     function toggleMobileMenu() {
         var menu = document.getElementById('mobileMenu');
         if (menu) {
             menu.classList.toggle('open');
         }
     }
-
     // Ẩn menu mobile khi quay lại màn hình lớn
     window.addEventListener('resize', function () {
         var menu = document.getElementById('mobileMenu');
