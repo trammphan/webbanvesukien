@@ -1,22 +1,25 @@
 <?php
 session_start();
+?>
+<?php
 $redirect_url_hidden = ''; // Dùng cho input hidden
 $redirect_url_href = '';   // Dùng cho href links
 
 if (isset($_GET['redirect'])) {
+    // htmlspecialchars cho giá trị của input
     $redirect_url_hidden = htmlspecialchars($_GET['redirect']);
+    // urlencode cho tham số trên URL
     $redirect_url_href = '?redirect=' . urlencode($_GET['redirect']);
 }
 
-// Thêm CSS riêng cho trang này
+
 $additional_css = ['webstyle.css'];
 
-// Đặt tiêu đề trang
-$page_title = 'Quên Mật Khẩu';
+// Giữ tiêu đề và các asset head gốc của trang
+$page_title = 'Đăng ký';
 $additional_head = <<<HTML
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 HTML;
 ?>
 <?php require_once 'header.php'; ?>
@@ -24,6 +27,25 @@ HTML;
         <article class="khungdungchung">
           <h2>QUÊN MẬT KHẨU</h2>
           <p style="text-align: center; margin-bottom: 20px; color: #555;">Vui lòng nhập email của bạn. Chúng tôi sẽ gửi một liên kết để đặt lại mật khẩu.</p>
+         <!-- BƯỚC 2: Dán đoạn này vào chỗ bạn muốn hiện thông báo (ví dụ: ngay trên nút Gửi hoặc trên thẻ <form>) -->
+<?php if (isset($_SESSION['thong_bao'])): ?>
+    <div style="background-color: #d1e7dd; color: #0f5132; padding: 15px; margin-bottom: 20px; border: 1px solid #badbcc; border-radius: 5px; text-align: center;">
+        <?php 
+            echo $_SESSION['thong_bao']; 
+            unset($_SESSION['thong_bao']); // Xóa thông báo sau khi hiện (để F5 không bị hiện lại)
+        ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['loi'])): ?>
+    <div style="background-color: #f8d7da; color: #842029; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c2c7; border-radius: 5px; text-align: center;">
+        <?php 
+            echo $_SESSION['loi']; 
+            unset($_SESSION['loi']); 
+        ?>
+    </div>
+<?php endif; ?>
+
           <form action="xu_ly_quen_mk.php" method="post">
              <input type="hidden" name="redirect" value="<?php echo $redirect_url_hidden; ?>">
 
@@ -52,8 +74,7 @@ HTML;
 </main>
 <?php 
     $additional_footer_scripts = <<<HTML
-        <script src="/scripts/web-layout.js"></script>
-        <script src="/scripts/homepage.js"></script>
+        <script src="../js/vi.js"></script>
     HTML;
     require_once 'footer.php'; 
 ?>

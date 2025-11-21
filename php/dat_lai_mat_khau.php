@@ -5,8 +5,6 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 // 1. KẾT NỐI DATABASE
 try {
     if (file_exists('db_connect.php')) require_once 'db_connect.php';
-    elseif (file_exists('../db_connect.php')) require_once '../db_connect.php';
-    
     if (!isset($pdo)) {
         $servername = "localhost";
         $username = "root"; 
