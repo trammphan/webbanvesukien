@@ -10,7 +10,7 @@ setcookie("email", "", time() - 3600, "/");
 setcookie("user_name", "", time() - 3600, "/");
 //setcookie("id", "", time() - 3600, "/");
 
-// Quay lại trang dangnhap.php
-header("Location: dangnhap.php");
+// Quay lại trang index.php
+header("Location: index.php");
 exit();
 ?>

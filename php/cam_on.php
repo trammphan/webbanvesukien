@@ -1,5 +1,4 @@
 <?php
-// LUÔN LUÔN bắt đầu session ở dòng đầu tiên
 session_start();
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
@@ -11,9 +10,7 @@ $order_details = $_SESSION['order_details'] ?? null;
 $customer_info = $_SESSION['customer_info'] ?? null;
 
 if (!$order_details || !$customer_info) {
-    // Nếu không có thông tin (người dùng F5 hoặc vào thẳng trang)
-    // chuyển họ về trang chủ (hoặc trang chọn vé)
-    header('Location: index.php'); // Sửa thành trang chủ của bạn
+    header('Location: index.php'); 
     exit;
 }
 
@@ -22,16 +19,12 @@ $ticket_name = $order_details['ticket_name'];
 $quantity = $order_details['quantity'];
 $total_price = $order_details['total_price'];
 $order_id = $order_details['order_id'];
-// --- THÊM MỚI: Lấy danh sách mã vé ---
+
 $ticket_codes = $order_details['ticket_codes'] ?? []; // Lấy mảng mã vé
 
 $customer_name = $customer_info['name'];
 $customer_email = $customer_info['email'];
 $customer_phone = $customer_info['phone'];
-
-// Quan trọng: Xóa session sau khi đã lấy thông tin
-// unset($_SESSION['order_details']);
-// unset($_SESSION['customer_info']);
 
 ?>
 <!DOCTYPE html>
@@ -73,8 +66,6 @@ $customer_phone = $customer_info['phone'];
           <span>Số lượng:</span>
           <strong><?php echo $quantity; ?></strong>
         </div>
-        
-        <!-- === KHỐI MÃ MỚI === -->
         <div class="order-item">
           <span>Mã vé của bạn:</span>
           <div class="ticket-codes">
@@ -83,7 +74,6 @@ $customer_phone = $customer_info['phone'];
             <?php endforeach; ?>
           </div>
         </div>
-        <!-- === KẾT THÚC KHỐI MÃ MỚI === -->
         
         <div class="order-item">
           <span>Số điện thoại:</span>
@@ -94,7 +84,6 @@ $customer_phone = $customer_info['phone'];
           <?php echo number_format($total_price, 0, ',', '.'); ?> VNĐ
         </div>
       </div>
-      <!-- Sửa lại đường dẫn này cho đúng với cấu trúc của bạn -->
       <a href="index.php" class="back-link">Quay về trang chủ</a>
     </div>
   </body>

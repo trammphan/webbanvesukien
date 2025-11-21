@@ -1,5 +1,4 @@
 <?php
-// 1. Bắt đầu session và kiểm tra đăng nhập
 session_start();
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
@@ -32,8 +31,6 @@ $param_types = "";
 $conditions[] = "tt.Email_KH = ?";
 $params[] = $email_dang_nhap;
 $param_types .= "s";
-
-/* --- ĐÃ XÓA BỎ LOGIC LỌC THEO THÁNG/NĂM --- */
 
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -69,7 +66,6 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 $conn->close();
 
-// 6. Gọi Header (ĐÃ SỬA DÙNG $BASE_DIR)
 $additional_css = ['lichsu.css'];
 $page_title = 'Lịch sử mua vé';
 require_once  'header.php';
@@ -92,23 +88,17 @@ require_once  'header.php';
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
-
-        <!-- ĐÃ XÓA BỎ FORM LỌC -->
-
         <div class="order-list">
             <?php if (empty($don_hang)): ?>
                 <div class="no-orders">
-                    <!-- ĐƠN GIẢN HÓA THÔNG BÁO -->
                     <p>Bạn chưa có lịch sử mua vé nào.</p>
                 </div>
             <?php else: ?>
                 <?php foreach ($don_hang as $maTT => $don): ?>
                     <div class="order-item">
                         <div class="order-header"> 
-                            <!-- THAY ĐỔI: Nhóm Mã đơn và Ngày đặt -->
                             <div>
                                 <h2>Mã đơn: <?php echo htmlspecialchars($maTT); ?></h2>
-                                <!-- MỚI: Thêm ngày đặt vào header -->
                                 <span class="order-date-header" style="font-size: 0.9em; color: #555; margin-top: 4px; display: block;">
                                     <h3>Ngày đặt: <?php echo date("d/m/Y H:i:s", strtotime($don['NgayTao'])); ?></h3>
                                 </span>
@@ -131,8 +121,6 @@ require_once  'header.php';
                                         $thoiGianThanhToan = new DateTime($don['NgayTao']);
                                         $hienTai = new DateTime();
                                         $khoangCach = $hienTai->getTimestamp() - $thoiGianThanhToan->getTimestamp();
-
-                                        // Nếu <= 3600 giây (1 tiếng) thì cho phép hủy vé
                                         if ($khoangCach <= 3600) {
                                 ?>
                                             <form method="post" action="hoanve.php">
@@ -152,7 +140,7 @@ require_once  'header.php';
                             <p><strong>Thời gian diễn ra:</strong> <?php echo date("d/m/Y H:i", strtotime($don['ThoiGianSuKien'])); ?></p>
                             
                             <p><strong>Tổng tiền:</strong> <?php echo format_currency_simple($don['SoTien']); ?> VNĐ</p>
-                            <!-- ĐÃ XÓA DÒNG "NGÀY ĐẶT" Ở ĐÂY -->
+
                             <p><strong>Hình thức:</strong> <?php echo htmlspecialchars($don['PhuongThuc']); ?></p>
                             
                             <div class="ticket-list-title">Các vé đã đặt:</div>
@@ -185,10 +173,8 @@ require_once  'header.php';
 </main> 
 
 <?php
-// Gọi footer dùng đường dẫn tuyệt đối (ĐÃ SỬA DÙNG $BASE_DIR)
 require_once  'footer.php'; 
 ?>
-<!-- Gọi JS dùng đường dẫn tuyệt đối (ĐÃ SỬA DÙNG $BASE_URL) -->
  <script>
         // Dữ liệu này bây giờ đã bao gồm 'description'
         const ticketData = <?php echo json_encode($ticket_types); ?>;

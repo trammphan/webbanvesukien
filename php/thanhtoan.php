@@ -1,20 +1,15 @@
 <?php
-// --- PHẦN 1: LOGIC PHP (XỬ LÝ PHÍA SERVER) ---
 session_start();
-// --- BỔ SUNG MỚI: LOGIC GIỚI HẠN THỜI GIAN (10 PHÚT) ---
+
 $limit_minutes = 10;
 $limit_seconds = $limit_minutes * 60;
 
-// Nếu chưa có mốc thời gian bắt đầu trong session, tạo mới
 if (!isset($_SESSION['payment_start_time'])) {
     $_SESSION['payment_start_time'] = time();
 }
 
-// Tính thời gian đã trôi qua và thời gian còn lại
 $elapsed_time = time() - $_SESSION['payment_start_time'];
 $remaining_time = $limit_seconds - $elapsed_time;
-
-// Nếu hết giờ (thời gian còn lại <= 0)
 if ($remaining_time <= 0) {
     unset($_SESSION['payment_start_time']);
     echo "<script>
@@ -23,32 +18,27 @@ if ($remaining_time <= 0) {
           </script>";
     exit; 
 }
-// --- KẾT THÚC BỔ SUNG ---
-// --- BỔ SUNG: KIỂM TRA ĐĂNG NHẬP ĐỂ VÀO TRANG ---
+
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
     header("Location: dangnhap.php?redirect=" . $redirect_url);
     exit; // Dừng chạy code
 }
-// --- KẾT THÚC BỔ SUNG ---
-// 1. Kết nối CSDL
-include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
-// LẤY THÔNG TIN USER ĐĂNG NHẬP (NẾU CÓ)
 
-$loggedInName = $_COOKIE['user_name'] ?? '';// Giả sử bạn lưu tên là 'user_name'
+include 'connect_1.php'; 
+
+$loggedInName = $_COOKIE['user_name'] ?? '';
 $loggedInEmail = $_COOKIE['email'] ?? '';
 
 $maSK = $_GET['MaSK'] ?? null;
-$maLV = $_GET['zone'] ?? null; // 'zone' chính là Mã Loại Vé (MLV)
+$maLV = $_GET['zone'] ?? null; 
 $selected_quantity = (int)($_GET['qty'] ?? 1);
 
-// 3. Validation: Kiểm tra xem có đủ thông tin không
 if (!$maSK || !$maLV || $selected_quantity <= 0) {
     echo "Lỗi: Thông tin đơn hàng không hợp lệ. Vui lòng thử lại.";
     exit;
 }
 
-// 4. Lấy thông tin sự kiện (Tên)
 $stmt_event = $conn->prepare("SELECT TenSK FROM sukien WHERE MaSK = ?");
 if ($stmt_event === false) {
     die("Lỗi sql sự kiện: " . $conn->error);
@@ -74,8 +64,6 @@ $stmt_ticket->bind_param("ss", $maSK, $maLV);
 $stmt_ticket->execute();
 $ticket_result = $stmt_ticket->get_result();
 
-
-// --- PHẦN 6: XỬ LÝ KẾT QUẢ (ĐÃ SỬA LOGIC) ---
 $so_luong_con_lai = 0; // Đặt giá trị mặc định
 
 if ($ticket_result->num_rows > 0) {
@@ -109,9 +97,7 @@ if ($ticket_result->num_rows > 0) {
     $so_luong_con_lai = 0; // Vẫn là 0
     $stmt_ticket->close(); // Đóng câu lệnh (dù thất bại)
 }
-
-// *** MỚI: Ràng buộc số lượng $selected_quantity (giống logic JS) ***
-// Đảm bảo số lượng từ URL không lớn hơn số lượng còn lại
+// 6. Ràng buộc số lượng vé chọn không vượt quá số lượng vé còn lại
 if ($selected_quantity > $so_luong_con_lai) {
     $selected_quantity = $so_luong_con_lai;
 }
@@ -147,8 +133,6 @@ function format_currency_simple($amount) {
  const TICKET_BASE_PRICE = <?php echo $base_price; ?>;
  const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
 
- // --- [BỔ SUNG QUAN TRỌNG] KIỂM TRA LỖI HẾT VÉ TỪ URL ---
- // Đây là phần xử lý logic khi người dùng bị "bật" lại từ xuly_thanhtoan.php
  window.addEventListener('DOMContentLoaded', (event) => {
      // Lấy các tham số trên thanh địa chỉ (URL)
      const urlParams = new URLSearchParams(window.location.search);
@@ -193,13 +177,6 @@ function format_currency_simple($amount) {
                       <button type="button" class="quantity-btn" id="plus-btn">+</button>
                   </div>
               </div>
-              <!-- <div class="tier-total">
-                  <span>TỔNG:</span>
-                  <div>
-                      
-                      <span id="total-price-display">0</span> VNĐ 
-                  </div>
-              </div> -->
           </div>
 
           <div class="total-price">
@@ -217,7 +194,6 @@ function format_currency_simple($amount) {
             <input type="hidden" name="maSK" value="<?php echo htmlspecialchars($maSK); ?>">
             <input type="hidden" name="maLV" value="<?php echo htmlspecialchars($maLV); ?>">
             
-            <!-- Giá trị này đã được PHP ràng buộc -->
             <input type="hidden" name="quantity" id="hidden-quantity" value="<?php echo $selected_quantity; ?>">
             <input type="hidden" name="total_price" id="hidden-total" value="<?php echo $total_price; ?>">
 
@@ -230,7 +206,6 @@ function format_currency_simple($amount) {
                name="customer_name"
                required placeholder="Nguyễn Văn A"
                value="<?php echo htmlspecialchars($loggedInName); ?>" />
-             <!-- SỬA LẠI VỊ TRÍ: Đặt div lỗi bên trong form-group -->
              <div id="name-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
            </div>
            
@@ -243,24 +218,22 @@ function format_currency_simple($amount) {
                required
                placeholder="email@example.com"
                value="<?php echo htmlspecialchars($loggedInEmail); ?>" 
-               readonly /> <!-- THÊM MỚI: readonly để không cho sửa email đã đăng nhập -->
-              <!-- SỬA LẠI VỊ TRÍ: Đặt div lỗi bên trong form-group -->
+               readonly />
              <div id="email-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
            </div>
            
            <div class="form-group" autocomplete="off">
              <label for="phone">Số điện thoại</label>
              <input type="tel" id="phone" name="customer_phone" required placeholder="0123456789" />
-             <!-- SỬA LẠI VỊ TRÍ: Đặt div lỗi bên trong form-group -->
+             
              <div id="phone-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
            </div>
 <h3>Phương thức thanh toán</h3>
 <div class="payment-methods">
 
     <!-- Lựa chọn 1: Ví MoMo -->
-    <!-- QUAN TRỌNG: <input> ở ngoài và có id -->
+
     <input type="radio" name="payment_method" value="momo" id="pay-momo" checked />
-    <!-- <label> dùng "for" để liên kết với id -->
     <label for="pay-momo">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="width: 20px; height: 20px; fill: currentColor; margin-right: 10px;">
             <path d="M21 18v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2h-2V5H5v14h14v-1h2zM12 7a5 5 0 0 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
@@ -279,20 +252,15 @@ function format_currency_simple($amount) {
 </div>
 <div id="momo-payment-info" class="payment-details-box">
     <h4>Quét mã MoMo</h4>
-    <!-- BỔ SUNG MÃ QR -->
-    <!-- Giả định bạn đặt file bing_generated_qrcode.png vào thư mục ../img/ -->
     <img src="../img/image.png" alt="Mã QR MoMo" style="width: 200px; height: 200px; display: block; margin: 10px auto; border-radius: 8px;">
     
     <p style="text-align: center; margin-top: 10px; font-weight: bold;">Quét mã trên để hoàn tất thanh toán.</p>
     <p style="text-align: center; font-size: 0.9em;">Sau khi xác nhận, chúng tôi sẽ kiểm tra giao dịch của bạn.</p>
 </div>
 
-<!-- Thông tin cho Thẻ Tín dụng (mặc định ẩn) -->
 <div id="card-payment-info" class="payment-details-box" style="display: none;">
     <h4>Chi tiết Thẻ Tín dụng/Ghi nợ</h4>
     <p style="color: #D9534F; font-size: 0.8em; font-weight: bold; margin-bottom: 10px;">
-      <!-- Bạn có thể thêm icon FontAwesome nếu đã link thư viện -->
-      <!-- <i class="fas fa-lock"></i> -->
       VIBE4 KHÔNG LƯU trữ số thẻ đầy đủ hoặc CVV của bạn. Chúng tôi chỉ lưu 4 số cuối để đối chiếu.
     </p>
 
@@ -330,9 +298,8 @@ function format_currency_simple($amount) {
     </div>
     
     <script src="../js/thanhtoan.js"></script>
-    <script>// --- BỔ SUNG: SCRIPT ĐẾM NGƯỢC THỜI GIAN ---
-let timeRemaining = <?php echo $remaining_time; ?>; // Lấy từ PHP
-
+    <script>
+let timeRemaining = <?php echo $remaining_time; ?>;
 function startTimer() {
     const timerDisplay = document.getElementById('countdown-display');
     const countdown = setInterval(() => {

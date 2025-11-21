@@ -59,12 +59,7 @@ if (isset($_POST['btn_reset_pass'])) {
         $error = "Mật khẩu nhập lại không khớp.";
     } else {
         
-        // --- QUAN TRỌNG: BẬT MÃ HÓA (HASHING) ---
-        // Mật khẩu '123456' sẽ biến thành chuỗi '$2y$10$abC...'
         $hashed_password = password_hash($pass_new, PASSWORD_DEFAULT); 
-        // ----------------------------------------
-
-        // Cập nhật vào DB (Giả sử cột tên là 'password', nếu là 'matkhau' nhớ sửa lại)
         $sql = "UPDATE khachhang SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE email = ?";
         $stmt_update = $pdo->prepare($sql);
         

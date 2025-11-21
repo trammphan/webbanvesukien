@@ -55,10 +55,6 @@ function getEventsData($host, $dbname, $user, $pass) {
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // --- SỬA ĐỔI QUAN TRỌNG ---
-        // 1. Dùng LEFT JOIN: Để sự kiện vẫn hiện ra dù chưa có vé nhập vào.
-        // 2. GROUP_CONCAT: Để gom nhóm các loại vé lại, tránh lặp lại tên sự kiện nhiều lần làm AI rối.
         $sql = "
             SELECT 
                 sk.TenSK, 
