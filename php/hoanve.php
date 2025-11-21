@@ -53,6 +53,7 @@ if ($maTT) {
         $conn->commit();
 
         $_SESSION['message'] = "Hoàn vé thành công. Chúng tôi sẽ liên hệ hoàn tiền trong 24h.";
+        $_SESSION['message_time'] = time(); // lưu thời điểm tạo thông báo
     } catch (Exception $e) {
         $conn->rollback();
         $_SESSION['message'] = "Lỗi hoàn đơn hàng: " . $e->getMessage();

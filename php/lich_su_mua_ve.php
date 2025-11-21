@@ -86,12 +86,20 @@ require_once  'header.php';
         </header>
 
         <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert-box">
-                <?php echo htmlspecialchars($_SESSION['message']); ?>
+            <div id="msg" class="alert alert-success">
+                <?php echo $_SESSION['message']; ?>
             </div>
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
+        <script>
+            setTimeout(function(){
+                var msg = document.getElementById('msg');
+                if(msg){
+                    msg.style.display = 'none';
+                }
+            }, 3000); // 10000 ms = 10 giây
+        </script>
 
         <!-- ĐÃ XÓA BỎ FORM LỌC -->
 
@@ -172,15 +180,15 @@ require_once  'header.php';
     </div>
     
     <div id="refund-popup" class="popup-overlay" style="display:none;">
-    <div class="popup-box">
-        <p>Bạn có chắc muốn hoàn vé này không?<br>
-        Chúng tôi sẽ liên hệ hoàn tiền trong 24h tiếp theo sau khi hoàn tất quá trình hoàn vé.</p>
-        <div class="popup-actions">
-            <button id="popup-confirm">Hoàn vé</button>
-            <button id="popup-cancel">Hủy</button>
+        <div class="popup-box">
+            <p>Bạn có chắc muốn hoàn vé này không?<br>
+            Chúng tôi sẽ liên hệ hoàn tiền trong 24h tiếp theo sau khi hoàn tất quá trình hoàn vé.</p>
+            <div class="popup-actions">
+                <button id="popup-confirm">Hoàn vé</button>
+                <button id="popup-cancel">Hủy</button>
+            </div>
         </div>
     </div>
-</div>
 
 </main> 
 

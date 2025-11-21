@@ -769,6 +769,53 @@ require_once 'header.php';
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        let chart;
+
+        async function loadChart(days = 10, event_id = "") {
+            const url = new URL("http://127.0.0.1:5000/chart-data");
+            url.searchParams.append("days", days);
+            if (event_id) url.searchParams.append("event_id", event_id);
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const ctx = document.getElementById("bieuDoDoanhThuVeNgay");
+
+            if (chart) chart.destroy(); // hủy chart cũ
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Biểu đồ Doanh thu và Vé (' + days + ' ngày gần nhất)'
+                        }
+                    }
+                }
+            });
+        }
+
+        // gọi lần đầu
+        loadChart(10);
+
+        // khi chọn sự kiện
+        document.getElementById("select-event").addEventListener("change", function() {
+            const event_id = this.value;
+            loadChart(10, event_id);
+        });
+
+        // tự động cập nhật mỗi 30 giây
+        setInterval(() => {
+            const event_id = document.getElementById("select-event").value;
+            loadChart(10, event_id);
+        }, 30000);
+        </script>
+
     </article>
 
     
