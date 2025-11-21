@@ -1,20 +1,16 @@
 <?php
 session_start();
-
-// Kết nối CSDL
 $servername = "localhost";
 $username = "root";
-$password_db = ""; // Đặt tên khác để tránh trùng
+$password_db = ""; 
 $dbname = "qlysukien";
 
 $conn = new mysqli($servername, $username, $password_db, $dbname);
 
-// Kiểm tra kết nối
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Khi người dùng nhấn nút Đăng nhập
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // 1. Lấy dữ liệu
@@ -43,14 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 3. Kiểm tra đăng nhập
     if (!empty($user)) {
         
-        // Lấy mật khẩu trong DB (hỗ trợ cả cột tên 'password' hoặc 'matkhau')
+        // Lấy mật khẩu trong DB
         $db_pass =$user['password'];
         
         $login_success = false;
         $need_update_hash = false;
-
-        // --- LOGIC KIỂM TRA MẬT KHẨU NÂNG CAO ---
-        
         // Ưu tiên 1: Kiểm tra mã hóa (Dành cho pass mới đổi)
         if (password_verify($password_raw, $db_pass)) {
             $login_success = true;
@@ -75,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $table_name = $user['table'];
                 $user_email = $user['email'];
                 
-                // Cập nhật lại mật khẩu đã mã hóa vào DB (cột password hoặc matkhau)
-                $col_name = isset($user['password']) ? 'password' : 'matkhau';
+                // Cập nhật lại mật khẩu đã mã hóa vào DB
+                $col_name =  $user['password'];
                 $conn->query("UPDATE $table_name SET $col_name = '$new_hash' WHERE email = '$user_email'");
             }
 

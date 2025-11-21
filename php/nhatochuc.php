@@ -221,7 +221,7 @@ require_once 'header.php';
 
             <button class="nav-item" id="btn-xembc">
                 <i class="fa-solid fa-chart-line"></i>
-                <span>Xem báo cáo</span>
+                <span>Thống kê</span>
             </button>
             <?php if ($is_logged_in && $user_info): ?>
                 <label class="email_ntc">
@@ -560,7 +560,7 @@ require_once 'header.php';
     </article>
 
     <article class="noidung hidden" id="xembc-section">
-        <h2 class="noidung-title">XEM BÁO CÁO</h2>
+        <h2 class="noidung-title">THỐNG KÊ</h2>
         <div class="report-table-wrapper">
             <table class="report-table">
                 <thead>
@@ -574,19 +574,19 @@ require_once 'header.php';
                 </thead>
                 <tbody>
                     <tr>
-                        <td>baocao_doanhthu_gdragon_2025.xlsx</td>
-                        <td>2025-11-09 10:15</td>
-                        <td>ntc@ctu.edu.vn</td>
-                        <td>Đã xử lý</td>
+                        <td data-label="File">thongke_doanhthu_gdragon_2025.xlsx</td>
+                        <td data-label="Ngày tạo">2025-11-09 10:15</td>
+                        <td data-label="Người tạo">ntc@ctu.edu.vn</td>
+                        <td data-label="Trạng thái xử lý">Đã xử lý</td>
                         <td>
                             <button class="btn-qly btn-download-report">Tải xuống</button>
                         </td>
                     </tr>
                     <tr>
-                        <td>baocao_khachhang_waterbomb.csv</td>
-                        <td>2025-11-17 09:00</td>
-                        <td>report@vibe4.vn</td>
-                        <td>Đã xử lý</td>
+                        <td data-label="File">thongke_khachhang_waterbomb.csv</td>
+                        <td data-label="Ngày tạo">2025-11-17 09:00</td>
+                        <td data-label="Người tạo">report@vibe4.vn</td>
+                        <td data-label="Trạng thái xử lý">Đã xử lý</td>
                         <td>
                             <button class="btn-qly btn-download-report">Tải xuống</button>
                         </td>
@@ -702,18 +702,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xử lý nút Quản lý: toggle menu con (Doanh thu / Đơn hàng)
     document.querySelectorAll('.qly-card .btn-manage').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const card = btn.closest('.qly-card');
-            const menu = card?.querySelector('.manage-menu');
-            if (!menu) return;
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Ngăn sự kiện nổi bọt
+            const menu = btn.nextElementSibling; // Menu là phần tử liền kề tiếp theo
+            if (!menu || !menu.classList.contains('manage-menu')) return;
 
-            // Ẩn tất cả các menu con khác trước khi hiển thị menu của card hiện tại
+            // Bật/tắt class show cho menu
+            menu.classList.toggle('show');
+
+            // Đóng các menu khác
             document.querySelectorAll('.manage-menu').forEach(m => {
                 if (m !== menu) {
-                    m.classList.add('hidden');
+                    m.classList.remove('show');
                 }
             });
-            menu.classList.toggle('hidden');
+        });
+    });
+
+    // Đóng menu khi click bên ngoài
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.qly-card-actions')) {
+            document.querySelectorAll('.manage-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+
+    // Đóng menu khi click vào một mục menu
+    document.querySelectorAll('.manage-menu button').forEach(button => {
+        button.addEventListener('click', () => {
+            button.closest('.manage-menu')?.classList.remove('show');
         });
     });
     
@@ -724,7 +742,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const eventId = btn.getAttribute('data-event-id');
             if (!eventId) return;
 
-            // Ẩn tất cả các panel đơn hàng và doanh thu
+            // Ẩn tất cả các panel
             document.querySelectorAll('.orders-panel, .revenue-panel').forEach(panel => {
                 panel.classList.add('hidden');
             });
@@ -732,9 +750,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hiển thị panel đơn hàng tương ứng
             const panelToShow = document.getElementById(`orders-panel-${eventId}`);
             if (panelToShow) {
-                // Ẩn menu con khi mở panel
+                // Ẩn tất cả menu
                 document.querySelectorAll('.manage-menu').forEach(menu => {
-                    menu.classList.add('hidden');
+                    menu.classList.remove('show');
                 });
                 
                 // Hiển thị panel
@@ -772,8 +790,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hiển thị panel doanh thu tương ứng
             const panelToShow = document.getElementById(`revenue-panel-${eventId}`);
             if (panelToShow) {
-                // Ẩn menu con
-                btn.closest('.manage-menu')?.classList.add('hidden');
+                // Ẩn menu
+                btn.closest('.manage-menu')?.classList.remove('show');
                 // Hiển thị panel
                 panelToShow.classList.remove('hidden');
             }
