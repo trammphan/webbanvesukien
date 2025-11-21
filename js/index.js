@@ -22,7 +22,7 @@ function trackSearchEvent(eventIds) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
               MaSK: id, 
-              action: "search" 
+              action: "click" 
             })
         });
     });

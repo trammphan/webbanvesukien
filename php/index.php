@@ -34,7 +34,7 @@ function renderEventCards($conn, $sql_query, $title, $icon_class, $tag_logic_fun
                     $tag = $tag_logic_func($event);
                     ?>
                     <div class="event-card">
-                        <a href="chitietsk_1.php?MaSK=<?php echo $event['MaSK']; ?>">
+                        <a href="chitietsk_1.php?MaSK=<?php echo $event['MaSK']; ?>" data-mask="<?php echo htmlspecialchars($event['MaSK']); ?>" onclick="trackEvent(this)">
                             <div class="card-image-wrapper">
                                 <img src="<?php echo $event['img_sukien']; ?>" alt="<?php echo htmlspecialchars($event['TenSK']); ?>" class="card-image"> 
                                 <span class="event-tag special-tag"><?php echo $tag; ?></span>
@@ -154,6 +154,9 @@ if (empty($search_query)) {
             ?>
         </div>
     </div>
+
+    <div class="space"></div>
+    
 </main>
 <?php
 }

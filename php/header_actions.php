@@ -14,7 +14,7 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['user_name']) && isset($_COOKIE['
     $user_role = $_COOKIE['user_role'];
     
     // Ẩn vé cho admin (quantrivien) và nhà tổ chức (nhatochuc)
-    $show_ticket = !in_array($user_role, ['quantrivien', 'nhatochuc']);
+   $show_ticket = !in_array($user_role, ['quantrivien', 'nhatochuc', 'nhanviensoatve']);
 
     // Ánh xạ vai trò (user_role) tới trang profile tương ứng
     switch ($user_role) {

@@ -464,6 +464,10 @@ button{
     border-radius: 12px;
 }
 
+.space {
+    margin-top: 120px;
+}
+
 /* EVENT CAROUSEL STYLES */
 .event-section {
     max-width: 1200px;
