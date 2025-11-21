@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Thiết lập header để trả về JSON
 header('Content-Type: application/json');
 
@@ -12,6 +12,12 @@ function sendErrorResponse($errors) {
     }
     // Dùng exit(json_encode) để dừng script và xuất JSON
     exit(json_encode(['success' => false, 'errors' => $errors]));
+}
+
+// Chỉ cho phép POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    
+    exit;
 }
 
 // *** Đảm bảo các thông số này chính xác ***

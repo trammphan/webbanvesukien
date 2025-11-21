@@ -18,8 +18,234 @@ button{
     text-decoration: none;
 }
 
+/* Search results section */
 #search-results-top {
-    padding-top: 100px;
+    padding: 55px 6px 10px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Search header */
+.search-results-header {
+    background: linear-gradient(135deg, #0f2027, #060259, #290352);
+    padding: 6px 0;
+    margin-bottom: 10px;
+    text-align: center;
+    position: sticky;
+    top: 50px;
+    z-index: 99;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-query {
+    color: #00e0ff;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+}
+
+.search-count {
+    color: #a0a6b5;
+    font-size: 10px;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+/* Event grid layout */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Event card styles */
+.event-card {
+    background: #0d1222;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.event-card:active {
+    transform: scale(0.98);
+}
+
+.card-image-wrapper {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.event-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #00e0ff;
+    color: #0d1222;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-info {
+    padding: 15px;
+}
+
+.event-name {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0 0 6px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 36px;
+    line-height: 1.3;
+}
+
+.event-date {
+    color: #a0a6b5;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.event-price {
+    color: #00e0ff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* No results message */
+.no-results {
+    text-align: center;
+    padding: 50px 20px;
+    color: #a0a6b5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #search-results-top {
+        padding: 50px 4px 8px;
+    }
+    
+    .search-results-header {
+        top: 50px;
+        padding: 4px 0;
+    }
+    
+    .search-query {
+        font-size: 11px;
+        padding: 0 6px;
+        font-weight: 500;
+    }
+    
+    .search-count {
+        font-size: 9px;
+    }
+    
+    #search-results-top .event-card {
+        flex: 0 0 calc(50% - 8px);
+        width: calc(50% - 8px);
+    }
+    
+    .event-name {
+        font-size: 11px;
+        min-height: 32px;
+        line-height: 1.2;
+    }
+    
+    .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        padding: 0 8px;
+    }
+    
+    .card-image-wrapper {
+        height: 130px;
+    }
+    
+    .event-name {
+        font-size: 12px;
+        min-height: 32px;
+        line-height: 1.25;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 2px;
+    }
+    
+    .event-date {
+        font-size: 11px;
+        margin: 4px 0;
+    }
+    
+    .event-price {
+        font-size: 13px;
+    }
+    
+    .card-info {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #search-results-top {
+        padding: 70px 10px 20px;
+    }
+    
+    .event-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 0 8px;
+    }
+    
+    .search-query {
+        font-size: 16px;
+    }
+    
+    .search-count {
+        font-size: 13px;
+    }
+    
+    .event-card {
+        border-radius: 8px;
+    }
+    
+    .card-info {
+        padding: 12px;
+    }
+    
+    .event-name {
+        font-size: 14px;
+        min-height: 40px;
+    }
 }
 
 /* CATEGORY BAR STYLES */
@@ -68,7 +294,7 @@ button{
     display: block;
     position: absolute;    
     visibility: hidden;
-    width: 750px;
+    width: 360px;
     background: linear-gradient(135deg, #0f2027, #060259, #290352);
     filter: brightness(115%);
     border-radius: 4px;
@@ -77,10 +303,10 @@ button{
     margin-top: 5px;
     text-align: justify;
     border-radius: 6px;
-    padding: 5px;
+    padding: 8px;
     position: absolute;
     z-index: 999;
-    font-size: 12px;
+    font-size: 0.85em;
     font-weight: 500;
     font-family: 'Montserrat', 'Michroma', sans-serif;
     white-space: normal; /* Cho phép xuống dòng */
@@ -518,3 +744,287 @@ button{
         object-fit: cover;
     }
 }
+.section-title {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    font-family: 'Nunito', 'Open Sans', sans-serif;
+}
+
+.section-title i {
+    color: #00e0ff;
+    margin-right: 10px;
+}
+
+.event-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* scroll-behavior: smooth;
+    position: relative; */
+}
+
+/* Kết quả tìm kiếm: cho xổ hết các sự kiện, không cần kéo ngang */
+#search-results-top .event-carousel {
+    flex-wrap: wrap;
+    overflow-x: visible;
+}
+
+/* Kết quả tìm kiếm: 4 card mỗi hàng trên màn hình lớn */
+#search-results-top .event-card {
+    flex: 0 0 calc(25% - 15px);
+    width: calc(25% - 15px);
+}
+
+@media (max-width: 992px) {
+    /* Trên màn nhỏ, cho 2 card mỗi hàng để không quá chật */
+    #search-results-top .event-card {
+        flex: 0 0 calc(50% - 15px);
+        width: calc(50% - 15px);
+    }
+}
+
+.event-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.slider-btn {
+    pointer-events: auto;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    line-height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(244, 244, 244, 0.65);
+    color: #0d1222;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 20;
+}
+
+.slider-btn:hover { background: rgba(0, 224, 255, 0.35); transform: scale(1.05); }
+.slider-btn:active { transform: scale(0.97); }
+.slider-btn.prev { left: 4px; }
+.slider-btn.next { right: 4px; }
+
+.event-card {
+    flex: 0 0 280px;
+    width: 280px;
+    background: #040c2a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card-image-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.event-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.event-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #00e0ff;
+    color: #0d1222;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card-info {
+    padding: 15px;
+}
+
+.event-name {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 24px;
+    height: 72px;
+}
+
+.event-date {
+    color: #a0a6b5;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.event-price {
+    color: #00e0ff;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.price-value {
+    font-size: 18px;
+}
+
+@media (max-width: 992px) {
+    *{
+        font-size: 80%;
+    }
+    .hero-banner {
+        padding: 24px 12px 20px;
+        min-height: 250px;
+        margin-top: 6px;
+    }
+
+    .banner-logo {
+        max-width: 90px;
+        margin-bottom: 10px;
+    }
+
+    .banner-logo-text {
+        font-size: 26px;
+    }
+
+    .banner-title {
+        font-size: 30px;
+        line-height: 1.25;
+    }
+
+    .banner-subtitle {
+        font-size: 12px;
+        margin-bottom: 14px;
+        max-width: 90%;
+    }
+
+    .btn-banner {
+        max-width: 200px;
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+
+    .event-card {
+        flex: 0 0 190px;
+        width: 190px;
+    }
+
+    /* Giữ kích thước icon tài khoản trong header trên mobile */
+    .header-actions .btn-signin i {
+        font-size: 20px; /* hoặc kích thước bạn thấy đẹp hơn */
+    }
+}
+
+/* Mobile rất nhỏ: làm chữ và card gọn hơn */
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .event-section {
+        margin: 6px 5px;
+        padding: 0 2px;
+    }
+
+    /* Card trong các section bình thường (không áp dụng cho search results đã custom riêng) */
+    .event-section:not(#search-results-top) .event-card {
+        flex: 0 0 55%;
+        width: 55%;
+    }
+
+    .event-section:not(#search-results-top) .card-image-wrapper {
+        height: 130px;
+    }
+
+    .event-section:not(#search-results-top) .card-info {
+        padding: 10px 12px;
+    }
+
+    .event-card {
+        margin-bottom: 0px;
+    }
+    .event-name {
+        font-size: 13px;
+        line-height: 20px;
+        height: 60px;
+    }
+
+    .event-date {
+        font-size: 11px;
+    }
+
+    .event-price,
+    .price-value {
+        font-size: 13px;
+    }
+
+    /* Thu nhỏ slider trên mobile */
+    .slider {
+        height: 160px;
+    }
+    .slider::before,
+    .slider::after {
+        height: 160px;
+    }
+    .slider .slide img {
+        height: 160px;
+        object-fit: cover;
+    }
+}
+/* Thu nhỏ slider trên mobile */
+    .slider {
+        height: 160px;
+    }
+    .slider::before,
+    .slider::after {
+        height: 160px;
+    }
+    .slider .slide img {
+        height: 160px;
+        object-fit: cover;
+    }
