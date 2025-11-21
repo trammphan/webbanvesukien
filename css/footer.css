@@ -119,10 +119,38 @@ footer {
 }
 
 /* RESPONSIVE STYLES (FOOTER) */
+@media (max-width: 1200px) {
+    .footer-logo {
+        font-size: 1.75rem;
+    }
+    .footer-col h4 {
+        font-size: 1.1rem;
+    }
+    .footer-links a, 
+    .footer-contact span,
+    .footer-branding p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .footer-logo {
+        font-size: 1.6rem;
+    }
+    .footer-col h4 {
+        font-size: 1.05rem;
+    }
+    .footer-links a, 
+    .footer-contact span,
+    .footer-branding p {
+        font-size: 0.85rem;
+    }
+}
+
 @media (max-width: 768px) {
     .footer-container {
         flex-direction: column;
-        gap: 40px;
+        gap: 2rem;
     }
     .footer-col {
         min-width: 100%;
@@ -130,9 +158,11 @@ footer {
     }
     .footer-col h4 {
         text-align: center;
+        margin-bottom: 1rem;
     }
     .footer-branding p {
-        padding: 0 10px;
+        padding: 0 1rem;
+        font-size: 0.9rem;
     }
     .footer-contact li {
         justify-content: center;
@@ -141,65 +171,67 @@ footer {
         text-align: center;
     }
 }
-/* MOBILE NHỎ: tối ưu footer cho màn hình điện thoại */
+
+/* Mobile styles */
 @media (max-width: 576px) {
     footer {
-        padding: 30px 0 10px;
+        padding: 1.5rem 0 0.5rem;
     }
 
     .footer-container {
-        gap: 24px;
-        padding: 0 10px;
+        gap: 1.5rem;
+        padding: 0 0.8rem;
+        margin-bottom: 1.5rem;
     }
 
     .footer-logo {
-        font-size: 22px;
-        margin-bottom: 8px;
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
     }
 
     .footer-branding p {
-        font-size: 12px;
+        font-size: 0.85rem;
         line-height: 1.5;
-        margin-bottom: 12px;
-        padding: 0 4px;
+        margin-bottom: 1rem;
+        padding: 0 0.5rem;
     }
 
     .footer-col h4 {
-        font-size: 15px;
-        margin-bottom: 14px;
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
     }
 
     .footer-links li,
     .footer-contact li {
-        margin-bottom: 6px;
+        margin-bottom: 0.5rem;
     }
 
     .footer-links a,
     .footer-contact span {
-        font-size: 12px;
+        font-size: 0.85rem;
     }
 
     .footer-contact i {
-        font-size: 14px;
-        margin-right: 6px;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
     }
 
     .social-links a {
-        font-size: 16px;
-        margin-right: 10px;
+        font-size: 1.1rem;
+        margin: 0 0.5rem;
     }
 
     .btn-download {
-        padding: 8px 18px;
-        font-size: 13px;
-        margin-top: 4px;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
     }
 
     .footer-bottom {
-        padding-top: 10px;
+        padding: 1rem 0.5rem 0;
     }
-
+    
     .footer-bottom p {
-        font-size: 11px;
+        font-size: 0.8rem;
     }
 }

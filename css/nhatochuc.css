@@ -1,3 +1,8 @@
+/* Ẩn nút Tạo sự kiện */
+#btn-create-qly {
+    display: none !important;
+}
+
 /* ==== LAYOUT NHÀ TỔ CHỨC ==== */
 
 .layout {
@@ -86,29 +91,12 @@
   }
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.brand-dot {
-  width: 10px;
-  height: 10px;
-  background: #2773e7;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #2ee9a8;
-}
-.brand-text {
-  font-weight: 800;
-  letter-spacing: .2px;
-}
-
 .nav {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .sidebar .nav-item {
   display: flex;
   align-items: center;
@@ -122,19 +110,14 @@
   border-radius: 10px;
   transition: background .2s ease, color .2s ease;
 }
+
 .sidebar .nav-item:hover {
   background: #122349;
 }
+
 .sidebar .nav-item.active {
   background: #1c2d5c;
   color: #fff;
-}
-
-.email_ntc {
-  padding-left: 10px;
-  margin-top: 20px;
-  color: rgb(136, 202, 255);
-  font-size: 100%;
 }
 
 /* ===== NỘI DUNG CHÍNH ===== */
@@ -160,6 +143,30 @@
 .noidung.nhatochuc {
   background: rgba(7, 16, 36, 0.95);
   color: #d9e0ef;
+  padding: 15px 25px 20px !important;
+  min-height: auto !important;
+}
+
+.noidung.nhatochuc .noidung-title {
+  font-size: 28px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 224, 255, 0.3);
+}
+
+.noidung.nhatochuc .noidung-title span {
+  color: #00e0ff;
+  font-weight: 800;
+  text-shadow: 0 0 15px rgba(0, 224, 255, 0.5);
+}
+
+.noidung.nhatochuc p.chaomung {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  color: #a8b3cf;
+  font-weight: 400;
 }
 
 .noidung-title {
@@ -202,9 +209,11 @@
   min-width: 260px;
   flex: 1 1 260px;
 }
+
 .searchbar i {
   color: #8fb7ff;
 }
+
 .searchbar input {
   background: transparent;
   border: none;
@@ -213,6 +222,7 @@
   min-width: 160px;
   width: 100%;
 }
+
 .btn-search {
   background: #1c2d5c;
   color: #fff;
@@ -222,6 +232,7 @@
   font-weight: 700;
   cursor: pointer;
 }
+
 .btn-search:hover {
   background: #3155a5;
 }
@@ -239,6 +250,7 @@
   border-radius: 999px;
   font-weight: 800;
 }
+
 .btn-create:hover {
   background: #1fd095;
 }
@@ -251,6 +263,7 @@
   margin: 8px 0 16px;
   flex-wrap: wrap;
 }
+
 .tabs .tab {
   background: #0b1736;
   color: #b9c9ff;
@@ -260,6 +273,7 @@
   cursor: pointer;
   font-weight: 700;
 }
+
 .tabs .tab.active {
   background: #2ee9a8;
   color: #041225;
@@ -271,11 +285,13 @@
 .qly-events {
   margin-top: 16px;
 }
+
 .qly-events-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .qly-card {
   display: flex;
   gap: 12px;
@@ -284,6 +300,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
+
 .qly-card-thumb {
   width: 90px;
   height: 60px;
@@ -291,6 +308,7 @@
   overflow: hidden;
   flex-shrink: 0;
 }
+
 .qly-card-thumb img {
   width: 100%;
   height: 100%;
@@ -303,17 +321,20 @@
   justify-content: space-between;
   flex: 1;
 }
+
 .qly-card-title {
   color: #ffffff;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 4px;
 }
+
 .qly-card-meta {
   color: #9fb4ff;
   font-size: 13px;
   margin-bottom: 8px;
 }
+
 .qly-card-actions {
   display: flex;
   gap: 10px;
@@ -321,10 +342,12 @@
   min-width: 200px;
   justify-content: flex-end;
 }
-
+.manage-menu{
+  color: white;
+}
 .btn-manage, 
 .btn-update {
-  background: #1a56db;
+  background: #1ab8dbfa;
   color: white;
   border: none;
   border-radius: 6px;
@@ -339,7 +362,6 @@
   justify-content: center;
   min-width: 80px;
   min-width: 100px;
-  display: block;
   text-decoration-line: none;
 }
 
@@ -353,92 +375,6 @@
   transform: translateY(-1px);
 }
 
-.manage-menu {
-  display: none;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 8px 8px;
-  padding: 10px 15px;
-  margin: 10px -15px -15px -15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.manage-menu-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  max-width: 400px;
-  margin-left: auto;
-  color: white !important;
-}
-
-.manage-menu-buttons button {
-  color: white !important;
-  background: #2d3b5b;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 15px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.manage-menu-buttons button:hover {
-  background: #3a4a6e;
-  transform: translateY(-1px);
-}
-
-.manage-menu button {
-  width: 100%;
-  text-align: left;
-  padding: 8px 12px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 13px;
-  color: #333;
-}
-
-.manage-menu button:hover {
-  background: #f3f4f6;
-  color: #1a56db;
-}
-
-.manage-menu:not(.hidden) {
-  display: block;
-}
-
-.qly-card-actions .manage-menu {
-  justify-content: center;
-  gap: 8px;
-}
-
-.qly-card-actions .manage-menu:not(.hidden) {
-  display: flex;
-}
-
-.qly-card-actions .manage-menu .btn-qly,
-.qly-card-actions .manage-menu .btn-scan {
-  flex: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  padding: 4px 12px;
-  font-size: 12px;
-}
-
-/* Hover cho các nút trong khu vực quản lý sự kiện */
-.qly-card-actions .btn-manage:hover,
-.qly-card-actions .btn-update:hover,
-.qly-card-actions .manage-menu .btn-qly:hover,
-.qly-card-actions .manage-menu .btn-scan:hover {
-  background: #00e07b;
-}
-
 /* === Panel Doanh thu === */
 
 .revenue-panel {
@@ -449,16 +385,19 @@
   box-shadow: 0 10px 30px rgba(9, 28, 84, 0.45);
   color: #e8fffd;
 }
+
 .revenue-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
 }
+
 .revenue-title {
   margin: 0;
   font-size: 18px;
 }
+
 .revenue-close {
   border: none;
   background: transparent;
@@ -466,11 +405,7 @@
   font-size: 22px;
   cursor: pointer;
 }
-.revenue-event {
-  margin: 0 0 10px;
-  font-size: 14px;
-  color: #9fb4ff;
-}
+
 .revenue-summary {
   display: flex;
   justify-content: space-between;
@@ -480,34 +415,42 @@
   background: rgba(11, 23, 55, 0.9);
   margin-bottom: 12px;
 }
+
 .revenue-summary .label {
   font-size: 14px;
   color: #c5d6ff;
 }
+
 .revenue-summary .value {
   font-size: 18px;
   font-weight: 700;
   color: #2ee9a8;
 }
+
 .revenue-subtitle {
   font-size: 14px;
   margin: 8px 0;
 }
+
 .revenue-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 13px;  
+  background: radial-gradient(circle at top left, #102447, #050c1f);
 }
+
 .revenue-table th,
 .revenue-table td {
   padding: 8px 10px;
   border-bottom: 1px solid #1b2c56;
 }
+
 .revenue-table th {
   text-align: left;
   color: #c5d6ff;
   font-weight: 600;
 }
+
 .revenue-table td {
   color: #e4f0ff;
 }
@@ -522,16 +465,19 @@
   box-shadow: 0 10px 30px rgba(9, 28, 84, 0.45);
   color: #e8fffd;
 }
+
 .orders-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
 }
+
 .orders-title {
   margin: 0;
   font-size: 18px;
 }
+
 .orders-close {
   border: none;
   background: transparent;
@@ -539,21 +485,25 @@
   font-size: 22px;
   cursor: pointer;
 }
+
 .orders-event {
   margin: 0 0 6px;
   font-size: 14px;
   color: #9fb4ff;
 }
+
 .orders-count {
   margin: 0 0 10px;
   font-size: 13px;
   color: #c5d6ff;
 }
+
 .orders-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 .order-card {
   background: rgba(6, 13, 34, 0.95);
   border-radius: 10px;
@@ -562,19 +512,23 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .order-main {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+
 .order-name {
   font-weight: 600;
   font-size: 14px;
 }
+
 .order-code {
   font-size: 12px;
   color: #9fb4ff;
 }
+
 .order-row {
   display: flex;
   justify-content: space-between;
@@ -609,16 +563,13 @@
 .qly-events {
   margin-top: 16px;
 }
-.qly-subtitle {
-  color: #e8fffd;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
+
 .qly-events-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .qly-card {
   display: flex;
   gap: 12px;
@@ -627,6 +578,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
+
 .qly-card-thumb {
   width: 90px;
   height: 60px;
@@ -634,32 +586,38 @@
   overflow: hidden;
   flex-shrink: 0;
 }
+
 .qly-card-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .qly-card-body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
 }
+
 .qly-card-title {
   color: #ffffff;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 4px;
 }
+
 .qly-card-meta {
   color: #9fb4ff;
   font-size: 13px;
   margin-bottom: 8px;
 }
+
 .qly-card-actions {
   display: flex;
   gap: 8px;
 }
+
 .btn-qly,
 .btn-scan {
   flex: 1;
@@ -670,19 +628,15 @@
   font-weight: 600;
   cursor: pointer;
 }
+
 .btn-qly {
-  background: #00c46a;
   color: #041225;
-}
-.btn-scan {
-  background: #00c46a;
-  color: #041225;
-}
-.btn-qly:hover,
-.btn-scan:hover {
-  background: #00e07b;
 }
 
+.btn-qly:hover,
+.btn-scan:hover {
+  background: #fffb89e2;
+}
 
 .report-table {
     width: 100%;
@@ -690,40 +644,20 @@
     color: #fff;
     font-size: 14px;
 }
+
 .report-table thead tr {
     background: #2c2f36;
 }
+
 .report-table th,
 .report-table td {
     padding: 10px 12px;
     border-bottom: 1px solid #1b1e24;
     text-align: left;
 }
+
 .report-table th {
     font-weight: 600;
-}
-.report-table .empty-row td {
-    padding: 40px 12px;
-    background: #111;
-}
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: #777;
-}
-.empty-state .empty-icon {
-    font-size: 32px;
-}
-.empty-state .empty-text {
-    font-size: 14px;
-}
-
-/* Ẩn/hiện chung */
-.hidden {
-  display: none;
 }
 
 /* ==== RESPONSIVE NHÀ TỔ CHỨC ==== */
