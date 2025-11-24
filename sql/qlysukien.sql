@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 24, 2025 at 09:41 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th10 24, 2025 lúc 10:53 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `qlysukien`
+-- Cơ sở dữ liệu: `qlysukien`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `diadiem`
+-- Cấu trúc bảng cho bảng `diadiem`
 --
 
 CREATE TABLE `diadiem` (
@@ -33,7 +33,7 @@ CREATE TABLE `diadiem` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `diadiem`
+-- Đang đổ dữ liệu cho bảng `diadiem`
 --
 
 INSERT INTO `diadiem` (`MaDD`, `TenTinh`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `diadiem` (`MaDD`, `TenTinh`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `khachhang`
+-- Cấu trúc bảng cho bảng `khachhang`
 --
 
 CREATE TABLE `khachhang` (
@@ -59,7 +59,7 @@ CREATE TABLE `khachhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `khachhang`
+-- Đang đổ dữ liệu cho bảng `khachhang`
 --
 
 INSERT INTO `khachhang` (`email`, `user_name`, `tel`, `password`, `reset_token`, `reset_token_expiry`) VALUES
@@ -82,7 +82,7 @@ INSERT INTO `khachhang` (`email`, `user_name`, `tel`, `password`, `reset_token`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `loaisk`
+-- Cấu trúc bảng cho bảng `loaisk`
 --
 
 CREATE TABLE `loaisk` (
@@ -91,7 +91,7 @@ CREATE TABLE `loaisk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `loaisk`
+-- Đang đổ dữ liệu cho bảng `loaisk`
 --
 
 INSERT INTO `loaisk` (`MaloaiSK`, `TenLoaiSK`) VALUES
@@ -102,7 +102,7 @@ INSERT INTO `loaisk` (`MaloaiSK`, `TenLoaiSK`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `loaive`
+-- Cấu trúc bảng cho bảng `loaive`
 --
 
 CREATE TABLE `loaive` (
@@ -114,7 +114,7 @@ CREATE TABLE `loaive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `loaive`
+-- Đang đổ dữ liệu cho bảng `loaive`
 --
 
 INSERT INTO `loaive` (`MaLoai`, `TenLoai`, `Gia`, `MoTa`, `MaSK`) VALUES
@@ -268,7 +268,7 @@ INSERT INTO `loaive` (`MaLoai`, `TenLoai`, `Gia`, `MoTa`, `MaSK`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nhanviensoatve`
+-- Cấu trúc bảng cho bảng `nhanviensoatve`
 --
 
 CREATE TABLE `nhanviensoatve` (
@@ -280,7 +280,7 @@ CREATE TABLE `nhanviensoatve` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `nhanviensoatve`
+-- Đang đổ dữ liệu cho bảng `nhanviensoatve`
 --
 
 INSERT INTO `nhanviensoatve` (`email`, `user_name`, `gender`, `tel`, `password`) VALUES
@@ -289,7 +289,7 @@ INSERT INTO `nhanviensoatve` (`email`, `user_name`, `gender`, `tel`, `password`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nhatochuc`
+-- Cấu trúc bảng cho bảng `nhatochuc`
 --
 
 CREATE TABLE `nhatochuc` (
@@ -302,7 +302,7 @@ CREATE TABLE `nhatochuc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `nhatochuc`
+-- Đang đổ dữ liệu cho bảng `nhatochuc`
 --
 
 INSERT INTO `nhatochuc` (`email`, `user_name`, `tel`, `address`, `taikhoannganhang`, `password`) VALUES
@@ -311,7 +311,7 @@ INSERT INTO `nhatochuc` (`email`, `user_name`, `tel`, `address`, `taikhoannganha
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quantrivien`
+-- Cấu trúc bảng cho bảng `quantrivien`
 --
 
 CREATE TABLE `quantrivien` (
@@ -322,7 +322,7 @@ CREATE TABLE `quantrivien` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `quantrivien`
+-- Đang đổ dữ liệu cho bảng `quantrivien`
 --
 
 INSERT INTO `quantrivien` (`email`, `user_name`, `tel`, `password`) VALUES
@@ -331,7 +331,7 @@ INSERT INTO `quantrivien` (`email`, `user_name`, `tel`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sukien`
+-- Cấu trúc bảng cho bảng `sukien`
 --
 
 CREATE TABLE `sukien` (
@@ -343,45 +343,46 @@ CREATE TABLE `sukien` (
   `img_sodo` varchar(255) DEFAULT NULL,
   `MaLSK` char(5) DEFAULT NULL,
   `MaDD` char(5) DEFAULT NULL,
-  `luot_truycap` int(11) DEFAULT 0
+  `luot_truycap` int(11) DEFAULT 0,
+  `email` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `sukien`
+-- Đang đổ dữ liệu cho bảng `sukien`
 --
 
-INSERT INTO `sukien` (`MaSK`, `TenSK`, `Tgian`, `img_sukien`, `mota`, `img_sodo`, `MaLSK`, `MaDD`, `luot_truycap`) VALUES
-('SK02', '[CAT&MOUSE] CA SĨ ĐẠT G - ĐÊM LẶNG TÔ MÀU XÚC CẢM', '2025-10-18 21:00:00', 'https://salt.tkbcdn.com/ts/ds/37/25/63/9a82b897b7f175b5888016f161d0fa1e.png', 'Với không gian được đầu tư hệ thống ánh sáng - âm thanh đẳng cấp quốc tế với sức chứa lên đến 350 người, cùng quầy bar phục vụ cocktail pha chế độc đáo bởi bartender chuyên nghiệp.\n\n20g00 - 31/10/2025 (Thứ 6), một đêm nhạc sâu lắng và chân thành tại Cat&Mouse đã hé lộ. Sự góp mặt của Đạt G với chất giọng trầm ấm, đặc trưng, cùng phong cách âm nhạc giàu cảm xúc, sẽ giúp bạn tìm thấy chính mình trong những khoảnh khắc cô đơn nhưng cũng đầy sự an ủi.\n\nQuý khách tham dự đêm diễn sẽ được tặng 1 phần đồ ăn nhẹ.', 'https://salt.tkbcdn.com/ts/ds/6c/cf/24/dc9d3e30efe6ec8823fc647d26958e39.png', 'LSK01', 'HCM', 72),
-('SK03', 'G-DRAGON 2025 WORLD TOUR [Übermensch] IN HANOI, PRESENTED BY VPBANK', '2025-11-08 20:00:00', 'https://salt.tkbcdn.com/ts/ds/2b/62/6d/b72040ac36d256c6c51e4c01797cf879.png', 'Lần đầu tiên, \"Ông hoàng K-pop\" G-DRAGON chính thức tổ chức concert tại Việt Nam, mở màn cho chuỗi World Tour do 8Wonder mang tới. G-DRAGON 2025 WORLD TOUR [Übermensch] hứa hẹn sẽ bùng nổ với sân khấu kì công, âm thanh - ánh sáng mãn nhãn và những khoảnh khắc chạm đến trái tim người hâm mộ. G-DRAGON sẽ mang đến những bản hit từng gắn liền với thanh xuân của hàng triệu người hâm mộ. Một đêm nhạc không chỉ để thưởng thức, mà còn để lưu giữ trong ký ức.', 'https://salt.tkbcdn.com/ts/ds/16/36/dd/6e30fc512e2e37417917e4d8fb718262.png', 'LSK03', 'HY', 112),
-('SK05', 'Waterbomb Ho Chi Minh City 2025', '2025-11-15 14:00:00', 'https://salt.tkbcdn.com/ts/ds/f3/80/f0/32ee189d7a435daf92b6a138d925381c.png', 'Vào hai ngày 15–16/11/2025, khu đô thị Vạn Phúc City (TP.HCM) sẽ trở thành tâm điểm của giới trẻ khi lễ hội âm nhạc WATERBOMB lần đầu tiên “cập bến” Việt Nam. Với mô hình kết hợp âm nhạc – trình diễn – hiệu ứng phun nước đặc trưng từ Hàn Quốc, sự kiện hứa hẹn mang đến trải nghiệm “ướt sũng” đầy phấn khích cùng dàn nghệ sĩ đình đám như Hwasa, Jay Park, B.I, Sandara Park, Rain, EXID, Shownu x Hyungwon (MONSTA X), cùng các ngôi sao Vpop như HIEUTHUHAI, tlinh, SOOBIN, Tóc Tiên, Chi Pu, MIN và nhiều cái tên hot khác.\n\nKhông chỉ là sân khấu âm nhạc, WATERBOMB còn là đại tiệc cảm xúc với khu vui chơi phun nước liên hoàn, khu check-in phong cách lễ hội, và các hạng vé đa dạng từ GA đến Splash Wave – nơi bạn có thể “quẩy” sát sân khấu cùng thần tượng. Đây là cơ hội hiếm có để fan Kpop và khán giả Việt cùng hòa mình vào không gian lễ hội quốc tế ngay giữa lòng Sài Gòn.\n', NULL, 'LSK02', 'HCM', 110),
-('SK06', 'GS25 MUSIC FESTIVAL 2025', '2025-11-22 10:00:00', 'https://salt.tkbcdn.com/ts/ds/6e/2f/fa/32d07d9e0b2bd6ff7de8dfe2995619d5.jpg', 'GS25 MUSIC FESTIVAL 2025 sẽ diễn ra vào ngày 22/11 tại Công viên Sáng Tạo, Thủ Thiêm, TP.HCM, từ 10:00 đến 23:00. Đây là lễ hội âm nhạc ngoài trời hoành tráng do GS25 tổ chức, quy tụ nhiều nghệ sĩ nổi tiếng. Khách hàng có thể đổi vé tham dự bằng cách tích điểm khi mua sắm tại GS25 và CAFE25 từ 01/10 đến 15/11. Vé không cho phép hoàn trả và cần đeo vòng tay khi tham gia. Sự kiện hứa hẹn mang đến trải nghiệm âm nhạc sôi động và không gian lễ hội trẻ trung dành cho giới trẻ.', 'https://salt.tkbcdn.com/ts/ds/42/8c/44/5a155daa8398d44556cf655011a7b50b.png', 'LSK02', 'HCM', 105),
-('SK07', '2025 K-POP SUPER CONCERT IN HO CHI MINH', '2025-11-22 18:00:00', 'https://salt.tkbcdn.com/ts/ds/bb/96/bd/28394979b702cd9dc934bef42824e6c1.png', 'Vào ngày 22/11/2025, sự kiện K-POP SUPER CONCERT sẽ chính thức diễn ra tại Vạn Phúc City, TP.HCM, do Golden Space Entertainment tổ chức. Đây là một lễ hội âm nhạc hoành tráng quy tụ dàn nghệ sĩ K-pop và Việt Nam, với sự góp mặt của các tên tuổi như XIUMIN, CHEN, DUCPHUC, ARrC, và nhóm nữ Gen Z đa quốc tịch We;Na – lần đầu tiên ra mắt tại Việt Nam.', 'https://salt.tkbcdn.com/ts/ds/90/2c/7a/a20cdd1dd5199797705582c7651c72c1.jpg', 'LSK03', 'HCM', 112),
-('SK08', 'SOOBIN LIVE CONCERT: ALL-ROUNDER THE FINAL', '2025-11-29 20:00:00', 'https://salt.tkbcdn.com/ts/ds/9c/9e/c1/2edd538cb4df21a0d13f95588cb44dc4.png', 'Các all-rounders chờ đã lâu rồi phải không? Một lần nữa hãy cùng đắm chìm trong trải nghiệm sân khấu \'all around you\', để SOOBIN cùng âm nhạc luôn chuyển động bên bạn mọi lúc - mọi nơi nhé!', 'https://salt.tkbcdn.com/ts/ds/bd/22/b1/3a539796934ac26795c6b1c2aba9435f.jpg', 'LSK03', 'HCM', 105),
-('SK09', 'Những Thành Phố Mơ Màng Year End 2025', '2025-12-07 16:00:00', 'https://salt.tkbcdn.com/ts/ds/e8/95/f3/2dcfee200f26f1ec0661885b2c816fa6.png', 'Chào mừng cư dân đến với NTPMM Year End 2025 - Wondertopia,  vùng đất diệu kỳ nơi âm nhạc cất lời và cảm xúc thăng hoa!\nTại đây, từng giai điệu sẽ dẫn lối, từng tiết tấu sẽ mở ra cánh cửa đến một thế giới đầy màu sắc, nơi mọi người cùng nhau hòa nhịp trong niềm vui và sự gắn kết.\n\nHành trình khép lại năm 2025 sẽ trở thành một đại tiệc của âm nhạc, sáng tạo và bất ngờ. Wondertopia không chỉ là một show diễn – mà là không gian nơi chúng ta tìm thấy sự đồng điệu, truyền cảm hứng cho một khởi đầu mới rực rỡ hơn.\n\nTHÔNG TIN SỰ KIỆN\n\nThời gian dự kiến:  07/12/2025 \n\nĐịa điểm: khu vực ngoài trời tại TP.HCM (sẽ cập nhật sau).', NULL, 'LSK03', 'HCM', 86),
-('SK10', 'Những Thành Phố Mơ Màng Year End 2025', '2025-12-21 16:00:00', 'https://salt.tkbcdn.com/ts/ds/18/8f/59/2d0abe9be901a894cd3b0bf29fd01863.png', 'Chào mừng cư dân đến với NTPMM Year End 2025 - Wondertopia,  vùng đất diệu kỳ nơi âm nhạc cất lời và cảm xúc thăng hoa!\nTại đây, từng giai điệu sẽ dẫn lối, từng tiết tấu sẽ mở ra cánh cửa đến một thế giới đầy màu sắc, nơi mọi người cùng nhau hòa nhịp trong niềm vui và sự gắn kết.\n\nHành trình khép lại năm 2025 sẽ trở thành một đại tiệc của âm nhạc, sáng tạo và bất ngờ. Wondertopia không chỉ là một show diễn – mà là không gian nơi chúng ta tìm thấy sự đồng điệu, truyền cảm hứng cho một khởi đầu mới rực rỡ hơn.\n\nTHÔNG TIN SỰ KIỆN\n\nThời gian dự kiến: 21/12/2025 \n\nĐịa điểm: khu vực ngoài trời tại Hà Nội (sẽ cập nhật sau).', NULL, 'LSK03', 'HN', 20),
-('SK11', '1900 Future Hits #75: Thanh Duy', '2025-10-24 21:00:00', 'https://salt.tkbcdn.com/ts/ds/df/d8/ec/9f46a4e587b39ccf5886e6ae6f1b27d0.png', 'Nhắc đến Thanh Duy (Á quân Vietnam Idol 2008) là nhắc đến một nghệ sĩ nhiều màu sắc, một chú \"tắc kè hoa\" của showbiz. Thanh Duy kể những câu chuyện độc đáo, chạm đến tim người nghe bằng âm nhạc. Mỗi bài hát là một mảnh ghép cá tính, không lẫn vào đâu được.\n \nVới style không ngại khác biệt, thời trang \"chơi trội\" và tinh thần sống thật, sống hết mình, Thanh Duy luôn là nguồn năng lượng tích cực, truyền cảm hứng sống vui, sống thật cho giới trẻ. \n \nNgày 24/10 tới đây, 1900 sẽ chào đón Thanh Duy đến với đêm nhạc Future Hits #75. Các bản hit sẽ được vang lên trên sân khấu 1900, hứa hẹn mang đến những moment cực peak.\n \nSave the date!', NULL, 'LSK01', 'HN', 45),
-('SK12', 'RAVERSE #3: Clowns Du Chaos w/ MIKE WILLIAMS - Oct 31 (HALLOWEEN PARTY)', '2025-10-31 20:00:00', 'https://salt.tkbcdn.com/ts/ds/e0/71/b2/b213ce9427cfc01487c73df2ba849787.jpg', 'Sau những đêm cháy hết mình cùng DubVision và Maddix, RAVERSE đã chính thức quay trở lại và lần này, Raverse sẽ biến APLUS HANOI thành một RẠP XIẾC MA MỊ đúng nghĩa. Cùng chào đón Headliner – MIKE WILLIAMS, DJ/Producer top 72 DJ Mag - Người đứng sau hàng loạt hit Future Bounce tỉ lượt nghe, từng khuấy đảo những sân khấu lớn nhất thế giới Tomorrowland, Ultra Music Festival,... nay sẽ đổ bộ Raverse #3 mang theo năng lượng bùng nổ chưa từng có! ⚡Cánh cửa rạp xiếc sắp mở… Bạn đã sẵn sàng hóa thân, quẩy hết mình và bước vào thế giới hỗn loạn của RAVERSE chưa?', NULL, 'LSK02', 'HN', 41),
-('SK13', 'Jazz concert: Immersed', '2025-11-15 19:00:00', 'https://salt.tkbcdn.com/ts/ds/43/54/98/924b6491983baf58b00222c9b5b7295b.jpg', 'JAZZ CONCERT – IMMERSED: SỰ KẾT HỢP ĐỈNH CAO TỪ NHỮNG TÊN TUỔI HÀNG ĐẦU\n\n🌿Được khởi xướng bởi GG Corporation, Living Heritage ra đời với sứ mệnh là quy tụ và tôn vinh những giá trị sống đích thực của cộng đồng người Việt trên khắp thế giới – từ trải nghiệm, tri thức đến nhân sinh quan sâu sắc của các thế hệ đi trước để trao truyền lại cho thế hệ tương lai.\n\n🌻Living Heritage là một hệ sinh thái nội dung gồm: trang web chính thức lưu trữ các cuộc trò chuyện ý nghĩa, sách điện tử (được phát phát hành trên Amazon), cùng chuỗi sự kiện nghệ thuật – giáo dục tầm vóc quốc tế thường niên. 🎼Khởi đầu hành trình này là Jazz Concert IMMERSED – đêm nhạc quốc tế với sự tham gia đặc biệt của “Hiệp sĩ” Jazz - Sir Niels Lan Doky, huyền thoại piano Jazz được biết đến như một trong những nghệ sĩ tiên phong của dòng Jazz châu Âu hiện đại. Báo chí Nhật Bản gọi ông là “nghệ sĩ xuất sắc nhất thế hệ”, còn tờ báo El Diario (Tây Ban Nha) gọi ông là “một trong những nghệ sĩ piano quan trọng nhất nửa thế kỷ qua”. Ông sẽ trình diễn cùng bộ đôi nghệ sĩ quốc tế Felix Pastorius (bass) và Jonas Johansen (trống), dưới sự dàn dựng của Tổng đạo diễn Phạm Hoàng Nam, Giám đốc Âm nhạc Quốc Trung, Kĩ sư âm thanh Doãn Chí Nghĩa, Nhà thiết kế Phục trang Tom Trandt, Biên đạo múa Ngọc Anh và Nghệ sĩ nghệ thuật thị giác Tùng Monkey.\n\n⭐️Điểm nhấn đặc biệt là những màn kết hợp giữa Sir Niels Lan Doky và các nghệ sĩ hàng đầu Việt Nam như NSND Thanh Lam, ca sĩ Hà Trần, nghệ sĩ saxophone Quyền Thiện Đắc và một số nghệ sĩ khác – những tên tuổi có dấu ấn rõ nét trong việc vừa gìn giữ nét đẹp bản sắc của âm nhạc Việt, vừa tìm tòi, sáng tạo và đổi mới để hội nhập vào dòng chảy âm nhạc thế giới. Sự hội ngộ này tạo nên một không gian âm nhạc đa chiều, nơi tinh thần Jazz quốc tế gặp gỡ hơi thở dân gian đương đại Việt Nam trong một cuộc đối thoại âm nhạc đỉnh cao, hoà quyện và đầy ngẫu hứng.\n\nChi tiết sự kiện:\n\nChương trình chính: Khách mời đặc biêt Sir Niels Lan Doky, Knight of Jazz cùng \nKhách mời: NSND Thanh Lam, Ca sỹ Hà Trần, Nghệ sỹ Quyền Thiện Đắc.', NULL, 'LSK03', 'HCM', 40),
-('SK14', '[Dốc Mộng Mơ] Em Đồng Ý - Đức Phúc - Noo Phước Thịnh', '2025-11-15 19:30:00', 'https://salt.tkbcdn.com/ts/ds/6d/9b/da/438a1b16cba1c64f5befce0fdd32682a.jpg', 'Đêm nhạc đánh dấu chặng đường trưởng thành của Đức Phúc với những bản hit được phối mới đầy cảm xúc, sân khấu dàn dựng công phu cùng sự góp mặt của ca sĩ Noo Phước Thịnh.\n\nMột hành trình âm nhạc lãng mạn và bất ngờ, chắc chắn là khoảnh khắc không thể bỏ lỡ!\n\nChi tiết sự kiện \n\n	Chương trình chính: \n \nTrình diễn những ca khúc nổi bật nhất trong sự nghiệp ca hát của Đức Phúc. \n\nCác tiết mục dàn dựng công phu, phối khí mới mẻ.\n\nNhững phần trình diễn đặc biệt lần đầu ra mắt tại liveshow.\n\n	Khách mời: Ca sĩ Noo Phước Thịnh \n\n	Trải nghiệm đặc biệt: Không gian check-in mang concept riêng của “EM ĐỒNG Ý” cũng như khu trải nghiệm và những phần quà đặc biệt dành cho fan.', NULL, 'LSK01', 'HN', 81),
-('SK15', 'EM XINH \"SAY HI\" CONCERT - ĐÊM 2', '2025-10-11 12:00:00', 'https://salt.tkbcdn.com/ts/ds/90/37/6e/cfa9510b1f648451290e0cf57b6fd548.jpg', 'Em Xinh “Say Hi” Concert – Đêm 2 sẽ diễn ra vào ngày 11/10/2025 tại sân vận động Mỹ Đình, Hà Nội, mang đến đại tiệc âm nhạc Gen Z với sân khấu ánh sáng 360 độ, loạt tiết mục viral như Run, Không đau nữa rồi, Vỗ tay. Lưu ý: Vé không hoàn trả, trẻ em dưới 7 tuổi không được tham gia, người dưới 16 tuổi cần có người lớn đi kèm.', 'https://salt.tkbcdn.com/ts/ds/da/bd/6b/6fa8723674852889664879bd62ead269.png', 'LSK03', 'HN', 79),
-('SK16', 'LULULOLA SHOW VICKY NHUNG & CHU THÚY QUỲNH | NGÀY MƯA ẤY', '2025-09-20 17:30:00', 'https://salt.tkbcdn.com/ts/ds/ee/86/df/261a5fd2fa0890c25f4c737103bbbe0c.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/Upload/agenda/2022/11/17/C1D231.jpg', 'LSK01', 'DL', 55),
-('SK17', 'ELAN & APLUS present: STEPHAN BODZIN', '2025-09-21 20:00:00', 'https://salt.tkbcdn.com/ts/ds/e3/06/ed/faff7ef36d95334510e51f7d337357d4.jpg', 'Không chỉ đơn thuần là một set nhạc, sự kiện kỷ niệm 2 năm của ELAN sẽ mang đến một “siêu phẩm” của âm thanh, năng lượng và cảm xúc. Hãy sẵn sàng đắm mình trong màn trình diễn live độc nhất vô nhị từ “nhạc trưởng” huyền thoại – Stephan Bodzin! Được mệnh danh là một trong những live performer xuất sắc nhất lịch sử nhạc điện tử, Stephan Bodzin luôn thiết lập những tiêu chuẩn mới cho nghệ thuật trình diễn và để lại dấu ấn sâu đậm trên các sân khấu, lễ hội âm nhạc điện tử lớn nhất thế giới. Suốt nhiều năm, ông vững vàng ở đỉnh cao của giới Techno, sánh vai cùng những huyền thoại như Solomun, Tale of Us, Carl Cox... Biểu diễn cùng Stephan Bodzin lần này còn có những tên tuổi đầy thực lực của làng Techno Việt: THUC, Mya, Heepsy và Tini Space. Từ 9 giờ tối, Chủ Nhật ngày 21 tháng 9, 2025 tại APLUS Hanoi, 78 Yên Phụ, Hà Nội.', NULL, 'LSK02', 'HN', 36),
-('SK19', 'LULULOLA SHOW TĂNG PHÚC | MONG MANH NỖI ĐAU', '2025-12-13 17:30:00', 'https://salt.tkbcdn.com/ts/ds/0f/f1/68/b57f2a3ecd1a9e516e8d1587c34fcc6e.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/ts/ds/38/b0/e6/96448b0b78a4d279a316d8ddfe8dbd88.jpg', 'LSK01', 'DL', 62),
-('SK20', 'LULULOLA SHOW PHAN MẠNH QUỲNH | TỪ BÀN TAY NÀY', '2025-12-06 17:30:00', 'https://salt.tkbcdn.com/ts/ds/57/04/b1/39315e2c790f67ecc938701754816d15.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/ts/ds/38/b0/e6/0ab5eb7000927cb78117c121d0faea56.jpg', 'LSK01', 'DL', 91),
-('SK21', 'LULULOLA SHOW VĂN MAI HƯƠNG | ƯỚT LÒNG', '2025-09-13 17:30:00', 'https://salt.tkbcdn.com/ts/ds/fb/43/5c/52a43d006d2ec64b1dac74db8a62f72f.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/ts/ds/38/b0/e6/1c9f48dbdb4ce7e1353a72c3a2d028df.jpg', 'LSK01', 'DL', 65),
-('SK22', 'DAY6 10th Anniversary Tour <The DECADE> in HO CHI MINH CITY', '2025-10-18 18:30:00', 'https://salt.tkbcdn.com/ts/ds/c6/e1/c2/d3d41b377ea3d9a3cd18177d656516d7.jpg', 'Ngày 18/10/2025, ban nhạc Hàn Quốc DAY6 đã tổ chức concert đầu tiên tại Việt Nam – DAY6 10th Anniversary Tour <The DECADE> tại SECC Hall B2, Quận 7, TP.HCM, đánh dấu 10 năm hoạt động âm nhạc. Đây là lần đầu nhóm biểu diễn solo tại Việt Nam, thu hút đông đảo người hâm mộ My Days. Setlist trải dài từ các bản hit như Congratulations, Letting Go, I Loved You, Zombie đến những ca khúc mới trong album kỷ niệm như Dream Bus, Inside Out, Disco Day và Our Season.', 'https://salt.tkbcdn.com/ts/ds/4d/92/65/4756312238e1ae1b8129074a53454f7b.jpg', 'LSK03', 'HCM', 113),
-('SK23', '8Wonder Winter 2025 - SYMPHONY OF STARS - HÒA KHÚC CÁC VÌ SAO', '2025-12-06 18:30:00', 'https://salt.tkbcdn.com/ts/ds/c1/48/74/8c3630d25edf901b843473af6be4dd6a.jpg', '8WONDER WINTER 2025 - SYMPHONY OF STARS - HÒA KHÚC CÁC VÌ SAO\r\n\r\nGiữa mùa đông Hà Nội, 8Wonder thắp sáng bầu trời bằng “Symphony of Stars” – bản hoà khúc nơi những giọng ca đẳng cấp thế giới cất lên, khẳng định vị thế thương hiệu âm nhạc quốc tế tại Việt Nam. Không chỉ là concert, đây là một hành trình lễ hội sống: từ âm nhạc bùng nổ và nghệ thuật giao thoa, đến ẩm thực bốn phương, không gian văn hoá, thể thao, công nghệ và những kết nối cộng đồng. \r\n\r\nTiên phong theo đuổi xu hướng green festival, 8Wonder Winter 2025 mang đến một mùa hội trọn vẹn – nơi ánh sáng sân khấu, nhịp tim khán giả và hơi thở xanh của thời đại hòa làm một. Để mỗi khoảnh khắc ở đây trở thành một vì sao, cùng viết nên dải ngân hà bất tận của yêu thương, hy vọng và sự gắn kết.', NULL, 'LSK03', 'HN', 155),
-('SK24', 'Y-CONCERT BY YEAH1 - Mình đoàn viên thôi', '2025-12-20 14:00:00', 'https://salt.tkbcdn.com/ts/ds/8e/89/4c/407e32bba0e4d1651175680a2452954e.jpg', 'V Concert “Rạng Rỡ Việt Nam” hứa hẹn sẽ chạm tới đỉnh cao của âm nhạc và cảm xúc, đánh dấu lần đầu tiên một sự kiện nghệ thuật đỉnh cao được tổ chức tại Trung tâm Triển lãm Việt Nam – công trình hiện đại bậc nhất cả nước, nằm trong top 10 khu triển lãm hội chợ lớn nhất thế giới. Vào ngày 9.8.2025, Đài Truyền hình Việt Nam sẽ mang đến một lễ hội âm nhạc rực rỡ và bùng nổ với sự góp mặt của dàn nghệ sĩ “trong mơ” gồm Hà Anh Tuấn, Hồ Ngọc Hà, Noo Phước Thịnh, Đen, Trúc Nhân, Tóc Tiên, Hoàng Thuỳ Linh, Hoà Minzy, Phương Mỹ Chi, RHYDER, Quang Hùng MasterD và 2pillz. Đây sẽ là một đại tiệc kết hợp giữa âm nhạc, ánh sáng và công nghệ, mang đến không gian cảm xúc thăng hoa cho 25.000 khán giả, đồng thời trở thành cột mốc rạng rỡ trong hành trình tôn vinh âm nhạc và văn hóa Việt. Concert dành cho người trên 14 tuổi; riêng khán giả từ 14 đến dưới 18 tuổi cần có người giám hộ trên 21 tuổi đi cùng và chịu trách nhiệm trong suốt chương trình. Đừng bỏ lỡ cơ hội trở thành một phần của sự kiện âm nhạc đáng mong đợi nhất năm 2025!', 'https://salt.tkbcdn.com/ts/ds/9e/33/3f/caa1f7e1cf3b04b1648c8973c60abb7e.png', 'LSK03', 'HY', 90),
-('SK25', 'V CONCERT \"RẠNG RỠ VIỆT NAM\" - CHẠM VÀO ĐỈNH CAO CỦA ÂM NHẠC VÀ CẢM XÚC', '2025-12-09 17:00:00', 'https://salt.tkbcdn.com/ts/ds/4d/5d/93/c38fa1bc1f9ca5f95b882b12d45883bc.jpg', 'V Concert “Rạng Rỡ Việt Nam” hứa hẹn sẽ chạm đến đỉnh cao của âm nhạc và cảm xúc, đánh dấu lần đầu tiên một sự kiện nghệ thuật tầm cỡ được tổ chức tại Trung tâm Triển lãm Việt Nam – công trình triển lãm hiện đại bậc nhất cả nước, nằm trong top 10 khu triển lãm hội chợ lớn nhất thế giới. Vào ngày 9.12.2025, Đài Truyền hình Việt Nam sẽ mang đến một lễ hội âm nhạc rực rỡ, bùng nổ cảm xúc với sự góp mặt của dàn nghệ sĩ “trong mơ” lần đầu cùng hội tụ trên một sân khấu lớn: Hà Anh Tuấn, Hồ Ngọc Hà, Noo Phước Thịnh, Đen, Trúc Nhân, Tóc Tiên, Hoàng Thuỳ Linh, Hoà Minzy, Phương Mỹ Chi, RHYDER, Quang Hùng MasterD và 2pillz. Sự kiện hứa hẹn mang đến một đại tiệc kết hợp giữa âm nhạc – ánh sáng – công nghệ, tạo nên không gian cảm xúc thăng hoa cho 25.000 khán giả và trở thành cột mốc rạng rỡ trong hành trình tôn vinh âm nhạc cùng văn hóa Việt. Lưu ý, concert dành cho người trên 14 tuổi; khán giả từ 14 đến dưới 18 tuổi có thể tham gia nếu có người giám hộ trên 21 tuổi đi cùng và đồng hành trong suốt chương trình. Đừng bỏ lỡ cơ hội trở thành một phần của sự kiện âm nhạc đáng mong chờ nhất năm 2025!', NULL, 'LSK03', 'HN', 60),
-('SK27', 'CINÉ FUTURE HITS #12: JUN PHẠM', '2025-06-08 21:00:00', 'https://salt.tkbcdn.com/ts/ds/67/7a/29/48a31568f2bdbce9104ad077f146b560.jpg', '     Tiếp nối hành trình tôn vinh và phát triển văn hoá, nghệ thuật Việt, Ciné Saigon chính thức mang Future Hits quay trở lại với số 12, cùng với đó là màn \"kỉ lục comeback\" đến từ anh chàng nghệ sĩ đa tài Jun Phạm!\r\n \r\n     Với sự trở lại cùng \"chiếc\" mini concert Day 2 đến từ anh tài gia tộc toàn năng, anh tài biến hoá X-Icon, nam diễn viên điện ảnh - truyền hình được yêu thích nhất, tác giả sách quốc gia 2024, số Future Hits #12 hứa hẹn sẽ tiếp tục được phủ kín bởi sự cuồng nhiệt và đầy yêu thương đến từ đại gia đình hâm mộ Jun Phạm! \r\n', NULL, 'LSK03', 'HCM', 41),
-('SK28', 'ANH TRAI \"SAY HI\" 2025 CONCERT', '2025-12-27 12:00:00', 'https://salt.tkbcdn.com/ts/ds/b8/98/52/da316543950a9543d5b87c71b48838bf.png', 'ANH TRAI “SAY HI” 2025 CONCERT\r\n\r\nNgày 27.12.2025 tại Khu đô thị Vạn Phúc City, TP HCM ', 'https://salt.tkbcdn.com/ts/ds/56/47/a5/42d442d9f61e44b63514f211c0019c20.png', 'LSK03', 'HCM', 98),
-('SK29', 'DOMIE HOMIE - 2025 Dương Domic Fan Meeting in DANANG', '2025-11-23 19:00:00', 'https://salt.tkbcdn.com/ts/ds/df/31/a4/51b62ea85fe1bc02d27862f6e391cca1.png', 'DOMIE HOMIE – 2025 Dương Domic Fan Meeting in DANANG\r\n\r\nDOMIE HOMIE – 2025 Dương Domic’s Fan Meeting in DANANG sẽ mang đến cho khán giả một không gian gần gũi và ấm áp, nơi âm nhạc và tình cảm gắn kết nghệ sĩ cùng người hâm mộ.', 'https://salt.tkbcdn.com/ts/ds/86/c0/36/043a5288b64fc560ce5a29710403ca7c.jpg', 'LSK01', 'DN', 30),
-('SK30', 'THE GENTLEMEN - COUNTDOWN CONCERT 2026', '2025-12-31 19:30:00', 'https://salt.tkbcdn.com/ts/ds/27/b5/52/1b92d99147733d76b376b207dc45595f.jpg', 'THE GENTLEMEN - COUNTDOWN CONCERT 2026: ĐÊM NHẠC LỊCH LÃM ĐÓN CHÀO NĂM MỚI! \r\n\r\nCùng The Pearl Hoi An chào đón thời khắc giao mùa đáng nhớ nhất cuối năm 2025! Với kết hợp sự lịch lãm của những \"quý ông\" hát tình ca hứa hẹn sẽ tạo nên bầu không khí rực rỡ cảm xúc trong đêm Countdown 2026 tại THE GENTLEMEN – COUNTDOWN CONCERT 2026.\r\n\r\nChi tiết sự kiện:\r\n\r\n3 chàng trai – 3 hành trình âm nhạc khác nhau, nhưng đều có chung xuất phát điểm: bước ra từ những sân khấu truyền hình thực tế đình đám như The Voice, Vietnam Idol hay Sing My Song. Điều khiến khán giả nhớ về họ chính là chất giọng trữ tình, đậm đà cảm xúc – ba màu cảm xúc, nhưng cùng chung một ngôn ngữ đó là tình ca. Chính họ sẽ dẫn dắt khán giả bước sang năm mới bằng những giai điệu sâu lắng với trái tim chân thành dành cho tình yêu:\r\n\r\nLân Nhã – Giọng ca nồng nàn, đậm chất tự sự, mang đến những bản tình ca lãng mạn, mở đầu cho một năm mới tràn đầy cảm xúc.\r\nNguyễn Đình Tuấn Dũng – Giọng hát đầy nội lực và cảm xúc, với khả năng kể chuyện cuốn hút qua từng giai điệu, sẵn sàng khuấy động không khí trước thời khắc đếm ngược.\r\nHà An Huy – Quán quân Vietnam Idol, chàng trai mang đến làn gió mới, sự trẻ trung và năng lượng tươi sáng, hoàn hảo cho đêm Giao thừa rực rỡ. \r\nBa sắc màu âm nhạc hội tụ trong một đêm duy nhất. Một đêm nhạc nơi cảm xúc được thăng hoa, nơi những giai điệu tình ca và những nhịp đập Countdown hòa quyện thành bản giao hưởng hoàn hảo để chào đón năm 2026!\r\nĐiều khoản và điều kiện:\r\n\r\n*Lưu ý: Vé chương trình chỉ áp dụng cho khách từ 12 tuổi trở lên', 'NULL', 'LSK03', 'DN', 41);
+INSERT INTO `sukien` (`MaSK`, `TenSK`, `Tgian`, `img_sukien`, `mota`, `img_sodo`, `MaLSK`, `MaDD`, `luot_truycap`, `email`) VALUES
+('SK02', '[CAT&MOUSE] CA SĨ ĐẠT G - ĐÊM LẶNG TÔ MÀU XÚC CẢM', '2025-10-18 21:00:00', 'https://salt.tkbcdn.com/ts/ds/37/25/63/9a82b897b7f175b5888016f161d0fa1e.png', 'Với không gian được đầu tư hệ thống ánh sáng - âm thanh đẳng cấp quốc tế với sức chứa lên đến 350 người, cùng quầy bar phục vụ cocktail pha chế độc đáo bởi bartender chuyên nghiệp.\n\n20g00 - 31/10/2025 (Thứ 6), một đêm nhạc sâu lắng và chân thành tại Cat&Mouse đã hé lộ. Sự góp mặt của Đạt G với chất giọng trầm ấm, đặc trưng, cùng phong cách âm nhạc giàu cảm xúc, sẽ giúp bạn tìm thấy chính mình trong những khoảnh khắc cô đơn nhưng cũng đầy sự an ủi.\n\nQuý khách tham dự đêm diễn sẽ được tặng 1 phần đồ ăn nhẹ.', 'https://salt.tkbcdn.com/ts/ds/6c/cf/24/dc9d3e30efe6ec8823fc647d26958e39.png', 'LSK01', 'HCM', 72, 'ntc@ctu.edu.vn'),
+('SK03', 'G-DRAGON 2025 WORLD TOUR [Übermensch] IN HANOI, PRESENTED BY VPBANK', '2025-11-08 20:00:00', 'https://salt.tkbcdn.com/ts/ds/2b/62/6d/b72040ac36d256c6c51e4c01797cf879.png', 'Lần đầu tiên, \"Ông hoàng K-pop\" G-DRAGON chính thức tổ chức concert tại Việt Nam, mở màn cho chuỗi World Tour do 8Wonder mang tới. G-DRAGON 2025 WORLD TOUR [Übermensch] hứa hẹn sẽ bùng nổ với sân khấu kì công, âm thanh - ánh sáng mãn nhãn và những khoảnh khắc chạm đến trái tim người hâm mộ. G-DRAGON sẽ mang đến những bản hit từng gắn liền với thanh xuân của hàng triệu người hâm mộ. Một đêm nhạc không chỉ để thưởng thức, mà còn để lưu giữ trong ký ức.', 'https://salt.tkbcdn.com/ts/ds/16/36/dd/6e30fc512e2e37417917e4d8fb718262.png', 'LSK03', 'HY', 112, 'ntc@ctu.edu.vn'),
+('SK05', 'Waterbomb Ho Chi Minh City 2025', '2025-11-15 14:00:00', 'https://salt.tkbcdn.com/ts/ds/f3/80/f0/32ee189d7a435daf92b6a138d925381c.png', 'Vào hai ngày 15–16/11/2025, khu đô thị Vạn Phúc City (TP.HCM) sẽ trở thành tâm điểm của giới trẻ khi lễ hội âm nhạc WATERBOMB lần đầu tiên “cập bến” Việt Nam. Với mô hình kết hợp âm nhạc – trình diễn – hiệu ứng phun nước đặc trưng từ Hàn Quốc, sự kiện hứa hẹn mang đến trải nghiệm “ướt sũng” đầy phấn khích cùng dàn nghệ sĩ đình đám như Hwasa, Jay Park, B.I, Sandara Park, Rain, EXID, Shownu x Hyungwon (MONSTA X), cùng các ngôi sao Vpop như HIEUTHUHAI, tlinh, SOOBIN, Tóc Tiên, Chi Pu, MIN và nhiều cái tên hot khác.\n\nKhông chỉ là sân khấu âm nhạc, WATERBOMB còn là đại tiệc cảm xúc với khu vui chơi phun nước liên hoàn, khu check-in phong cách lễ hội, và các hạng vé đa dạng từ GA đến Splash Wave – nơi bạn có thể “quẩy” sát sân khấu cùng thần tượng. Đây là cơ hội hiếm có để fan Kpop và khán giả Việt cùng hòa mình vào không gian lễ hội quốc tế ngay giữa lòng Sài Gòn.\n', NULL, 'LSK02', 'HCM', 110, 'ntc@ctu.edu.vn'),
+('SK06', 'GS25 MUSIC FESTIVAL 2025', '2025-11-22 10:00:00', 'https://salt.tkbcdn.com/ts/ds/6e/2f/fa/32d07d9e0b2bd6ff7de8dfe2995619d5.jpg', 'GS25 MUSIC FESTIVAL 2025 sẽ diễn ra vào ngày 22/11 tại Công viên Sáng Tạo, Thủ Thiêm, TP.HCM, từ 10:00 đến 23:00. Đây là lễ hội âm nhạc ngoài trời hoành tráng do GS25 tổ chức, quy tụ nhiều nghệ sĩ nổi tiếng. Khách hàng có thể đổi vé tham dự bằng cách tích điểm khi mua sắm tại GS25 và CAFE25 từ 01/10 đến 15/11. Vé không cho phép hoàn trả và cần đeo vòng tay khi tham gia. Sự kiện hứa hẹn mang đến trải nghiệm âm nhạc sôi động và không gian lễ hội trẻ trung dành cho giới trẻ.', 'https://salt.tkbcdn.com/ts/ds/42/8c/44/5a155daa8398d44556cf655011a7b50b.png', 'LSK02', 'HCM', 105, 'ntc@ctu.edu.vn'),
+('SK07', '2025 K-POP SUPER CONCERT IN HO CHI MINH', '2025-11-22 18:00:00', 'https://salt.tkbcdn.com/ts/ds/bb/96/bd/28394979b702cd9dc934bef42824e6c1.png', 'Vào ngày 22/11/2025, sự kiện K-POP SUPER CONCERT sẽ chính thức diễn ra tại Vạn Phúc City, TP.HCM, do Golden Space Entertainment tổ chức. Đây là một lễ hội âm nhạc hoành tráng quy tụ dàn nghệ sĩ K-pop và Việt Nam, với sự góp mặt của các tên tuổi như XIUMIN, CHEN, DUCPHUC, ARrC, và nhóm nữ Gen Z đa quốc tịch We;Na – lần đầu tiên ra mắt tại Việt Nam.', 'https://salt.tkbcdn.com/ts/ds/90/2c/7a/a20cdd1dd5199797705582c7651c72c1.jpg', 'LSK03', 'HCM', 112, 'ntc@ctu.edu.vn'),
+('SK08', 'SOOBIN LIVE CONCERT: ALL-ROUNDER THE FINAL', '2025-11-29 20:00:00', 'https://salt.tkbcdn.com/ts/ds/9c/9e/c1/2edd538cb4df21a0d13f95588cb44dc4.png', 'Các all-rounders chờ đã lâu rồi phải không? Một lần nữa hãy cùng đắm chìm trong trải nghiệm sân khấu \'all around you\', để SOOBIN cùng âm nhạc luôn chuyển động bên bạn mọi lúc - mọi nơi nhé!', 'https://salt.tkbcdn.com/ts/ds/bd/22/b1/3a539796934ac26795c6b1c2aba9435f.jpg', 'LSK03', 'HCM', 105, 'ntc@ctu.edu.vn'),
+('SK09', 'Những Thành Phố Mơ Màng Year End 2025', '2025-12-07 16:00:00', 'https://salt.tkbcdn.com/ts/ds/e8/95/f3/2dcfee200f26f1ec0661885b2c816fa6.png', 'Chào mừng cư dân đến với NTPMM Year End 2025 - Wondertopia,  vùng đất diệu kỳ nơi âm nhạc cất lời và cảm xúc thăng hoa!\nTại đây, từng giai điệu sẽ dẫn lối, từng tiết tấu sẽ mở ra cánh cửa đến một thế giới đầy màu sắc, nơi mọi người cùng nhau hòa nhịp trong niềm vui và sự gắn kết.\n\nHành trình khép lại năm 2025 sẽ trở thành một đại tiệc của âm nhạc, sáng tạo và bất ngờ. Wondertopia không chỉ là một show diễn – mà là không gian nơi chúng ta tìm thấy sự đồng điệu, truyền cảm hứng cho một khởi đầu mới rực rỡ hơn.\n\nTHÔNG TIN SỰ KIỆN\n\nThời gian dự kiến:  07/12/2025 \n\nĐịa điểm: khu vực ngoài trời tại TP.HCM (sẽ cập nhật sau).', NULL, 'LSK03', 'HCM', 86, 'ntc@ctu.edu.vn'),
+('SK10', 'Những Thành Phố Mơ Màng Year End 2025', '2025-12-21 16:00:00', 'https://salt.tkbcdn.com/ts/ds/18/8f/59/2d0abe9be901a894cd3b0bf29fd01863.png', 'Chào mừng cư dân đến với NTPMM Year End 2025 - Wondertopia,  vùng đất diệu kỳ nơi âm nhạc cất lời và cảm xúc thăng hoa!\nTại đây, từng giai điệu sẽ dẫn lối, từng tiết tấu sẽ mở ra cánh cửa đến một thế giới đầy màu sắc, nơi mọi người cùng nhau hòa nhịp trong niềm vui và sự gắn kết.\n\nHành trình khép lại năm 2025 sẽ trở thành một đại tiệc của âm nhạc, sáng tạo và bất ngờ. Wondertopia không chỉ là một show diễn – mà là không gian nơi chúng ta tìm thấy sự đồng điệu, truyền cảm hứng cho một khởi đầu mới rực rỡ hơn.\n\nTHÔNG TIN SỰ KIỆN\n\nThời gian dự kiến: 21/12/2025 \n\nĐịa điểm: khu vực ngoài trời tại Hà Nội (sẽ cập nhật sau).', NULL, 'LSK03', 'HN', 20, 'ntc@ctu.edu.vn'),
+('SK11', '1900 Future Hits #75: Thanh Duy', '2025-10-24 21:00:00', 'https://salt.tkbcdn.com/ts/ds/df/d8/ec/9f46a4e587b39ccf5886e6ae6f1b27d0.png', 'Nhắc đến Thanh Duy (Á quân Vietnam Idol 2008) là nhắc đến một nghệ sĩ nhiều màu sắc, một chú \"tắc kè hoa\" của showbiz. Thanh Duy kể những câu chuyện độc đáo, chạm đến tim người nghe bằng âm nhạc. Mỗi bài hát là một mảnh ghép cá tính, không lẫn vào đâu được.\n \nVới style không ngại khác biệt, thời trang \"chơi trội\" và tinh thần sống thật, sống hết mình, Thanh Duy luôn là nguồn năng lượng tích cực, truyền cảm hứng sống vui, sống thật cho giới trẻ. \n \nNgày 24/10 tới đây, 1900 sẽ chào đón Thanh Duy đến với đêm nhạc Future Hits #75. Các bản hit sẽ được vang lên trên sân khấu 1900, hứa hẹn mang đến những moment cực peak.\n \nSave the date!', NULL, 'LSK01', 'HN', 45, 'ntc@ctu.edu.vn'),
+('SK12', 'RAVERSE #3: Clowns Du Chaos w/ MIKE WILLIAMS - Oct 31 (HALLOWEEN PARTY)', '2025-10-31 20:00:00', 'https://salt.tkbcdn.com/ts/ds/e0/71/b2/b213ce9427cfc01487c73df2ba849787.jpg', 'Sau những đêm cháy hết mình cùng DubVision và Maddix, RAVERSE đã chính thức quay trở lại và lần này, Raverse sẽ biến APLUS HANOI thành một RẠP XIẾC MA MỊ đúng nghĩa. Cùng chào đón Headliner – MIKE WILLIAMS, DJ/Producer top 72 DJ Mag - Người đứng sau hàng loạt hit Future Bounce tỉ lượt nghe, từng khuấy đảo những sân khấu lớn nhất thế giới Tomorrowland, Ultra Music Festival,... nay sẽ đổ bộ Raverse #3 mang theo năng lượng bùng nổ chưa từng có! ⚡Cánh cửa rạp xiếc sắp mở… Bạn đã sẵn sàng hóa thân, quẩy hết mình và bước vào thế giới hỗn loạn của RAVERSE chưa?', NULL, 'LSK02', 'HN', 41, 'ntc@ctu.edu.vn'),
+('SK13', 'Jazz concert: Immersed', '2025-11-15 19:00:00', 'https://salt.tkbcdn.com/ts/ds/43/54/98/924b6491983baf58b00222c9b5b7295b.jpg', 'JAZZ CONCERT – IMMERSED: SỰ KẾT HỢP ĐỈNH CAO TỪ NHỮNG TÊN TUỔI HÀNG ĐẦU\n\n🌿Được khởi xướng bởi GG Corporation, Living Heritage ra đời với sứ mệnh là quy tụ và tôn vinh những giá trị sống đích thực của cộng đồng người Việt trên khắp thế giới – từ trải nghiệm, tri thức đến nhân sinh quan sâu sắc của các thế hệ đi trước để trao truyền lại cho thế hệ tương lai.\n\n🌻Living Heritage là một hệ sinh thái nội dung gồm: trang web chính thức lưu trữ các cuộc trò chuyện ý nghĩa, sách điện tử (được phát phát hành trên Amazon), cùng chuỗi sự kiện nghệ thuật – giáo dục tầm vóc quốc tế thường niên. 🎼Khởi đầu hành trình này là Jazz Concert IMMERSED – đêm nhạc quốc tế với sự tham gia đặc biệt của “Hiệp sĩ” Jazz - Sir Niels Lan Doky, huyền thoại piano Jazz được biết đến như một trong những nghệ sĩ tiên phong của dòng Jazz châu Âu hiện đại. Báo chí Nhật Bản gọi ông là “nghệ sĩ xuất sắc nhất thế hệ”, còn tờ báo El Diario (Tây Ban Nha) gọi ông là “một trong những nghệ sĩ piano quan trọng nhất nửa thế kỷ qua”. Ông sẽ trình diễn cùng bộ đôi nghệ sĩ quốc tế Felix Pastorius (bass) và Jonas Johansen (trống), dưới sự dàn dựng của Tổng đạo diễn Phạm Hoàng Nam, Giám đốc Âm nhạc Quốc Trung, Kĩ sư âm thanh Doãn Chí Nghĩa, Nhà thiết kế Phục trang Tom Trandt, Biên đạo múa Ngọc Anh và Nghệ sĩ nghệ thuật thị giác Tùng Monkey.\n\n⭐️Điểm nhấn đặc biệt là những màn kết hợp giữa Sir Niels Lan Doky và các nghệ sĩ hàng đầu Việt Nam như NSND Thanh Lam, ca sĩ Hà Trần, nghệ sĩ saxophone Quyền Thiện Đắc và một số nghệ sĩ khác – những tên tuổi có dấu ấn rõ nét trong việc vừa gìn giữ nét đẹp bản sắc của âm nhạc Việt, vừa tìm tòi, sáng tạo và đổi mới để hội nhập vào dòng chảy âm nhạc thế giới. Sự hội ngộ này tạo nên một không gian âm nhạc đa chiều, nơi tinh thần Jazz quốc tế gặp gỡ hơi thở dân gian đương đại Việt Nam trong một cuộc đối thoại âm nhạc đỉnh cao, hoà quyện và đầy ngẫu hứng.\n\nChi tiết sự kiện:\n\nChương trình chính: Khách mời đặc biêt Sir Niels Lan Doky, Knight of Jazz cùng \nKhách mời: NSND Thanh Lam, Ca sỹ Hà Trần, Nghệ sỹ Quyền Thiện Đắc.', NULL, 'LSK03', 'HCM', 40, 'ntc@ctu.edu.vn'),
+('SK14', '[Dốc Mộng Mơ] Em Đồng Ý - Đức Phúc - Noo Phước Thịnh', '2025-11-15 19:30:00', 'https://salt.tkbcdn.com/ts/ds/6d/9b/da/438a1b16cba1c64f5befce0fdd32682a.jpg', 'Đêm nhạc đánh dấu chặng đường trưởng thành của Đức Phúc với những bản hit được phối mới đầy cảm xúc, sân khấu dàn dựng công phu cùng sự góp mặt của ca sĩ Noo Phước Thịnh.\n\nMột hành trình âm nhạc lãng mạn và bất ngờ, chắc chắn là khoảnh khắc không thể bỏ lỡ!\n\nChi tiết sự kiện \n\n	Chương trình chính: \n \nTrình diễn những ca khúc nổi bật nhất trong sự nghiệp ca hát của Đức Phúc. \n\nCác tiết mục dàn dựng công phu, phối khí mới mẻ.\n\nNhững phần trình diễn đặc biệt lần đầu ra mắt tại liveshow.\n\n	Khách mời: Ca sĩ Noo Phước Thịnh \n\n	Trải nghiệm đặc biệt: Không gian check-in mang concept riêng của “EM ĐỒNG Ý” cũng như khu trải nghiệm và những phần quà đặc biệt dành cho fan.', NULL, 'LSK01', 'HN', 81, 'ntc@ctu.edu.vn'),
+('SK15', 'EM XINH \"SAY HI\" CONCERT - ĐÊM 2', '2025-10-11 12:00:00', 'https://salt.tkbcdn.com/ts/ds/90/37/6e/cfa9510b1f648451290e0cf57b6fd548.jpg', 'Em Xinh “Say Hi” Concert – Đêm 2 sẽ diễn ra vào ngày 11/10/2025 tại sân vận động Mỹ Đình, Hà Nội, mang đến đại tiệc âm nhạc Gen Z với sân khấu ánh sáng 360 độ, loạt tiết mục viral như Run, Không đau nữa rồi, Vỗ tay. Lưu ý: Vé không hoàn trả, trẻ em dưới 7 tuổi không được tham gia, người dưới 16 tuổi cần có người lớn đi kèm.', 'https://salt.tkbcdn.com/ts/ds/da/bd/6b/6fa8723674852889664879bd62ead269.png', 'LSK03', 'HN', 79, 'ntc@ctu.edu.vn'),
+('SK16', 'LULULOLA SHOW VICKY NHUNG & CHU THÚY QUỲNH | NGÀY MƯA ẤY', '2025-09-20 17:30:00', 'https://salt.tkbcdn.com/ts/ds/ee/86/df/261a5fd2fa0890c25f4c737103bbbe0c.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/Upload/agenda/2022/11/17/C1D231.jpg', 'LSK01', 'DL', 55, 'ntc@ctu.edu.vn'),
+('SK17', 'ELAN & APLUS present: STEPHAN BODZIN', '2025-09-21 20:00:00', 'https://salt.tkbcdn.com/ts/ds/e3/06/ed/faff7ef36d95334510e51f7d337357d4.jpg', 'Không chỉ đơn thuần là một set nhạc, sự kiện kỷ niệm 2 năm của ELAN sẽ mang đến một “siêu phẩm” của âm thanh, năng lượng và cảm xúc. Hãy sẵn sàng đắm mình trong màn trình diễn live độc nhất vô nhị từ “nhạc trưởng” huyền thoại – Stephan Bodzin! Được mệnh danh là một trong những live performer xuất sắc nhất lịch sử nhạc điện tử, Stephan Bodzin luôn thiết lập những tiêu chuẩn mới cho nghệ thuật trình diễn và để lại dấu ấn sâu đậm trên các sân khấu, lễ hội âm nhạc điện tử lớn nhất thế giới. Suốt nhiều năm, ông vững vàng ở đỉnh cao của giới Techno, sánh vai cùng những huyền thoại như Solomun, Tale of Us, Carl Cox... Biểu diễn cùng Stephan Bodzin lần này còn có những tên tuổi đầy thực lực của làng Techno Việt: THUC, Mya, Heepsy và Tini Space. Từ 9 giờ tối, Chủ Nhật ngày 21 tháng 9, 2025 tại APLUS Hanoi, 78 Yên Phụ, Hà Nội.', NULL, 'LSK02', 'HN', 36, 'ntc@ctu.edu.vn'),
+('SK19', 'LULULOLA SHOW TĂNG PHÚC | MONG MANH NỖI ĐAU', '2025-12-13 17:30:00', 'https://salt.tkbcdn.com/ts/ds/0f/f1/68/b57f2a3ecd1a9e516e8d1587c34fcc6e.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/ts/ds/38/b0/e6/96448b0b78a4d279a316d8ddfe8dbd88.jpg', 'LSK01', 'DL', 62, 'ntc@ctu.edu.vn'),
+('SK20', 'LULULOLA SHOW PHAN MẠNH QUỲNH | TỪ BÀN TAY NÀY', '2025-12-06 17:30:00', 'https://salt.tkbcdn.com/ts/ds/57/04/b1/39315e2c790f67ecc938701754816d15.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/ts/ds/38/b0/e6/0ab5eb7000927cb78117c121d0faea56.jpg', 'LSK01', 'DL', 91, 'ntc@ctu.edu.vn'),
+('SK21', 'LULULOLA SHOW VĂN MAI HƯƠNG | ƯỚT LÒNG', '2025-09-13 17:30:00', 'https://salt.tkbcdn.com/ts/ds/fb/43/5c/52a43d006d2ec64b1dac74db8a62f72f.png', 'Lululola Show - Hơn cả âm nhạc, không gian lãng mạn đậm chất thơ Đà Lạt bao trọn hình ảnh thung lũng Đà Lạt, được ngắm nhìn khoảng khắc hoàng hôn thơ mộng đến khi Đà Lạt về đêm siêu lãng mạn, được giao lưu với thần tượng một cách chân thật và gần gũi nhất trong không gian ấm áp và không khí se lạnh của Đà Lạt. Tất cả sẽ  mang đến một đêm nhạc ấn tượng mà bạn không thể quên khi đến với Đà Lạt.', 'https://salt.tkbcdn.com/ts/ds/38/b0/e6/1c9f48dbdb4ce7e1353a72c3a2d028df.jpg', 'LSK01', 'DL', 65, 'ntc@ctu.edu.vn'),
+('SK22', 'DAY6 10th Anniversary Tour <The DECADE> in HO CHI MINH CITY', '2025-10-18 18:30:00', 'https://salt.tkbcdn.com/ts/ds/c6/e1/c2/d3d41b377ea3d9a3cd18177d656516d7.jpg', 'Ngày 18/10/2025, ban nhạc Hàn Quốc DAY6 đã tổ chức concert đầu tiên tại Việt Nam – DAY6 10th Anniversary Tour <The DECADE> tại SECC Hall B2, Quận 7, TP.HCM, đánh dấu 10 năm hoạt động âm nhạc. Đây là lần đầu nhóm biểu diễn solo tại Việt Nam, thu hút đông đảo người hâm mộ My Days. Setlist trải dài từ các bản hit như Congratulations, Letting Go, I Loved You, Zombie đến những ca khúc mới trong album kỷ niệm như Dream Bus, Inside Out, Disco Day và Our Season.', 'https://salt.tkbcdn.com/ts/ds/4d/92/65/4756312238e1ae1b8129074a53454f7b.jpg', 'LSK03', 'HCM', 113, 'ntc@ctu.edu.vn'),
+('SK23', '8Wonder Winter 2025 - SYMPHONY OF STARS - HÒA KHÚC CÁC VÌ SAO', '2025-12-06 18:30:00', 'https://salt.tkbcdn.com/ts/ds/c1/48/74/8c3630d25edf901b843473af6be4dd6a.jpg', '8WONDER WINTER 2025 - SYMPHONY OF STARS - HÒA KHÚC CÁC VÌ SAO\r\n\r\nGiữa mùa đông Hà Nội, 8Wonder thắp sáng bầu trời bằng “Symphony of Stars” – bản hoà khúc nơi những giọng ca đẳng cấp thế giới cất lên, khẳng định vị thế thương hiệu âm nhạc quốc tế tại Việt Nam. Không chỉ là concert, đây là một hành trình lễ hội sống: từ âm nhạc bùng nổ và nghệ thuật giao thoa, đến ẩm thực bốn phương, không gian văn hoá, thể thao, công nghệ và những kết nối cộng đồng. \r\n\r\nTiên phong theo đuổi xu hướng green festival, 8Wonder Winter 2025 mang đến một mùa hội trọn vẹn – nơi ánh sáng sân khấu, nhịp tim khán giả và hơi thở xanh của thời đại hòa làm một. Để mỗi khoảnh khắc ở đây trở thành một vì sao, cùng viết nên dải ngân hà bất tận của yêu thương, hy vọng và sự gắn kết.', NULL, 'LSK03', 'HN', 155, 'ntc@ctu.edu.vn'),
+('SK24', 'Y-CONCERT BY YEAH1 - Mình đoàn viên thôi', '2025-12-20 14:00:00', 'https://salt.tkbcdn.com/ts/ds/8e/89/4c/407e32bba0e4d1651175680a2452954e.jpg', 'V Concert “Rạng Rỡ Việt Nam” hứa hẹn sẽ chạm tới đỉnh cao của âm nhạc và cảm xúc, đánh dấu lần đầu tiên một sự kiện nghệ thuật đỉnh cao được tổ chức tại Trung tâm Triển lãm Việt Nam – công trình hiện đại bậc nhất cả nước, nằm trong top 10 khu triển lãm hội chợ lớn nhất thế giới. Vào ngày 9.8.2025, Đài Truyền hình Việt Nam sẽ mang đến một lễ hội âm nhạc rực rỡ và bùng nổ với sự góp mặt của dàn nghệ sĩ “trong mơ” gồm Hà Anh Tuấn, Hồ Ngọc Hà, Noo Phước Thịnh, Đen, Trúc Nhân, Tóc Tiên, Hoàng Thuỳ Linh, Hoà Minzy, Phương Mỹ Chi, RHYDER, Quang Hùng MasterD và 2pillz. Đây sẽ là một đại tiệc kết hợp giữa âm nhạc, ánh sáng và công nghệ, mang đến không gian cảm xúc thăng hoa cho 25.000 khán giả, đồng thời trở thành cột mốc rạng rỡ trong hành trình tôn vinh âm nhạc và văn hóa Việt. Concert dành cho người trên 14 tuổi; riêng khán giả từ 14 đến dưới 18 tuổi cần có người giám hộ trên 21 tuổi đi cùng và chịu trách nhiệm trong suốt chương trình. Đừng bỏ lỡ cơ hội trở thành một phần của sự kiện âm nhạc đáng mong đợi nhất năm 2025!', 'https://salt.tkbcdn.com/ts/ds/9e/33/3f/caa1f7e1cf3b04b1648c8973c60abb7e.png', 'LSK03', 'HY', 90, 'ntc@ctu.edu.vn'),
+('SK25', 'V CONCERT \"RẠNG RỠ VIỆT NAM\" - CHẠM VÀO ĐỈNH CAO CỦA ÂM NHẠC VÀ CẢM XÚC', '2025-12-09 17:00:00', 'https://salt.tkbcdn.com/ts/ds/4d/5d/93/c38fa1bc1f9ca5f95b882b12d45883bc.jpg', 'V Concert “Rạng Rỡ Việt Nam” hứa hẹn sẽ chạm đến đỉnh cao của âm nhạc và cảm xúc, đánh dấu lần đầu tiên một sự kiện nghệ thuật tầm cỡ được tổ chức tại Trung tâm Triển lãm Việt Nam – công trình triển lãm hiện đại bậc nhất cả nước, nằm trong top 10 khu triển lãm hội chợ lớn nhất thế giới. Vào ngày 9.12.2025, Đài Truyền hình Việt Nam sẽ mang đến một lễ hội âm nhạc rực rỡ, bùng nổ cảm xúc với sự góp mặt của dàn nghệ sĩ “trong mơ” lần đầu cùng hội tụ trên một sân khấu lớn: Hà Anh Tuấn, Hồ Ngọc Hà, Noo Phước Thịnh, Đen, Trúc Nhân, Tóc Tiên, Hoàng Thuỳ Linh, Hoà Minzy, Phương Mỹ Chi, RHYDER, Quang Hùng MasterD và 2pillz. Sự kiện hứa hẹn mang đến một đại tiệc kết hợp giữa âm nhạc – ánh sáng – công nghệ, tạo nên không gian cảm xúc thăng hoa cho 25.000 khán giả và trở thành cột mốc rạng rỡ trong hành trình tôn vinh âm nhạc cùng văn hóa Việt. Lưu ý, concert dành cho người trên 14 tuổi; khán giả từ 14 đến dưới 18 tuổi có thể tham gia nếu có người giám hộ trên 21 tuổi đi cùng và đồng hành trong suốt chương trình. Đừng bỏ lỡ cơ hội trở thành một phần của sự kiện âm nhạc đáng mong chờ nhất năm 2025!', NULL, 'LSK03', 'HN', 60, 'ntc@ctu.edu.vn'),
+('SK27', 'CINÉ FUTURE HITS #12: JUN PHẠM', '2025-06-08 21:00:00', 'https://salt.tkbcdn.com/ts/ds/67/7a/29/48a31568f2bdbce9104ad077f146b560.jpg', '     Tiếp nối hành trình tôn vinh và phát triển văn hoá, nghệ thuật Việt, Ciné Saigon chính thức mang Future Hits quay trở lại với số 12, cùng với đó là màn \"kỉ lục comeback\" đến từ anh chàng nghệ sĩ đa tài Jun Phạm!\r\n \r\n     Với sự trở lại cùng \"chiếc\" mini concert Day 2 đến từ anh tài gia tộc toàn năng, anh tài biến hoá X-Icon, nam diễn viên điện ảnh - truyền hình được yêu thích nhất, tác giả sách quốc gia 2024, số Future Hits #12 hứa hẹn sẽ tiếp tục được phủ kín bởi sự cuồng nhiệt và đầy yêu thương đến từ đại gia đình hâm mộ Jun Phạm! \r\n', NULL, 'LSK03', 'HCM', 41, 'ntc@ctu.edu.vn'),
+('SK28', 'ANH TRAI \"SAY HI\" 2025 CONCERT', '2025-12-27 12:00:00', 'https://salt.tkbcdn.com/ts/ds/b8/98/52/da316543950a9543d5b87c71b48838bf.png', 'ANH TRAI “SAY HI” 2025 CONCERT\r\n\r\nNgày 27.12.2025 tại Khu đô thị Vạn Phúc City, TP HCM ', 'https://salt.tkbcdn.com/ts/ds/56/47/a5/42d442d9f61e44b63514f211c0019c20.png', 'LSK03', 'HCM', 98, 'ntc@ctu.edu.vn'),
+('SK29', 'DOMIE HOMIE - 2025 Dương Domic Fan Meeting in DANANG', '2025-11-23 19:00:00', 'https://salt.tkbcdn.com/ts/ds/df/31/a4/51b62ea85fe1bc02d27862f6e391cca1.png', 'DOMIE HOMIE – 2025 Dương Domic Fan Meeting in DANANG\r\n\r\nDOMIE HOMIE – 2025 Dương Domic’s Fan Meeting in DANANG sẽ mang đến cho khán giả một không gian gần gũi và ấm áp, nơi âm nhạc và tình cảm gắn kết nghệ sĩ cùng người hâm mộ.', 'https://salt.tkbcdn.com/ts/ds/86/c0/36/043a5288b64fc560ce5a29710403ca7c.jpg', 'LSK01', 'DN', 30, 'ntc@ctu.edu.vn'),
+('SK30', 'THE GENTLEMEN - COUNTDOWN CONCERT 2026', '2025-12-31 19:30:00', 'https://salt.tkbcdn.com/ts/ds/27/b5/52/1b92d99147733d76b376b207dc45595f.jpg', 'THE GENTLEMEN - COUNTDOWN CONCERT 2026: ĐÊM NHẠC LỊCH LÃM ĐÓN CHÀO NĂM MỚI! \r\n\r\nCùng The Pearl Hoi An chào đón thời khắc giao mùa đáng nhớ nhất cuối năm 2025! Với kết hợp sự lịch lãm của những \"quý ông\" hát tình ca hứa hẹn sẽ tạo nên bầu không khí rực rỡ cảm xúc trong đêm Countdown 2026 tại THE GENTLEMEN – COUNTDOWN CONCERT 2026.\r\n\r\nChi tiết sự kiện:\r\n\r\n3 chàng trai – 3 hành trình âm nhạc khác nhau, nhưng đều có chung xuất phát điểm: bước ra từ những sân khấu truyền hình thực tế đình đám như The Voice, Vietnam Idol hay Sing My Song. Điều khiến khán giả nhớ về họ chính là chất giọng trữ tình, đậm đà cảm xúc – ba màu cảm xúc, nhưng cùng chung một ngôn ngữ đó là tình ca. Chính họ sẽ dẫn dắt khán giả bước sang năm mới bằng những giai điệu sâu lắng với trái tim chân thành dành cho tình yêu:\r\n\r\nLân Nhã – Giọng ca nồng nàn, đậm chất tự sự, mang đến những bản tình ca lãng mạn, mở đầu cho một năm mới tràn đầy cảm xúc.\r\nNguyễn Đình Tuấn Dũng – Giọng hát đầy nội lực và cảm xúc, với khả năng kể chuyện cuốn hút qua từng giai điệu, sẵn sàng khuấy động không khí trước thời khắc đếm ngược.\r\nHà An Huy – Quán quân Vietnam Idol, chàng trai mang đến làn gió mới, sự trẻ trung và năng lượng tươi sáng, hoàn hảo cho đêm Giao thừa rực rỡ. \r\nBa sắc màu âm nhạc hội tụ trong một đêm duy nhất. Một đêm nhạc nơi cảm xúc được thăng hoa, nơi những giai điệu tình ca và những nhịp đập Countdown hòa quyện thành bản giao hưởng hoàn hảo để chào đón năm 2026!\r\nĐiều khoản và điều kiện:\r\n\r\n*Lưu ý: Vé chương trình chỉ áp dụng cho khách từ 12 tuổi trở lên', 'NULL', 'LSK03', 'DN', 41, 'ntc@ctu.edu.vn');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `thanhtoan`
+-- Cấu trúc bảng cho bảng `thanhtoan`
 --
 
 CREATE TABLE `thanhtoan` (
@@ -397,7 +398,7 @@ CREATE TABLE `thanhtoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `thanhtoan`
+-- Đang đổ dữ liệu cho bảng `thanhtoan`
 --
 
 INSERT INTO `thanhtoan` (`MaTT`, `PhuongThucThanhToan`, `SoTien`, `TenNguoiThanhToan`, `SDT`, `TrangThai`, `NgayTao`, `Email_KH`, `ChiTietThanhToan`) VALUES
@@ -428,7 +429,7 @@ INSERT INTO `thanhtoan` (`MaTT`, `PhuongThucThanhToan`, `SoTien`, `TenNguoiThanh
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ve`
+-- Cấu trúc bảng cho bảng `ve`
 --
 
 CREATE TABLE `ve` (
@@ -439,7 +440,7 @@ CREATE TABLE `ve` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ve`
+-- Đang đổ dữ liệu cho bảng `ve`
 --
 
 INSERT INTO `ve` (`MaVe`, `TrangThai`, `MaLoai`, `MaTT`) VALUES
@@ -898,69 +899,70 @@ INSERT INTO `ve` (`MaVe`, `TrangThai`, `MaLoai`, `MaTT`) VALUES
 ('VE618', 'Chưa thanh toán', 'LV199', NULL);
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `diadiem`
+-- Chỉ mục cho bảng `diadiem`
 --
 ALTER TABLE `diadiem`
   ADD PRIMARY KEY (`MaDD`);
 
 --
--- Indexes for table `khachhang`
+-- Chỉ mục cho bảng `khachhang`
 --
 ALTER TABLE `khachhang`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `loaisk`
+-- Chỉ mục cho bảng `loaisk`
 --
 ALTER TABLE `loaisk`
   ADD PRIMARY KEY (`MaloaiSK`);
 
 --
--- Indexes for table `loaive`
+-- Chỉ mục cho bảng `loaive`
 --
 ALTER TABLE `loaive`
   ADD PRIMARY KEY (`MaLoai`),
   ADD KEY `fk_sukien_loaive` (`MaSK`);
 
 --
--- Indexes for table `nhanviensoatve`
+-- Chỉ mục cho bảng `nhanviensoatve`
 --
 ALTER TABLE `nhanviensoatve`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `nhatochuc`
+-- Chỉ mục cho bảng `nhatochuc`
 --
 ALTER TABLE `nhatochuc`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `quantrivien`
+-- Chỉ mục cho bảng `quantrivien`
 --
 ALTER TABLE `quantrivien`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `sukien`
+-- Chỉ mục cho bảng `sukien`
 --
 ALTER TABLE `sukien`
   ADD PRIMARY KEY (`MaSK`),
   ADD KEY `fk_maloaisk` (`MaLSK`),
-  ADD KEY `fk_madd` (`MaDD`);
+  ADD KEY `fk_madd` (`MaDD`),
+  ADD KEY `fk_email_nhatochuc` (`email`);
 
 --
--- Indexes for table `thanhtoan`
+-- Chỉ mục cho bảng `thanhtoan`
 --
 ALTER TABLE `thanhtoan`
   ADD PRIMARY KEY (`MaTT`),
   ADD KEY `FK_ThanhToan_User` (`Email_KH`);
 
 --
--- Indexes for table `ve`
+-- Chỉ mục cho bảng `ve`
 --
 ALTER TABLE `ve`
   ADD PRIMARY KEY (`MaVe`),
@@ -968,30 +970,31 @@ ALTER TABLE `ve`
   ADD KEY `FK_LoaiVe_Ve` (`MaLoai`);
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `loaive`
+-- Các ràng buộc cho bảng `loaive`
 --
 ALTER TABLE `loaive`
   ADD CONSTRAINT `fk_sukien_loaive` FOREIGN KEY (`MaSK`) REFERENCES `sukien` (`MaSK`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `sukien`
+-- Các ràng buộc cho bảng `sukien`
 --
 ALTER TABLE `sukien`
+  ADD CONSTRAINT `fk_email_nhatochuc` FOREIGN KEY (`email`) REFERENCES `nhatochuc` (`email`),
   ADD CONSTRAINT `fk_madd` FOREIGN KEY (`MaDD`) REFERENCES `diadiem` (`MaDD`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_maloaisk` FOREIGN KEY (`MaLSK`) REFERENCES `loaisk` (`MaloaiSK`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `thanhtoan`
+-- Các ràng buộc cho bảng `thanhtoan`
 --
 ALTER TABLE `thanhtoan`
   ADD CONSTRAINT `FK_ThanhToan_User` FOREIGN KEY (`Email_KH`) REFERENCES `khachhang` (`email`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `ve`
+-- Các ràng buộc cho bảng `ve`
 --
 ALTER TABLE `ve`
   ADD CONSTRAINT `FK_LoaiVe_Ve` FOREIGN KEY (`MaLoai`) REFERENCES `loaive` (`MaLoai`) ON DELETE CASCADE ON UPDATE CASCADE,

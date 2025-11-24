@@ -1,83 +1,65 @@
 <?php
-// Cấu hình CSDL
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    if (isset($_COOKIE['email'])) {
+        $_SESSION['email'] = $_COOKIE['email'];
+    } else {
+        header("Location: dangnhap.php");
+        exit;
+    }
+}
+
+$user_email = $_SESSION['email'];
+
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "qlysukien";
 
-// Khởi tạo các biến trạng thái
-$is_logged_in = false;
-$user_info = null;
-session_start();
-
-// Redirect nếu chưa đăng nhập qua cookie
-if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
-    $redirect_url = urlencode($_SERVER['REQUEST_URI']);
-    header("Location: dangnhap.php?redirect=" . $redirect_url);
-    exit; // Dừng chạy code
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed");
 }
 
-// 1. KIỂM TRA COOKIE ĐĂNG NHẬP
-if (isset($_COOKIE['email'])) {
-    $user_email = $_COOKIE['email'];
-    $is_logged_in = true;
+$stmt = $conn->prepare("SELECT user_name, email FROM nhatochuc WHERE email = ?");
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    // Kết nối CSDL
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if (!$conn->connect_error) {
-        $sql = "SELECT user_name, email FROM nhatochuc WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $user_email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result && $result->num_rows > 0) {
-            $user_info = $result->fetch_assoc();
-        } else {
-            // Xóa cookie nếu không tìm thấy người dùng
-            setcookie("email", "", time() - 3600, "/");
-            setcookie("user_name", "", time() - 3600, "/");
-            $is_logged_in = false;
-        }
-
-        $stmt->close();
-        // Giữ kết nối $conn mở để sử dụng cho phần thống kê bên dưới
-    } else {
-        $is_logged_in = false;
-        // Nếu kết nối lỗi, cố gắng kết nối lại cho phần thống kê
-        $conn = new mysqli($servername, $username, $password, $dbname);
-    }
+if ($result->num_rows > 0) {
+    $user_info = $result->fetch_assoc();
 } else {
-    // Nếu không có cookie, vẫn cố gắng kết nối CSDL cho phần hiển thị sự kiện
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    session_destroy();
+    setcookie("email", "", time() - 3600, "/");
+    header("Location: dangnhap.php");
+    exit;
 }
+$stmt->close();
 
-// Lấy danh sách sự kiện sắp tới
 $events_upcoming = [];
-if (!$conn->connect_error) {
-    $sql_upcoming = "SELECT s.*, d.TenTinh 
-                    FROM sukien s 
-                    LEFT JOIN diadiem d ON s.MaDD = d.MaDD
-                    WHERE s.Tgian >= CURDATE()
-                    ORDER BY s.Tgian ASC";
-    if ($result_upcoming = $conn->query($sql_upcoming)) {
-        $events_upcoming = $result_upcoming->fetch_all(MYSQLI_ASSOC);
-        $result_upcoming->free();
-    }
-
-    // Lấy danh sách sự kiện đã qua
-    $events_past = [];
-    $sql_past = "SELECT s.*, d.TenTinh 
+$sql_upcoming = "SELECT s.*, d.TenTinh 
                 FROM sukien s 
                 LEFT JOIN diadiem d ON s.MaDD = d.MaDD
-                WHERE s.Tgian < CURDATE()
-                ORDER BY s.Tgian DESC";
-    if ($result_past = $conn->query($sql_past)) {
-        $events_past = $result_past->fetch_all(MYSQLI_ASSOC);
-        $result_past->free();
-    }
-}
+                WHERE s.email = ? AND s.Tgian >= CURDATE()
+                ORDER BY s.Tgian ASC";
+$stmt = $conn->prepare($sql_upcoming);
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$events_upcoming = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+$events_past = [];
+$sql_past = "SELECT s.*, d.TenTinh 
+            FROM sukien s 
+            LEFT JOIN diadiem d ON s.MaDD = d.MaDD
+            WHERE s.email = ? AND s.Tgian < CURDATE()
+            ORDER BY s.Tgian DESC";
+$stmt = $conn->prepare($sql_past);
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$events_past = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 
 $sql_orders = "SELECT 
     tt.MaTT, 
@@ -93,41 +75,28 @@ FROM thanhtoan tt
 JOIN ve v ON tt.MaTT = v.MaTT
 JOIN loaive lv ON v.MaLoai = lv.MaLoai
 JOIN sukien s ON lv.MaSK = s.MaSK
+WHERE s.email = ? 
 GROUP BY tt.MaTT, tt.TenNguoiThanhToan, tt.Email_KH, tt.SDT, tt.SoTien, s.MaSK, s.TenSK
 ORDER BY tt.NgayTao DESC";
 
-$don_hang_theo_sk = []; // Lưu đơn hàng theo từng sự kiện
-$ket_qua_don_hang = !$conn->connect_error ? $conn->query($sql_orders) : false;
+$don_hang_theo_sk = [];
+$stmt = $conn->prepare($sql_orders);
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$ket_qua_don_hang = $stmt->get_result();
 
-if ($ket_qua_don_hang) {
-    while ($row = $ket_qua_don_hang->fetch_assoc()) {
-        $ma_sk = $row['MaSK'];
-        
-        if (!isset($don_hang_theo_sk[$ma_sk])) {
-            $don_hang_theo_sk[$ma_sk] = [
-                'TenSK' => $row['TenSK'],
-                'don_hang' => []
-            ];
-        }
-        
-        $don_hang_theo_sk[$ma_sk]['don_hang'][] = [
-            'ma_tt' => $row['MaTT'],
-            'ten_khach_hang' => $row['ten_khach_hang'],
-            'email' => $row['email'],
-            'so_dien_thoai' => $row['so_dien_thoai'],
-            'so_ve' => $row['so_ve'],
-            'tong_tien' => $row['tong_tien'],
-            'loai_ve' => $row['loai_ve']
+while ($row = $ket_qua_don_hang->fetch_assoc()) {
+    $ma_sk = $row['MaSK'];
+    if (!isset($don_hang_theo_sk[$ma_sk])) {
+        $don_hang_theo_sk[$ma_sk] = [
+            'TenSK' => $row['TenSK'],
+            'don_hang' => []
         ];
     }
-    $ket_qua_don_hang->free();
+    $don_hang_theo_sk[$ma_sk]['don_hang'][] = $row;
 }
-// Lấy các tham số từ URL
-$view = $_GET['view'] ?? '';
-$event_id_filter = isset($_GET['event_id']) ? (int)$_GET['event_id'] : null;
-$selected_mask = ($view === 'revenue' && $event_id_filter) ? $event_id_filter : null;
+$stmt->close();
 
-// Truy vấn thống kê doanh thu
 $sql_stats = "SELECT 
                 s.MaSK, 
                 s.TenSK, 
@@ -136,64 +105,42 @@ $sql_stats = "SELECT
                 COUNT(v.MaVe) AS SoLuongVeDaBan
             FROM sukien s
             LEFT JOIN loaive lv ON lv.MaSK = s.MaSK
-            LEFT JOIN ve v ON v.MaLoai = lv.MaLoai AND v.TrangThai = 'Đã bán'" . 
-            ($event_id_filter ? " WHERE s.MaSK = $event_id_filter" : "") . "
+            LEFT JOIN ve v ON v.MaLoai = lv.MaLoai AND v.TrangThai = 'Đã bán'
+            WHERE s.email = ?
             GROUP BY s.MaSK, lv.MaLoai, lv.TenLoai, lv.Gia
             ORDER BY s.TenSK, lv.TenLoai";
 
-$result_stats = !$conn->connect_error ? $conn->query($sql_stats) : false;
+$stmt = $conn->prepare($sql_stats);
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$result_stats = $stmt->get_result();
 
-// Khởi tạo các biến cần thiết
-$revenue_rows = [];
 $event_stats = [];
-$stats_event_name = '';
-$revenue_total = 0;
 
-if ($result_stats) {
-    while ($row = $result_stats->fetch_assoc()) {
-        $current_event_id = $row['MaSK'];
-        $ticket_type = [
-            'TenLoai' => $row['TenLoai'],
-            'Gia' => (float)$row['Gia'],
-            'so_luong' => (int)$row['SoLuongVeDaBan'],
-            'doanh_thu' => (int)$row['SoLuongVeDaBan'] * (float)$row['Gia']
-        ];
-        
-        // Thêm thông tin vào mảng revenue_rows
-        $revenue_rows[] = [
-            'MaSK' => $current_event_id,
+while ($row = $result_stats->fetch_assoc()) {
+    $current_event_id = $row['MaSK'];
+    $doanh_thu = (int)$row['SoLuongVeDaBan'] * (float)$row['Gia'];
+    
+    $ticket_type = [
+        'TenLoai' => $row['TenLoai'],
+        'Gia' => (float)$row['Gia'],
+        'so_luong' => (int)$row['SoLuongVeDaBan'],
+        'doanh_thu' => $doanh_thu
+    ];
+    
+    if (!isset($event_stats[$current_event_id])) {
+        $event_stats[$current_event_id] = [
             'TenSK' => $row['TenSK'],
-            'TenLoai' => $row['TenLoai'],
-            'Gia' => $ticket_type['Gia'],
-            'so_luong' => $ticket_type['so_luong'],
-            'doanh_thu' => $ticket_type['doanh_thu']
+            'tickets' => [],
+            'total_revenue' => 0
         ];
-        
-        // Nhóm thống kê theo sự kiện
-        if (!isset($event_stats[$current_event_id])) {
-            $event_stats[$current_event_id] = [
-                'TenSK' => $row['TenSK'],
-                'tickets' => [],
-                'total_revenue' => 0
-            ];
-        }
-        
-        $event_stats[$current_event_id]['tickets'][] = $ticket_type;
-        $event_stats[$current_event_id]['total_revenue'] += $ticket_type['doanh_thu'];
-        
-        // Nếu đang xem chi tiết 1 sự kiện (dựa vào URL filter)
-        if ($event_id_filter && $current_event_id == $event_id_filter) {
-            $stats_event_name = $row['TenSK'];
-            $revenue_total = $event_stats[$current_event_id]['total_revenue'];
-        }
     }
-    $result_stats->free();
+    
+    $event_stats[$current_event_id]['tickets'][] = $ticket_type;
+    $event_stats[$current_event_id]['total_revenue'] += $doanh_thu;
 }
-
-// Đóng kết nối CSDL sau khi hoàn thành mọi truy vấn
-if (!$conn->connect_error) {
-    $conn->close();
-}
+$stmt->close();
+$conn->close();
 
 $page_title = 'Nhà tổ chức';
 $additional_css = ['webstyle.css', 'nhatochuc.css'];
@@ -223,7 +170,7 @@ require_once 'header.php';
                 <i class="fa-solid fa-chart-line"></i>
                 <span>Thống kê</span>
             </button>
-            <?php if ($is_logged_in && $user_info): ?>
+            <?php if ($user_info): ?>
                 <label class="email_ntc">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Email: <b><?= htmlspecialchars($user_info['email']) ?></b></span>
@@ -246,18 +193,13 @@ require_once 'header.php';
         </p>
     </article>
 
-    <article class="noidung hidden" id="taosk-section">
-        <h2 class="noidung-title">TẠO SỰ KIỆN MỚI</h2>
-        <i class="fa-solid fa-spinner"></i> Đang cập nhật...
-    </article> 
-
     <article class="noidung hidden" id="qly-section">
         <h2 class="noidung-title">QUẢN LÝ SỰ KIỆN</h2>
         <div class="header">
             <div class="actions">
-                <form class="searchbar" method="get" action="admin.php">
+                <form class="searchbar" method="get" action="">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" placeholder="Danh sách các sự kiện bạn đã tạo." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
+                    <input type="text" name="q" placeholder="Tìm kiếm sự kiện..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" />
                     <button class="btn-search" type="submit">Tìm kiếm</button>
                 </form>
             </div>
@@ -284,19 +226,14 @@ require_once 'header.php';
                                     try {
                                         $dt = new DateTime($event['Tgian']);
                                         $time_str = $dt->format('d/m/Y H:i');
-                                    } catch (Exception $e) {
-                                        $time_str = $event['Tgian'];
-                                    }
+                                    } catch (Exception $e) { $time_str = $event['Tgian']; }
                                 }
                                 $location = $event['TenTinh'] ?? '';
-                                
-                                // Lấy thống kê cho sự kiện hiện tại
-                                $event_id = $event['MaSK'] ?? 0;
-                                $has_stats = isset($event_stats[$event_id]) && is_array($event_stats[$event_id]);
-                                $event_data = $has_stats ? $event_stats[$event_id] : ['total_revenue' => 0, 'tickets' => []];
+                                $event_id = $event['MaSK'];
+                                $event_data = $event_stats[$event_id] ?? ['total_revenue' => 0, 'tickets' => []];
                             ?>
                                 
-                            <div class="qly-card" data-event-id="<?= $event['MaSK'] ?>">                                    
+                            <div class="qly-card" data-event-id="<?= $event_id ?>">                                    
                                 <div class="qly-card-thumb">
                                     <img src="<?= htmlspecialchars($event['img_sukien'] ?? '') ?>" alt="<?= htmlspecialchars($event['TenSK'] ?? '') ?>" />
                                 </div>
@@ -305,105 +242,91 @@ require_once 'header.php';
                                     <div class="qly-card-meta"><?= htmlspecialchars($time_str) ?><?= $location ? ' • ' . htmlspecialchars($location) : '' ?></div>
                                     
                                     <div class="event-stats">
-                                        <div class="revenue-panel <?= ($view === 'revenue' && $selected_mask == $event['MaSK']) ? '' : 'hidden' ?>" 
-                                            id="revenue-panel-<?= $event['MaSK'] ?>">                                          
+                                        <div class="revenue-panel hidden" id="revenue-panel-<?= $event_id ?>">                                          
                                             <div class="revenue-header">
-                                                <!-- <h3 class="revenue-title">Doanh thu sự kiện</h3> -->
-                                                <button type="button" class="revenue-close" data-event-id="<?= $event['MaSK'] ?>">&times;</button>
+                                                <button type="button" class="revenue-close" data-event-id="<?= $event_id ?>">&times;</button>
                                             </div>
-
                                             <div class="revenue-summary">
                                                 <span class="label">Tổng doanh thu:</span>
                                                 <span class="value"><?= number_format($event_data['total_revenue'], 0, ',', '.') ?>đ</span>
                                             </div>
                                             
                                             <?php if (!empty($event_data['tickets'])): ?>
-                                            <!-- <h5 class="revenue-subtitle">Thống kê theo loại vé</h5> -->
-                                            <table class="revenue-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Loại vé</th>
-                                                        <th>Số lượng bán</th>
-                                                        <th>Đơn giá</th>
-                                                        <th>Doanh thu</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($event_data['tickets'] as $ticket): ?>
+                                            <div class="table-responsive">
+                                                <table class="revenue-table">
+                                                    <thead>
                                                         <tr>
-                                                            <td><?= htmlspecialchars($ticket['TenLoai'] ?? '') ?></td>
-                                                            <td><?= $ticket['so_luong'] ?? 0 ?></td>
-                                                            <td><?= isset($ticket['Gia']) ? number_format($ticket['Gia'], 0, ',', '.') . 'đ' : '0đ' ?></td>
-                                                            <td><?= isset($ticket['doanh_thu']) ? number_format($ticket['doanh_thu'], 0, ',', '.') . 'đ' : '0đ' ?></td>
+                                                            <th>Loại vé</th>
+                                                            <th>SL bán</th>
+                                                            <th>Đơn giá</th>
+                                                            <th>Thành tiền</th>
                                                         </tr>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach ($event_data['tickets'] as $ticket): ?>
+                                                            <tr>
+                                                                <td><?= htmlspecialchars($ticket['TenLoai']) ?></td>
+                                                                <td><?= $ticket['so_luong'] ?></td>
+                                                                <td><?= number_format($ticket['Gia'], 0, ',', '.') ?>đ</td>
+                                                                <td><?= number_format($ticket['doanh_thu'], 0, ',', '.') ?>đ</td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <?php else: ?>
-                                                <p class="no-tickets">Chưa có dữ liệu bán vé cho sự kiện này.</p>
+                                                <p class="no-tickets">Chưa có vé nào được bán.</p>
                                             <?php endif; ?>
                                         </div>
                                     </div>
                                     
                                     <?php 
-                                    $ma_sk = $event['MaSK'];
-                                    $don_hang = $don_hang_theo_sk[$ma_sk] ?? null;
+                                    $don_hang = $don_hang_theo_sk[$event_id] ?? null;
                                     ?>
-                                    <div class="orders-panel <?= ($view === 'orders' && $selected_mask == $event['MaSK']) ? '' : 'hidden' ?>" id="orders-panel-<?= $event['MaSK'] ?>">
+                                    <div class="orders-panel hidden" id="orders-panel-<?= $event_id ?>">
                                         <div class="orders-header">
-                                            <button type="button" class="orders-close" data-event-id="<?= $event['MaSK'] ?>">&times;</button>
+                                            <button type="button" class="orders-close" data-event-id="<?= $event_id ?>">&times;</button>
                                         </div>
                                         
-                                        
-
                                         <?php if (!empty($don_hang['don_hang'])): ?>
                                             <div class="table-responsive">
                                                 <table class="revenue-table">
                                                     <thead>
                                                         <tr>
                                                             <th>Mã TT</th>
-                                                            <th>Khách hàng</th>
+                                                            <th>Tên KH</th>
                                                             <th>Email</th>
-                                                            <th>Số điện thoại</th>
-                                                            <th>Số vé</th>
-                                                            <th>Loại vé</th>
-                                                            <th>Thành tiền</th>
+                                                            <th>SĐT</th>
+                                                            <th>Vé</th>
+                                                            <th>Tiền</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php foreach ($don_hang['don_hang'] as $don): ?>
                                                             <tr>
-                                                                <td><?= htmlspecialchars($don['ma_tt'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($don['ten_khach_hang'] ?? 'Khách hàng') ?></td>
-                                                                <td><?= htmlspecialchars($don['email'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($don['so_dien_thoai'] ?? '') ?></td>
-                                                                <td><?= $don['so_ve'] ?? 0 ?></td>
-                                                                <td><?= htmlspecialchars($don['loai_ve'] ?? '') ?></td>
-                                                                <td><?= isset($don['tong_tien']) ? number_format($don['tong_tien'], 0, ',', '.') . 'đ' : '0đ' ?></td>
+                                                                <td><?= htmlspecialchars($don['MaTT']) ?></td>
+                                                                <td><?= htmlspecialchars($don['ten_khach_hang']) ?></td>
+                                                                <td><?= htmlspecialchars($don['email']) ?></td>
+                                                                <td><?= htmlspecialchars($don['so_dien_thoai']) ?></td>
+                                                                <td><?= $don['so_ve'] ?></td>
+                                                                <td><?= number_format($don['tong_tien'], 0, ',', '.') ?>đ</td>
                                                             </tr>
                                                         <?php endforeach; ?>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         <?php else: ?>
-                                            <p class="no-orders">Chưa có đơn hàng nào cho sự kiện này.</p>
+                                            <p class="no-orders">Chưa có đơn hàng nào.</p>
                                         <?php endif; ?>
                                     </div>
                                     
                                     <div class="qly-card-actions">
-                                        <button type="button" class="btn-qly btn-manage">
-                                            Quản lý
-                                        </button>
+                                        <button type="button" class="btn-qly btn-manage">Quản lý</button>
                                         <div class="manage-menu hidden">
-                                            <button type="button" class="btn-qly btn-revenue" data-event-id="<?= $event['MaSK'] ?>">
-                                                Doanh thu
-                                            </button>
-                                            <button type="button" class="btn-qly btn-orders" data-event-id="<?= $event['MaSK'] ?>">Đơn hàng</button>
+                                            <button type="button" class="btn-qly btn-revenue" data-event-id="<?= $event_id ?>">Doanh thu</button>
+                                            <button type="button" class="btn-qly btn-orders" data-event-id="<?= $event_id ?>">Đơn hàng</button>
                                         </div>
-                                        <a href="chitietsk_1.php?MaSK=<?= urlencode($event['MaSK'] ?? '') ?>"
-                                            class="btn-qly btn-update">
-                                            Xem
-                                        </a>
+                                        <a href="chitietsk_1.php?MaSK=<?= urlencode($event_id) ?>" class="btn-qly btn-update">Xem</a>
                                     </div>
                                 </div>
                             </div>
@@ -420,24 +343,15 @@ require_once 'header.php';
                         <?php foreach ($events_past as $event): ?>
                             <?php
                                 $dt = null;
-                                $time_str = '';
                                 if (!empty($event['Tgian'])) {
-                                    try {
-                                        $dt = new DateTime($event['Tgian']);
-                                        $time_str = $dt->format('d/m/Y H:i');
-                                    } catch (Exception $e) {
-                                        $time_str = $event['Tgian'];
-                                    }
+                                    try { $dt = new DateTime($event['Tgian']); $time_str = $dt->format('d/m/Y H:i'); } 
+                                    catch (Exception $e) { $time_str = $event['Tgian']; }
                                 }
                                 $location = $event['TenTinh'] ?? '';
-                                
-                                // Lấy thống kê cho sự kiện hiện tại
-                                $event_id = $event['MaSK'] ?? 0;
-                                $has_stats = isset($event_stats[$event_id]) && is_array($event_stats[$event_id]);
-                                $event_data = $has_stats ? $event_stats[$event_id] : ['total_revenue' => 0, 'tickets' => []];
+                                $event_id = $event['MaSK'];
+                                $event_data = $event_stats[$event_id] ?? ['total_revenue' => 0, 'tickets' => []];
                             ?>
-                                
-                            <div class="qly-card" data-event-id="<?= $event['MaSK'] ?>">                                    
+                            <div class="qly-card" data-event-id="<?= $event_id ?>">                                    
                                 <div class="qly-card-thumb">
                                     <img src="<?= htmlspecialchars($event['img_sukien'] ?? '') ?>" alt="<?= htmlspecialchars($event['TenSK'] ?? '') ?>" />
                                 </div>
@@ -446,115 +360,74 @@ require_once 'header.php';
                                     <div class="qly-card-meta"><?= htmlspecialchars($time_str) ?><?= $location ? ' • ' . htmlspecialchars($location) : '' ?></div>
                                     
                                     <div class="event-stats">
-                                        <div class="revenue-panel <?= ($view === 'revenue' && $selected_mask == $event['MaSK']) ? '' : 'hidden' ?>" 
-                                            id="revenue-panel-<?= $event['MaSK'] ?>">                                          
+                                        <div class="revenue-panel hidden" id="revenue-panel-<?= $event_id ?>">                                          
                                             <div class="revenue-header">
-                                                <button type="button" class="revenue-close" data-event-id="<?= $event['MaSK'] ?>">&times;</button>
+                                                <button type="button" class="revenue-close" data-event-id="<?= $event_id ?>">&times;</button>
                                             </div>
-
                                             <div class="revenue-summary">
+                                                <span class="label">Tổng doanh thu:</span>
                                                 <span class="value"><?= number_format($event_data['total_revenue'], 0, ',', '.') ?>đ</span>
                                             </div>
-                               
-                                            
                                             <?php if (!empty($event_data['tickets'])): ?>
-                                            <h5 class="revenue-subtitle">Thống kê theo loại vé</h5>
-                                            <table class="revenue-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Loại vé</th>
-                                                        <th>Số lượng bán</th>
-                                                        <th>Đơn giá</th>
-                                                        <th>Doanh thu</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($event_data['tickets'] as $ticket): ?>
-                                                        <tr>
-                                                            <td><?= htmlspecialchars($ticket['TenLoai'] ?? '') ?></td>
-                                                            <td><?= $ticket['so_luong'] ?? 0 ?></td>
-                                                            <td><?= isset($ticket['Gia']) ? number_format($ticket['Gia'], 0, ',', '.') . 'đ' : '0đ' ?></td>
-                                                            <td><?= isset($ticket['doanh_thu']) ? number_format($ticket['doanh_thu'], 0, ',', '.') . 'đ' : '0đ' ?></td>
-                                                        </tr>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                            <?php else: ?>
-                                                <p class="no-tickets">Chưa có dữ liệu bán vé cho sự kiện này.</p>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                    
-                                    <?php 
-                                    $ma_sk = $event['MaSK'];
-                                    $don_hang = $don_hang_theo_sk[$ma_sk] ?? null;
-                                    ?>
-                                    <div class="orders-panel <?= ($view === 'orders' && $selected_mask == $event['MaSK']) ? '' : 'hidden' ?>" id="orders-panel-<?= $event['MaSK'] ?>">
-                                        <div class="orders-header">
-                                            <button type="button" class="orders-close" data-event-id="<?= $event['MaSK'] ?>">&times;</button>
-                                        </div>
-                                        
-                                        
-
-                                        <?php if (!empty($don_hang['don_hang'])): ?>
                                             <div class="table-responsive">
                                                 <table class="revenue-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Mã TT</th>
-                                                            <th>Khách hàng</th>
-                                                            <th>Email</th>
-                                                            <th>Số điện thoại</th>
-                                                            <th>Số vé</th>
-                                                            <th>Loại vé</th>
-                                                            <th>Thành tiền</th>
-                                                        </tr>
-                                                    </thead>
+                                                    <thead><tr><th>Loại vé</th><th>SL</th><th>Giá</th><th>Tổng</th></tr></thead>
                                                     <tbody>
-                                                        <?php foreach ($don_hang['don_hang'] as $don): ?>
+                                                        <?php foreach ($event_data['tickets'] as $ticket): ?>
                                                             <tr>
-                                                                <td><?= htmlspecialchars($don['ma_tt'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($don['ten_khach_hang'] ?? 'Khách hàng') ?></td>
-                                                                <td><?= htmlspecialchars($don['email'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($don['so_dien_thoai'] ?? '') ?></td>
-                                                                <td><?= $don['so_ve'] ?? 0 ?></td>
-                                                                <td><?= htmlspecialchars($don['loai_ve'] ?? '') ?></td>
-                                                                <td><?= isset($don['tong_tien']) ? number_format($don['tong_tien'], 0, ',', '.') . 'đ' : '0đ' ?></td>
+                                                                <td><?= htmlspecialchars($ticket['TenLoai']) ?></td>
+                                                                <td><?= $ticket['so_luong'] ?></td>
+                                                                <td><?= number_format($ticket['Gia'], 0, ',', '.') ?>đ</td>
+                                                                <td><?= number_format($ticket['doanh_thu'], 0, ',', '.') ?>đ</td>
                                                             </tr>
                                                         <?php endforeach; ?>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        <?php else: ?>
-                                            <p class="no-orders">Chưa có đơn hàng nào cho sự kiện này.</p>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="qly-card-actions">
-                                        <button type="button" class="btn-qly btn-manage">
-                                            Quản lý
-                                        </button>
-                                        <div class="manage-menu hidden">
-                                            <button type="button" class="btn-qly btn-revenue" data-event-id="<?= $event['MaSK'] ?>">
-                                                Doanh thu
-                                            </button>
-                                            <button type="button" class="btn-qly btn-orders" data-event-id="<?= $event['MaSK'] ?>">
-                                                Đơn hàng</button>
+                                            <?php else: ?> <p class="no-tickets">Chưa có vé bán.</p> <?php endif; ?>
                                         </div>
-                                        <a href="chitietsk_1.php?MaSK=<?= urlencode($event['MaSK'] ?? '') ?>"
-                                            class="btn-qly btn-update">
-                                            Xem
-                                        </a>
+                                    </div>
+
+                                    <?php $don_hang = $don_hang_theo_sk[$event_id] ?? null; ?>
+                                    <div class="orders-panel hidden" id="orders-panel-<?= $event_id ?>">
+                                        <div class="orders-header">
+                                            <button type="button" class="orders-close" data-event-id="<?= $event_id ?>">&times;</button>
+                                        </div>
+                                        <?php if (!empty($don_hang['don_hang'])): ?>
+                                            <div class="table-responsive">
+                                                <table class="revenue-table">
+                                                    <thead><tr><th>Mã TT</th><th>KH</th><th>Email</th><th>Vé</th><th>Tiền</th></tr></thead>
+                                                    <tbody>
+                                                        <?php foreach ($don_hang['don_hang'] as $don): ?>
+                                                            <tr>
+                                                                <td><?= htmlspecialchars($don['MaTT']) ?></td>
+                                                                <td><?= htmlspecialchars($don['ten_khach_hang']) ?></td>
+                                                                <td><?= htmlspecialchars($don['email']) ?></td>
+                                                                <td><?= $don['so_ve'] ?></td>
+                                                                <td><?= number_format($don['tong_tien'], 0, ',', '.') ?>đ</td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <?php else: ?> <p class="no-orders">Chưa có đơn hàng.</p> <?php endif; ?>
+                                    </div>
+                                    
+                                    <div class="qly-card-actions">
+                                        <button type="button" class="btn-qly btn-manage">Quản lý</button>
+                                        <div class="manage-menu hidden">
+                                            <button type="button" class="btn-qly btn-revenue" data-event-id="<?= $event_id ?>">Doanh thu</button>
+                                            <button type="button" class="btn-qly btn-orders" data-event-id="<?= $event_id ?>">Đơn hàng</button>
+                                        </div>
+                                        <a href="chitietsk_1.php?MaSK=<?= urlencode($event_id) ?>" class="btn-qly btn-update">Xem</a>
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>Hiện chưa có sự kiện sắp tới.</p>
+                        <p>Không có sự kiện đã qua.</p>
                     <?php endif; ?>
                 </div>
-            </div>
-            <div class="qly-list qly-list-khac hidden">
-                <p><i class="fa-solid fa-spinner"></i> Đang cập nhật thêm dữ liệu...</p>
             </div>
         </div>
     </article>
@@ -564,37 +437,19 @@ require_once 'header.php';
         <div class="report-table-wrapper">
             <table class="report-table">
                 <thead>
-                    <tr>
-                        <th>File</th>
-                        <th>Ngày tạo</th>
-                        <th>Người tạo</th>
-                        <th>Trạng thái xử lý</th>
-                        <th>Thao tác</th>
-                    </tr>
+                    <tr><th>File</th><th>Ngày tạo</th><th>Người tạo</th><th>Trạng thái</th><th>Thao tác</th></tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td data-label="File">thongke_doanhthu_gdragon_2025.xlsx</td>
+                        <td data-label="File">thongke_doanhthu_2025.xlsx</td>
                         <td data-label="Ngày tạo">2025-11-09 10:15</td>
-                        <td data-label="Người tạo">ntc@ctu.edu.vn</td>
-                        <td data-label="Trạng thái xử lý">Đã xử lý</td>
-                        <td>
-                            <button class="btn-qly btn-download-report">Tải xuống</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-label="File">thongke_khachhang_waterbomb.csv</td>
-                        <td data-label="Ngày tạo">2025-11-17 09:00</td>
-                        <td data-label="Người tạo">report@vibe4.vn</td>
-                        <td data-label="Trạng thái xử lý">Đã xử lý</td>
-                        <td>
-                            <button class="btn-qly btn-download-report">Tải xuống</button>
-                        </td>
+                        <td data-label="Người tạo"><?= htmlspecialchars($user_email) ?></td>
+                        <td data-label="Trạng thái">Đã xử lý</td>
+                        <td><button class="btn-qly btn-download-report">Tải xuống</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
         <div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="background:#ffffff; color:#000000;">
@@ -602,289 +457,20 @@ require_once 'header.php';
                         <h5 class="modal-title" style="color:#000000;">Thông báo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" style="color:#000000;">
-                        Tải xuống thành công.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
-                    </div>
+                    <div class="modal-body">Tải xuống thành công.</div>
+                    <div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button></div>
                 </div>
             </div>
         </div>
     </article>
-
-
   </main>
+
 <?php 
   $additional_footer_scripts = <<<HTML
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-HTML;
+    <script src="../js/nhatochuc.js"></script>
+  HTML;
   require_once 'footer.php';
 ?>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const btns = {
-        qly: document.getElementById("btn-qly"),
-        xembc: document.getElementById("btn-xembc")
-    };
-
-    const sections = {
-        nhatochuc: document.querySelector(".nhatochuc"),
-        taosk: document.getElementById("taosk-section"),
-        qly: document.getElementById("qly-section"),
-        xembc: document.getElementById("xembc-section")
-    };
-
-    // Khởi tạo trạng thái ban đầu (hiển thị trang Quản lý Sự kiện nếu có event_id trong URL để hiển thị Doanh thu)
-    Object.values(sections).forEach(sec => sec.classList.add("hidden"));
-    if (new URLSearchParams(window.location.search).has('event_id')) {
-        sections.qly.classList.remove("hidden");
-        btns.qly.classList.add("active");
-        sections.nhatochuc.classList.add("hidden");
-    } else {
-        sections.nhatochuc.classList.remove("hidden");
-        btns.qly.classList.remove("active"); // Mặc định không active nút nào khi ở trang chào mừng
-    }
-
-
-    // Hàm chuyển section
-    function showSection(name) {
-        // Ẩn toàn bộ section
-        Object.values(sections).forEach(sec => sec.classList.add("hidden"));
-        // Hiện section tương ứng
-        sections[name].classList.remove("hidden");
-
-        // Làm nổi bật nút đang chọn
-        Object.values(btns).forEach(btn => btn && btn.classList.remove("active"));
-        if (btns[name]) {
-            btns[name].classList.add("active");
-        }
-    }
-
-    // Gán sự kiện click cho mỗi nút Sidebar
-    Object.keys(btns).forEach(name => {
-        const btn = btns[name];
-        if (!btn) return;
-        btn.addEventListener("click", () => showSection(name));
-    });
-
-    // Nút tạo sự kiện trong phần QUẢN LÝ SỰ KIỆN
-    const btnCreateQly = document.getElementById("btn-create-qly");
-    if (btnCreateQly) {
-        btnCreateQly.addEventListener("click", (e) => {
-            e.preventDefault();
-            showSection("taosk");
-        });
-    }
-
-    // Xử lý Tabs Sắp tới / Đã qua
-    const qlyTabs = document.querySelectorAll('#qly-section .tabs .tab');
-    const qlyLists = {
-        saptoi: document.querySelector('.qly-list-saptoi'),
-        daqua: document.querySelector('.qly-list-daqua'),
-        // Các tab khác sử dụng chung .qly-list-khac
-        choduyet: document.querySelector('.qly-list-khac'),
-        nhap: document.querySelector('.qly-list-khac')
-    };
-
-    qlyTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            qlyTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            const status = tab.dataset.status;
-            Object.values(qlyLists).forEach(list => list && list.classList.add('hidden'));
-            if (qlyLists[status]) {
-                qlyLists[status].classList.remove('hidden');
-            }
-        });
-    });
-
-    // Xử lý nút Quản lý: toggle menu con (Doanh thu / Đơn hàng)
-    document.querySelectorAll('.qly-card .btn-manage').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Ngăn sự kiện nổi bọt
-            const menu = btn.nextElementSibling; // Menu là phần tử liền kề tiếp theo
-            if (!menu || !menu.classList.contains('manage-menu')) return;
-
-            // Bật/tắt class show cho menu
-            menu.classList.toggle('show');
-
-            // Đóng các menu khác
-            document.querySelectorAll('.manage-menu').forEach(m => {
-                if (m !== menu) {
-                    m.classList.remove('show');
-                }
-            });
-        });
-    });
-
-    // Đóng menu khi click bên ngoài
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.qly-card-actions')) {
-            document.querySelectorAll('.manage-menu').forEach(menu => {
-                menu.classList.remove('show');
-            });
-        }
-    });
-
-    // Đóng menu khi click vào một mục menu
-    document.querySelectorAll('.manage-menu button').forEach(button => {
-        button.addEventListener('click', () => {
-            button.closest('.manage-menu')?.classList.remove('show');
-        });
-    });
-    
-    // Xử lý nút Đơn hàng mở panel
-    document.querySelectorAll('.btn-orders').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const eventId = btn.getAttribute('data-event-id');
-            if (!eventId) return;
-
-            // Ẩn tất cả các panel
-            document.querySelectorAll('.orders-panel, .revenue-panel').forEach(panel => {
-                panel.classList.add('hidden');
-            });
-            
-            // Hiển thị panel đơn hàng tương ứng
-            const panelToShow = document.getElementById(`orders-panel-${eventId}`);
-            if (panelToShow) {
-                // Ẩn tất cả menu
-                document.querySelectorAll('.manage-menu').forEach(menu => {
-                    menu.classList.remove('show');
-                });
-                
-                // Hiển thị panel
-                panelToShow.classList.remove('hidden');
-            }
-        });
-    });
-
-    // Xử lý nút đóng panel đơn hàng
-    document.querySelectorAll('.orders-close').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const eventId = btn.getAttribute('data-event-id');
-            if (!eventId) return;
-            
-            const panel = document.getElementById(`orders-panel-${eventId}`);
-            if (panel) {
-                panel.classList.add('hidden');
-            }
-        });
-    });
-
-    // Xử lý nút Doanh thu mở panel
-    document.querySelectorAll('.btn-revenue').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const eventId = btn.getAttribute('data-event-id');
-            if (!eventId) return;
-
-            // Ẩn tất cả các panel
-            document.querySelectorAll('.revenue-panel, .orders-panel').forEach(panel => {
-                panel.classList.add('hidden');
-            });
-            
-            // Hiển thị panel doanh thu tương ứng
-            const panelToShow = document.getElementById(`revenue-panel-${eventId}`);
-            if (panelToShow) {
-                // Ẩn menu
-                btn.closest('.manage-menu')?.classList.remove('show');
-                // Hiển thị panel
-                panelToShow.classList.remove('hidden');
-            }
-        });
-    });
-
-    // Xử lý nút Đóng panel Doanh thu
-    document.querySelectorAll('.revenue-close').forEach(closeBtn => {
-        closeBtn.addEventListener('click', () => {
-            closeBtn.closest('.revenue-panel').classList.add('hidden');
-        });
-    });
-
-    // Thông báo tải xuống thành công cho phần Xem báo cáo
-    const downloadButtons = document.querySelectorAll('.btn-download-report');
-    const downloadModalElement = document.getElementById('downloadSuccessModal');
-    if (downloadButtons.length && downloadModalElement && window.bootstrap) {
-        const downloadModal = new bootstrap.Modal(downloadModalElement);
-        downloadButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                downloadModal.show();
-                
-                // Mô phỏng tải xuống sau 1.5 giây
-                setTimeout(() => {
-                    downloadModal.hide();
-                    // Thêm logic tải xuống thực tế ở đây nếu cần
-                    // window.location.href = btn.getAttribute('data-download-url');
-                }, 1500);
-            });
-        });
-    }
-
-    // Xử lý Tìm kiếm (lọc tại chỗ bằng JS)
-    const qlySearchForm = document.querySelector('#qly-section .searchbar');
-    if (qlySearchForm) {
-        const qlyInput  = qlySearchForm.querySelector('input[name="q"]');
-        const qlyCards  = document.querySelectorAll('#qly-section .qly-events-list .qly-card');
-
-        const applyQlyFilter = () => {
-            if (!qlyInput) return;
-            const q = qlyInput.value.trim().toLowerCase();
-            
-            // Chỉ lọc các sự kiện trong tab ĐANG HIỂN THỊ
-            document.querySelectorAll('#qly-section .qly-events-list:not(.hidden) .qly-card').forEach(card => {
-                const titleEl = card.querySelector('.qly-card-title');
-                const title = (titleEl?.textContent || '').toLowerCase();
-                if (!q || title.includes(q)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        };
-
-        // Gán sự kiện cho input và button
-        if (qlyInput) {
-            // Lọc khi gõ (tùy chọn) hoặc chỉ khi nhấn Enter/Search
-             qlyInput.addEventListener('input', applyQlyFilter);
-        }
-        
-        qlySearchForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Ngăn chặn form submit
-            applyQlyFilter();
-        });
-    }
-    
-    // Xử lý phần tạo loại vé (Đang cập nhật)
-    const soloaive = document.getElementById("soloaive");
-    const khungloaive = document.getElementById("khungloaive");
-    if (soloaive && khungloaive) {
-        soloaive.addEventListener("change", function() {
-            const soLuong = parseInt(this.value);
-            khungloaive.innerHTML = ""; // Xóa nội dung cũ
-
-            if (soLuong > 0 && soLuong <= 10) { // Giới hạn số lượng
-                for (let i = 1; i <= soLuong; i++) {
-                    const div = document.createElement("div");
-                    div.className = "ve-item";
-                    div.innerHTML = `
-                        <input type="text" placeholder="Tên loại vé ${i}">
-                        <input type="number" min="0" placeholder="Số lượng vé ${i}">
-                    `;
-                    khungloaive.appendChild(div);
-                }
-            } else if (soLuong > 10) {
-                 khungloaive.innerHTML = "<p>Tối đa 10 loại vé.</p>";
-            }
-        });
-    }
-});
-</script>
-<script src="vi.js"></script>
-
 </body>
 </html>
