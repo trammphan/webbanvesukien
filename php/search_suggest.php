@@ -13,7 +13,6 @@ if ($q === '' || mb_strlen($q) < 2) {
 try {
     $pattern = '%' . $q . '%';
 
-    // Prepared statements cho 2 bảng, sau đó gộp kết quả và loại trùng
     $stmtEvent = $conn->prepare("SELECT TenSK AS label FROM sukien WHERE TenSK LIKE ? LIMIT 10");
     $stmtEvent->bind_param('s', $pattern);
     $stmtEvent->execute();
@@ -40,7 +39,6 @@ try {
         }
     }
 
-    // Loại bỏ trùng, cắt tối đa 10
     $labels = array_values(array_unique($labels));
     $labels = array_slice($labels, 0, 10);
 
@@ -48,6 +46,5 @@ try {
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['error' => 'server_error']);
-} finally {
-    // Không đóng $conn ở đây để không ảnh hưởng vòng đời nếu endpoint dùng lại
 }
+?>
