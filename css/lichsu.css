@@ -5,21 +5,20 @@ body {
 }
 
 .main-content-area {
-  max-width: 900px; /* Giới hạn chiều rộng */
-  margin: 100px auto 40px auto; /* Cách header 100px, căn giữa */
+  max-width: 900px;
+  margin: 100px auto 40px auto;
 }
 
 .container {
-  background: #ffffff; /* NỀN TRẮNG */
+  background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
   overflow: hidden;
-  color: #333; /* Chữ đen */
+  color: #333;
   font-family: "Poppins", sans-serif;
-  margin: 0; /* Xóa margin cũ */
+  margin: 0;
 }
 
-/* ----- CSS cho nút Back ----- */
 .back_nguoidung {
   padding: 10px 15px;
   text-align: right;
@@ -34,7 +33,6 @@ body {
 .back_nguoidung a:hover {
   color: #333;
 }
-/* ------------------------- */
 
 .page-header {
   padding: 25px 30px;
@@ -71,7 +69,7 @@ body {
   border-radius: 6px;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  color-scheme: light; /* Đảm bảo picker màu sáng */
+  color-scheme: light;
 }
 .filter-form button {
   padding: 10px 20px;
@@ -90,7 +88,7 @@ body {
 
 .order-list {
   padding: 20px;
-  background: #fff; /* Nền trắng */
+  background: #fff;
   border-radius: 0 0 12px 12px;
 }
 .order-item {
@@ -129,9 +127,8 @@ body {
   transition: transform 0.3s ease;
 }
 .order-item.active .order-header::after {
-  content: ""; /* Dấu trừ */
+  content: "";
 }
-/* ------------------------------------- */
 
 .order-header h2 {
   margin: 0;
@@ -147,7 +144,7 @@ body {
   font-size: 0.9em;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-left: auto; /* đẩy sát về bên phải */
+  margin-left: auto;
 }
 .status-cho {
   background-color: #f0ad4e;
@@ -161,87 +158,100 @@ body {
 
 /* ------ Nút hoàn vé ---------*/
 .btn-hoan-ve {
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9em;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-left: 10px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 10px;
 }
 .btn-hoan-ve:hover {
-    background-color: #c0392b;
+  background-color: #c0392b;
 }
 
 /* --------- Thông báo xác nhận hoàn vé ----------- */
 .popup-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Poppins", sans-serif;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  z-index: 9999;
 }
 .popup-box {
-    background: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    max-width: 400px;
-    text-align: center;
-    font-family: "Poppins", sans-serif;
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  max-width: 400px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
 }
 
-.popup-box p{
+.popup-box p {
   font-family: "Poppins", sans-serif;
 }
 
 .popup-actions button {
-    margin: 10px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 1em;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
+  margin: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
 }
-#popup-confirm { background: #27ae60; color: #fff; }
-#popup-cancel { background: #e74c3c; color: #fff; }
+#popup-confirm {
+  background: #27ae60;
+  color: #fff;
+}
+#popup-cancel {
+  background: #e74c3c;
+  color: #fff;
+}
 
 /* Thông báo thành công */
 #msg.alert-success {
-    position: fixed;          /* cố định trên màn hình */
-    top: 20%;                 /* căn giữa theo chiều dọc */
-    left: 50%;                /* căn giữa theo chiều ngang */
-    transform: translate(-50%); /* dịch chuyển để đúng giữa */
-    background-color: #4CAF50; /* nền xanh lá */
-    color: #fff;              /* chữ trắng */
-    padding: 20px 30px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 9999;            /* nổi lên trên cùng */
-    animation: fadeIn 0.5s ease-in-out;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: #4caf50;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Hiệu ứng biến mất (nếu muốn dùng JS thêm class) */
 @keyframes fadeOut {
-    from { opacity: 1; }
-    to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
-
 
 /* ----- Ẩn body mặc định ----- */
 .order-body {
-  background: #fff; /* Nền trắng */
+  background: #fff;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease-out, padding 0.4s ease-out;
@@ -255,19 +265,19 @@ body {
 
 .order-body p {
   margin: 0 0 12px 0;
-  color: #555; /* Chữ đen/xám */
+  color: #555;
   font-size: 0.95em;
   line-height: 1.6;
 }
 .order-body p strong {
-  color: #333; /* Chữ đen (đậm) */
+  color: #333;
   min-width: 120px;
   display: inline-block;
   font-weight: 600;
 }
 .ticket-list-title {
   font-weight: 600;
-  color: #333; /* Chữ đen */
+  color: #333;
   margin-top: 15px;
   margin-bottom: 10px;
   font-size: 0.95em;
@@ -289,12 +299,12 @@ body {
   justify-content: space-between;
 }
 .ticket-list li .ticket-type {
-  color: #555; /* Chữ xám */
+  color: #555;
 }
 .no-orders {
   text-align: center;
   padding: 60px 20px;
-  color: #777; /* Chữ xám */
+  color: #777;
 }
 .no-orders p {
   font-size: 1.1em;
@@ -304,22 +314,19 @@ body {
 /* 1. Tablet (từ 768px đến 1024px) */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .main-content-area {
-    /* Giảm lề trên và thêm lề hai bên */
     margin: 80px 20px 30px 20px;
-    max-width: none; /* Bỏ max-width để nó co giãn theo lề */
+    max-width: none;
   }
 }
 
 /* 2. Mobile (dưới 767px) */
 @media screen and (max-width: 767px) {
   .main-content-area {
-    /* Giảm lề trên (để bớt trống) và thêm lề hai bên (10px) */
     margin: 70px 10px 20px 10px;
-    max-width: none; /* Bỏ max-width để nó co giãn theo lề */
+    max-width: none;
   }
 
   .container {
-    /* Đảm bảo container co giãn đúng cách trên mobile */
     width: 100%;
     box-sizing: border-box;
   }
@@ -329,7 +336,7 @@ body {
   }
 
   .page-header h1 {
-    font-size: 1.3em; /* Giảm cỡ chữ tiêu đề chính */
+    font-size: 1.3em;
   }
 
   .order-list {
@@ -338,49 +345,42 @@ body {
 
   .order-header {
     padding: 15px;
-    /* Cho phép wrap tốt hơn nếu tiêu đề + status quá dài */
     flex-wrap: wrap;
-    gap: 10px; /* Khoảng cách nếu status rớt xuống */
+    gap: 10px;
   }
 
   .order-header::after {
-    /* Di chuyển icon +/- vào trong một chút */
     right: 15px;
   }
 
   .order-header h2 {
-    font-size: 1em; /* Giảm cỡ chữ tiêu đề đơn hàng */
+    font-size: 1em;
   }
   .order-header h3 {
-    font-size: 1em; /* Giảm cỡ chữ tiêu đề đơn hàng */
+    font-size: 1em;
   }
   .order-header .status {
-    font-size: 0.5em; /* Giảm cỡ chữ status */
+    font-size: 0.5em;
     padding: 5px 10px;
   }
 
   .order-item.active .order-body {
-    padding: 15px; /* Giảm padding của nội dung */
+    padding: 15px;
   }
 
   .order-body p {
-    font-size: 0.7em; /* Giảm cỡ chữ nội dung */
+    font-size: 0.7em;
     line-height: 1.5;
   }
 
-  /* --- SỬA LỖI QUAN TRỌNG NHẤT --- */
   .order-body p strong {
-    /* Bỏ min-width để không làm vỡ layout */
     min-width: 0;
-    /* Cho nhãn (Sự kiện:, Tổng tiền:) xếp chồng lên trên giá trị */
     display: block;
     margin-bottom: 3px;
     color: #555;
   }
-  /* -------------------------------- */
 
   .ticket-list li {
-    /* Xếp chồng Mã vé và Loại vé */
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;

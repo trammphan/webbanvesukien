@@ -2,21 +2,17 @@
 session_start();
 ?>
 <?php
-$redirect_url_hidden = ''; // Dùng cho input hidden
-$redirect_url_href = '';   // Dùng cho href links
+$redirect_url_hidden = ''; 
+$redirect_url_href = '';   
 
 if (isset($_GET['redirect'])) {
-    // htmlspecialchars cho giá trị của input
     $redirect_url_hidden = htmlspecialchars($_GET['redirect']);
-    // urlencode cho tham số trên URL
     $redirect_url_href = '?redirect=' . urlencode($_GET['redirect']);
 }
 
 
 $additional_css = ['webstyle.css'];
-
-// Giữ tiêu đề và các asset head gốc của trang
-$page_title = 'Đăng ký';
+$page_title = 'Quên mật khẩu';
 $additional_head = <<<HTML
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -27,12 +23,11 @@ HTML;
         <article class="khungdungchung">
           <h2>QUÊN MẬT KHẨU</h2>
           <p style="text-align: center; margin-bottom: 20px; color: #555;">Vui lòng nhập email của bạn. Chúng tôi sẽ gửi một liên kết để đặt lại mật khẩu.</p>
-         <!-- BƯỚC 2: Dán đoạn này vào chỗ bạn muốn hiện thông báo (ví dụ: ngay trên nút Gửi hoặc trên thẻ <form>) -->
 <?php if (isset($_SESSION['thong_bao'])): ?>
     <div style="background-color: #d1e7dd; color: #0f5132; padding: 15px; margin-bottom: 20px; border: 1px solid #badbcc; border-radius: 5px; text-align: center;">
         <?php 
             echo $_SESSION['thong_bao']; 
-            unset($_SESSION['thong_bao']); // Xóa thông báo sau khi hiện (để F5 không bị hiện lại)
+            unset($_SESSION['thong_bao']); 
         ?>
     </div>
 <?php endif; ?>

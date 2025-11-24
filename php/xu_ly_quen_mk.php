@@ -88,22 +88,19 @@ if ($co_nut_bam && isset($_POST['email'])) {
                     <p style='font-size: 12px; color: #999;'>Nếu bạn không yêu cầu thay đổi, vui lòng bỏ qua email này.</p>
                 </div>
             ";
-            
-            // Phần văn bản thuần cho ứng dụng mail không hỗ trợ HTML (giúp giảm spam)
             $mail->AltBody = "Vui lòng copy link sau để đặt lại mật khẩu: $link";
 
             $mail->send();
         }
 
         // 7. Thông báo & Chuyển hướng (Redirect)
-        // Luôn báo thành công để bảo mật (dù email có tồn tại hay không)
         $_SESSION['thong_bao'] = "Yêu cầu đã được gửi! Vui lòng kiểm tra hộp thư đến và mục Spam.";
         header("Location: quen_mk.php"); 
         exit();
 
     } catch (Exception $e) {
         // Lỗi gửi mail
-        error_log("Mail Error: " . $e->getMessage()); // Ghi log ngầm
+        error_log("Mail Error: " . $e->getMessage()); 
         $_SESSION['loi'] = "Không thể gửi mail lúc này. Vui lòng thử lại sau.";
         header("Location: quen_mk.php");
         exit();

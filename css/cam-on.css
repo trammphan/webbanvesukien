@@ -1,14 +1,11 @@
-/* 1. QUAN TRỌNG: Đảm bảo padding không làm phình to kích thước phần tử */
 * {
   box-sizing: border-box;
 }
-
 /* --- CÀI ĐẶT CHUNG (DESKTOP) --- */
 body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
   color: #eee;
-  /* Flexbox để căn giữa cho Desktop */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +21,7 @@ body {
   border-radius: 10px;
   padding: 30px 40px;
   max-width: 600px;
-  width: 100%; /* Chiếm 100% chiều rộng cho phép */
+  width: 100%;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border-top: 5px solid #00e0ff;
 }
@@ -61,24 +58,22 @@ p {
   font-size: 1em;
   padding: 12px 0;
   border-bottom: 1px solid #333;
-  gap: 15px; /* Khoảng cách giữa tên mục và giá trị */
+  gap: 15px;
 }
 
 .order-item span {
   color: #bbb;
-  flex-shrink: 0; /* Không cho phép tên mục bị co lại quá mức */
+  flex-shrink: 0;
 }
 
 .order-item strong {
   color: #fff;
   font-weight: 700;
   text-align: right;
-
-  /* 2. QUAN TRỌNG: Xử lý mã đơn hàng dài (#TT_...) */
-  word-wrap: break-word; /* Cho phép xuống dòng */
-  word-break: break-word; /* Ngắt từ nếu cần thiết */
-  overflow-wrap: break-word; /* Chuẩn mới hỗ trợ tốt hơn */
-  max-width: 60%; /* Giới hạn chiều rộng để ép xuống dòng */
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 60%;
 }
 
 .order-item:last-child {
@@ -103,7 +98,7 @@ p {
 @media screen and (max-width: 768px) {
   /* 1. Body & Container */
   body {
-    display: block; /* Tránh lỗi flex center làm mất đầu trang */
+    display: block;
     height: auto;
     padding: 20px 10px;
   }
@@ -129,31 +124,28 @@ p {
   }
 
   .order-item {
-    /* Luôn giữ hàng ngang (Row) thay vì xếp dọc */
     display: flex;
-    justify-content: space-between; /* Đẩy ra 2 bên trái phải */
-    align-items: flex-start; /* Căn lề trên để nếu chữ dài thì vẫn đẹp */
+    justify-content: space-between;
+    align-items: flex-start;
     padding: 10px 0;
-    gap: 15px; /* Khoảng cách tối thiểu giữa Label và Value */
-    font-size: 0.9em; /* Chữ nhỏ gọn lại một chút */
+    gap: 15px;
+    font-size: 0.9em;
   }
 
   /* Cột bên trái (Label: Mã đơn hàng, Loại vé...) */
   .order-item span {
     text-align: left;
-    white-space: nowrap; /* Không cho tên mục xuống dòng */
+    white-space: nowrap;
     color: #bbb;
-    flex-shrink: 0; /* Không bị ép nhỏ lại */
+    flex-shrink: 0;
   }
 
   /* Cột bên phải (Value: #CODE, VIP, 1...) */
   .order-item strong {
-    text-align: right; /* Luôn căn phải */
+    text-align: right;
     color: #fff;
-    flex-grow: 1; /* Chiếm hết khoảng trống còn lại */
-
-    /* Xử lý mã đơn hàng dài */
-    word-break: break-all; /* Bắt buộc ngắt dòng nếu mã quá dài */
+    flex-grow: 1;
+    word-break: break-all;
     line-height: 1.4;
   }
 
@@ -166,17 +158,17 @@ p {
   .back-link {
     margin-top: 20px;
   }
-} /* Nếu màn hình quá nhỏ (dưới 400px), cho tên mục và giá trị rớt dòng */
+}
 @media screen and (max-width: 400px) {
   .order-item {
-    flex-direction: column; /* Xếp dọc */
-    align-items: flex-start; /* Căn trái */
+    flex-direction: column;
+    align-items: flex-start;
     gap: 5px;
   }
 
   .order-item strong {
-    text-align: left; /* Căn trái giá trị */
-    max-width: 100%; /* Cho phép dùng hết chiều ngang */
+    text-align: left;
+    max-width: 100%;
   }
 
   /* Riêng dòng Tổng tiền vẫn giữ ngang */

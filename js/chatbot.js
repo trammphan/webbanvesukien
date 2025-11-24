@@ -1,7 +1,3 @@
-// === BẮT ĐẦU SCRIPT CUỐI CÙNG (ĐÃ SẠCH 100%) ===
-
-// Dòng alert() đã bị xóa.
-
 const chatBody = document.querySelector(".chat-body");
 const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
@@ -168,7 +164,7 @@ fileCancelButton.addEventListener("click", (e) => {
 
 // Bộ chọn Emoji (ĐÃ SỬA)
 const picker = new EmojiMart.Picker({
-  theme: "light", // Đổi sang theme "light"
+  theme: "light",
   showSkinTones: "none",
   previewPosition: "none",
   onEmojiSelect: (emoji) => {
@@ -176,7 +172,6 @@ const picker = new EmojiMart.Picker({
     messageInput.setRangeText(emoji.native, start, end, "end");
     messageInput.focus();
   },
-  // Sửa lại logic: nếu click bên ngoài, LUÔN LUÔN đóng
   onClickOutside: () => {
     document
       .querySelector(".chatbot-popup")
@@ -184,18 +179,15 @@ const picker = new EmojiMart.Picker({
   },
 });
 
-// Gắn bộ chọn vào footer (CHỈ GẮN 1 LẦN)
 document.querySelector(".chat-footer").appendChild(picker);
 
-// Thêm logic MỞ (bị thiếu trước đây)
 document.querySelector("#emoji-picker").addEventListener("click", (e) => {
-  e.stopPropagation(); // Ngăn sự kiện click này lan ra ngoài
+  e.stopPropagation();
   document
     .querySelector(".chatbot-popup")
     .classList.toggle("show-emoji-picker");
 });
 
-// Xử lý file (kiểm tra loại file) - CHỈ CÓ 1 KHỐI NÀY
 fileInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -248,5 +240,3 @@ chatbotToggler.addEventListener("click", () =>
 closeChatbot.addEventListener("click", () =>
   document.body.classList.remove("show-chatbot")
 );
-
-// === HẾT SCRIPT SẠCH ===

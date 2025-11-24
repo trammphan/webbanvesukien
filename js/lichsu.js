@@ -10,47 +10,42 @@ document.addEventListener("DOMContentLoaded", function () {
       const statusText = statusEl ? statusEl.textContent.trim() : "";
 
       // Nếu trạng thái là "Đã hoàn vé" hoặc "Đã hoàn tiền" hoặc "Đã hủy" thì KHÔNG toggle
-      if (
-        statusText === "Đã hoàn vé" ||
-        statusText === "Đã hủy"
-      ) {
+      if (statusText === "Đã hoàn vé" || statusText === "Đã hủy") {
         return; // dừng, không mở body
       }
 
       // Ngược lại thì toggle như bình thường
-      orderItem.classList.toggle(
-        "active"
-      ); /* // 5. (PHẦN THAY ĐỔI) //    Phần code tự động đóng các mục khác đã được xóa bỏ theo yêu cầu. */
+      orderItem.classList.toggle("active");
     });
   });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    const refundForms = document.querySelectorAll("form[action='hoanve.php']");
-    const popup = document.getElementById("refund-popup");
-    const confirmBtn = document.getElementById("popup-confirm");
-    const cancelBtn = document.getElementById("popup-cancel");
-    let currentForm = null;
+document.addEventListener("DOMContentLoaded", function () {
+  const refundForms = document.querySelectorAll("form[action='hoanve.php']");
+  const popup = document.getElementById("refund-popup");
+  const confirmBtn = document.getElementById("popup-confirm");
+  const cancelBtn = document.getElementById("popup-cancel");
+  let currentForm = null;
 
-    //Ngăn show nội dung khi nhấn nút hoàn vé
-    refundForms.forEach(form => {
-      form.addEventListener("click", function(e) {
-          e.stopPropagation(); // chặn sự kiện click lan ra header
-      });
+  //Ngăn show nội dung khi nhấn nút hoàn vé
+  refundForms.forEach((form) => {
+    form.addEventListener("click", function (e) {
+      e.stopPropagation(); // chặn sự kiện click lan ra header
+    });
 
-      form.addEventListener("submit", function(e) {
-          e.preventDefault(); // chặn submit mặc định
-          currentForm = form;
-          popup.style.display = "flex"; // hiện popup
-      });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // chặn submit mặc định
+      currentForm = form;
+      popup.style.display = "flex"; // hiện popup
+    });
 
-      confirmBtn.addEventListener("click", function() {
-          if (currentForm) currentForm.submit(); // gửi form thật sự
-          popup.style.display = "none";
-      });
+    confirmBtn.addEventListener("click", function () {
+      if (currentForm) currentForm.submit(); // gửi form thật sự
+      popup.style.display = "none";
+    });
 
-      cancelBtn.addEventListener("click", function() {
-          popup.style.display = "none"; // đóng popup
-      });
-    })
+    cancelBtn.addEventListener("click", function () {
+      popup.style.display = "none"; // đóng popup
+    });
+  });
 });

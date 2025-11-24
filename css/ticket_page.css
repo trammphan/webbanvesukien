@@ -1,6 +1,3 @@
-/* --- BẮT ĐẦU FILE seatmap.css --- */
-
-/* --- CÀI ĐẶT CHUNG --- */
 body {
   background: linear-gradient(135deg, #0f2027, #060259, #290352);
   min-height: 100vh;
@@ -71,12 +68,11 @@ body {
 .seat-zone {
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #ffffff; /* Chữ trắng cho nút vé */
+  color: #ffffff;
 }
 
 .seat-zone:hover {
   transform: translateY(-2px);
-  /* THAY ĐỔI: Làm viền sáng hơn khi hover */
   border-color: #ffffff;
 }
 
@@ -90,7 +86,6 @@ body {
 .sidebar {
   flex: 1;
   min-width: 320px;
-  /* THAY ĐỔI: Nền tối hơn */
   background-color: #071024e6;
   padding: 25px;
   border-radius: 8px;
@@ -132,7 +127,6 @@ body {
   transition: background-color 0.2s;
   border-radius: 5px;
 }
-/* THAY ĐỔI: Màu highlight tối hơn */
 .price-item.selected-row {
   background-color: #333;
 }
@@ -152,7 +146,6 @@ body {
 /* --- KHUNG TÍNH TOÁN (SỐ LƯỢNG/TỔNG) --- */
 .ticket-calculator {
   display: block;
-  /* THAY ĐỔI: Nền tối */
   background-color: #071024e6;
   border-radius: 8px;
   padding: 20px;
@@ -237,21 +230,20 @@ body {
 .next-button.active:hover {
   background-color: #00c4e0;
 }
-/* --- CSS CHO KHUNG MÔ TẢ --- */
-/*dùng cho js*/
+
 #ticket-description-container {
-  display: none; /* Ẩn theo mặc định */
-  background-color: #071024e6; /* Nền tối giống khung tính toán */
+  display: none;
+  background-color: #071024e6;
   border-radius: 8px;
   padding: 15px 20px;
-  margin: 20px 0 0 0; /* Căn lề trái, cách 20px ở trên */
+  margin: 20px 0 0 0;
   max-width: 100%;
-  border: 1px solid #333; /* Thêm viền nhẹ */
+  border: 1px solid #333;
 }
 #ticket-description-container h4 {
   margin-top: 0;
   margin-bottom: 10px;
-  color: #00e0ff; /* Màu cyan cho tiêu đề vé */
+  color: #00e0ff;
   font-size: 1.1em;
 }
 #ticket-description-container p {
@@ -261,14 +253,10 @@ body {
   line-height: 1.6;
 }
 
+/* =========================================================
+   MÀU SẮC THEO NHÓM VÉ DỰA TRÊN ID
+   Sử dụng phép chia lấy dư (ID % 8) để phân nhóm màu sắc
 /* --- Nhóm 1 (Đỏ) --- */
-/* File CSS này chia các ID Loại Vé (LV) từ 1 đến 200 thành 8 nhóm màu
-  để phân biệt các khu vực hoặc sự kiện khác nhau.
-  Mỗi nhóm có một màu nền và màu chữ tương phản.
-*/
-
-/* --- Nhóm 1 (Đỏ) --- */
-/* (ID % 8 == 1) */
 #LV1,
 #LV9,
 #LV17,
@@ -294,13 +282,12 @@ body {
 #LV177,
 #LV185,
 #LV193 {
-  background-color: #d32f2f; /* Red */
+  background-color: #d32f2f;
   border-color: #d32f2f;
   color: #ffffff;
 }
 
 /* --- Nhóm 2 (Cam) --- */
-/* (ID % 8 == 2) */
 #LV2,
 #LV10,
 #LV18,
@@ -326,13 +313,13 @@ body {
 #LV178,
 #LV186,
 #LV194 {
-  background-color: #f57c00; /* Orange */
+  background-color: #f57c00;
   border-color: #f57c00;
   color: #ffffff;
 }
 
 /* --- Nhóm 3 (Vàng) --- */
-/* (ID % 8 == 3) */
+
 #LV3,
 #LV11,
 #LV19,
@@ -358,13 +345,12 @@ body {
 #LV179,
 #LV187,
 #LV195 {
-  background-color: #ffc107; /* Yellow */
+  background-color: #ffc107;
   border-color: #ffc107;
   color: #000000;
 }
 
 /* --- Nhóm 4 (Xanh lá) --- */
-/* (ID % 8 == 4) */
 #LV4,
 #LV12,
 #LV20,
@@ -390,13 +376,13 @@ body {
 #LV180,
 #LV188,
 #LV196 {
-  background-color: #388e3c; /* Green */
+  background-color: #388e3c;
   border-color: #388e3c;
   color: #ffffff;
 }
 
 /* --- Nhóm 5 (Xanh dương) --- */
-/* (ID % 8 == 5) */
+
 #LV5,
 #LV13,
 #LV21,
@@ -422,13 +408,12 @@ body {
 #LV181,
 #LV189,
 #LV197 {
-  background-color: #0288d1; /* Blue */
+  background-color: #0288d1;
   border-color: #0288d1;
   color: #ffffff;
 }
 
 /* --- Nhóm 6 (Chàm) --- */
-/* (ID % 8 == 6) */
 #LV6,
 #LV14,
 #LV22,
@@ -454,13 +439,12 @@ body {
 #LV182,
 #LV190,
 #LV198 {
-  background-color: #303f9f; /* Indigo */
+  background-color: #303f9f;
   border-color: #303f9f;
   color: #ffffff;
 }
 
 /* --- Nhóm 7 (Tím) --- */
-/* (ID % 8 == 7) */
 #LV7,
 #LV15,
 #LV23,
@@ -486,13 +470,12 @@ body {
 #LV183,
 #LV191,
 #LV199 {
-  background-color: #7b1fa2; /* Purple */
+  background-color: #7b1fa2;
   border-color: #7b1fa2;
   color: #ffffff;
 }
 
 /* --- Nhóm 8 (Xám) --- */
-/* (ID % 8 == 0) */
 #LV8,
 #LV16,
 #LV24,
@@ -518,34 +501,31 @@ body {
 #LV184,
 #LV192,
 #LV200 {
-  background-color: #616161; /* Grey */
+  background-color: #616161;
   border-color: #616161;
   color: #ffffff;
 }
-/* =========================================================
-   RESPONSIVE: TABLET (iPad) - GIỮ NGUYÊN BỐ CỤC 2 CỘT
-   Áp dụng cho màn hình từ 768px đến 1024px
-/* --- RESPONSIVE: TABLET & LAPTOP NHỎ (768px -> 1024px) --- */
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .page-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 20px; /* Tăng khoảng cách giữa 2 cột cho thoáng */
+    gap: 20px;
     padding: 0 20px;
-    justify-content: center; /* Căn giữa toàn bộ nội dung */
+    justify-content: center;
   }
 
   /* 1. CỘT TRÁI (CHỌN VÉ) - Cho phép giãn tối đa */
   .seat-map-container {
-    flex: 1; /* Tự động chiếm hết không gian còn lại */
-    max-width: none; /* Bỏ giới hạn 60% cũ */
+    flex: 1;
+    max-width: none;
     width: auto;
   }
 
   /* 2. CỘT PHẢI (SIDEBAR) - Cố định kích thước chuẩn */
   .sidebar {
-    flex: 0 0 340px; /* Cố định chiều rộng 340px (đủ đẹp cho Laptop) */
+    flex: 0 0 340px;
     max-width: 340px;
     min-width: 300px;
     padding: 20px;
@@ -553,14 +533,13 @@ body {
 
   /* 3. Điều chỉnh nút vé cho cân đối hơn */
   .zone {
-    flex-basis: 120px; /* Tăng độ rộng cơ sở của nút lên xíu */
+    flex-basis: 120px;
     padding: 12px 10px;
     font-size: 0.85em;
   }
 
   .seat-map {
     gap: 10px;
-    /* Nếu muốn các nút căn giữa khung trái */
     justify-content: flex-start;
   }
 }
@@ -574,29 +553,18 @@ body {
   .page-container {
     display: flex;
     flex-direction: column;
-    /* Đảm bảo các phần tử con giãn hết chiều ngang */
     align-items: stretch;
-    gap: 20px; /* Khoảng cách giữa Sidebar và Seat map */
+    gap: 20px;
   }
-
-  /* --- SỬA LỖI LỆCH TẠI ĐÂY --- */
   .seat-map-container,
   .sidebar {
-    /* 1. Reset flex của desktop để không ảnh hưởng chiều cao/rộng */
     flex: none !important;
-
-    /* 2. Ép buộc chiếm 100% chiều ngang của khung chứa */
     width: 100% !important;
     max-width: 100% !important;
-
-    /* 3. Hủy bỏ min-width 320px của desktop để tránh bị cứng khung */
     min-width: 0 !important;
-
-    /* 4. Đảm bảo padding không làm vỡ khung */
     box-sizing: border-box;
   }
 
-  /* Các class zone giữ nguyên như code cũ của bạn */
   .zone {
     width: auto !important;
     flex: 0 0 auto !important;
@@ -607,13 +575,13 @@ body {
     font-size: 0.9em;
     white-space: nowrap;
     border-radius: 50px;
-    margin-bottom: 5px; /* Thêm chút lề dưới cho đẹp */
+    margin-bottom: 5px;
   }
 
   /* Thứ tự hiển thị (Order) */
   .sidebar {
     order: 1;
-    margin-bottom: 0; /* Gap ở page-container đã lo việc này */
+    margin-bottom: 0;
   }
 
   .seat-map-container {

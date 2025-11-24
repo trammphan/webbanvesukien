@@ -1,13 +1,12 @@
 <?php
 session_start();
-// <!-- BỔ SUNG MỚI (1/3): KIỂM TRA ĐĂNG NHẬP BẰNG COOKIE -->
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
     header("Location: dangnhap.php?redirect=" . $redirect_url);
     exit; // Dừng chạy code
 }
 // 1. Kết nối CSDL và lấy MaSK từ URL
-include 'connect_1.php'; // Đảm bảo đường dẫn này chính xác
+include 'connect_1.php'; 
 
 if (!isset($_GET['MaSK']) || empty($_GET['MaSK'])) {
     echo "Lỗi: Không tìm thấy mã sự kiện.";
@@ -20,7 +19,7 @@ $stmt = $conn->prepare("SELECT s.TenSK, s.Tgian, d.TenTinh
                        FROM sukien s 
                        JOIN diadiem d ON s.MaDD = d.MaDD 
                        WHERE s.MaSK = ?");
-$stmt->bind_param("s", $maSK); // 's' nghĩa là $maSK là kiểu string
+$stmt->bind_param("s", $maSK); 
 $stmt->execute();
 $event_result = $stmt->get_result();
 
@@ -55,12 +54,10 @@ $tickets_result = $stmt->get_result();
 // 4. Tạo mảng $ticket_types động
 $ticket_types = [];
 while ($row = $tickets_result->fetch_assoc()) { 
-    // Sử dụng đúng tên cột từ câu truy vấn đã sửa
     $ticket_types[$row['MaLoai']] = [
         'name' => $row['TenLoai'],
         'price' => $row['Gia'],
-        // <!-- BỔ SUNG MỚI (3/3): Gán giá trị MoTa -->
-        'description' => $row['MoTa'] ?? '', // Lấy mô tả, nếu không có thì để trống
+        'description' => $row['MoTa'] ?? '', 
         'remaining' => $row['SoVeConLai'] 
     ];
 }
@@ -95,7 +92,6 @@ function format_currency($amount) {
             <div class="seat-map">
             <?php foreach ($ticket_types as $id => $ticket): ?>
             <?php
-                    // Kiểm tra xem vé còn hay hết
             $is_sold_out = ($ticket['remaining'] == 0);
             $sold_out_class = $is_sold_out ? 'sold-out' : '';
             ?>
@@ -164,7 +160,6 @@ function format_currency($amount) {
 
 
     <script>
-        // Dữ liệu này bây giờ đã bao gồm 'description'
         const ticketData = <?php echo json_encode($ticket_types); ?>;
 
         const isUserLoggedIn = <?php echo isset($_COOKIE['email']) ? 'true' : 'false'; ?>;

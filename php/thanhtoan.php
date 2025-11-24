@@ -22,7 +22,7 @@ if ($remaining_time <= 0) {
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
     header("Location: dangnhap.php?redirect=" . $redirect_url);
-    exit; // Dừng chạy code
+    exit; 
 }
 
 include 'connect_1.php'; 
@@ -46,13 +46,12 @@ if ($stmt_event === false) {
 $stmt_event->bind_param("s", $maSK);
 $stmt_event->execute();
 $event_result = $stmt_event->get_result();
-$event_name = "Thanh toán"; // Giá trị mặc định
+$event_name = "Thanh toán"; 
 if ($event_result->num_rows > 0) {
     $event_name = $event_result->fetch_assoc()['TenSK'];
 }
 $stmt_event->close();
 
-// 5. Lấy thông tin vé (Tên vé, GIÁ VÉ)
 $stmt_ticket = $conn->prepare("SELECT TenLoai, Gia
                                 FROM loaive
                                 WHERE MaSK = ? AND Maloai = ?");
@@ -64,23 +63,20 @@ $stmt_ticket->bind_param("ss", $maSK, $maLV);
 $stmt_ticket->execute();
 $ticket_result = $stmt_ticket->get_result();
 
-$so_luong_con_lai = 0; // Đặt giá trị mặc định
+$so_luong_con_lai = 0; 
 
 if ($ticket_result->num_rows > 0) {
-    // Nếu tìm thấy vé hợp lệ:
     $ticket_info = $ticket_result->fetch_assoc();
     $ticket_name = $ticket_info['TenLoai'];
-    $base_price = (int)$ticket_info['Gia']; // LẤY GIÁ TỪ CSDL
-    $stmt_ticket->close(); // Đóng câu lệnh đầu tiên
-
-    // --- TRUY VẤN SỐ LƯỢNG VÉ CÒN LẠI ---
+    $base_price = (int)$ticket_info['Gia']; 
+    $stmt_ticket->close();
     $stmt_count = $conn->prepare("SELECT COUNT(MaVe) AS SoLuongConLai 
                                     FROM ve 
                                     WHERE MaLoai = ? AND maTT IS NULL");
     if ($stmt_count === false) {
         die("Lỗi sql đếm vé: " . $conn->error);
     }
-    $stmt_count->bind_param("s", $maLV); // $maLV chính là MaLoai
+    $stmt_count->bind_param("s", $maLV); 
     $stmt_count->execute();
     $count_result = $stmt_count->get_result();
     
@@ -90,32 +86,29 @@ if ($ticket_result->num_rows > 0) {
     $stmt_count->close();
 
 } else {
-    // Nếu KHÔNG hợp lệ (người dùng tự ý sửa URL):
     $ticket_name = "Vé không hợp lệ";
     $base_price = 0;
     $selected_quantity = 0;
-    $so_luong_con_lai = 0; // Vẫn là 0
-    $stmt_ticket->close(); // Đóng câu lệnh (dù thất bại)
+    $so_luong_con_lai = 0; 
+    $stmt_ticket->close(); 
 }
-// 6. Ràng buộc số lượng vé chọn không vượt quá số lượng vé còn lại
+
 if ($selected_quantity > $so_luong_con_lai) {
     $selected_quantity = $so_luong_con_lai;
 }
-// Đảm bảo số lượng là 1 nếu còn vé (tránh trường hợp = 0)
 if ($selected_quantity === 0 && $so_luong_con_lai > 0) {
      $selected_quantity = 1;
 }
 
-$conn->close(); // Đóng kết nối CSDL sau khi hoàn tất truy vấn
+$conn->close(); 
 
-// 7. Tính tổng tiền (sau khi đã ràng buộc số lượng)
 $total_price = $base_price * $selected_quantity;
 
 // 8. Hàm định dạng tiền
 function format_currency_simple($amount) {
     return number_format($amount, 0, ',', '.');
 }
-// --- KẾT THÚC PHẦN PHP ---
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -134,15 +127,9 @@ function format_currency_simple($amount) {
  const MAX_AVAILABLE_TICKETS = <?php echo $so_luong_con_lai; ?>;
 
  window.addEventListener('DOMContentLoaded', (event) => {
-     // Lấy các tham số trên thanh địa chỉ (URL)
      const urlParams = new URLSearchParams(window.location.search);
-     
-     // Kiểm tra nếu có tham số "error" và giá trị là "sold_out"
-     if (urlParams.get('error') === 'sold_out') {
-         // Hiện thông báo xin lỗi
+          if (urlParams.get('error') === 'sold_out') {
          alert('Rất tiếc! Trong lúc bạn đang thực hiện thanh toán, vé này đã được người khác nhanh tay mua hết.\n\nHệ thống sẽ đưa bạn về trang chủ để chọn vé hoặc sự kiện khác.');
-         
-         // Chuyển hướng về trang chủ (hoặc trang danh sách sự kiện)
          window.location.href = 'index.php'; 
      }
  });
@@ -152,7 +139,6 @@ function format_currency_simple($amount) {
     <div class="container">
       <div class="checkout-panel">
         <div class="order-summary">
-          <!-- BỔ SUNG: HIỂN THỊ ĐỒNG HỒ -->
 <div class="timer-bar" style="background-color: #fff3cd; color: #856404; padding: 10px; text-align: center; border-radius: 5px; margin-bottom: 20px;">
     Thời gian hoàn tất thanh toán: <span id="countdown-display" style="font-weight: bold;">--:--</span>
 </div>
@@ -172,7 +158,6 @@ function format_currency_simple($amount) {
                   <label>Số lượng:</label>
                   <div class="quantity-buttons">
                       <button type="button" class="quantity-btn" id="minus-btn">-</button>
-                      <!-- Số 0 này sẽ được JS cập nhật ngay lập tức -->
                       <span id="quantity-display">0</span> 
                       <button type="button" class="quantity-btn" id="plus-btn">+</button>
                   </div>
@@ -181,7 +166,6 @@ function format_currency_simple($amount) {
 
           <div class="total-price">
             <h3>TỔNG CỘNG</h3>
-            <!-- Giá trị này được PHP tính đúng ban đầu -->
             <p><span id="total-price"><?php echo format_currency_simple($total_price); ?></span> VNĐ</p>
           
           </div>
@@ -205,7 +189,7 @@ function format_currency_simple($amount) {
                id="name"
                name="customer_name"
                required placeholder="Nguyễn Văn A"
-               value="<?php echo htmlspecialchars($loggedInName); ?>" />
+               value="<?php echo htmlspecialchars($loggedInName); ?>" readonly />
              <div id="name-error" style="color: #D9534F; margin-top: 5px; font-size: 0.9em; text-align: left;"></div>
            </div>
            
@@ -310,25 +294,18 @@ function startTimer() {
 
         if (timerDisplay) {
              timerDisplay.textContent = minutes + ":" + seconds;
-             if (timeRemaining < 120) { // Dưới 2 phút thì đổi màu đỏ
+             if (timeRemaining < 120) { 
                  timerDisplay.style.color = "#D9534F"; 
                  timerDisplay.style.fontWeight = "bold";
              }
         }
 
-        // --- [CẬP NHẬT] XỬ LÝ KHI HẾT GIỜ ---
         if (--timeRemaining < 0) {
             clearInterval(countdown);
-            // Ta chỉ cần reload trang.
-            // Lý do: Đoạn PHP ở đầu file ('Nếu hết giờ') sẽ tự động bắt sự kiện này,
-            // hiện thông báo (alert) và chuyển hướng (window.location.href) về index.php.
-            // Cách này đảm bảo Session được xóa sạch trên Server.
             window.location.reload(); 
         }
     }, 1000);
 }
-
-// Chạy timer khi tải trang (Thêm vào window.onload cũ hoặc tạo mới)
 window.onload = function() {
     startTimer();
 };</script>
