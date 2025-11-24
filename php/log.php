@@ -69,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user_email = $user['email'];
                 
                 // Cập nhật lại mật khẩu đã mã hóa vào DB
-                $col_name =  $user['password'];
-                $conn->query("UPDATE $table_name SET $col_name = '$new_hash' WHERE email = '$user_email'");
+                //$col_name =  $user['password'];
+                $conn->query("UPDATE $table_name SET password = '$new_hash' WHERE email = '$user_email'");
             }
 
             // Lưu Session (Quan trọng cho đăng nhập)
