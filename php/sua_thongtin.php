@@ -3,7 +3,7 @@ session_start();
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
     header("Location: dangnhap.php?redirect=" . $redirect_url);
-    exit; // Dừng chạy code
+    exit;
 }
 
 $servername = "localhost";
@@ -11,21 +11,18 @@ $username = "root";
 $password = "";
 $dbname = "qlysukien";
 
-// Kết nối CSDL
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-$msg = ""; // Biến chứa thông báo
+$msg = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $old_pass = md5($_POST["old_pass"]);
     $new_pass = $_POST["new_pass"];
     $confirm_pass = $_POST["confirm_pass"];
-    $email = $_COOKIE["email"]; // 🔹 Lấy email từ cookie
-
-    // Lấy mật khẩu cũ từ CSDL
+    $email = $_COOKIE["email"]; 
     $sql = "SELECT password FROM khachhang WHERE email = '$email'";
     $result = $conn->query($sql);
 
@@ -33,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         $current_pass = $row["password"];
 
-        // Kiểm tra mật khẩu cũ có khớp không
+ 
         if ($old_pass != $current_pass) {
             $msg = "❌ Mật khẩu cũ không đúng!";
         } elseif ($new_pass != $confirm_pass) {
@@ -41,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($old_pass == md5($new_pass)) {
             $msg = "⚠️ Mật khẩu mới không được giống mật khẩu cũ!";
         } else {
-            // Cập nhật mật khẩu mới (đã băm md5)
+
             $new_pass_md5 = md5($new_pass);
             $update_sql = "UPDATE khachhang SET password = '$new_pass_md5' WHERE email = '$email'";
 
@@ -62,9 +59,7 @@ $conn->close();
 
 
 <?php
-// Load CSS của trang người dùng nếu cần
 $additional_css = ['webstyle.css'];
-// Giữ tiêu đề và assets head gốc
 $page_title = 'Người dùng';
 $additional_head = <<<HTML
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>

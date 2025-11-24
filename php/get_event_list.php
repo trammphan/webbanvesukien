@@ -1,25 +1,22 @@
 <?php
-// Tái sử dụng cấu hình CSDL từ admin.php
+
 $servername = "localhost";
 $username = "root";
-$password = ""; // Thay bằng mật khẩu CSDL của bạn nếu có
+$password = ""; 
 $dbname = "qlysukien";
 
-// Thiết lập header để trả về JSON
 header('Content-Type: application/json');
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    // Trả về lỗi nếu kết nối CSDL thất bại
     echo json_encode(['success' => false, 'error' => 'Kết nối CSDL thất bại: ' . $conn->connect_error]);
     exit;
 }
 
 $conn->set_charset("utf8mb4");
 
-// Lấy tham số số ngày. Tham số này dùng để lọc sự kiện nếu cần (ví dụ: sự kiện trong 30 ngày)
-// Dựa trên snippet admin.js của bạn, tôi giữ lại biến $days
+
 $days = isset($_GET['days']) ? (int)$_GET['days'] : 30; // Mặc định 30 ngày
 
 // Lấy ngày hiện tại

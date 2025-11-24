@@ -13,24 +13,20 @@ session_start();
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
     header("Location: dangnhap.php?redirect=" . $redirect_url);
-    exit; // Dừng chạy code
+    exit; 
 }
-// 1. KIỂM TRA VÀ TRUY VẤN THÔNG TIN NẾU ĐÃ ĐĂNG NHẬP
 if (isset($_COOKIE['email'])) {
     $user_email = $_COOKIE['email'];
     $is_logged_in = true;
 
-    // Kết nối CSDL
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Kiểm tra kết nối
     if ($conn->connect_error) {
-        // Nếu kết nối lỗi, coi như chưa đăng nhập hoặc có lỗi hệ thống
         $is_logged_in = false; 
     }
 
     if ($is_logged_in) {
-        // Lấy thông tin người dùng an toàn hơn (Prepared Statement)
         $sql = "SELECT user_name,  tel, email FROM khachhang WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $user_email);
@@ -40,7 +36,6 @@ if (isset($_COOKIE['email'])) {
         if ($result && $result->num_rows > 0) {
             $user_info = $result->fetch_assoc();
         } else {
-            // Nếu email trong cookie không tồn tại trong DB, xóa cookie và đặt trạng thái chưa đăng nhập
             setcookie("email", "", time() - 3600, "/"); 
             setcookie("user_name", "", time() - 3600, "/");
             $is_logged_in = false;
@@ -53,9 +48,7 @@ if (isset($_COOKIE['email'])) {
 
 ?>
 <?php
-// Load CSS của trang người dùng nếu cần
 $additional_css = ['webstyle.css'];
-// Giữ tiêu đề và assets head gốc
 $page_title = 'Người dùng';
 $additional_head = <<<HTML
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -66,7 +59,6 @@ require_once 'header.php';
 <main>
         <article class="khungdungchung">
             <div class="back_nguoidung"  onclick="history.back(); return false;">
-                 <!-- <i class="fa-solid fa-x"></i>  -->
                 <a href="#">
                          <i class="fa-solid fa-x" id="x"></i> 
                 </a>

@@ -77,14 +77,12 @@ if (isset($_COOKIE['email'])) {
 
     // Kiểm tra kết nối
     if ($conn->connect_error) {
-        // Nếu kết nối lỗi, coi như chưa đăng nhập hoặc có lỗi hệ thống
         $is_logged_in = false; 
     }
 
     if ($conn && !$conn->connect_error) {
         function get_statistic_value($conn, $sql) {
             $result = $conn->query($sql);
-            // Kiểm tra kết quả và trả về giá trị đầu tiên (số lượng)
             if ($result && $row = $result->fetch_array()) {
                 return $row[0];
             }
@@ -114,7 +112,6 @@ if (isset($_COOKIE['email'])) {
     // D. THỰC HIỆN TRUY VẤN THỐNG KÊ VÉ CHỈ KHI ĐÃ ĐĂNG NHẬP VÀ KẾT NỐI TỐT
     // thông tin vé đã bán
     if ($is_logged_in) {
-        // Lấy TỔNG SỐ DÒNG (COUNT)
         $sql_count = "
             SELECT COUNT(DISTINCT CONCAT(s.TenSK, lv.TenLoai)) AS total_items
             FROM ve v JOIN loaive lv ON v.MaLoai = lv.MaLoai JOIN sukien s ON lv.MaSK = s.MaSK;
@@ -123,11 +120,9 @@ if (isset($_COOKIE['email'])) {
         $total_items = $result_count ? $result_count->fetch_assoc()['total_items'] : 0;
         $total_pages = ceil($total_items / $items_per_page);
 
-        // Tính toán OFFSET cho truy vấn chính
         $offset = ($current_page - 1) * $items_per_page;
         if ($offset < 0) $offset = 0;
         
-        // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
         $sql_thong_ke_ve = "
             SELECT 
                 s.MaSK, s.TenSK, lv.TenLoai, lv.MaLoai, COUNT(v.MaVe) AS TongSoVe,
@@ -143,21 +138,16 @@ if (isset($_COOKIE['email'])) {
     }
     // thống kê sự kiện
     if ($is_logged_in) {
-        // 1. Lấy TỔNG SỐ DÒNG (COUNT) cho Sự kiện (Đã thêm điều kiện tìm kiếm)
         $sql_count_sk = "SELECT COUNT(MaSK) AS total_items FROM sukien" . $search_condition;
         
         $result_count_sk = $conn->query($sql_count_sk);
         $total_items_sukien = $result_count_sk ? $result_count_sk->fetch_assoc()['total_items'] : 0;
         
-        // Tính tổng số trang (vẫn 10 mục/trang)
         $total_pages_sukien = ceil($total_items_sukien / $items_per_page_sukien);
 
-        // Tính toán OFFSET cho truy vấn sự kiện
         $offset_sukien = ($current_page_sukien - 1) * $items_per_page_sukien;
         if ($offset_sukien < 0) $offset_sukien = 0;
         
-        // 2. Câu truy vấn chính (Đã thêm điều kiện tìm kiếm)
-        // lấy sự kiện xếp theo thứ tự mã sự kiện
         $sql_sukien = "
             SELECT 
                 MaSK, 
@@ -174,23 +164,18 @@ if (isset($_COOKIE['email'])) {
     }
     // thống kê loại sự kiện
      if ($is_logged_in && $conn && !$conn->connect_error) {
-        // 1. Lấy TỔNG SỐ DÒNG (COUNT)
-        // COUNT DISTINCT (MaloaiSK) vì mỗi loại sự kiện là một dòng
+
         $sql_count_lsk = "SELECT COUNT(DISTINCT t1.MaloaiSK) AS total_items 
                         FROM loaisk t1 JOIN sukien t2 ON t1.MaloaiSK = t2.MaLSK";
         
         $result_count_lsk = $conn->query($sql_count_lsk);
         $total_items_lsk = $result_count_lsk ? $result_count_lsk->fetch_assoc()['total_items'] : 0;
         
-        // Tính tổng số trang (sử dụng $items_per_page = 10)
         $total_pages_lsk = ceil($total_items_lsk / $items_per_page);
 
-        // Tính toán OFFSET cho truy vấn loại sự kiện
         $offset_lsk = ($current_page_lsk - 1) * $items_per_page;
         if ($offset_lsk < 0) $offset_lsk = 0;
         
-        // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
-        // 2. Câu truy vấn chính đã thêm LIMIT và OFFSET
         $sql_thong_ke_loai_sk = "
             SELECT
                 t1.MaloaiSK,
@@ -211,7 +196,6 @@ if (isset($_COOKIE['email'])) {
     }
     //thống kê số lượng tài khoản
     if ($is_logged_in) {
-        // ... (Giữ nguyên phần thống kê Tổng Tài Khoản)
         $tong_khach_hang_tk = get_statistic_value($conn, "SELECT COUNT(email) FROM khachhang");
         $tong_nhan_vien = get_statistic_value($conn, "SELECT COUNT(email) FROM nhanviensoatve");
         $tong_nha_to_chuc = get_statistic_value($conn, "SELECT COUNT(email) FROM nhatochuc");
@@ -219,21 +203,16 @@ if (isset($_COOKIE['email'])) {
     }
     //Thống kê doanh thu
     if ($is_logged_in) {   
-        // --- LOGIC TRUY VẤN THỐNG KÊ DOANH SỐ (THONGKE-SECTION) ---
-        
-        // 1. Lấy TỔNG SỐ SỰ KIỆN CÓ DOANH THU (COUNT DISTINCT)
-       // 1. Lấy TỔNG SỐ TẤT CẢ SỰ KIỆN từ bảng sukien
+
         $sql_count_all_sk = "SELECT COUNT(MaSK) AS total_items FROM sukien";
         $result_count_all_sk = $conn->query($sql_count_all_sk);
         
-        // Kiểm tra kết quả truy vấn đếm
         if ($result_count_all_sk) {
             $total_doanhso = $result_count_all_sk->fetch_assoc()['total_items'];
         } else {
             $total_doanhso = 0; 
         }
         
-        // 2. Tính toán phân trang
         if ($total_doanhso > 0) {
             $total_pages_doanhso = ceil($total_doanhso / $items_per_page_doanhso);
             if ($current_page_doanhso > $total_pages_doanhso) {
@@ -245,9 +224,6 @@ if (isset($_COOKIE['email'])) {
             $offset_doanhso = 0;
         }
 
-
-        // 3. Truy vấn dữ liệu thống kê cho trang hiện tại
-        // Vẫn sử dụng truy vấn LEFT JOIN đã tối ưu
         $sql_thongke_sk = "
             SELECT
                 sk.MaSK, sk.TenSK,
@@ -270,7 +246,6 @@ if (isset($_COOKIE['email'])) {
             LIMIT $items_per_page_doanhso OFFSET $offset_doanhso;
         ";
         
-        // Gán kết quả
         $result_thongke_sk = $conn->query($sql_thongke_sk); 
             if (!$result_thongke_sk) {
                 // ⚠️ HIỂN THỊ LỖI SQL để tìm nguyên nhân
@@ -278,7 +253,6 @@ if (isset($_COOKIE['email'])) {
                     // Tạm thời dừng chương trình và in ra lỗi
                     die("❌ **LỖI TRUY VẤN THỐNG KÊ DOANH SỐ:** " . $conn->error . "<br>SQL: <pre>" . $sql_thongke_sk . "</pre>");
                 }
-                // Nếu không có lỗi DB, set null
                 $result_thongke_sk = null;
           }
     }

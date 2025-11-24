@@ -1,10 +1,5 @@
-$(document).ready(function() { // Đảm bảo mọi thứ chạy sau khi DOM đã được tải
+$(document).ready(function() { 
 
-    // =================================================================
-    // 1. KHAI BÁO BIẾN TOÀN CỤC VÀ SỰ KIỆN DANH MỤC
-    // =================================================================
-    
-    // Biến toàn cục để lưu dữ liệu và biểu đồ (Sử dụng let/window cho nhất quán)
     let uniqueEventsMap = {}; 
     let myChartDoanhThuVeNgay = null;
     let myChartEventDetail = null;
@@ -38,10 +33,7 @@ $(document).ready(function() { // Đảm bảo mọi thứ chạy sau khi DOM đ
         });
     }); 
 
-    // =================================================================
-    // 2. KHAI BÁO PHẦN TỬ VÀ HÀM CHUYỂN SECTION
-    // =================================================================
-
+    
     // Các Sections (Khu vực nội dung)
     const sectionSukien = document.getElementById("sukien-section");
     const sectionDanhmuc = document.getElementById("danhmuc-section");
@@ -80,10 +72,6 @@ $(document).ready(function() { // Đảm bảo mọi thứ chạy sau khi DOM đ
         if (clickedButton) clickedButton.classList.add("active");
     }
 
-    // =================================================================
-    // 3. HÀM VẼ BIỂU ĐỒ VÀ XỬ LÝ DỮ LIỆU
-    // =================================================================
-    
     // Hàm này giữ nguyên
     function loadSukienByLoai(maLoai) {
         const listDiv = $('#sukien-list'); 
@@ -195,14 +183,9 @@ $(document).ready(function() { // Đảm bảo mọi thứ chạy sau khi DOM đ
                                     },
                                     ticks: {
                                         callback: function(value, index, values) {
-                                        // BƯỚC 1: Chia giá trị gốc cho 1,000,000 (đã bị bỏ qua trong code cũ)
-                                        // Giả sử dữ liệu trả về từ server đã là đơn vị triệu hoặc đã được chia. 
-                                        // Nếu dữ liệu trả về là VNĐ, bạn cần sửa file PHP hoặc thêm logic chia ở đây:
-                                        // const valueInMillions = value / 1000000;
-                                            const valueInMillions = value; // Giữ nguyên theo logic code cũ
+                                            const valueInMillions = value; 
                                             
                                             if (valueInMillions >= 1000) {
-                                                // Sửa lỗi cú pháp .toString().replace() trong code cũ
                                                 return valueInMillions.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                                             }
                                             return valueInMillions.toFixed(2);

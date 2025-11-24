@@ -1,7 +1,7 @@
 <?php
 
-$redirect_url_hidden = ''; // Dùng cho input hidden
-$redirect_url_href = '';   // Dùng cho href links
+$redirect_url_hidden = ''; 
+$redirect_url_href = '';   
 
 if (isset($_GET['redirect'])) {
     $redirect_url_hidden = htmlspecialchars($_GET['redirect']);

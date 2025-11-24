@@ -12,14 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (formDK) {
         // Thêm div hiển thị lỗi ngay trên form
         formDK.prepend(errorMessageContainer);
-        // SỬA LỖI: Thay 'dk_submit' bằng sự kiện 'submit' chuẩn của form
         formDK.addEventListener('submit', validateAndSubmitForm);
     }
 
-    /**
-     * Hàm kiểm tra xác thực dữ liệu form đăng ký (Client-Side)
-     * và gửi form qua Fetch API (AJAX)
-     */
     async function validateAndSubmitForm(e) {
         e.preventDefault(); 
         

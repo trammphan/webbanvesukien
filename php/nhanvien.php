@@ -3,22 +3,22 @@ session_start();
 if (!isset($_COOKIE['email']) || empty($_COOKIE['email'])){
     $redirect_url = urlencode($_SERVER['REQUEST_URI']);
     header("Location: dangnhap.php?redirect=" . $redirect_url);
-    exit; // Dừng chạy code
+    exit; 
 }
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Cấu hình CSDL
+
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "qlysukien";
 
-// Biến trạng thái
+
 $is_logged_in = false;
 $user_info = null;
 
-// Hàm định dạng giới tính
+
 function format_gender($gender_code) {
     switch ($gender_code) {
         case 'male': return 'Nam';
@@ -28,7 +28,6 @@ function format_gender($gender_code) {
     }
 }
 
-// --- Bắt đầu kiểm tra cookie ---
 $user_email = $_COOKIE['email'] ?? null;
 
 if ($user_email) {
@@ -54,7 +53,7 @@ if ($user_email) {
         $is_logged_in = true;
     } else {
         echo "<div style='color:red; text-align:center;'>❌ Không tìm thấy tài khoản nhân viên soát vé có email: <b>$user_email</b></div>";
-        // Xóa cookie cũ
+ 
         setcookie("email", "", time() - 3600, "/");
         setcookie("user_name", "", time() - 3600, "/");
     }
@@ -67,9 +66,9 @@ if ($user_email) {
 ?>
 
 <?php
-// Load CSS của trang người dùng nếu cần
+
 $additional_css = ['webstyle.css'];
-// Giữ tiêu đề và assets head gốc
+
 $page_title = 'Người dùng';
 $additional_head = <<<HTML
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -82,7 +81,6 @@ require_once 'header.php';
         <div class="thongtinnhanvien">
             <fieldset class="">
                 <div class="back_nguoidung"  onclick="history.back(); return false;">
-                 <!-- <i class="fa-solid fa-x"></i>  -->
                 <a href="#">
                          <i class="fa-solid fa-x" id="x"></i> 
                 </a>

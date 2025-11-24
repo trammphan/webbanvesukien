@@ -2,7 +2,7 @@
 // Cấu hình CSDL (Lấy từ admin.php)
 $servername = "localhost";
 $username = "root";
-$password = ""; // Thay bằng mật khẩu CSDL của bạn
+$password = "";
 $dbname = "qlysukien";
 
 // Kết nối CSDL
@@ -53,7 +53,6 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 
-// Trả về dữ liệu dưới dạng JSON
 header('Content-Type: application/json');
 echo json_encode($data);
 ?>
